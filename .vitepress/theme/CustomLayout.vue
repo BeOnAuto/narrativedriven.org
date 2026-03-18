@@ -19,8 +19,7 @@ const { frontmatter } = useData()
       <WaveBackground />
     </template>
 
-    <template #nav-bar-title-after>
-      <LottieLogo />
-    </template>
+    <!-- Lottie logo disabled for now — static SVG logo handles light/dark -->
+    <!-- <template #nav-bar-title-after><LottieLogo /></template> -->
   </Layout>
 </template>

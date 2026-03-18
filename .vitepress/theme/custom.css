@@ -387,14 +387,20 @@ body {
   position: relative;
 }
 
-.VPHome .VPHero {
+.VPHero {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+}
+
+.VPFeatures {
   position: relative;
   z-index: 1;
 }
 
-.VPHome .VPFeatures {
-  position: relative;
-  z-index: 1;
+/* Make the home page content area transparent so waves show */
+.is-home .VPContent {
+  background: transparent !important;
 }
 
 /* ============================================================

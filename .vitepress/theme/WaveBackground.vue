@@ -3,28 +3,35 @@
 
 <template>
   <div class="wave-bg" aria-hidden="true">
-    <svg viewBox="0 0 1707 1320" preserveAspectRatio="none" class="wave-svg">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1707 1320"
+      fill="none"
+      preserveAspectRatio="xMidYMid slice"
+      class="wave-svg"
+    >
       <defs>
-        <linearGradient id="wg0" x1="384.5" y1="40" x2="384.5" y2="934.5">
-          <stop offset="0" stop-color="var(--vp-c-bg, #fff)" />
-          <stop offset="1" stop-color="var(--ndd-wave-1, #a0ddff)" />
+        <linearGradient id="wg0" x1="384.5" y1="40" x2="384.5" y2="934.5" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset="1" class="wave-end-1" />
         </linearGradient>
-        <linearGradient id="wg1" x1="760.5" y1="510.6" x2="760.5" y2="-103.9">
-          <stop offset="0" stop-color="var(--vp-c-bg, #fff)" />
-          <stop offset="1" stop-color="var(--ndd-wave-2, #abdaf3)" />
+        <linearGradient id="wg1" x1="760.5" y1="510.6" x2="760.5" y2="-103.9" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset="1" class="wave-end-2" />
         </linearGradient>
       </defs>
+      <!-- Upper diagonal band -->
       <path
-        class="wp wp1"
+        d="M1707 577.2c-1053.8 383.8-1034.5-396.1-1707-350.7v-226.5h1707v577.2Z"
         fill="url(#wg0)"
-        fill-opacity="0.45"
-        d="M-40,200 C200,100 400,300 600,250 C800,200 1000,50 1200,150 C1400,250 1600,100 1750,200 L1750,900 C1500,800 1200,950 900,850 C600,750 300,900 -40,800 Z"
+        fill-opacity="0.5"
       />
+      <!-- Lower diagonal band -->
       <path
-        class="wp wp2"
+        d="M0 .1v601.9h1707v-316c-730-582.5-1054.5 111.5-1707-285.9Z"
         fill="url(#wg1)"
-        fill-opacity="0.45"
-        d="M-40,350 C150,250 400,400 650,350 C900,300 1100,150 1350,250 C1500,310 1650,200 1750,300 L1750,1000 C1500,900 1200,1050 900,950 C600,850 300,1000 -40,900 Z"
+        fill-opacity="0.5"
+        transform="translate(0, 680)"
       />
     </svg>
   </div>
@@ -36,9 +43,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 140vh;
   overflow: hidden;
   pointer-events: none;
+  z-index: 0;
 }
 
 .wave-svg {
@@ -46,23 +54,21 @@
   height: 100%;
 }
 
-.wp {
-  animation: waveMove 35s ease-in-out infinite;
+/* Light mode wave colors */
+.wave-end-1 {
+  stop-color: #a0ddff;
 }
 
-.wp2 {
-  animation-duration: 28s;
-  animation-delay: -8s;
+.wave-end-2 {
+  stop-color: #abdaf3;
 }
 
-@keyframes waveMove {
-  0%, 100% { transform: translateX(0) translateY(0); }
-  25% { transform: translateX(-25px) translateY(12px); }
-  50% { transform: translateX(15px) translateY(-8px); }
-  75% { transform: translateX(-10px) translateY(15px); }
+/* Dark mode wave colors */
+:global(.dark) .wave-end-1 {
+  stop-color: #1a3a4d;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .wp { animation: none; }
+:global(.dark) .wave-end-2 {
+  stop-color: #1a3347;
 }
 </style>
