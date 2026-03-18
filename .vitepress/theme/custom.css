@@ -57,6 +57,7 @@
 
   /* Layout */
   --vp-nav-height: 72px;
+  --vp-nav-screen-bg-color: var(--vp-c-bg);
 
   /* Transition */
   --ndd-ease: cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -85,7 +86,6 @@
   --vp-c-divider: #2e2e2e;
   --vp-c-gutter: #141414;
 
-  /* Darker wave colors for dark mode */
   --ndd-wave-1: #1a3a4d;
   --ndd-wave-2: #1a3347;
 }
@@ -100,35 +100,13 @@ h1, h2, h3, h4, h5, h6,
   letter-spacing: -0.03em;
 }
 
-.vp-doc h1 {
-  font-size: 2.25rem;
-  font-weight: 400;
-}
+.vp-doc h1 { font-size: 2.25rem; font-weight: 400; }
+.vp-doc h2 { font-size: 1.8rem; font-weight: 400; border-top: none; margin-top: 2.5rem; padding-top: 1.5rem; }
+.vp-doc h3 { font-size: 1.5rem; font-weight: 400; }
+.vp-doc h4 { font-size: 1.25rem; font-weight: 500; }
 
-.vp-doc h2 {
-  font-size: 1.8rem;
-  font-weight: 400;
-  border-top: none;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-}
-
-.vp-doc h3 {
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-.vp-doc h4 {
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-/* Bold + italic emphasis in headings (the Webflow style) */
-h1 strong em,
-h2 strong em,
-h3 strong em,
-.vp-doc h1 strong em,
-.vp-doc h2 strong em {
+h1 strong em, h2 strong em, h3 strong em,
+.vp-doc h1 strong em, .vp-doc h2 strong em {
   font-family: 'Barlow', sans-serif;
   font-weight: 600;
   font-style: italic;
@@ -142,14 +120,14 @@ body {
 
 /* ============================================================
    Navigation
+   backdrop-filter goes on VPNavBar, NOT VPNav — putting it on
+   VPNav creates a containing block and breaks VPNavScreen
    ============================================================ */
-.VPNav {
+.VPNavBar {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-}
-
-.VPNavBar {
   border-bottom-color: var(--vp-c-border) !important;
+  background: var(--vp-c-bg);
 }
 
 .VPNavBar .title {
@@ -157,6 +135,16 @@ body {
   font-weight: 600;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
+}
+
+/* Search bar positioning (desktop only) */
+@media (min-width: 960px) {
+  .VPNavBarSearch {
+    flex-grow: 1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    padding-right: 1rem;
+  }
 }
 
 /* ============================================================
@@ -174,62 +162,75 @@ body {
 }
 
 /* ============================================================
-   Buttons (Home page hero actions)
+   Buttons — Webflow IX2 "Hero Button Hover" wiggle animation
    ============================================================ */
-.VPButton.brand {
+.VPButton.brand,
+.VPButton.medium.brand {
   background-color: var(--ndd-brand) !important;
   border-color: var(--ndd-brand) !important;
-  border-radius: 60px;
+  border-radius: 60px !important;
   font-family: 'Barlow', sans-serif;
-  font-size: 1.1rem;
+  font-size: 20.8px !important;
   font-weight: 400;
-  padding: 0 2rem;
-  min-height: 3rem;
-  transition: background-color var(--ndd-duration) var(--ndd-ease),
-              border-color var(--ndd-duration) var(--ndd-ease),
-              transform 0.15s ease;
+  padding: 0.75rem 2.5rem !important;
+  min-height: 3.5rem;
+  line-height: 26px !important;
+  transition: background-color var(--ndd-duration) var(--ndd-ease);
 }
 
-.VPButton.brand:hover {
+.VPButton.brand:hover,
+.VPButton.medium.brand:hover {
   background-color: var(--ndd-brand-dark) !important;
   border-color: var(--ndd-brand-dark) !important;
+  animation: btnWiggle 1.1s ease forwards;
 }
 
-.VPButton.brand:active {
-  transform: translateY(2px);
+.VPButton.brand:active { animation: none; transform: scale(0.97); }
+
+/* Matches Webflow IX2 a-23:
+   0-200ms: scale(1.1) rotate(-3deg)
+   200-400ms: rotate(+3deg)
+   400-600ms: rotate(0)
+   600-1100ms: scale(1) */
+@keyframes btnWiggle {
+  0%    { transform: scale(1) rotate(0deg); }
+  18%   { transform: scale(1.1) rotate(-3deg); }
+  36%   { transform: scale(1.1) rotate(3deg); }
+  55%   { transform: scale(1.1) rotate(0deg); }
+  100%  { transform: scale(1) rotate(0deg); }
 }
 
-.VPButton.alt {
-  border-radius: 60px;
+/* Space between hero action buttons */
+.VPHero .actions .action + .action { margin-left: 1.5rem; }
+@media (max-width: 767px) {
+  .VPHero .actions .action + .action { margin-left: 0; margin-top: 1rem; }
+}
+
+.VPButton.alt,
+.VPButton.medium.alt {
+  border-radius: 60px !important;
   font-family: 'Barlow', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 0 2rem;
-  min-height: 3rem;
+  font-size: 20.8px !important;
+  font-weight: 400;
+  padding: 0.75rem 2.5rem !important;
+  min-height: 3.5rem;
+  line-height: 26px !important;
   border-color: var(--ndd-brand) !important;
   color: var(--ndd-brand) !important;
-  transition: background-color var(--ndd-duration) var(--ndd-ease),
-              border-color var(--ndd-duration) var(--ndd-ease),
-              transform 0.15s ease;
+  transition: background-color var(--ndd-duration) var(--ndd-ease);
 }
 
-.VPButton.alt:hover {
+.VPButton.alt:hover,
+.VPButton.medium.alt:hover {
   background-color: var(--vp-c-bg-soft) !important;
+  animation: btnWiggle 1.1s ease forwards;
 }
 
-.VPButton.alt:active {
-  transform: translateY(2px);
-}
+.VPButton.alt:active { animation: none; transform: scale(0.97); }
 
 /* Dark mode button adjustments */
-.dark .VPButton.brand {
-  color: var(--ndd-white) !important;
-}
-
-.dark .VPButton.alt {
-  border-color: #f76d76 !important;
-  color: #f76d76 !important;
-}
+.dark .VPButton.brand { color: var(--ndd-white) !important; }
+.dark .VPButton.alt { border-color: #f76d76 !important; color: #f76d76 !important; }
 
 /* ============================================================
    Home Page — Hero
@@ -261,68 +262,54 @@ body {
 }
 
 /* ============================================================
-   Home Page — Features
+   Home Page — Feature Cards (tout style)
    ============================================================ */
 .VPFeatures .VPFeature {
   border-radius: 24px !important;
-  transition: box-shadow var(--ndd-duration) var(--ndd-ease),
-              transform var(--ndd-duration) var(--ndd-ease);
+  background-color: var(--vp-c-bg) !important;
+  border: 2px solid var(--vp-c-bg-soft) !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.04);
+  transition: transform var(--ndd-duration) var(--ndd-ease),
+              box-shadow var(--ndd-duration) var(--ndd-ease);
 }
 
 .VPFeatures .VPFeature:hover {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  transform: scale(1.03);
 }
 
 .VPFeature .title {
   font-family: 'Barlow', sans-serif !important;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
 }
 
 .VPFeature .details {
   font-family: 'Albert Sans', sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
 }
+
+.VPFeature .icon { font-size: 2rem; margin-bottom: 0.5rem; background: none !important; }
 
 /* ============================================================
    Home Content (below hero)
    ============================================================ */
-.vp-doc.vp-doc :is(h2) {
-  border-top: none;
-}
+.vp-doc.vp-doc :is(h2) { border-top: none; }
 
 /* ============================================================
    Sidebar
    ============================================================ */
-.VPSidebar .group .title {
-  font-family: 'Barlow', sans-serif;
-  font-weight: 600;
-}
-
-.VPSidebarItem .text {
-  font-family: 'Albert Sans', sans-serif;
-}
-
-.VPSidebarItem.is-active > .item > .indicator {
-  background-color: var(--ndd-brand);
-}
+.VPSidebar .group .title { font-family: 'Barlow', sans-serif; font-weight: 600; }
+.VPSidebarItem .text { font-family: 'Albert Sans', sans-serif; }
+.VPSidebarItem.is-active > .item > .indicator { background-color: var(--ndd-brand); }
 
 /* ============================================================
-   Code Blocks
+   Code Blocks & Tables
    ============================================================ */
-.vp-doc div[class*='language-'] {
-  border-radius: 8px;
-}
-
-/* ============================================================
-   Tables
-   ============================================================ */
-.vp-doc table {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
+.vp-doc div[class*='language-'] { border-radius: 8px; }
+.vp-doc table { border-radius: 8px; overflow: hidden; }
 .vp-doc th {
   font-family: 'Barlow', sans-serif;
   font-weight: 600;
@@ -334,132 +321,55 @@ body {
 /* ============================================================
    Footer
    ============================================================ */
-.VPFooter {
-  border-top: 1px solid var(--vp-c-border);
-}
-
-.VPFooter .message a,
-.VPFooter .copyright a {
+.VPFooter { border-top: 1px solid var(--vp-c-border); }
+.VPFooter .message a, .VPFooter .copyright a {
   color: var(--vp-c-brand-1);
   transition: color var(--ndd-duration) var(--ndd-ease);
 }
-
-.VPFooter .message a:hover {
-  color: var(--vp-c-brand-2);
-}
+.VPFooter .message a:hover { color: var(--vp-c-brand-2); }
 
 /* ============================================================
    Edit Link
    ============================================================ */
-.VPDocFooter .edit-link-button {
-  color: var(--vp-c-brand-1);
-  transition: color var(--ndd-duration) var(--ndd-ease);
-}
-
-.VPDocFooter .edit-link-button:hover {
-  color: var(--vp-c-brand-2);
-}
+.VPDocFooter .edit-link-button { color: var(--vp-c-brand-1); transition: color var(--ndd-duration) var(--ndd-ease); }
+.VPDocFooter .edit-link-button:hover { color: var(--vp-c-brand-2); }
 
 /* ============================================================
    Custom Content Styling
    ============================================================ */
-
-/* Strong emphasis in body text */
-.vp-doc strong {
-  color: var(--vp-c-text-1);
-  font-weight: 600;
-}
-
-/* Block quotes */
-.vp-doc blockquote {
-  border-left-color: var(--ndd-brand);
-}
-
-/* Horizontal rules */
-.vp-doc hr {
-  border-color: var(--vp-c-border);
-}
+.vp-doc strong { color: var(--vp-c-text-1); font-weight: 600; }
+.vp-doc blockquote { border-left-color: var(--ndd-brand); }
+.vp-doc hr { border-color: var(--vp-c-border); }
 
 /* ============================================================
-   Home Page — Transparent BG so wave component shows through
+   Home Page — Transparent BG so wave shows through
    ============================================================ */
-.VPHome {
-  position: relative;
-}
-
-.VPHero {
-  position: relative;
-  z-index: 1;
-  background: transparent !important;
-}
-
-.VPFeatures {
-  position: relative;
-  z-index: 1;
-}
-
-/* Make the home page content area transparent so waves show */
-.is-home .VPContent {
-  background: transparent !important;
-}
+.VPHome { position: relative; }
+.VPHero { position: relative; z-index: 1; background: transparent !important; }
+.VPFeatures { position: relative; z-index: 1; }
+.is-home .VPContent { background: transparent !important; }
 
 /* ============================================================
-   Lottie Logo in Nav
+   Scrollbar
    ============================================================ */
-.VPNavBarTitle .title {
-  display: flex;
-  align-items: center;
-}
-
-/* Hide the static SVG logo when Lottie is present */
-.lottie-logo-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-}
-
-/* ============================================================
-   Scrollbar (subtle brand touch)
-   ============================================================ */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--vp-c-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--vp-c-border);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ndd-medium-gray);
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--vp-c-bg); }
+::-webkit-scrollbar-thumb { background: var(--vp-c-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ndd-medium-gray); }
 
 /* ============================================================
    Selection
    ============================================================ */
-::selection {
-  background: rgba(245, 83, 94, 0.2);
-  color: var(--vp-c-text-1);
-}
+::selection { background: rgba(245, 83, 94, 0.2); color: var(--vp-c-text-1); }
+
+/* Prevent layout shift when mobile menu opens */
+body { overflow-y: scroll !important; }
 
 /* ============================================================
-   Responsive Adjustments
+   Responsive
    ============================================================ */
 @media (max-width: 767px) {
-  .VPHero .name {
-    font-size: 2.5rem !important;
-  }
-
-  .VPHero .text {
-    font-size: 1.5rem !important;
-  }
-
-  .VPHero .tagline {
-    font-size: 1rem !important;
-  }
+  .VPHero .name { font-size: 2.5rem !important; }
+  .VPHero .text { font-size: 1.5rem !important; }
+  .VPHero .tagline { font-size: 1rem !important; }
 }

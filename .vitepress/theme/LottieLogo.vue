@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
-const loaded = ref(false)
+const playing = ref(false)
 let dotLottie: any = null
 
 onMounted(async () => {
@@ -12,14 +12,17 @@ onMounted(async () => {
     dotLottie = new DotLottie({
       canvas: canvas.value,
       src: '/animations/ndd-logo-load.lottie',
-      autoplay: true,
+      autoplay: false,
       loop: false,
     })
     dotLottie.addEventListener('load', () => {
-      loaded.value = true
+      setTimeout(() => {
+        playing.value = true
+        dotLottie.play()
+      }, 1000)
     })
   } catch (e) {
-    // Lottie failed — static logo remains visible
+    // Lottie failed silently
   }
 })
 
@@ -32,31 +35,31 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="lottie-logo" :class="{ 'is-loaded': loaded }">
-    <canvas ref="canvas" width="400" height="56" />
-  </div>
+  <canvas
+    ref="canvas"
+    width="584"
+    height="82"
+    class="lottie-logo"
+    :class="{ 'is-playing': playing }"
+  />
 </template>
 
 <style scoped>
 .lottie-logo {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 28px;
-  width: 200px;
+  height: 40px;
+  width: auto;
+  aspect-ratio: 292 / 41;
+  margin-left: -52px;
   opacity: 0;
   pointer-events: none;
-  z-index: 10;
 }
 
-.lottie-logo.is-loaded {
+.lottie-logo.is-playing {
   opacity: 1;
 }
 
-.lottie-logo canvas {
-  height: 28px;
-  width: 200px;
-  display: block;
+/* Hide in dark mode — needs dark Lottie variant */
+:global(.dark) .lottie-logo {
+  display: none;
 }
 </style>

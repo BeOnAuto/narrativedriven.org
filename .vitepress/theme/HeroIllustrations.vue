@@ -83,4 +83,8 @@
     max-width: 280px;
   }
 }
+
+:global(.dark) .hero-illustrations {
+  display: none;
+}
 </style>
