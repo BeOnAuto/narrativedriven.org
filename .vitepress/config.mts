@@ -30,6 +30,10 @@ export default defineConfig({
   ],
 
   themeConfig: {
+    logo: {
+      light: '/ndd-logo-light.svg',
+      dark: '/ndd-logo-dark.svg',
+    },
     siteTitle: false,
 
     nav: [
