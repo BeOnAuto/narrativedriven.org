@@ -381,26 +381,36 @@ body {
 }
 
 /* ============================================================
-   Wave Background (subtle, on home page)
+   Home Page — Transparent BG so wave component shows through
    ============================================================ */
 .VPHome {
   position: relative;
 }
 
-.VPHome::before {
-  content: '';
+.VPHome .VPHero {
+  position: relative;
+  z-index: 1;
+}
+
+.VPHome .VPFeatures {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   Lottie Logo in Nav
+   ============================================================ */
+.VPNavBarTitle .title {
+  display: flex;
+  align-items: center;
+}
+
+/* Hide the static SVG logo when Lottie is present */
+.lottie-logo-wrapper {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 100vh;
-  background: linear-gradient(
-    202deg,
-    var(--vp-c-bg) 30%,
-    color-mix(in srgb, var(--ndd-wave-2) 15%, var(--vp-c-bg))
-  );
-  z-index: -1;
-  pointer-events: none;
+  z-index: 2;
 }
 
 /* ============================================================

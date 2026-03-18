@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
+const loaded = ref(false)
 let dotLottie: any = null
 
 onMounted(async () => {
-  if (!canvas.value) return
+  if (!canvas.value || typeof window === 'undefined') return
   try {
     const { DotLottie } = await import('@lottiefiles/dotlottie-web')
     dotLottie = new DotLottie({
@@ -14,8 +15,11 @@ onMounted(async () => {
       autoplay: true,
       loop: false,
     })
+    dotLottie.addEventListener('load', () => {
+      loaded.value = true
+    })
   } catch (e) {
-    // Lottie failed to load — static logo fallback is fine
+    // Lottie failed — static logo remains visible
   }
 })
 
@@ -28,21 +32,31 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="lottie-logo-wrapper">
-    <canvas ref="canvas" class="lottie-logo-canvas" />
+  <div class="lottie-logo" :class="{ 'is-loaded': loaded }">
+    <canvas ref="canvas" width="400" height="56" />
   </div>
 </template>
 
 <style scoped>
-.lottie-logo-wrapper {
-  display: flex;
-  align-items: center;
+.lottie-logo {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   height: 28px;
   width: 200px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
 }
 
-.lottie-logo-canvas {
+.lottie-logo.is-loaded {
+  opacity: 1;
+}
+
+.lottie-logo canvas {
   height: 28px;
   width: 200px;
+  display: block;
 }
 </style>

@@ -3,6 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import { useData } from 'vitepress'
 import HeroIllustrations from './HeroIllustrations.vue'
 import WaveBackground from './WaveBackground.vue'
+import LottieLogo from './LottieLogo.vue'
 
 const { Layout } = DefaultTheme
 const { frontmatter } = useData()
@@ -14,8 +15,12 @@ const { frontmatter } = useData()
       <HeroIllustrations />
     </template>
 
-    <template #layout-top>
-      <WaveBackground v-if="frontmatter.layout === 'home'" />
+    <template #home-hero-before>
+      <WaveBackground />
+    </template>
+
+    <template #nav-bar-title-after>
+      <LottieLogo />
     </template>
   </Layout>
 </template>

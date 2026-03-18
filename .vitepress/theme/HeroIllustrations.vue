@@ -18,56 +18,57 @@
   gap: 0;
   max-width: 420px;
   margin: 0 auto;
-  animation: heroFadeIn 0.8s ease-out;
-}
-
-@keyframes heroFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .hero-img {
   width: 100%;
   height: auto;
-  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .hero-img-1 {
-  transform: translate(0, 0);
+  animation: float1 6s ease-in-out infinite;
 }
 
 .hero-img-2 {
-  transform: translate(25px, 11px);
+  animation: float2 7s ease-in-out infinite;
 }
 
 .hero-img-3 {
-  transform: translate(0, 0);
+  animation: float3 8s ease-in-out infinite;
 }
 
 .hero-img-4 {
-  transform: rotate(12deg) translate(-2px, -2px);
+  animation: float4 6.5s ease-in-out infinite;
 }
 
-.hero-illustrations:hover .hero-img-1 {
-  transform: translate(-4px, -4px);
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-5px, -8px); }
+  66% { transform: translate(3px, -4px); }
 }
 
-.hero-illustrations:hover .hero-img-2 {
-  transform: translate(29px, 7px);
+@keyframes float2 {
+  0%, 100% { transform: translate(25px, 11px); }
+  33% { transform: translate(20px, 4px); }
+  66% { transform: translate(30px, 8px); }
 }
 
-.hero-illustrations:hover .hero-img-3 {
-  transform: translate(4px, 4px);
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(5px, -6px); }
+  66% { transform: translate(-3px, -3px); }
 }
 
-.hero-illustrations:hover .hero-img-4 {
-  transform: rotate(16deg) translate(-6px, -6px);
+@keyframes float4 {
+  0%, 100% { transform: rotate(12deg) translate(-2px, -2px); }
+  33% { transform: rotate(14deg) translate(-6px, -8px); }
+  66% { transform: rotate(10deg) translate(2px, -5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-img {
+    animation: none !important;
+  }
 }
 
 @media (max-width: 959px) {
