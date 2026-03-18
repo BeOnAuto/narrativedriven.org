@@ -13,10 +13,18 @@
     "type": "git",
     "url": "git+https://github.com/BeOnAuto/narrativedriven.org.git"
   },
-  "keywords": ["ndd", "narrative-driven", "spec-driven", "documentation"],
+  "keywords": [
+    "ndd",
+    "narrative-driven",
+    "spec-driven",
+    "documentation"
+  ],
   "author": "Auto team",
   "license": "CC-BY-NC-ND-4.0",
   "devDependencies": {
     "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-web": "^0.67.0"
   }
 }
