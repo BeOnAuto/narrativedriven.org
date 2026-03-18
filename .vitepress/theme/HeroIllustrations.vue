@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="hero-illustrations">
     <img src="/images/hero-1.png" class="hero-img hero-img-1" alt="" />
@@ -25,21 +22,10 @@
   height: auto;
 }
 
-.hero-img-1 {
-  animation: float1 6s ease-in-out infinite;
-}
-
-.hero-img-2 {
-  animation: float2 7s ease-in-out infinite;
-}
-
-.hero-img-3 {
-  animation: float3 8s ease-in-out infinite;
-}
-
-.hero-img-4 {
-  animation: float4 6.5s ease-in-out infinite;
-}
+.hero-img-1 { animation: float1 6s ease-in-out infinite; }
+.hero-img-2 { animation: float2 7s ease-in-out infinite; }
+.hero-img-3 { animation: float3 8s ease-in-out infinite; }
+.hero-img-4 { animation: float4 6.5s ease-in-out infinite; }
 
 @keyframes float1 {
   0%, 100% { transform: translate(0, 0); }
@@ -66,25 +52,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-img {
-    animation: none !important;
-  }
+  .hero-img { animation: none !important; }
 }
 
 @media (max-width: 959px) {
-  .hero-illustrations {
-    max-width: 320px;
-    margin-top: 2rem;
-  }
+  .hero-illustrations { max-width: 320px; margin-top: 2rem; }
 }
 
 @media (max-width: 639px) {
-  .hero-illustrations {
-    max-width: 280px;
-  }
-}
-
-:global(.dark) .hero-illustrations {
-  display: none;
+  .hero-illustrations { max-width: 280px; }
 }
 </style>

@@ -57,9 +57,4 @@ onUnmounted(() => {
 .lottie-logo.is-playing {
   opacity: 1;
 }
-
-/* Hide in dark mode — needs dark Lottie variant */
-:global(.dark) .lottie-logo {
-  display: none;
-}
 </style>

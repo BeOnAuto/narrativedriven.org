@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="wave-bg" aria-hidden="true">
     <svg
@@ -12,12 +9,12 @@
     >
       <defs>
         <linearGradient id="wg0" x1="384.5" y1="40" x2="384.5" y2="934.5" gradientUnits="userSpaceOnUse">
-          <stop offset="0" class="wave-start" />
-          <stop offset="1" class="wave-end-1" />
+          <stop offset="0" :stop-color="startColor" />
+          <stop offset="1" :stop-color="endColor1" />
         </linearGradient>
         <linearGradient id="wg1" x1="760.5" y1="510.6" x2="760.5" y2="-103.9" gradientUnits="userSpaceOnUse">
-          <stop offset="0" class="wave-start" />
-          <stop offset="1" class="wave-end-2" />
+          <stop offset="0" :stop-color="startColor" />
+          <stop offset="1" :stop-color="endColor2" />
         </linearGradient>
       </defs>
 
@@ -67,6 +64,32 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const isDark = ref(false)
+
+function checkDark() {
+  isDark.value = document.documentElement.classList.contains('dark')
+}
+
+let observer: MutationObserver | null = null
+
+onMounted(() => {
+  checkDark()
+  observer = new MutationObserver(checkDark)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
+
+const startColor = computed(() => isDark.value ? '#1a1a1a' : '#ffffff')
+const endColor1 = computed(() => isDark.value ? '#2a4a60' : '#a0ddff')
+const endColor2 = computed(() => isDark.value ? '#264055' : '#abdaf3')
+</script>
+
 <style scoped>
 .wave-bg {
   position: absolute;
@@ -84,17 +107,7 @@
   height: 100%;
 }
 
-/* Light mode */
-.wave-start { stop-color: #ffffff; }
-.wave-end-1 { stop-color: #a0ddff; }
-.wave-end-2 { stop-color: #abdaf3; }
-
-/* Dark mode */
-:global(.dark) .wave-start { stop-color: #1a1a1a; }
-:global(.dark) .wave-end-1 { stop-color: #1e3040; }
-:global(.dark) .wave-end-2 { stop-color: #1a2d3a; }
-
 @media (prefers-reduced-motion: reduce) {
-  .wave-bg animate { display: none; }
+  .wave-bg { display: none; }
 }
 </style>
