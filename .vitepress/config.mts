@@ -9,10 +9,16 @@ export default defineConfig({
   lang: 'en-US',
   title: 'Narrative-Driven Development',
   description: 'A collaborative modeling technique that uses storytelling to describe software. One model. Three views. Everyone works from the same source of truth.',
-  appearance: 'dark',
+  appearance: true,
   cleanUrls: true,
 
   head: [
+    // Favicon
+    ['link', { rel: 'icon', type: 'image/png', href: `${base}favicon.png` }],
+    // Fonts (preconnect for performance)
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    // OpenGraph
     ['meta', { property: 'og:title', content: 'Narrative-Driven Development' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:description', content: 'Tell the story. Build the software. A collaborative modeling technique that uses storytelling to describe software.' }],
@@ -24,7 +30,11 @@ export default defineConfig({
   ],
 
   themeConfig: {
-    siteTitle: 'NDD',
+    logo: {
+      light: '/ndd-logo-light.svg',
+      dark: '/ndd-logo-dark.svg',
+    },
+    siteTitle: false,
 
     nav: [
       { text: 'What is NDD?', link: '/what-is-ndd' },

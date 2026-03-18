@@ -1,0 +1,449 @@
+/* ============================================================
+   narrativedriven.org — Custom VitePress Theme
+   Ported from the Webflow design system
+   ============================================================ */
+
+/* --- Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Barlow:ital,wght@0,200;0,400;0,600;0,800;1,200;1,400;1,600;1,800&display=swap');
+
+/* ============================================================
+   CSS Variable Overrides — Light Mode
+   ============================================================ */
+:root {
+  /* Brand colors */
+  --ndd-brand: #f5535e;
+  --ndd-brand-dark: #19262d;
+  --ndd-brand-light: #ffbdc1;
+  --ndd-brand-secondary: #1796db;
+
+  /* Base shades */
+  --ndd-black: #232323;
+  --ndd-dark-gray: #3c3c3c;
+  --ndd-medium-gray: #9f9f9f;
+  --ndd-light-gray: #f0f0f0;
+  --ndd-white: #ffffff;
+
+  /* System colors */
+  --ndd-success: #87e068;
+  --ndd-error: #ff8f8f;
+  --ndd-focus: #e76100;
+
+  /* Wave background */
+  --ndd-wave-1: #a0ddff;
+  --ndd-wave-2: #abdaf3;
+
+  /* VitePress overrides — Light */
+  --vp-c-brand-1: var(--ndd-brand);
+  --vp-c-brand-2: #e0454f;
+  --vp-c-brand-3: var(--ndd-brand);
+  --vp-c-brand-soft: rgba(245, 83, 94, 0.14);
+
+  --vp-c-text-1: var(--ndd-black);
+  --vp-c-text-2: var(--ndd-dark-gray);
+  --vp-c-text-3: var(--ndd-medium-gray);
+
+  --vp-c-bg: var(--ndd-white);
+  --vp-c-bg-alt: var(--ndd-light-gray);
+  --vp-c-bg-soft: var(--ndd-light-gray);
+  --vp-c-bg-elv: var(--ndd-white);
+
+  --vp-c-border: #e2e2e3;
+  --vp-c-divider: #e2e2e3;
+  --vp-c-gutter: var(--ndd-light-gray);
+
+  /* Typography */
+  --vp-font-family-base: 'Albert Sans', sans-serif;
+  --vp-font-family-mono: 'Inter', ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
+
+  /* Layout */
+  --vp-nav-height: 72px;
+
+  /* Transition */
+  --ndd-ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ndd-duration: 0.35s;
+}
+
+/* ============================================================
+   CSS Variable Overrides — Dark Mode
+   ============================================================ */
+.dark {
+  --vp-c-brand-1: #f76d76;
+  --vp-c-brand-2: var(--ndd-brand);
+  --vp-c-brand-3: #f76d76;
+  --vp-c-brand-soft: rgba(245, 83, 94, 0.16);
+
+  --vp-c-bg: #1a1a1a;
+  --vp-c-bg-alt: #141414;
+  --vp-c-bg-soft: #242424;
+  --vp-c-bg-elv: #242424;
+
+  --vp-c-text-1: #ffffffde;
+  --vp-c-text-2: #ffffffab;
+  --vp-c-text-3: #ffffff66;
+
+  --vp-c-border: #2e2e2e;
+  --vp-c-divider: #2e2e2e;
+  --vp-c-gutter: #141414;
+
+  /* Darker wave colors for dark mode */
+  --ndd-wave-1: #1a3a4d;
+  --ndd-wave-2: #1a3347;
+}
+
+/* ============================================================
+   Global Typography
+   ============================================================ */
+h1, h2, h3, h4, h5, h6,
+.vp-doc h1, .vp-doc h2, .vp-doc h3, .vp-doc h4, .vp-doc h5, .vp-doc h6 {
+  font-family: 'Barlow', sans-serif;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.vp-doc h1 {
+  font-size: 2.25rem;
+  font-weight: 400;
+}
+
+.vp-doc h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  border-top: none;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+}
+
+.vp-doc h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.vp-doc h4 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* Bold + italic emphasis in headings (the Webflow style) */
+h1 strong em,
+h2 strong em,
+h3 strong em,
+.vp-doc h1 strong em,
+.vp-doc h2 strong em {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+body {
+  font-family: 'Albert Sans', sans-serif;
+  line-height: 1.5;
+  color: var(--vp-c-text-1);
+}
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+.VPNav {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.VPNavBar {
+  border-bottom-color: var(--vp-c-border) !important;
+}
+
+.VPNavBar .title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   Links
+   ============================================================ */
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all var(--ndd-duration) var(--ndd-ease);
+}
+
+.vp-doc a:hover {
+  border-bottom-color: var(--vp-c-brand-1);
+}
+
+/* ============================================================
+   Buttons (Home page hero actions)
+   ============================================================ */
+.VPButton.brand {
+  background-color: var(--ndd-brand) !important;
+  border-color: var(--ndd-brand) !important;
+  border-radius: 60px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 0 2rem;
+  min-height: 3rem;
+  transition: background-color var(--ndd-duration) var(--ndd-ease),
+              border-color var(--ndd-duration) var(--ndd-ease),
+              transform 0.15s ease;
+}
+
+.VPButton.brand:hover {
+  background-color: var(--ndd-brand-dark) !important;
+  border-color: var(--ndd-brand-dark) !important;
+}
+
+.VPButton.brand:active {
+  transform: translateY(2px);
+}
+
+.VPButton.alt {
+  border-radius: 60px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0 2rem;
+  min-height: 3rem;
+  border-color: var(--ndd-brand) !important;
+  color: var(--ndd-brand) !important;
+  transition: background-color var(--ndd-duration) var(--ndd-ease),
+              border-color var(--ndd-duration) var(--ndd-ease),
+              transform 0.15s ease;
+}
+
+.VPButton.alt:hover {
+  background-color: var(--vp-c-bg-soft) !important;
+}
+
+.VPButton.alt:active {
+  transform: translateY(2px);
+}
+
+/* Dark mode button adjustments */
+.dark .VPButton.brand {
+  color: var(--ndd-white) !important;
+}
+
+.dark .VPButton.alt {
+  border-color: #f76d76 !important;
+  color: #f76d76 !important;
+}
+
+/* ============================================================
+   Home Page — Hero
+   ============================================================ */
+.VPHero .name {
+  font-family: 'Barlow', sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.03em;
+}
+
+.VPHero .clip {
+  background: linear-gradient(135deg, var(--ndd-brand) 0%, var(--ndd-brand-dark) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.VPHero .text {
+  font-family: 'Barlow', sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.VPHero .tagline {
+  font-family: 'Albert Sans', sans-serif !important;
+  font-size: 1.2rem !important;
+  line-height: 1.5 !important;
+  max-width: 640px;
+}
+
+/* ============================================================
+   Home Page — Features
+   ============================================================ */
+.VPFeatures .VPFeature {
+  border-radius: 24px !important;
+  transition: box-shadow var(--ndd-duration) var(--ndd-ease),
+              transform var(--ndd-duration) var(--ndd-ease);
+}
+
+.VPFeatures .VPFeature:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.VPFeature .title {
+  font-family: 'Barlow', sans-serif !important;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.VPFeature .details {
+  font-family: 'Albert Sans', sans-serif;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Home Content (below hero)
+   ============================================================ */
+.vp-doc.vp-doc :is(h2) {
+  border-top: none;
+}
+
+/* ============================================================
+   Sidebar
+   ============================================================ */
+.VPSidebar .group .title {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+}
+
+.VPSidebarItem .text {
+  font-family: 'Albert Sans', sans-serif;
+}
+
+.VPSidebarItem.is-active > .item > .indicator {
+  background-color: var(--ndd-brand);
+}
+
+/* ============================================================
+   Code Blocks
+   ============================================================ */
+.vp-doc div[class*='language-'] {
+  border-radius: 8px;
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+.vp-doc table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.vp-doc th {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.VPFooter {
+  border-top: 1px solid var(--vp-c-border);
+}
+
+.VPFooter .message a,
+.VPFooter .copyright a {
+  color: var(--vp-c-brand-1);
+  transition: color var(--ndd-duration) var(--ndd-ease);
+}
+
+.VPFooter .message a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+/* ============================================================
+   Edit Link
+   ============================================================ */
+.VPDocFooter .edit-link-button {
+  color: var(--vp-c-brand-1);
+  transition: color var(--ndd-duration) var(--ndd-ease);
+}
+
+.VPDocFooter .edit-link-button:hover {
+  color: var(--vp-c-brand-2);
+}
+
+/* ============================================================
+   Custom Content Styling
+   ============================================================ */
+
+/* Strong emphasis in body text */
+.vp-doc strong {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+/* Block quotes */
+.vp-doc blockquote {
+  border-left-color: var(--ndd-brand);
+}
+
+/* Horizontal rules */
+.vp-doc hr {
+  border-color: var(--vp-c-border);
+}
+
+/* ============================================================
+   Wave Background (subtle, on home page)
+   ============================================================ */
+.VPHome {
+  position: relative;
+}
+
+.VPHome::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: linear-gradient(
+    202deg,
+    var(--vp-c-bg) 30%,
+    color-mix(in srgb, var(--ndd-wave-2) 15%, var(--vp-c-bg))
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Scrollbar (subtle brand touch)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vp-c-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ndd-medium-gray);
+}
+
+/* ============================================================
+   Selection
+   ============================================================ */
+::selection {
+  background: rgba(245, 83, 94, 0.2);
+  color: var(--vp-c-text-1);
+}
+
+/* ============================================================
+   Responsive Adjustments
+   ============================================================ */
+@media (max-width: 767px) {
+  .VPHero .name {
+    font-size: 2.5rem !important;
+  }
+
+  .VPHero .text {
+    font-size: 1.5rem !important;
+  }
+
+  .VPHero .tagline {
+    font-size: 1rem !important;
+  }
+}
