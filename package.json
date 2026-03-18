@@ -1,0 +1,22 @@
+{
+  "name": "narrativedriven.org",
+  "version": "1.0.0",
+  "description": "Narrative-Driven Development — Tell the story. Build the software.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeOnAuto/narrativedriven.org.git"
+  },
+  "keywords": ["ndd", "narrative-driven", "spec-driven", "documentation"],
+  "author": "Auto team",
+  "license": "CC-BY-NC-ND-4.0",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
