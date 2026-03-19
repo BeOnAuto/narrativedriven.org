@@ -334,8 +334,16 @@ body {
 }
 
 /* ============================================================
-   Dark Mode — hide light-only elements
+   Dark Mode
    ============================================================ */
+
+/* Swap feature icons to dark variants */
+.dark .VPFeature .VPImage[src*="feat-stories.png"] { content: url("/images/features/feat-stories-dark.png"); }
+.dark .VPFeature .VPImage[src*="feat-three-views.png"] { content: url("/images/features/feat-three-views-dark.png"); }
+.dark .VPFeature .VPImage[src*="feat-ai-collaborator.png"] { content: url("/images/features/feat-ai-collaborator-dark.png"); }
+.dark .VPFeature .VPImage[src*="feat-data-completeness.png"] { content: url("/images/features/feat-data-completeness-dark.png"); }
+.dark .VPFeature .VPImage[src*="feat-spec-dialect.png"] { content: url("/images/features/feat-spec-dialect-dark.png"); }
+.dark .VPFeature .VPImage[src*="feat-running-code.png"] { content: url("/images/features/feat-running-code-dark.png"); }
 
 /* Light mode: transparent bg so wave shows through */
 :root:not(.dark) .VPHero { background: transparent !important; }

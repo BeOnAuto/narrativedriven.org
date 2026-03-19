@@ -1,9 +1,30 @@
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const isDark = ref(false)
+let observer: MutationObserver | null = null
+
+function checkDark() {
+  isDark.value = document.documentElement.classList.contains('dark')
+}
+
+onMounted(() => {
+  checkDark()
+  observer = new MutationObserver(checkDark)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
+</script>
+
 <template>
   <div class="hero-illustrations">
-    <img src="/images/hero-1.png" class="hero-img hero-img-1" alt="" />
-    <img src="/images/hero-2.png" class="hero-img hero-img-2" alt="" />
-    <img src="/images/hero-3.png" class="hero-img hero-img-3" alt="" />
-    <img src="/images/hero-4.png" class="hero-img hero-img-4" alt="" />
+    <img :src="isDark ? '/images/hero-1-dark.png' : '/images/hero-1.png'" class="hero-img hero-img-1" alt="" />
+    <img :src="isDark ? '/images/hero-2-dark.png' : '/images/hero-2.png'" class="hero-img hero-img-2" alt="" />
+    <img :src="isDark ? '/images/hero-3-dark.png' : '/images/hero-3.png'" class="hero-img hero-img-3" alt="" />
+    <img :src="isDark ? '/images/hero-4-dark.png' : '/images/hero-4.png'" class="hero-img hero-img-4" alt="" />
   </div>
 </template>
 
