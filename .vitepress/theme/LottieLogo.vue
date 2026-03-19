@@ -4,29 +4,52 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const canvas = ref<HTMLCanvasElement | null>(null)
 const playing = ref(false)
 let dotLottie: any = null
+let observer: MutationObserver | null = null
 
-onMounted(async () => {
-  if (!canvas.value || typeof window === 'undefined') return
+function getLogoSrc() {
+  const isDark = document.documentElement.classList.contains('dark')
+  return isDark ? '/animations/ndd-logo-load-dark.lottie' : '/animations/ndd-logo-load.lottie'
+}
+
+async function initLottie() {
+  if (!canvas.value) return
+  // Destroy previous instance
+  if (dotLottie) {
+    dotLottie.destroy()
+    dotLottie = null
+    playing.value = false
+  }
+
   try {
     const { DotLottie } = await import('@lottiefiles/dotlottie-web')
     dotLottie = new DotLottie({
       canvas: canvas.value,
-      src: '/animations/ndd-logo-load.lottie',
+      src: getLogoSrc(),
       autoplay: false,
       loop: false,
     })
     dotLottie.addEventListener('load', () => {
-      setTimeout(() => {
-        playing.value = true
-        dotLottie.play()
-      }, 1000)
+      playing.value = true
+      dotLottie.play()
     })
   } catch (e) {
     // Lottie failed silently
   }
+}
+
+onMounted(() => {
+  // Initial load with delay
+  setTimeout(initLottie, 1000)
+
+  // Watch for dark mode toggle
+  observer = new MutationObserver(() => {
+    initLottie()
+  })
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
 })
 
 onUnmounted(() => {
+  observer?.disconnect()
   if (dotLottie) {
     dotLottie.destroy()
     dotLottie = null
