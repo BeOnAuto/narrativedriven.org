@@ -12,27 +12,33 @@ hero:
       text: Try it on Auto
       link: https://on.auto
 features:
-  - icon: "🎬"
+  - icon:
+      src: /images/features/feat-stories.png
     title: Think in Stories, Not Tickets
     details: "Your software is a story. Narratives, scenes, and moments capture what happens, to whom, through which interface, and what the system does in response."
     link: /what-is-ndd
-  - icon: "🔍"
+  - icon:
+      src: /images/features/feat-three-views.png
     title: One Model, Three Views
     details: "Designers see storyboards. Developers see TypeScript. Product managers see documents. All three are projections of the same model. Change one, the others update."
     link: /explanation/one-model-three-views
-  - icon: "🤖"
+  - icon:
+      src: /images/features/feat-ai-collaborator.png
     title: AI as Collaborator
     details: "The SDLC is compressing. NDD is the medium that lets humans and AI agents contribute to the same coherent model, synchronously or asynchronously."
     link: /explanation/why-storytelling
-  - icon: "✅"
+  - icon:
+      src: /images/features/feat-data-completeness.png
     title: Data Completeness
     details: "Every piece of state traces back through events to commands. Nothing appears from nowhere. NDD catches an entire class of bugs that other approaches miss."
     link: /explanation/data-completeness
-  - icon: "📐"
+  - icon:
+      src: /images/features/feat-spec-dialect.png
     title: A Spec Dialect
     details: "NDD extends BDD's Given/When/Then into a unified model that serves visual, document, and code audiences. Part of the spec-driven movement."
     link: /explanation/spec-dialect
-  - icon: "⚡"
+  - icon:
+      src: /images/features/feat-running-code.png
     title: From Story to Running Code
     details: "With the Auto platform, narratives flow through a pipeline that generates production-ready, fully-tested code. Not vibe coding. Deterministic verification."
     link: /guides/narratives-to-code

@@ -253,7 +253,26 @@ body {
   color: var(--vp-c-text-2);
 }
 
-.VPFeature .icon { font-size: 2rem; margin-bottom: 0.5rem; background: none !important; }
+.VPFeature .icon {
+  margin-bottom: 1rem;
+  background: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.VPFeature .box .VPImage {
+  width: 180px !important;
+  height: 180px !important;
+  object-fit: contain;
+}
+
+.VPFeature .box {
+  text-align: center;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
 
 /* ============================================================
    Home Content
