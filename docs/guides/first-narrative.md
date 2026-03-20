@@ -1,8 +1,8 @@
 ---
 title: Your First Narrative in 10 Minutes
 next:
-  text: Build the RSVP Platform
-  link: /guides/build-rsvp-platform
+  text: Build the Theater Booking Platform
+  link: /guides/build-theater-platform
 ---
 
 # Your First Narrative in 10 Minutes
@@ -11,75 +11,75 @@ In 10 minutes, you'll create a single scene with three moments and see how NDD c
 
 ## Start with a Story
 
-Think of the simplest thing a user does in your application. For this tutorial, let's use: "An organizer creates a new event."
+Think of the simplest thing a user does in your application. For this tutorial, let's use: "A producer schedules a new show."
 
 That's a scene. Let's break it into moments.
 
 ## Three Moments
 
-**Moment 1: Create Event Draft** (command)
+**Moment 1: Schedule Show** (command)
 
-The organizer fills in a form with the event name, date, location, and capacity. They submit it. The system records that an event was created.
+The producer fills in a form with the show title, date, venue, and seat capacity. They submit it. The system records that a show was scheduled.
 
 *Interaction specs:*
 ```
-Event creation form
-  it should show fields for name, date, location, capacity, description
+Show scheduling form
+  it should show fields for title, date, venue, seats, description
   it should enable submit when required fields are complete
 ```
 
 *Business specs:*
 ```
-Rule: Draft event creation
-  Example: Organizer creates a new event
-    When CreateEvent { name: "Spring Conference", capacity: 100 }
-    Then EventCreated { eventId: "evt_123", name: "Spring Conference", capacity: 100 }
+Rule: Draft show scheduling
+  Example: Producer schedules a new show
+    When ScheduleShow { title: "Romeo and Juliet", seats: 150 }
+    Then ShowScheduled { showId: "shw_123", title: "Romeo and Juliet", seats: 150 }
 ```
 
-**Moment 2: Preview Draft Event** (query)
+**Moment 2: Preview Draft Show** (query)
 
-The organizer sees a preview of their event as attendees would see it.
+The producer sees a preview of their show as patrons would see it.
 
 *Interaction specs:*
 ```
 Draft preview display
-  it should display event card with all draft details
+  it should display show card with all draft details
   it should show edit button linking back to form
   it should show publish button when draft is complete
 ```
 
 *Business specs:*
 ```
-Rule: Draft event projection
-  Example: Event details are available after creation
-    Given EventCreated { eventId: "evt_123", name: "Spring Conference" }
-    When GetEventDetails { eventId: "evt_123" }
-    Then EventDetails { eventId: "evt_123", name: "Spring Conference", status: "Draft" }
+Rule: Draft show projection
+  Example: Show details are available after scheduling
+    Given ShowScheduled { showId: "shw_123", title: "Romeo and Juliet" }
+    When GetShowDetails { showId: "shw_123" }
+    Then ShowDetails { showId: "shw_123", title: "Romeo and Juliet", status: "Draft" }
 ```
 
-**Moment 3: Publish Event** (command)
+**Moment 3: Publish Show** (command)
 
-The organizer publishes the event, making it visible to attendees.
+The producer publishes the show, making it visible to patrons.
 
 *Business specs:*
 ```
-Rule: Event publishing
-  Example: Draft event publishes successfully
-    Given Event { eventId: "evt_123", status: "Draft" }
-    When PublishEvent { eventId: "evt_123" }
-    Then EventPublished { eventId: "evt_123" }
+Rule: Show publishing
+  Example: Draft show publishes successfully
+    Given Show { showId: "shw_123", status: "Draft" }
+    When PublishShow { showId: "shw_123" }
+    Then ShowPublished { showId: "shw_123" }
 
-  Example: Already-published event is rejected
-    Given Event { eventId: "evt_123", status: "Published" }
-    When PublishEvent { eventId: "evt_123" }
+  Example: Already-published show is rejected
+    Given Show { showId: "shw_123", status: "Published" }
+    When PublishShow { showId: "shw_123" }
     Then PublishRejected { reason: "Already published" }
 ```
 
 ## Check Data Completeness
 
-Read the scene aloud: "Organizer creates an event draft, previews it, then publishes it."
+Read the scene aloud: "Producer schedules a show, previews it, then publishes it."
 
-Does every piece of data trace back? The Preview query shows EventDetails with status "Draft." That state comes from the EventCreated event, which came from the CreateEvent command in Moment 1. The Publish command checks Event status, which is also derived from EventCreated. The chain is complete.
+Does every piece of data trace back? The Preview query shows ShowDetails with status "Draft." That state comes from the ShowScheduled event, which came from the ScheduleShow command in Moment 1. The Publish command checks Show status, which is also derived from ShowScheduled. The chain is complete.
 
 ## What You Just Built
 
@@ -87,11 +87,11 @@ In three moments, you've captured the UI behavior (interaction specs), the busin
 
 ## Next Steps
 
-This was one scene. A real application has multiple scenes organized into narratives. The [Build the RSVP Platform](/guides/build-rsvp-platform) tutorial walks you through a complete example with three narratives, multiple scenes, all four moment types, and the full data completeness chain.
+This was one scene. A real application has multiple scenes organized into narratives. The [Build the Theater Booking Platform](/guides/build-theater-platform) tutorial walks you through a complete example with three narratives, multiple scenes, all four moment types, and the full data completeness chain.
 
 ---
 
-**[Build the RSVP Platform →](/guides/build-rsvp-platform)** · **[Try it on Auto →](https://on.auto)**
+**[Build the Theater Booking Platform →](/guides/build-theater-platform)** · **[Try it on Auto →](https://on.auto)**
 
 ---
 

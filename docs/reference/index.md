@@ -10,7 +10,7 @@ Look things up. These pages are designed for quick access when you need to check
 Every NDD term defined. Narratives, scenes, moments, actors, specs, event model constructs, and key principles.
 
 **[Moment Types](/reference/moment-types)**
-The four moment types (command, query, react, experience) with full explanations, spec patterns, and examples from the RSVP platform.
+The four moment types (command, query, react, experience) with full explanations, spec patterns, and examples from the Theater Booking platform.
 
 **Model Reference** *(coming soon)*
 The complete NDD model schema. Every construct, every field, every relationship. The technical reference for developers working with the Zod schema or JSON model directly.

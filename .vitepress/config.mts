@@ -55,7 +55,7 @@ export default defineConfig({
               text: 'Getting Started',
               items: [
                 { text: 'Your First Narrative', link: '/guides/first-narrative' },
-                { text: 'Build the RSVP Platform', link: '/guides/build-rsvp-platform' },
+                { text: 'Build the Theater Booking Platform', link: '/guides/build-theater-platform' },
               ],
             },
             {

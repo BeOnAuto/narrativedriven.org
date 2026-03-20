@@ -18,9 +18,9 @@ NDD is designed to exploit this.
 
 When you read a user story like "As a user, I want to sign up so that I can access the app," you get a fragment. A snapshot. It tells you one thing someone wants, disconnected from everything before and after it.
 
-When you read a narrative like "The attendee opens the app, browses available events, sees one with 3 spots left, submits an RSVP, and receives a confirmation email," something different happens. You're running a simulation. You're tracking the attendee through time. And when something is missing, you feel it.
+When you read a narrative like "The patron opens the app, browses available shows, sees one with 3 seats left, books a ticket, and receives a confirmation email," something different happens. You're running a simulation. You're tracking the patron through time. And when something is missing, you feel it.
 
-"Wait. What if the event is full by the time they submit?" That question surfaces naturally because the story has a gap. Your brain, wired for narrative coherence, detects it automatically.
+"Wait. What if the show is sold out by the time they book?" That question surfaces naturally because the story has a gap. Your brain, wired for narrative coherence, detects it automatically.
 
 This is why NDD uses time-based modeling. Not because it's trendy. Because it's how your brain already works.
 

@@ -18,7 +18,7 @@ A coherent chapter within a narrative. Groups related moments that happen togeth
 A single point in time where something happens. The atomic unit of NDD. One of four types: command, query, react, or experience. Has a name, type, and specifications attached.
 
 ### Actor
-A named persona involved in the narrative. Can be a human ("Organizer," "Attendee") or a system ("Payment Gateway," "Email Service"). Gives context to moments.
+A named persona involved in the narrative. Can be a human ("Producer," "Patron") or a system ("Payment Gateway," "Email Service"). Gives context to moments.
 
 ## Moment Types
 
@@ -42,13 +42,13 @@ Define business rules with concrete data using the **Given/When/Then** pattern. 
 ## Event Model Constructs
 
 ### Command
-An action that requests a state change. Describes intent. Examples: CreateEvent, SubmitRSVP. Appears as "When" in business specs. Blue in visual representations.
+An action that requests a state change. Describes intent. Examples: ScheduleShow, BookSeats. Appears as "When" in business specs. Blue in visual representations.
 
 ### Event
-A fact that has happened. Always past tense. Examples: EventCreated, RSVPConfirmed. Appears as "Given" or "Then" in specs. Orange in visual representations.
+A fact that has happened. Always past tense. Examples: ShowScheduled, SeatsReserved. Appears as "Given" or "Then" in specs. Orange in visual representations.
 
 ### State
-A current view of accumulated events. Examples: AvailableEventsView, EventDetails. Appears as "Given" or "Then" in specs. Green in visual representations.
+A current view of accumulated events. Examples: AvailableShowsView, ShowDetails. Appears as "Given" or "Then" in specs. Green in visual representations.
 
 ## Principles
 

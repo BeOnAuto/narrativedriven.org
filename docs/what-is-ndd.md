@@ -26,11 +26,11 @@ NDD organizes software into three levels, borrowed from filmmaking:
 
 ### Narratives
 
-A narrative is the top-level user journey. It's the whole story: "An organizer creates and publishes an event" or "An attendee RSVPs and manages their attendance." Each narrative has a name, a description, and a storyboard image.
+A narrative is the top-level user journey. It's the whole story: "A producer schedules and publishes a show" or "A patron browses and books seats." Each narrative has a name, a description, and a storyboard image.
 
 ### Scenes
 
-A scene is a chapter within a narrative. If the narrative is the movie, a scene is an act. "Create and Publish Event" is one scene. "RSVP and Capacity Management" is another. Each scene has its own storyboard image and contains a sequence of moments.
+A scene is a chapter within a narrative. If the narrative is the movie, a scene is an act. "Schedule and Publish Show" is one scene. "Browse and Book Seats" is another. Each scene has its own storyboard image and contains a sequence of moments.
 
 In the document view, each scene becomes its own page. In the visual view, scenes show their moments as a filmstrip, left to right.
 
@@ -42,16 +42,16 @@ Every moment has a type:
 
 | Moment type    | What happens                               | Example                 |
 | -------------- | ------------------------------------------ | ----------------------- |
-| **Command**    | User triggers a state change               | "Submit RSVP"           |
-| **Query**      | Actor receives data                        | "View available events" |
+| **Command**    | User triggers a state change               | "Book Seats"            |
+| **Query**      | Actor receives data                        | "Browse available shows"|
 | **React**      | System responds automatically              | "Promote from waitlist" |
 | **Experience** | UI interaction (navigation, notifications) | "Navigate to dashboard" |
 
 Each moment carries two kinds of specifications:
 
-**Interaction specs** describe what the user sees and does, using `describe/it/should` patterns: "Event creation form: it should show fields for name, date, location."
+**Interaction specs** describe what the user sees and does, using `describe/it/should` patterns: "Show scheduling form: it should show fields for title, date, venue."
 
-**Business specs** describe the domain logic, using `Given/When/Then` with commands, events, and state: "Given Event with status Draft, When PublishEvent, Then EventPublished."
+**Business specs** describe the domain logic, using `Given/When/Then` with commands, events, and state: "Given Show with status Draft, When PublishShow, Then ShowPublished."
 
 Command and query moments have both. Experience moments have only interaction specs. React moments have only business specs.
 
@@ -61,7 +61,7 @@ Command and query moments have both. Experience moments have only interaction sp
 
 One of NDD's distinguishing principles: every piece of state visible in your system must trace back through events to the commands that caused it. Nothing appears from nowhere.
 
-If a screen shows "Attendee RSVP status," the state it renders must come from events (`RSVPConfirmed`, `AddedToWaitlist`), and those events must come from a prior command moment (`Submit RSVP`). An entire class of bugs eliminated before code exists.
+If a screen shows "Patron booking status," the state it renders must come from events (`SeatsReserved`, `AddedToWaitlist`), and those events must come from a prior command moment (`Book Seats`). An entire class of bugs eliminated before code exists.
 
 [Data completeness in depth →](/explanation/data-completeness)
 
@@ -97,7 +97,7 @@ NDD is a **spec dialect**: a structured, schema-backed specification language pu
 
 ## Get Started
 
-**Learn NDD:** [10-minute quickstart →](/guides/first-narrative) or [full RSVP walkthrough →](/guides/build-rsvp-platform)
+**Learn NDD:** [10-minute quickstart →](/guides/first-narrative) or [full Theater Booking walkthrough →](/guides/build-theater-platform)
 
 **Try it:** [Auto platform waitlist →](https://accounts.on.auto/waitlist) or [Auto Engineer on GitHub →](https://github.com/BeOnAuto/auto-engineer)
 

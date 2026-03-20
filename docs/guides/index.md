@@ -11,7 +11,7 @@ Your on-ramp to Narrative-Driven Development. Whether you're telling your first 
 **[Your First Narrative in 10 Minutes](/guides/first-narrative)**
 One scene, a few moments, enough to feel the shape of NDD.
 
-**[Build the RSVP Platform](/guides/build-rsvp-platform)**
+**[Build the Theater Booking Platform](/guides/build-theater-platform)**
 The complete walkthrough. Three narratives, multiple scenes, all four moment types, data completeness, and all three views. This is the canonical NDD example.
 
 ## Working with NDD

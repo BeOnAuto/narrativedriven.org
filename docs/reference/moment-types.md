@@ -19,26 +19,26 @@ Every moment in NDD is one of four types. The type determines what specification
 
 **Pattern**: Given [events/state] + When [Command] → Then [Event(s)]
 
-**Example** (RSVP Platform):
+**Example** (Theater Booking Platform):
 
 ```
 Interaction specs:
-  RSVP submission form
-    it should show RSVP confirmation dialog
-    it should enable RSVP button
+  Seat booking form
+    it should show booking confirmation dialog
+    it should enable book button
     it should show loading during submission
 
 Business specs:
-  Rule: RSVP capacity processing
-    Example: Event has capacity
-      Given Event { status: "published" }
-      When SubmitRSVP { eventId: "evt_123", attendeeId: "att_456" }
-      Then RSVPConfirmed { rsvpId: "rsvp_789" }
+  Rule: Booking capacity processing
+    Example: Show has seats available
+      Given Show { status: "published" }
+      When BookSeats { showId: "shw_123", patronId: "pat_456" }
+      Then SeatsReserved { bookingId: "bkng_789" }
 
-    Example: Event is full
-      Given Event { status: "full" }
-      When SubmitRSVP { eventId: "evt_123", attendeeId: "att_999" }
-      Then AddedToWaitlist { rsvpId: "rsvp_888" }
+    Example: Show is sold out
+      Given Show { status: "sold_out" }
+      When BookSeats { showId: "shw_123", patronId: "pat_999" }
+      Then AddedToWaitlist { bookingId: "bkng_888" }
 ```
 
 ## Query
@@ -51,26 +51,26 @@ Business specs:
 
 **Pattern**: Given [events] + When [Query] → Then [State]
 
-**Example** (RSVP Platform):
+**Example** (Theater Booking Platform):
 
 ```
 Interaction specs:
-  Events grid display
-    it should display events with name, date, remaining capacity
-    it should show RSVP button for events with capacity
-    it should show waitlist button for full events
+  Shows grid display
+    it should display shows with title, date, remaining seats
+    it should show book button for shows with availability
+    it should show waitlist button for sold-out shows
 
 Business specs:
-  Rule: Available events projection
-    Example: Published event appears in listing
-      Given EventPublished { eventId: "evt_123" }
-      And EventCreated { eventId: "evt_123", name: "Spring Conference", capacity: 100 }
-      Then AvailableEventsView {
-        events: [{ eventId: "evt_123", remainingCapacity: 100 }]
+  Rule: Available shows projection
+    Example: Published show appears in listing
+      Given ShowPublished { showId: "shw_123" }
+      And ShowScheduled { showId: "shw_123", title: "Romeo and Juliet", seats: 150 }
+      Then AvailableShowsView {
+        shows: [{ showId: "shw_123", remainingSeats: 150 }]
       }
 ```
 
-Note the data completeness: the state (AvailableEventsView) is built entirely from prior events.
+Note the data completeness: the state (AvailableShowsView) is built entirely from prior events.
 
 ## React
 
@@ -82,15 +82,15 @@ Note the data completeness: the state (AvailableEventsView) is built entirely fr
 
 **Pattern**: Given [state] + When [Event] → Then [Event(s)]
 
-**Example** (RSVP Platform):
+**Example** (Theater Booking Platform):
 
 ```
 Business specs:
   Rule: Waitlist promotion process
-    Example: Next waitlisted attendee is promoted
-      Given WaitlistPosition { attendeeId: "att_999", position: 1 }
-      When RSVPCancelled { rsvpId: "rsvp_789", eventId: "evt_123" }
-      Then ConfirmationEmailSent { attendeeId: "att_999" }
+    Example: Next waitlisted patron is promoted
+      Given WaitlistPosition { patronId: "pat_999", position: 1 }
+      When BookingCancelled { bookingId: "bkng_789", showId: "shw_123" }
+      Then ConfirmationEmailSent { patronId: "pat_999" }
 ```
 
 ## Experience

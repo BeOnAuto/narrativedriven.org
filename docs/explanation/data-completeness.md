@@ -16,14 +16,14 @@ Data completeness is one of the principles that sets NDD apart from looser speci
 
 In NDD, your system's behavior is modeled with three atomic units:
 
-- **Commands**: things the system is told to do (`CreateEvent`, `SubmitRSVP`)
-- **Events**: things that happened as a result (`EventCreated`, `RSVPConfirmed`)
-- **State**: the current view of data, derived from events (`AvailableEventsView`, `MyRSVPsView`)
+- **Commands**: things the system is told to do (`ScheduleShow`, `BookSeats`)
+- **Events**: things that happened as a result (`ShowScheduled`, `SeatsReserved`)
+- **State**: the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`)
 
-Data completeness means the chain from command to event to state is unbroken. If a query moment renders `MyRSVPsView`, then:
+Data completeness means the chain from command to event to state is unbroken. If a query moment renders `MyBookingsView`, then:
 
-1. `MyRSVPsView` must be derived from events like `RSVPConfirmed` and `AddedToWaitlist`
-2. Those events must have been produced by a command moment like `SubmitRSVP`
+1. `MyBookingsView` must be derived from events like `SeatsReserved` and `AddedToWaitlist`
+2. Those events must have been produced by a command moment like `BookSeats`
 3. That command moment must exist somewhere in the model
 
 If any link is missing, you have a screen showing data that nobody specified how it got there. That's a bug waiting to happen.
@@ -41,15 +41,15 @@ If any link is missing, you have a screen showing data that nobody specified how
 When you model a scene, the business specs tell you exactly where data comes from:
 
 ```
-Moment: Browse Available Events (query)
+Moment: Browse Available Shows (query)
 
-  Given EventPublished { eventId: "evt_123" }
-  And EventCreated { eventId: "evt_123", name: "Spring Conference", capacity: 100 }
-  Then AvailableEventsView
-    { events: [{ eventId: "evt_123", name: "Spring Conference", remainingCapacity: 100 }] }
+  Given ShowPublished { showId: "shw_123" }
+  And ShowScheduled { showId: "shw_123", title: "Romeo and Juliet", seats: 150 }
+  Then AvailableShowsView
+    { shows: [{ showId: "shw_123", title: "Romeo and Juliet", remainingSeats: 150 }] }
 ```
 
-The `Given` steps tell you: this state depends on `EventPublished` and `EventCreated`. Tracing backward, `EventPublished` comes from the Publish Event command moment. `EventCreated` comes from the Create Event Draft command moment. The chain is complete.
+The `Given` steps tell you: this state depends on `ShowPublished` and `ShowScheduled`. Tracing backward, `ShowPublished` comes from the Publish Show command moment. `ShowScheduled` comes from the Schedule Show command moment. The chain is complete.
 
 Now imagine someone adds a "rating" field without specifying how ratings enter the system. Data completeness flags the gap: there's no `RatingSubmitted` event, no `SubmitRating` command. The field is impossible to populate.
 

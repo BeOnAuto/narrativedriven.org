@@ -76,7 +76,7 @@ The result: a team where humans and AI make decisions together, captured in one 
 
 ---
 
-**[Learn what NDD is →](/what-is-ndd)** · **[See the RSVP example →](/guides/build-rsvp-platform)** · **[Try it on Auto →](https://on.auto)**
+**[Learn what NDD is →](/what-is-ndd)** · **[See the Theater Booking example →](/guides/build-theater-platform)** · **[Try it on Auto →](https://on.auto)**
 
 ---
 
