@@ -14,7 +14,7 @@ hero:
 features:
   - icon:
       src: /images/features/feat-stories.png
-    title: Think in Stories, Not Tickets
+    title: Think in Stories, Not Prompts
     details: "Your software is a story. Narratives, scenes, and moments capture what happens, to whom, through which interface, and what the system does in response."
     link: /what-is-ndd
   - icon:
@@ -80,4 +80,4 @@ The result: a team where humans and AI make decisions together, captured in one 
 
 ---
 
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team. Part of the [spec-driven development](https://specdriven.com) movement.*
+_A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team. Part of the [spec-driven development](https://specdriven.com) movement._
