@@ -4,11 +4,11 @@ title: What Is NDD?
 
 # What Is Narrative-Driven Development?
 
-Narrative-Driven Development (NDD) is a collaborative modeling technique that uses storytelling to describe software. You model your application as a narrative, a sequence of moments through time, told from the perspective of the people who use it.
+Narrative-Driven Development (NDD) is a collaborative modeling technique that brings together multiple human stakeholders and AI collaborators to describe software through storytelling. You model your application as a narrative, a sequence of moments through time, told from the perspective of the people who use it.
 
-That narrative isn't a document. It's a structured model backed by a schema. It renders visually as storyboards, textually as rich documents, and programmatically as a TypeScript DSL. All three are projections of the same underlying model. Change one, the others update.
+That narrative isn't a document. It's a structured model. It renders visually as storyboards, textually as rich documents, and programmatically as code. All three are projections of the same underlying model. Change one, the others update.
 
-When used with the [Auto](https://on.auto) platform, your narratives compile into executable specifications, which then drive code generation, testing, and verification. The specification IS the test.
+When used with the [Auto](https://on.auto) platform, your narratives compile into executable specifications, which then drive AI-code generation, testing, and verification. The specification IS the test.
 
 ## Why Storytelling?
 
@@ -40,11 +40,11 @@ A moment is a single point in time within a scene. It's the atomic unit of NDD. 
 
 Every moment has a type:
 
-| Moment type | What happens | Example |
-|---|---|---|
-| **Command** | User triggers a state change | "Submit RSVP" |
-| **Query** | Actor receives data | "View available events" |
-| **React** | System responds automatically | "Promote from waitlist" |
+| Moment type    | What happens                               | Example                 |
+| -------------- | ------------------------------------------ | ----------------------- |
+| **Command**    | User triggers a state change               | "Submit RSVP"           |
+| **Query**      | Actor receives data                        | "View available events" |
+| **React**      | System responds automatically              | "Promote from waitlist" |
 | **Experience** | UI interaction (navigation, notifications) | "Navigate to dashboard" |
 
 Each moment carries two kinds of specifications:
@@ -105,4 +105,4 @@ NDD is a **spec dialect**: a structured, schema-backed specification language pu
 
 ---
 
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by [Auto](https://on.auto). Part of the [spec-driven](https://specdriven.com) movement.*
+_A [spec dialect](https://specdriven.com/dialects/narrative-driven) by [Auto](https://on.auto). Part of the [spec-driven](https://specdriven.com) movement._
