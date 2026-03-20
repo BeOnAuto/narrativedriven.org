@@ -254,24 +254,42 @@ body {
 }
 
 .VPFeature .icon {
-  margin-bottom: 1rem;
   background: none !important;
-  display: flex !important;
-  justify-content: center !important;
-  width: 100% !important;
-}
-
-.VPFeature .box .VPImage {
-  width: 180px !important;
-  height: 180px !important;
-  object-fit: contain;
 }
 
 .VPFeature .box {
+  display: grid !important;
+  grid-template-rows: 80px auto 1fr !important;
+  gap: 12px !important;
   text-align: center;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  align-items: start !important;
+  justify-items: center !important;
+  padding: 28px 24px !important;
+}
+
+.VPFeature .box > .VPImage {
+  width: auto !important;
+  object-fit: contain;
+  align-self: center !important;
+  margin: 0 !important;
+}
+
+/* Individual feature image heights for visual balance */
+.VPFeature .VPImage[src*="feat-stories.png"] { height: 65px !important; }
+.VPFeature .VPImage[src*="feat-three-views.png"] { height: 50px !important; }
+.VPFeature .VPImage[src*="feat-ai-collaborator.png"] { height: 65px !important; }
+.VPFeature .VPImage[src*="feat-data-completeness.png"] { height: 55px !important; }
+.VPFeature .VPImage[src*="feat-spec-dialect.png"] { height: 40px !important; }
+.VPFeature .VPImage[src*="feat-running-code.png"] { height: 40px !important; }
+
+.VPFeature .title {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.VPFeature .details {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* ============================================================
