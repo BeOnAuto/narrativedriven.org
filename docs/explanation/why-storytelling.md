@@ -18,11 +18,17 @@ NDD is designed to exploit this.
 
 When you read a user story like "As a user, I want to sign up so that I can access the app," you get a fragment. A snapshot. It tells you one thing someone wants, disconnected from everything before and after it.
 
-When you read a narrative like "The patron opens the app, browses available shows, sees one with 3 seats left, books a ticket, and receives a confirmation email," something different happens. You're running a simulation. You're tracking the patron through time. And when something is missing, you feel it.
+When you read a narrative like "The fan opens the app, browses available shows, sees one with 3 tickets left, books a ticket, and receives a confirmation email," something different happens. You're running a simulation. You're tracking the fan through time. And when something is missing, you feel it.
 
 "Wait. What if the show is sold out by the time they book?" That question surfaces naturally because the story has a gap. Your brain, wired for narrative coherence, detects it automatically.
 
 This is why NDD uses time-based modeling. Not because it's trendy. Because it's how your brain already works.
+
+## From Disney to Airbnb to NDD
+
+This isn't a new idea. Disney invented storyboarding to plan Snow White — mapping the film moment by moment so they could feel the gaps before animating a single frame. Airbnb's CEO Brian Chesky adopted the same approach: his team mapped 45 moments in the customer journey, from "planning a trip" to "sharing the experience." Each moment became a panel to design for. They didn't scatter requirements across documents. They told a story and crafted each moment within it.
+
+NDD takes this further. The storyboard isn't a poster on a wall or a deck of slides. It's the model itself — each panel is a moment carrying executable specifications. The technique that helped Disney de-risk their first feature film and helped Airbnb craft experiences for 150 million users now drives your software specifications.
 
 ## Stories Beat Documents
 
@@ -36,7 +42,7 @@ This is why teams using NDD catch bugs in requirements that survived months of t
 
 NDD borrows its vocabulary from filmmaking deliberately. **Narratives**, **scenes**, **moments**. These map to how filmmakers structure stories, and filmmakers have spent a century refining the art of telling coherent stories that audiences can follow.
 
-A narrative is the whole movie. A scene is an act. A moment is a beat.
+A narrative is the whole story. Scenes are the paths it can take — the happy path and its alternatives. A moment is a beat.
 
 When you structure software this way, non-technical stakeholders can participate meaningfully. They're not reading schemas or architecture diagrams. They're following a story. And when the story doesn't make sense, they can say so.
 

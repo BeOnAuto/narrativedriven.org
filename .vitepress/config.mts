@@ -55,7 +55,8 @@ export default defineConfig({
               text: 'Getting Started',
               items: [
                 { text: 'Your First Narrative', link: '/guides/first-narrative' },
-                { text: 'Build the Theater Booking Platform', link: '/guides/build-theater-platform' },
+                { text: 'Build the Concert Booking Platform', link: '/guides/build-concert-platform' },
+                { text: 'Structuring Narratives and Scenes', link: '/guides/structuring-narratives' },
               ],
             },
             {
@@ -63,6 +64,7 @@ export default defineConfig({
               items: [
                 { text: 'Collaborative Sessions', link: '/guides/collaborative-sessions' },
                 { text: 'Narratives to Running Code', link: '/guides/narratives-to-code' },
+                { text: 'Prompting AI for NDD', link: '/guides/prompting-ai' },
               ],
             },
           ],

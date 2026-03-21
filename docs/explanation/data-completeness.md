@@ -16,14 +16,14 @@ Data completeness is one of the principles that sets NDD apart from looser speci
 
 In NDD, your system's behavior is modeled with three atomic units:
 
-- **Commands**: things the system is told to do (`ScheduleShow`, `BookSeats`)
-- **Events**: things that happened as a result (`ShowScheduled`, `SeatsReserved`)
+- **Commands**: things the system is told to do (`ScheduleShow`, `BookTickets`)
+- **Events**: things that happened as a result (`ShowScheduled`, `TicketsReserved`)
 - **State**: the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`)
 
 Data completeness means the chain from command to event to state is unbroken. If a query moment renders `MyBookingsView`, then:
 
-1. `MyBookingsView` must be derived from events like `SeatsReserved` and `AddedToWaitlist`
-2. Those events must have been produced by a command moment like `BookSeats`
+1. `MyBookingsView` must be derived from events like `TicketsReserved` and `AddedToWaitlist`
+2. Those events must have been produced by a command moment like `BookTickets`
 3. That command moment must exist somewhere in the model
 
 If any link is missing, you have a screen showing data that nobody specified how it got there. That's a bug waiting to happen.
@@ -44,12 +44,12 @@ When you model a scene, the business specs tell you exactly where data comes fro
 Moment: Browse Available Shows (query)
 
   Given ShowPublished { showId: "shw_123" }
-  And ShowScheduled { showId: "shw_123", title: "Romeo and Juliet", seats: 150 }
+  And ShowScheduled { showId: "shw_123", title: "Neon Drift Live", tickets: 500 }
   Then AvailableShowsView
-    { shows: [{ showId: "shw_123", title: "Romeo and Juliet", remainingSeats: 150 }] }
+    { shows: [{ showId: "shw_123", title: "Neon Drift Live", remainingTickets: 500 }] }
 ```
 
-The `Given` steps tell you: this state depends on `ShowPublished` and `ShowScheduled`. Tracing backward, `ShowPublished` comes from the Publish Show command moment. `ShowScheduled` comes from the Schedule Show command moment. The chain is complete.
+The `Given` steps tell you: this state depends on `ShowPublished` and `ShowScheduled`. Tracing backward, `ShowPublished` comes from the Publish Show command moment in the "Listing a Show" narrative. `ShowScheduled` comes from the Schedule Show command moment in the same narrative. The chain crosses narrative boundaries but remains complete.
 
 Now imagine someone adds a "rating" field without specifying how ratings enter the system. Data completeness flags the gap: there's no `RatingSubmitted` event, no `SubmitRating` command. The field is impossible to populate.
 

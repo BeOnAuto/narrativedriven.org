@@ -60,9 +60,15 @@ NDD synthesizes patterns from some of the most important work in software develo
 
 **Key figures:** Jeff Patton.
 
+## Storyboarding: Disney and Airbnb
+
+**What NDD takes:** The insight that storyboarding — visual, moment-by-moment storytelling — is a powerful way to design experiences. Disney invented storyboarding to plan Snow White, their first full-length film. Decades later, Airbnb's CEO Brian Chesky adopted the same technique: mapping every moment of the customer journey as a storyboard panel, then crafting the experience at each moment. Airbnb mapped 45 moments from "planning a trip" to "sharing the experience." Each panel was a discrete point in time worth designing for.
+
+**Where NDD diverges:** Disney and Airbnb used storyboards as planning artifacts — posters on walls, slides in decks. NDD makes the storyboard the model itself. Each panel is a moment with structured specifications. The storyboard is executable, not decorative.
+
 ## The Synthesis
 
-NDD's contribution is the synthesis: a single model combining BDD's executable specs, EventStorming's collaborative discovery, event sourcing's data integrity, DDD's domain focus, Specification by Example's concrete examples, and Story Mapping's journey-based organization.
+NDD's contribution is the synthesis: a single model combining Disney/Airbnb's storyboard-based experience design, BDD's executable specs, EventStorming's collaborative discovery, event sourcing's data integrity, DDD's domain focus, Specification by Example's concrete examples, and Story Mapping's journey-based organization.
 
 The result is the first full [spec dialect](https://specdriven.com/dialects/): a specification language with a schema, machine-parseability, and a direct path to executable output.
 

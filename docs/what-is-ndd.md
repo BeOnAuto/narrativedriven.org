@@ -26,23 +26,25 @@ NDD organizes software into three levels, borrowed from filmmaking:
 
 ### Narratives
 
-A narrative is the top-level user journey. It's the whole story: "A producer schedules and publishes a show" or "A patron browses and books seats." Each narrative has a name, a description, and a storyboard image.
+A narrative is the top-level unit. It describes how actors and entities interact through time — their attributes, behaviours, and the outcomes of those interactions. A narrative can span multiple actors. Think of it like a chapter in a comic book: the cover shows who's involved and what's at stake. "Listing a Show" is one narrative (Promoter-focused). "Getting Tickets" is another (Fan-focused). "Managing Your Booking" is a third (Fan and System). Each narrative has a name, a description, and a storyboard image.
 
 ### Scenes
 
-A scene is a chapter within a narrative. If the narrative is the movie, a scene is an act. "Schedule and Publish Show" is one scene. "Browse and Book Seats" is another. Each scene has its own storyboard image and contains a sequence of moments.
+A scene is a path within a narrative. If the narrative is the story, scenes are the branches — the different ways the story can unfold. Every narrative starts with a happy-path scene. Alternative scenes branch off when the actor's journey takes a different direction: the show is sold out, the booking gets cancelled, the waitlist kicks in.
 
-In the document view, each scene becomes its own page. In the visual view, scenes show their moments as a filmstrip, left to right.
+Scenes can branch from a specific moment. When a moment has an exit point, it leads to the beginning of another scene — in the same narrative or even a different one. Scenes are always entered from the beginning, never mid-way. This keeps each scene self-contained and readable on its own.
+
+In the document view, each scene becomes its own page. In the visual view, scenes show their moments as a filmstrip with branch lines connecting them.
 
 ### Moments
 
-A moment is a single point in time within a scene. It's the atomic unit of NDD. Something happens: a user submits a form, the system fetches data, an automated process fires.
+A moment is a single point in time within a scene. It's the atomic unit of NDD. Something happens: a user submits a form, the system fetches data, an automated process fires. A moment can also be an exit point — the place where the story branches to an alternative scene.
 
 Every moment has a type:
 
 | Moment type    | What happens                               | Example                 |
 | -------------- | ------------------------------------------ | ----------------------- |
-| **Command**    | User triggers a state change               | "Book Seats"            |
+| **Command**    | Actor triggers a state change              | "Book Tickets"          |
 | **Query**      | Actor receives data                        | "Browse available shows"|
 | **React**      | System responds automatically              | "Promote from waitlist" |
 | **Experience** | UI interaction (navigation, notifications) | "Navigate to dashboard" |
@@ -61,7 +63,7 @@ Command and query moments have both. Experience moments have only interaction sp
 
 One of NDD's distinguishing principles: every piece of state visible in your system must trace back through events to the commands that caused it. Nothing appears from nowhere.
 
-If a screen shows "Patron booking status," the state it renders must come from events (`SeatsReserved`, `AddedToWaitlist`), and those events must come from a prior command moment (`Book Seats`). An entire class of bugs eliminated before code exists.
+If a screen shows "Fan booking status," the state it renders must come from events (`TicketsReserved`, `AddedToWaitlist`), and those events must come from a prior command moment (`Book Tickets`). An entire class of bugs eliminated before code exists.
 
 [Data completeness in depth →](/explanation/data-completeness)
 
@@ -97,7 +99,7 @@ NDD is a **spec dialect**: a structured, schema-backed specification language pu
 
 ## Get Started
 
-**Learn NDD:** [10-minute quickstart →](/guides/first-narrative) or [full Theater Booking walkthrough →](/guides/build-theater-platform)
+**Learn NDD:** [10-minute quickstart →](/guides/first-narrative) or [full Concert Booking walkthrough →](/guides/build-concert-platform)
 
 **Try it:** [Auto platform waitlist →](https://accounts.on.auto/waitlist) or [Auto Engineer on GitHub →](https://github.com/BeOnAuto/auto-engineer)
 

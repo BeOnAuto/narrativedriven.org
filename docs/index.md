@@ -56,7 +56,7 @@ You don't have a productivity problem. You have a coherence problem.
 
 Narrative-Driven Development is a collaborative modeling technique that uses storytelling as the medium for describing software. Instead of scattering decisions across dozens of tools and conversations, you build a single model that everyone contributes to.
 
-A **narrative** tells the complete user journey. It breaks into **scenes**, each a coherent chapter. Scenes unfold through **moments**: concrete points in time where something happens. A user submits a form (command), views their dashboard (query), the system sends a notification (react), or the user navigates to the next page (experience).
+A **narrative** tells a complete story of how actors interact with the system. It breaks into **scenes** — paths the story can take, starting with the happy path and branching into alternatives. Scenes unfold through **moments**: concrete points in time where something happens. A user submits a form (command), views their dashboard (query), the system sends a notification (react), or the user navigates to the next page (experience).
 
 Each moment carries specifications. Interface specs describe what the UI should do. Business specs define the rules with concrete Given/When/Then examples. Together, they form a complete, verifiable picture of your software.
 
@@ -76,7 +76,7 @@ The result: a team where humans and AI make decisions together, captured in one 
 
 ---
 
-**[Learn what NDD is →](/what-is-ndd)** · **[See the Theater Booking example →](/guides/build-theater-platform)** · **[Try it on Auto →](https://on.auto)**
+**[Learn what NDD is →](/what-is-ndd)** · **[See the Concert Booking example →](/guides/build-concert-platform)** · **[Try it on Auto →](https://on.auto)**
 
 ---
 

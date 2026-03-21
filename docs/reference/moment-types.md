@@ -19,25 +19,25 @@ Every moment in NDD is one of four types. The type determines what specification
 
 **Pattern**: Given [events/state] + When [Command] → Then [Event(s)]
 
-**Example** (Theater Booking Platform):
+**Example** (Concert Booking Platform):
 
 ```
 Interaction specs:
-  Seat booking form
+  Ticket booking form
     it should show booking confirmation dialog
     it should enable book button
     it should show loading during submission
 
 Business specs:
   Rule: Booking capacity processing
-    Example: Show has seats available
+    Example: Show has tickets available
       Given Show { status: "published" }
-      When BookSeats { showId: "shw_123", patronId: "pat_456" }
-      Then SeatsReserved { bookingId: "bkng_789" }
+      When BookTickets { showId: "shw_123", fanId: "fan_456" }
+      Then TicketsReserved { bookingId: "bkng_789" }
 
     Example: Show is sold out
       Given Show { status: "sold_out" }
-      When BookSeats { showId: "shw_123", patronId: "pat_999" }
+      When BookTickets { showId: "shw_123", fanId: "fan_999" }
       Then AddedToWaitlist { bookingId: "bkng_888" }
 ```
 
@@ -51,22 +51,22 @@ Business specs:
 
 **Pattern**: Given [events] + When [Query] → Then [State]
 
-**Example** (Theater Booking Platform):
+**Example** (Concert Booking Platform):
 
 ```
 Interaction specs:
   Shows grid display
-    it should display shows with title, date, remaining seats
-    it should show book button for shows with availability
+    it should display shows with title, date, remaining tickets
+    it should show book button for shows with tickets available
     it should show waitlist button for sold-out shows
 
 Business specs:
   Rule: Available shows projection
     Example: Published show appears in listing
       Given ShowPublished { showId: "shw_123" }
-      And ShowScheduled { showId: "shw_123", title: "Romeo and Juliet", seats: 150 }
+      And ShowScheduled { showId: "shw_123", title: "Neon Drift Live", tickets: 500 }
       Then AvailableShowsView {
-        shows: [{ showId: "shw_123", remainingSeats: 150 }]
+        shows: [{ showId: "shw_123", remainingTickets: 500 }]
       }
 ```
 
@@ -82,15 +82,15 @@ Note the data completeness: the state (AvailableShowsView) is built entirely fro
 
 **Pattern**: Given [state] + When [Event] → Then [Event(s)]
 
-**Example** (Theater Booking Platform):
+**Example** (Concert Booking Platform):
 
 ```
 Business specs:
   Rule: Waitlist promotion process
-    Example: Next waitlisted patron is promoted
-      Given WaitlistPosition { patronId: "pat_999", position: 1 }
+    Example: Next waitlisted fan is promoted
+      Given WaitlistPosition { fanId: "fan_999", position: 1 }
       When BookingCancelled { bookingId: "bkng_789", showId: "shw_123" }
-      Then ConfirmationEmailSent { patronId: "pat_999" }
+      Then ConfirmationEmailSent { fanId: "fan_999" }
 ```
 
 ## Experience
