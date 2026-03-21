@@ -46,6 +46,16 @@ export default defineConfig({
     ],
 
     sidebar: {
+      '/what-is-ndd': [
+        {
+          text: 'Getting Started',
+          items: [
+            { text: 'What is NDD?', link: '/what-is-ndd' },
+            { text: 'Your First Narrative', link: '/guides/first-narrative' },
+          ],
+        },
+      ],
+
       '/guides/': [
         {
           text: 'Guides',
