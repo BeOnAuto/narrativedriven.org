@@ -321,10 +321,11 @@ body {
    Footer & Edit Link
    ============================================================ */
 .VPFooter { border-top: 1px solid var(--vp-c-border); }
-.VPFooter .message a, .VPFooter .copyright a { color: var(--vp-c-brand-1); transition: color var(--ndd-duration) var(--ndd-ease); }
-.VPFooter .message a:hover { color: var(--vp-c-brand-2); }
-.VPDocFooter .edit-link-button { color: var(--vp-c-brand-1); transition: color var(--ndd-duration) var(--ndd-ease); }
-.VPDocFooter .edit-link-button:hover { color: var(--vp-c-brand-2); }
+.VPFooter .message, .VPFooter .copyright { color: var(--vp-c-text-3); }
+.VPFooter .message a, .VPFooter .copyright a { color: var(--vp-c-text-2); transition: color var(--ndd-duration) var(--ndd-ease); }
+.VPFooter .message a:hover, .VPFooter .copyright a:hover { color: var(--vp-c-text-1); }
+.VPDocFooter .edit-link-button { color: var(--vp-c-text-2); transition: color var(--ndd-duration) var(--ndd-ease); }
+.VPDocFooter .edit-link-button:hover { color: var(--vp-c-text-1); }
 
 /* ============================================================
    Content Styling
@@ -332,6 +333,77 @@ body {
 .vp-doc strong { color: var(--vp-c-text-1); font-weight: 600; }
 .vp-doc blockquote { border-left-color: var(--ndd-brand); }
 .vp-doc hr { border-color: var(--vp-c-border); }
+
+/* ============================================================
+   Focus States
+   ============================================================ */
+*:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1) !important;
+  outline-offset: 2px !important;
+}
+
+/* Search modal - ensure focus ring doesn't clip */
+.VPLocalSearchBox input:focus-visible,
+[class*="SearchBox"] input:focus-visible {
+  outline-offset: -2px !important;
+}
+
+/* Prevent outline clipping in sidebar */
+.VPSidebar {
+  overflow: visible;
+}
+
+.VPSidebarItem.level-0:first-child {
+  margin-top: 8px;
+}
+
+/* Right sidebar (table of contents) - prevent clipping */
+.VPDocAsideOutline {
+  overflow: visible;
+}
+
+.VPDocAsideOutline .outline-link {
+  padding-left: 4px;
+  margin-left: -4px;
+}
+
+.VPDocAsideOutline .outline-link:focus-visible {
+  outline-offset: -2px !important;
+}
+
+/* Prevent outline clipping in navbar */
+.VPNavBar .content-body {
+  overflow: visible;
+}
+
+.VPNavBarMenu {
+  padding: 4px 0;
+}
+
+.VPNavBarMenuLink:focus-visible {
+  outline-offset: -5px !important;
+}
+
+.VPNavBarTitle a {
+  position: relative;
+}
+
+.VPNavBarTitle a:focus-visible {
+  outline: none !important;
+}
+
+.VPNavBarTitle a:focus-visible::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -47px;
+  right: 5px;
+  bottom: 5px;
+  border: 2px solid var(--vp-c-brand-1);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
 
 /* ============================================================
    Scrollbar & Selection
