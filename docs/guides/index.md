@@ -31,6 +31,3 @@ How to verify that every piece of state traces back through events to commands. 
 **[From Narratives to Running Code](/guides/narratives-to-code)**
 How the Auto platform and Auto Engineer take your narratives through the pipeline to production-ready, fully-tested code.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

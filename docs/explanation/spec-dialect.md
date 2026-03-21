@@ -42,6 +42,3 @@ NDD is purpose-built for workflows, forms, dashboards, and orchestration. Other 
 
 See [specdriven.com/dialects](https://specdriven.com/dialects/) for the full catalog.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by [Auto](https://on.auto). Part of the [spec-driven](https://specdriven.com) movement.*

@@ -11,11 +11,11 @@ This is the worked NDD example. We'll model a concert booking platform end-to-en
 
 ## The Application
 
-A concert booking platform where promoters schedule and publish shows, fans browse and book tickets, and the system manages capacity and waitlists automatically. Two actors: Promoter and Fan.
+A concert booking platform. Promoters schedule and publish shows. Fans browse and book tickets. The system manages capacity and waitlists on its own. Two actors: Promoter and Fan.
 
 ## The Narratives
 
-Our platform tells three stories. Each is a narrative — a distinct arc involving actors, entities, and outcomes.
+Our platform tells three stories. Each one is a narrative, a distinct arc with its own actors, entities, and outcomes.
 
 ---
 
@@ -23,7 +23,7 @@ Our platform tells three stories. Each is a narrative — a distinct arc involvi
 
 *Actors: Promoter. Introduces: Show entity, draft/published lifecycle.*
 
-This is the simplest narrative — one scene, one actor, one straight line.
+The simplest narrative here. One scene, one actor, straight line.
 
 ### Scene 1: Schedule and Publish (happy path)
 
@@ -35,7 +35,7 @@ The Promoter's journey from blank form to live listing.
 | Preview Draft Show | Query | Promoter sees show card as fans would see it |
 | Publish Show | Command | Promoter publishes; system emits ShowPublished |
 
-This scene introduces the foundation events — ShowScheduled and ShowPublished — that every downstream narrative depends on.
+This scene produces the events, ShowScheduled and ShowPublished, that every downstream narrative depends on.
 
 Note: the "already published" rejection is an edge case within the Publish Show moment's business specs, not a separate scene. The promoter sees an error and stays on the same screen. Their journey doesn't change.
 
@@ -57,20 +57,20 @@ The Fan's journey from browsing to confirmed booking.
 | Book Tickets | Command | Fan books tickets; system emits TicketsReserved |
 | Booking Confirmed | Query | Fan sees confirmation with booking details |
 
-Data completeness: Browse Available Shows renders AvailableShowsView, which is built from ShowPublished and ShowScheduled events. Those events came from Narrative 1. The chain crosses narrative boundaries but remains unbroken.
+Data completeness: Browse Available Shows renders AvailableShowsView, built from ShowPublished and ShowScheduled events. Those events came from Narrative 1. The chain crosses narrative boundaries but stays unbroken.
 
 **Book Tickets is an exit point.** If the show is sold out, the story branches to Scene 2.
 
-### Scene 2: Sold Out — Join Waitlist (branches from Book Tickets)
+### Scene 2: Sold Out, Join Waitlist (branches from Book Tickets)
 
-The Fan tries to book but there are no tickets left. Their journey takes a fundamentally different direction.
+The Fan tries to book but there are no tickets left. Their journey goes somewhere else entirely.
 
 | Moment | Type | What Happens |
 |--------|------|-------------|
 | Book Tickets (sold out) | Command | Fan attempts to book; system emits AddedToWaitlist |
 | Waitlist Confirmation | Query | Fan sees waitlist position and estimated availability |
 
-This scene passes the [scene-worthiness rubric](/guides/structuring-narratives): the fan sees different screens (waitlist position instead of booking confirmation), has different expectations (hoping for a cancellation), and the system behaves differently toward them going forward.
+This scene passes the [scene-worthiness rubric](/guides/structuring-narratives). The fan sees different screens (waitlist position instead of booking confirmation), has different expectations (hoping for a cancellation), and the system treats them differently going forward.
 
 ---
 
@@ -93,14 +93,14 @@ The Fan changes their mind.
 
 ### Scene 2: Waitlist Promotion (branches from Cancel Booking react)
 
-The system responds automatically — no human triggers this.
+The system responds on its own. No human triggers this.
 
 | Moment | Type | What Happens |
 |--------|------|-------------|
 | Auto Promote Waitlist | React | System checks waitlist, promotes next fan, emits WaitlistPromotionConfirmed |
 | Send Confirmation Email | Command (no UI) | System sends confirmation to promoted fan |
 
-This scene demonstrates the react moment type: when BookingCancelled fires, the system automatically promotes the next waitlisted fan. Pure business logic reacting to events.
+This is the react moment type in action. When BookingCancelled fires, the system promotes the next waitlisted fan. No UI, just business logic responding to an event.
 
 ---
 
@@ -111,11 +111,11 @@ Let's trace the full chain across all three narratives:
 1. **Promoter** runs ScheduleShow → **ShowScheduled** *(Narrative 1)*
 2. **Promoter** runs PublishShow → **ShowPublished** *(Narrative 1)*
 3. **Fan** queries Browse Available Shows → reads ShowPublished + ShowScheduled → **AvailableShowsView** *(Narrative 2, Scene 1)*
-4. **Fan** runs BookTickets → **TicketsReserved** *(Narrative 2, Scene 1)* — or branches to Scene 2 → **AddedToWaitlist**
+4. **Fan** runs BookTickets → **TicketsReserved** *(Narrative 2, Scene 1)*, or branches to Scene 2 → **AddedToWaitlist**
 5. **Fan** runs CancelBooking → **BookingCancelled** *(Narrative 3, Scene 1)*
 6. **System** reacts to BookingCancelled → checks **WaitlistPosition** → **WaitlistPromotionConfirmed** → **ConfirmationEmailSent** *(Narrative 3, Scene 2)*
 
-Every state shown on screen traces back to events. Every event traces back to commands. The chain crosses narrative boundaries but remains complete. Data completeness doesn't stop at the edge of a narrative — it spans the entire model.
+Every state shown on screen traces back to events. Every event traces back to commands. The chain crosses narrative boundaries but stays complete. Data completeness doesn't stop at the edge of a narrative. It spans the entire model.
 
 ## Branching in Action
 
@@ -134,7 +134,7 @@ On the visual canvas, these appear as connecting lines between moments and scene
 
 <!-- Screenshot: visual canvas showing three narrative cards with branching scene connections -->
 
-On the canvas, you see three narrative cards — "Listing a Show," "Getting Tickets," and "Managing Your Booking." Each has its storyboard image. Scene cards branch from each narrative, with filmstrip moments inside. Branch lines connect the Book Tickets moment to the Sold Out scene, and the Cancel Booking moment to the Waitlist Promotion scene.
+On the canvas, you see three narrative cards: "Listing a Show," "Getting Tickets," and "Managing Your Booking." Each has its storyboard image. Scene cards branch from each narrative, with filmstrip moments inside. Branch lines connect the Book Tickets moment to the Sold Out scene and the Cancel Booking moment to the Waitlist Promotion scene.
 
 ### Document View
 
@@ -187,7 +187,7 @@ narrative('Getting Tickets', () => {
     // ... Browse Available Shows, Book Tickets (with exit point), Booking Confirmed
   });
 
-  scene('Sold Out — Join Waitlist', { branchesFrom: 'Book Tickets' }, () => {
+  scene('Sold Out, Join Waitlist', { branchesFrom: 'Book Tickets' }, () => {
     // ... Book Tickets (sold out), Waitlist Confirmation
   });
 });
@@ -197,14 +197,7 @@ All three views show the same model. Edit one, the others update.
 
 ## Try It Yourself
 
-1. **[Join the Auto waitlist](https://on.auto)** to build this on the platform
-2. **[Clone Auto Engineer](https://github.com/BeOnAuto/auto-engineer)** to run it locally
-3. **[Join the Discord](https://discord.com/invite/B8BKcKMRm8)** to discuss with the community
+- [Join the Auto waitlist](https://on.auto) to build this on the platform
+- [Clone Auto Engineer](https://github.com/BeOnAuto/auto-engineer) to run it locally
+- [Join the Discord](https://discord.com/invite/B8BKcKMRm8) if you want to talk through your model with others
 
----
-
-**[Your First Narrative →](/guides/first-narrative)** · **[Structuring Narratives →](/guides/structuring-narratives)** · **[Moment Types Reference →](/reference/moment-types)** · **[Data Completeness →](/explanation/data-completeness)**
-
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

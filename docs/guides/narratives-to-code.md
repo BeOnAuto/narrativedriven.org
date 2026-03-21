@@ -39,6 +39,3 @@ auto
 
 For the full platform experience with visual canvas, document editor, and collaboration features: **[Join the Auto waitlist →](https://on.auto)**
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

@@ -10,15 +10,11 @@ next:
 
 # Data Completeness
 
-Data completeness is one of the principles that sets NDD apart from looser specification approaches. It's simple to state and powerful in practice: every piece of data visible in your system must trace back, through events, to the commands that caused it. Nothing appears from nowhere.
+Data completeness is one of the ideas that sets NDD apart from looser specification approaches. The rule is simple: every piece of data visible in your system must trace back, through events, to the commands that caused it. Nothing appears from nowhere.
 
 ## The Principle
 
-In NDD, your system's behavior is modeled with three atomic units:
-
-- **Commands**: things the system is told to do (`ScheduleShow`, `BookTickets`)
-- **Events**: things that happened as a result (`ShowScheduled`, `TicketsReserved`)
-- **State**: the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`)
+In NDD, your system's behavior is modeled with three atomic units. Commands are things the system is told to do (`ScheduleShow`, `BookTickets`). Events are things that happened as a result (`ShowScheduled`, `TicketsReserved`). State is the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`).
 
 Data completeness means the chain from command to event to state is unbroken. If a query moment renders `MyBookingsView`, then:
 
@@ -30,11 +26,11 @@ If any link is missing, you have a screen showing data that nobody specified how
 
 ## What It Catches
 
-**The phantom data bug.** A designer puts a "total revenue" field on a dashboard. Nobody specified where that number comes from. The developer invents a calculation. The product manager had a different one in mind. With data completeness, you can't show data without specifying the events that produce it.
+The phantom data bug: a designer puts a "total revenue" field on a dashboard. Nobody specified where that number comes from. The developer invents a calculation. The product manager had a different one in mind. With data completeness, you can't show data without specifying the events that produce it.
 
-**The orphan state bug.** A query returns data that depends on events from another part of the system that nobody connected. With data completeness, every projection traces explicitly to its source events.
+The orphan state bug: a query returns data that depends on events from another part of the system that nobody connected. Data completeness forces every projection to trace explicitly to its source events.
 
-**The impossible state bug.** A screen shows a status that no command in the system can produce. With data completeness, this gap is visible before code is written.
+The impossible state bug: a screen shows a status that no command in the system can produce. Data completeness makes this gap visible before code is written.
 
 ## In Practice
 
@@ -55,11 +51,11 @@ Now imagine someone adds a "rating" field without specifying how ratings enter t
 
 ## Data Completeness and AI
 
-This principle becomes critical when AI generates your specifications. AI produces plausible-looking specs. It's less reliable at ensuring every piece of data has an origin.
+This principle matters most when AI generates your specifications. AI produces plausible-looking specs. It's less reliable at making sure every piece of data has an origin.
 
-When the Auto platform generates moments from a prompt, data completeness is a constraint the model enforces. AI can't produce a query that renders state without specifying the events that feed it.
+When the Auto platform generates moments from a prompt, data completeness is a constraint the model enforces. The AI can't produce a query that renders state without specifying the events that feed it.
 
-This is one advantage of a model-based approach over prose. A markdown file can say anything. A structured model has integrity constraints.
+That's an advantage of a model-based approach over prose. A markdown file can say anything. A structured model has integrity constraints.
 
 ## Checking Your Model
 
@@ -70,8 +66,5 @@ At every query moment, ask:
 3. Do those events exist as outputs of command or react moments elsewhere in the model?
 4. Are there any fields in the state that no event populates?
 
-A gap at this level is worth more than a hundred lines of test code, because it exists where it's cheapest to fix.
+Catching a gap here is worth more than a hundred lines of test code, because you're fixing it where it's cheapest to fix.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by [Auto](https://on.auto). Part of the [spec-driven](https://specdriven.com) movement.*

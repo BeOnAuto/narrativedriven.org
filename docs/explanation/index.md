@@ -24,6 +24,3 @@ How NDD fits into the broader spec-driven development movement as the first full
 **[The Origin Story](/explanation/origin-story)**
 From Xolvio consulting to facilitation workshops to a unified model. How NDD evolved over a decade of enterprise engagements.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

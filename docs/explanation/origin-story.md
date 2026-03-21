@@ -47,6 +47,3 @@ The community is growing. The SDLC keeps compressing. The need for coherent, col
 
 The story isn't finished. But the narrative is clear.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by [Auto](https://on.auto). Part of the [spec-driven](https://specdriven.com) movement.*

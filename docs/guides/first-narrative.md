@@ -7,11 +7,11 @@ next:
 
 # Your First Narrative in 10 Minutes
 
-In 10 minutes, you'll create a single scene with three moments and see how NDD captures a complete, verifiable story of user behavior. No tools required for the concepts. To build it for real, you'll use the [Auto platform](https://on.auto).
+In 10 minutes, you'll create a single scene with a few moments and see how NDD captures a complete, verifiable story of user behavior. No tools required for the concepts. To build it for real, you'll use the [Auto platform](https://on.auto).
 
 ## Start with a Story
 
-Think of a story your application tells. Not a feature list. A story — with actors, a beginning, and an outcome. For this tutorial, let's use: "A promoter lists a new show."
+Think of a story your application tells. Not a feature list. A story, with actors, a beginning, and an outcome. For this tutorial, let's use: "A promoter lists a new show."
 
 That's a narrative. It has one scene (the happy path) with three moments. Let's build it.
 
@@ -83,24 +83,17 @@ Does every piece of data trace back? The Preview query shows ShowDetails with st
 
 ## What You Just Built
 
-One narrative. One scene. Three moments. You've captured UI behavior (interaction specs), business rules (business specs), the happy path AND an edge case (already published), and the data flow (data completeness). That's more than most PRDs capture in three pages.
+One narrative. One scene. Three moments. You've captured UI behavior (interaction specs), business rules (business specs), the happy path and an edge case (already published), and the data flow (data completeness). That's more than most PRDs manage in three pages.
 
-Notice the "already-published" rejection. That's an edge case within the Publish Show moment — it lives as an additional business spec, not as a separate scene. The promoter sees an error and stays on the same screen. Their journey doesn't fundamentally change. That's incidental detail, not an alternative path.
+Notice the "already-published" rejection. That's an edge case within the Publish Show moment. It lives as an additional business spec, not as a separate scene. The promoter sees an error and stays on the same screen. Their journey doesn't change. That's incidental detail, not an alternative path.
 
 ## What About Alternative Paths?
 
-What happens when a fan tries to book tickets and the show is sold out? That IS a fundamentally different journey — the fan sees a waitlist instead of a confirmation. That deserves its own scene, branching from the "Book Tickets" moment.
+What happens when a fan tries to book tickets and the show is sold out? That IS a different journey. The fan sees a waitlist instead of a confirmation. That deserves its own scene, branching from the "Book Tickets" moment.
 
-The [Build the Concert Booking Platform](/guides/build-concert-platform) tutorial shows you how: three narratives, five scenes with branching, all four moment types, and the full data completeness chain across narratives.
+The [Build the Concert Booking Platform](/guides/build-concert-platform) tutorial shows you how, with multiple narratives, branching scenes, all four moment types, and data completeness that crosses narrative boundaries.
 
 ## Structuring Your Own Narratives
 
 Not sure when something is a scene vs. incidental detail? The [Structuring Narratives and Scenes](/guides/structuring-narratives) guide gives you a rubric for deciding.
 
----
-
-**[Build the Concert Booking Platform →](/guides/build-concert-platform)** · **[Try it on Auto →](https://on.auto)**
-
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

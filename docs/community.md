@@ -22,6 +22,3 @@ NDD is one dialect within the broader spec-driven development movement. To learn
 
 **[specdriven.com](https://specdriven.com)**: The community-maintained knowledge base for spec-driven development.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

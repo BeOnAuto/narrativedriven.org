@@ -46,38 +46,26 @@ features:
 
 ## The Chaos Problem
 
-Five people on your team. Each using AI to work faster. Everyone is individually productive. But collectively? Chaos.
+Five people on your team, each using AI to work faster. Everyone's individually productive. But collectively? Chaos.
 
-The PRD says one thing. The Figma file implies another. The Jira ticket captures a third interpretation. The developer's mental model is a fourth. And the AI cheerfully implements whichever fragment it sees first.
+The PRD says one thing. The Figma file implies another. The Jira ticket captures a different interpretation. The developer's mental model is yet another. And the AI cheerfully implements whichever fragment it sees first.
 
 You don't have a productivity problem. You have a coherence problem.
 
 ## The NDD Answer
 
-Narrative-Driven Development is a collaborative modeling technique that uses storytelling as the medium for describing software. Instead of scattering decisions across dozens of tools and conversations, you build a single model that everyone contributes to.
+Narrative-Driven Development is a collaborative modeling technique that uses storytelling to describe software. Instead of scattering decisions across dozens of tools and conversations, you build a single model that everyone contributes to.
 
-A **narrative** tells a complete story of how actors interact with the system. It breaks into **scenes** — paths the story can take, starting with the happy path and branching into alternatives. Scenes unfold through **moments**: concrete points in time where something happens. A user submits a form (command), views their dashboard (query), the system sends a notification (react), or the user navigates to the next page (experience).
+A **narrative** tells the story of how actors interact with the system. It breaks into **scenes**, paths the story can take, starting with the happy path and branching into alternatives. Scenes unfold through **moments**: concrete points in time where something happens. A user submits a form (command), views their dashboard (query), the system sends a notification (react), or the user navigates to the next page (experience).
 
-Each moment carries specifications. Interface specs describe what the UI should do. Business specs define the rules with concrete Given/When/Then examples. Together, they form a complete, verifiable picture of your software.
+Each moment carries specifications. Interaction specs describe what the user sees and does. Business specs define the domain rules with concrete examples. Together, they give you a complete, verifiable picture of your software.
 
 ## Who Is This For?
 
-NDD is for entire teams building line-of-business applications. Not just developers. Not just designers. Not just product managers. Everyone who participates in building software has something to contribute to the narrative.
+NDD is for whole teams building applications with real users and real stakes. Product managers work in the document view, reading and reviewing every scene. Designers work with visual storyboards and wireframes, seeing the user journey moment by moment. Developers work in code, writing narratives that compile into executable specifications. QA verifies that every scene and moment has complete coverage. AI participates too, generating narratives from prompts, filling in business specs, and implementing code from the model.
 
-**Developers** work in the TypeScript DSL, writing narratives that compile into executable specifications.
-
-**Designers** work with visual storyboards and wireframes, seeing the user journey moment by moment.
-
-**Product managers and QA** work in the document view, reading, reviewing, and adding context to every scene.
-
-**AI** participates as a collaborator: generating narratives from prompts, filling in business specs, implementing code from the model.
-
-The result: a team where humans and AI make decisions together, captured in one model that drives everything from design to deployment.
+Everyone contributes to **the same model**. That model drives everything from design to deployment.
 
 ---
 
-**[Learn what NDD is →](/what-is-ndd)** · **[See the Concert Booking example →](/guides/build-concert-platform)** · **[Try it on Auto →](https://on.auto)**
-
----
-
-_A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team. Part of the [spec-driven development](https://specdriven.com) movement._
+**[Learn what NDD is →](/what-is-ndd)**

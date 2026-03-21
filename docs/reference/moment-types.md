@@ -7,19 +7,17 @@ next:
 
 # The Four Moment Types
 
-Every moment in NDD is one of four types. The type determines what specifications it carries and what role it plays in the narrative.
+Every moment in NDD has one of four types. The type determines what specifications it carries and what role it plays in the narrative.
 
 ## Command
 
-**What it is**: The actor does something that changes state.
+The actor does something that changes state. Use it whenever a user submits data, triggers an action, or causes the system to do something.
 
-**When to use it**: Whenever a user submits data, triggers an action, or causes the system to do something.
+Carries both interaction specs (UI behavior) and business specs (Given/When/Then rules).
 
-**Specs**: Interaction specs (UI behavior) and business specs (Given/When/Then rules).
+Pattern: Given [events/state] + When [Command] → Then [Event(s)]
 
-**Pattern**: Given [events/state] + When [Command] → Then [Event(s)]
-
-**Example** (Concert Booking Platform):
+Example (Concert Booking Platform):
 
 ```
 Interaction specs:
@@ -43,15 +41,13 @@ Business specs:
 
 ## Query
 
-**What it is**: The actor receives or views data.
+The actor receives or views data. Use it whenever a user loads a page, views a list, checks a status, or reads information.
 
-**When to use it**: Whenever a user loads a page, views a list, checks a status, or reads information.
+Carries interaction specs and business specs.
 
-**Specs**: Interaction specs and business specs.
+Pattern: Given [events] + When [Query] → Then [State]
 
-**Pattern**: Given [events] + When [Query] → Then [State]
-
-**Example** (Concert Booking Platform):
+Example (Concert Booking Platform):
 
 ```
 Interaction specs:
@@ -70,19 +66,17 @@ Business specs:
       }
 ```
 
-Note the data completeness: the state (AvailableShowsView) is built entirely from prior events.
+Notice the data completeness: the state (AvailableShowsView) is built entirely from prior events.
 
 ## React
 
-**What it is**: The system responds to an event automatically, with no actor involved.
+The system responds to an event automatically, with no actor involved. Use it for automated workflows: sending notifications, promoting from waitlists, triggering downstream processes.
 
-**When to use it**: Automated workflows: sending notifications, promoting from waitlists, triggering downstream processes.
+Carries business specs only. No interaction specs (there's no UI).
 
-**Specs**: Business specs only. No interaction specs (no UI).
+Pattern: Given [state] + When [Event] → Then [Event(s)]
 
-**Pattern**: Given [state] + When [Event] → Then [Event(s)]
-
-**Example** (Concert Booking Platform):
+Example (Concert Booking Platform):
 
 ```
 Business specs:
@@ -95,13 +89,11 @@ Business specs:
 
 ## Experience
 
-**What it is**: The actor interacts with the UI without involving the server.
+The actor interacts with the UI without involving the server. Use it for navigation, modals, popups, tooltips, loading states, and any client-side-only behavior.
 
-**When to use it**: Navigation, modals, popups, tooltips, loading states, and any client-side-only behavior.
+Carries interaction specs only. No business specs.
 
-**Specs**: Interaction specs only. No business specs.
-
-**Example**:
+Example:
 
 ```
 Interaction specs:
@@ -117,6 +109,3 @@ Interaction specs:
 3. **Does the system react automatically to an event?** → React
 4. **Is it UI-only behavior?** → Experience
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*

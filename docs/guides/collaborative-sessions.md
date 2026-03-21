@@ -37,6 +37,3 @@ This changes the facilitation dynamic. You're not starting from a blank wall. Yo
 
 If you want to run a more traditional facilitation session (without the Auto platform), NDD can be practiced with Miro boards or even physical whiteboards. The concepts are the same; you just lose the model-level benefits of bidirectional sync and AI assistance.
 
----
-
-*A [spec dialect](https://specdriven.com/dialects/narrative-driven) by the [Auto](https://on.auto) team.*
