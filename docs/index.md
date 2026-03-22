@@ -2,70 +2,163 @@
 layout: home
 hero:
   name: Narrative-Driven Development
-  text: Tell the story. Build the software.
-  tagline: A collaborative modeling technique that uses storytelling to bring order to software delivery. One model. Three views. Everyone works from the same source of truth.
+  text: "A narrative model for software."
+  tagline: "Shared structure for storyboard, docs, code, and tests. Run it on Auto."
   actions:
     - theme: brand
-      text: What is NDD?
-      link: /what-is-ndd
-    - theme: alt
       text: Try it on Auto
       link: https://on.auto
+    - theme: alt
+      text: What is NDD?
+      link: /what-is-ndd
 features:
   - icon:
-      src: /images/features/feat-stories.png
-    title: Think in Stories, Not Prompts
-    details: "Your software is a story. Narratives, scenes, and moments capture what happens, to whom, through which interface, and what the system does in response."
-    link: /what-is-ndd
-  - icon:
       src: /images/features/feat-three-views.png
-    title: One Model, Three Views
-    details: "Designers see storyboards. Developers see TypeScript. Product managers see documents. All three are projections of the same model. Change one, the others update."
+    title: One Shared Model
+    details: "Storyboard, docs, and code stay aligned because they all come from the same source."
     link: /explanation/one-model-three-views
   - icon:
-      src: /images/features/feat-ai-collaborator.png
-    title: AI as Collaborator
-    details: "The SDLC is compressing. NDD is the medium that lets humans and AI agents contribute to the same coherent model, synchronously or asynchronously."
-    link: /explanation/why-storytelling
+      src: /images/features/feat-running-code.png
+    title: From Model to Software
+    details: "Auto turns the model into schema, scaffolds, implementation, checks, and running software."
+    link: /guides/narratives-to-code
+  - icon:
+      src: /images/features/feat-stories.png
+    title: Reviewable by Design
+    details: "Prompts hide decisions. Narratives make behavior explicit, inspectable, and testable."
+    link: /what-is-ndd
   - icon:
       src: /images/features/feat-data-completeness.png
-    title: Data Completeness
-    details: "Every piece of state traces back through events to commands. Nothing appears from nowhere. NDD catches an entire class of bugs that other approaches miss."
+    title: Gaps Surface Early
+    details: "Every visible state traces back to commands and events, so missing logic shows up before code exists."
     link: /explanation/data-completeness
-  - icon:
-      src: /images/features/feat-spec-dialect.png
-    title: A Spec Dialect
-    details: "NDD extends BDD's Given/When/Then into a unified model that serves visual, document, and code audiences. Part of the spec-driven movement."
-    link: /explanation/spec-dialect
-  - icon:
-      src: /images/features/feat-running-code.png
-    title: From Story to Running Code
-    details: "With the Auto platform, narratives flow through a pipeline that generates production-ready, fully-tested code. Not vibe coding. Deterministic verification."
-    link: /guides/narratives-to-code
 ---
 
-## The Chaos Problem
+<div class="why-now-strip">
 
-Five people on your team, each using AI to work faster. Everyone's individually productive. But collectively? Chaos.
+## Why This Matters Now
 
-The PRD says one thing. The Figma file implies another. The Jira ticket captures a different interpretation. The developer's mental model is yet another. And the AI cheerfully implements whichever fragment it sees first.
+AI sped up output. It also sped up drift. Specs, prompts, tickets, and code split apart. NDD gives people and AI one model to build from.
 
-You don't have a productivity problem. You have a coherence problem.
+</div>
 
-## The NDD Answer
+<div class="example-strip">
 
-Narrative-Driven Development is a collaborative modeling technique that uses storytelling to describe software. Instead of scattering decisions across dozens of tools and conversations, you build a single model that everyone contributes to.
+## A Working Model
 
-A **narrative** tells the story of how actors interact with the system. It breaks into **scenes**, paths the story can take, starting with the happy path and branching into alternatives. Scenes unfold through **moments**: concrete points in time where something happens. A user submits a form (command), views their dashboard (query), the system sends a notification (react), or the user navigates to the next page (experience).
+One scene from a concert-booking app in NDD:
 
-Each moment carries specifications. Interaction specs describe what the user sees and does. Business specs define the domain rules with concrete examples. Together, they give you a complete, verifiable picture of your software.
+**Narrative: Listing a Show / Scene: Happy path**
 
-## Who Is This For?
+<div class="view-tabs">
+  <div class="view-tab active" data-view="storyboard">Storyboard</div>
+  <div class="view-tab" data-view="document">Document</div>
+  <div class="view-tab" data-view="code">Code</div>
+</div>
 
-NDD is for whole teams building applications with real users and real stakes. Product managers work in the document view, reading and reviewing every scene. Designers work with visual storyboards and wireframes, seeing the user journey moment by moment. Developers work in code, writing narratives that compile into executable specifications. QA verifies that every scene and moment has complete coverage. AI participates too, generating narratives from prompts, filling in business specs, and implementing code from the model.
+<div class="view-panel active" data-view="storyboard">
 
-Everyone contributes to **the same model**. That model drives everything from design to deployment.
+1. **Experience** — Promoter navigates to "Create Show"
+2. **Command** — Promoter submits show details → `ShowScheduled`
+3. **Query** — Promoter previews the draft listing
+4. **Command** — Promoter publishes → `ShowPublished`
+
+</div>
+
+<div class="view-panel" data-view="document">
+
+### Scene: Happy path — Promoter lists a new show
+
+**Moment 1: Navigate to Create Show** (Experience)
+The promoter opens the show creation form from the dashboard.
+
+**Moment 2: Submit show details** (Command: `ScheduleShow`)
+The promoter enters venue, date, artist, and ticket count. On submit, the system emits `ShowScheduled`.
+
+**Moment 3: Preview draft listing** (Query: `DraftShowView`)
+The promoter reviews the draft before publishing. Data derives from `ShowScheduled` event.
+
+**Moment 4: Publish the show** (Command: `PublishShow`)
+The promoter confirms publication. System emits `ShowPublished`. The show appears in public listings.
+
+</div>
+
+<div class="view-panel" data-view="code">
+
+```typescript
+narrative("Listing a Show", () => {
+  scene("Happy path", () => {
+    moment("Navigate to Create Show", Experience)
+    moment("Submit show details", Command, {
+      command: "ScheduleShow",
+      event: "ShowScheduled",
+    })
+    moment("Preview draft listing", Query, {
+      query: "DraftShowView",
+      derivedFrom: ["ShowScheduled"],
+    })
+    moment("Publish the show", Command, {
+      command: "PublishShow",
+      event: "ShowPublished",
+    })
+  })
+})
+```
+
+</div>
+
+This is one scene, not the whole app. The full model also captures sold-out paths, cancellations, and waitlist promotions.
+
+</div>
+
+<div class="pipeline-strip">
+
+## Auto Makes It Real
+
+<div class="pipeline-grid">
+  <div class="pipeline-step">
+    <strong>Derive structure</strong>
+    <span>entities, commands, events, and queries from the narrative model</span>
+  </div>
+  <div class="pipeline-step">
+    <strong>Generate scaffolds</strong>
+    <span>schema, services, and application frames from the same source</span>
+  </div>
+  <div class="pipeline-step">
+    <strong>Guide implementation</strong>
+    <span>AI works inside the model instead of inventing hidden behavior</span>
+  </div>
+  <div class="pipeline-step">
+    <strong>Check before shipping</strong>
+    <span>deterministic verification catches gaps before code goes live</span>
+  </div>
+</div>
+
+NDD is the modeling language. Auto is the platform that turns it into working software.
+
+</div>
+
+<div class="positioning-strip">
+
+## Not a Doc. Not a Prompt.
+
+NDD gives software teams a structured, shared model of behavior that can actually drive implementation.
+
+It draws from BDD, EventStorming, DDD, story mapping, and storyboarding, then turns those ideas into one executable system.
+
+</div>
 
 ---
 
-**[Learn what NDD is →](/what-is-ndd)**
+<div class="bottom-cta">
+
+## Your First Narrative
+
+Write one narrative. See it render as storyboard, docs, and code. Then run it on Auto.
+
+<div class="bottom-cta-actions">
+  <a class="VPButton brand" href="https://on.auto">Try it on Auto</a>
+  <a class="VPButton alt" href="/what-is-ndd">Read: What is NDD?</a>
+</div>
+
+</div>

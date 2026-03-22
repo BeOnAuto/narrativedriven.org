@@ -6,9 +6,15 @@ const siteUrl = 'https://www.narrativedriven.org'
 export default defineConfig({
   base,
   srcDir: 'docs',
+  vite: {
+    server: {
+      port: Number(process.env.PORT) || undefined,
+      host: process.env.HOST || undefined,
+    },
+  },
   lang: 'en-US',
   title: 'Narrative-Driven Development',
-  description: 'A collaborative modeling technique that uses storytelling to describe software. One model. Three views. Everyone works from the same source of truth.',
+  description: 'A narrative model for software. One shared model for storyboard, docs, code, and tests. Auto turns it into working software.',
   appearance: true,
   cleanUrls: true,
 
@@ -21,12 +27,12 @@ export default defineConfig({
     // OpenGraph
     ['meta', { property: 'og:title', content: 'Narrative-Driven Development' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:description', content: 'Tell the story. Build the software. A collaborative modeling technique that uses storytelling to describe software.' }],
+    ['meta', { property: 'og:description', content: 'A narrative model for software. Auto turns the model into working software.' }],
     ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:site_name', content: 'Narrative-Driven Development' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Narrative-Driven Development' }],
-    ['meta', { name: 'twitter:description', content: 'Tell the story. Build the software.' }],
+    ['meta', { name: 'twitter:description', content: 'A narrative model for software. Auto makes it real.' }],
   ],
 
   themeConfig: {
@@ -34,10 +40,14 @@ export default defineConfig({
 
     nav: [
       { text: 'What is NDD?', link: '/what-is-ndd' },
-      { text: 'Guides', link: '/guides/' },
-      { text: 'Reference', link: '/reference/' },
-      { text: 'Explanation', link: '/explanation/' },
-      { text: 'Community', link: '/community' },
+      { text: 'How it Works', link: '/guides/narratives-to-code' },
+      { text: 'Example', link: '/guides/first-narrative' },
+      { text: 'Docs', items: [
+        { text: 'Guides', link: '/guides/' },
+        { text: 'Reference', link: '/reference/' },
+        { text: 'Explanation', link: '/explanation/' },
+        { text: 'Community', link: '/community' },
+      ]},
       {
         text: 'Try on Auto',
         link: 'https://on.auto',
