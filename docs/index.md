@@ -158,7 +158,7 @@ Write one narrative. See it render as storyboard, docs, and code. Then run it on
 
 <div class="bottom-cta-actions">
   <a class="VPButton brand" href="https://on.auto">Try it on Auto</a>
-  <a class="VPButton alt" href="/what-is-ndd">Read: What is NDD?</a>
+  <a class="VPButton alt" href="/what-is-ndd">What is NDD?</a>
 </div>
 
 </div>

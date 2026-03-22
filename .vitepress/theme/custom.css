@@ -3,6 +3,8 @@
    Ported from the Webflow design system
    ============================================================ */
 
+.VPContent { overflow-x: hidden; }
+
 /* --- Fonts --- */
 @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Barlow:ital,wght@0,200;0,400;0,600;0,800;1,200;1,400;1,600;1,800&display=swap');
 
@@ -142,7 +144,6 @@ body {
   font-size: 20.8px !important;
   font-weight: 400;
   padding: 0.75rem 2.5rem !important;
-  min-height: 3.5rem;
   line-height: 26px !important;
   transition: background-color var(--ndd-duration) var(--ndd-ease);
 }
@@ -170,9 +171,6 @@ body {
 }
 
 .VPHero .actions .action + .action { margin-left: 1.5rem; }
-@media (max-width: 767px) {
-  .VPHero .actions .action + .action { margin-left: 0; margin-top: 1rem; }
-}
 
 .VPButton.alt,
 .VPButton.medium.alt {
@@ -181,7 +179,6 @@ body {
   font-size: 20.8px !important;
   font-weight: 400;
   padding: 0.75rem 2.5rem !important;
-  min-height: 3.5rem;
   line-height: 26px !important;
   border-color: var(--ndd-brand) !important;
   color: var(--ndd-brand) !important;
@@ -198,6 +195,20 @@ body {
 
 .dark .VPButton.brand { color: var(--ndd-white) !important; }
 .dark .VPButton.alt { border-color: #f76d76 !important; color: #f76d76 !important; }
+
+@media (max-width: 639px) {
+  .VPHero .actions {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+  }
+  .VPHero .actions .action + .action { margin-left: 0.75rem; }
+  .VPHero .actions .VPButton {
+    font-size: 16px !important;
+    padding: 0.6rem 1.5rem !important;
+    min-height: auto !important;
+    white-space: nowrap;
+  }
+}
 
 /* ============================================================
    Home Page — Hero
@@ -231,6 +242,8 @@ body {
   letter-spacing: 0.12em;
   line-height: 1.2;
   text-transform: uppercase;
+  text-align: left !important;
+  width: 100% !important;
   color: var(--ndd-brand) !important;
 }
 
@@ -243,10 +256,9 @@ body {
 .VPHero .text {
   font-family: 'Barlow', sans-serif !important;
   font-size: clamp(3.3rem, 6vw, 5.4rem) !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   letter-spacing: -0.03em;
   line-height: 0.98;
-  max-width: 10ch;
   color: var(--vp-c-text-1) !important;
 }
 
@@ -265,13 +277,14 @@ body {
 .VPHero .image {
   transform: translateY(6px);
   margin-top: 0 !important;
+  overflow: visible !important;
 }
 
 /* ============================================================
    Feature Cards — tout style
    ============================================================ */
 .VPHomeFeatures {
-  padding: 1.25rem 0 2.5rem !important;
+  padding: 2.5rem 1.5rem 2.5rem !important;
 }
 
 .VPHomeFeatures .container {
@@ -659,6 +672,11 @@ body {
   min-width: 220px;
 }
 
+.bottom-cta-actions .VPButton.brand:hover {
+  background-color: #e0434d !important;
+  border-color: #e0434d !important;
+}
+
 .bottom-cta-actions .VPButton.alt {
   display: inline-flex;
   align-items: center;
@@ -670,7 +688,9 @@ body {
 }
 
 .bottom-cta-actions .VPButton.alt:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: #ffffffaa !important;
+  color: #ffffff !important;
 }
 
 /* ============================================================
@@ -793,16 +813,85 @@ body {
 /* ============================================================
    Responsive
    ============================================================ */
-@media (max-width: 767px) {
-  .VPHero { padding-top: 1.5rem !important; }
-  .VPHero .name { font-size: 0.78rem !important; }
-  .VPHero .text { font-size: 2.5rem !important; }
-  .VPHero .tagline { font-size: 1rem !important; }
+@media (max-width: 639px) {
+  .VPHero { padding-top: 2.5rem !important; padding-bottom: 0 !important; }
+  .VPHero .name {
+    display: none !important;
+  }
+  .VPHero .text {
+    font-family: 'Barlow', sans-serif !important;
+    font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
+    font-weight: 400 !important;
+    text-align: left !important;
+    max-width: none !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.03em !important;
+  }
+  .VPHero .tagline {
+    font-family: 'Barlow', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 400 !important;
+    text-align: left !important;
+    max-width: none !important;
+    line-height: 1.45 !important;
+    color: var(--vp-c-text-2) !important;
+    margin-top: 0.75rem !important;
+  }
+  .VPHero .heading { align-items: flex-start !important; }
+  .VPHero .actions { justify-content: flex-start !important; }
+  .VPHero.has-image .container .main { order: 1 !important; text-align: left !important; }
+  .VPHero.has-image .container .image {
+    order: 2 !important;
+    margin: 2rem 0 0 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .VPHero .image-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
   .VPHomeFeatures .items { grid-template-columns: 1fr !important; }
   .pipeline-grid { grid-template-columns: 1fr; }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 640px) {
+  .VPHero.has-image .container { flex-direction: row !important; align-items: center !important; }
+  .VPHero.has-image .container .main {
+    order: 1 !important;
+    text-align: left !important;
+    flex-shrink: 0 !important;
+    width: 55% !important;
+  }
+  .VPHero.has-image .container .image {
+    order: 2 !important;
+    flex-grow: 1 !important;
+    max-width: 45% !important;
+  }
+  .VPHero .name { text-align: left !important; }
+  .VPHero .text { text-align: left !important; }
+  .VPHero .tagline { text-align: left !important; }
+  .VPHero .heading { align-items: flex-start !important; }
+  .VPHero .actions {
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 959px) {
+  .VPHero .actions .VPButton {
+    font-size: 16px !important;
+    padding: 0.6rem 1.5rem !important;
+    min-height: auto !important;
+  }
+  .VPHero .actions .action + .action { margin-left: 0.75rem; }
+}
+
+@media (min-width: 1280px) {
+  .VPHero { padding-top: 6rem !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
   .VPHomeFeatures .items { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 }
 

@@ -76,11 +76,36 @@ onUnmounted(() => {
   .hero-img { animation: none !important; }
 }
 
-@media (max-width: 959px) {
-  .hero-illustrations { max-width: 320px; margin-top: 2rem; }
+@media (max-width: 959px) and (min-width: 640px) {
+  .hero-illustrations {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    max-width: 100%;
+    margin-top: 0;
+    padding: 30px 0;
+  }
+  .hero-img { max-width: 40%; margin-top: -25px; margin-bottom: -25px; }
+  .hero-img-1 { margin-left: 0; margin-top: 0; }
+  .hero-img-2 { margin-left: 25%; }
+  .hero-img-3 { margin-left: 0; }
+  .hero-img-4 { margin-left: 25%; margin-bottom: 0; }
 }
 
-@media (max-width: 639px) {
-  .hero-illustrations { max-width: 280px; }
+@media (max-width: 639px) and (min-width: 480px) {
+  .hero-illustrations {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  .hero-illustrations {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 </style>
