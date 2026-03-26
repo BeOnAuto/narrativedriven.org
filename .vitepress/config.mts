@@ -30,9 +30,14 @@ export default defineConfig({
     ['meta', { property: 'og:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
     ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:site_name', content: 'Narrative-Driven Development' }],
+    ['meta', { property: 'og:image', content: `${siteUrl}/og-image.png` }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:alt', content: 'Narrative-Driven Development — Tell the story. Build the software.' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Narrative-Driven Development' }],
     ['meta', { name: 'twitter:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
+    ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
   ],
 
   themeConfig: {

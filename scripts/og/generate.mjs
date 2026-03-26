@@ -106,8 +106,8 @@ async function generate() {
   }
 
   // Copy dark variant as the default og-image.png
-  copyFileSync(resolve(OUTPUT_DIR, 'og-dark.png'), resolve(OUTPUT_DIR, 'og-image.png'));
-  console.log(`  Copied og-dark.png -> og-image.png (default OG image)`);
+  copyFileSync(resolve(OUTPUT_DIR, 'og-light.png'), resolve(OUTPUT_DIR, 'og-image.png'));
+  console.log(`  Copied og-light.png -> og-image.png (default OG image)`);
 
   await browser.close();
   server.close();

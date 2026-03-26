@@ -34,35 +34,29 @@ body.light {
 body.light .text-secondary { color: #3c3c3c; }
 body.light .url-text { color: #f5535e; }
 
-/* Ambient glow */
-body::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  left: -10%;
-  width: 120%;
-  height: 600px;
-  background:
-    radial-gradient(ellipse 40% 50% at 20% 30%, rgba(245, 83, 94, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 35% 45% at 50% 20%, rgba(23, 150, 219, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 80% 35%, rgba(245, 83, 94, 0.06) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-body.light::before {
-  background:
-    radial-gradient(ellipse 40% 50% at 20% 30%, rgba(245, 83, 94, 0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 35% 45% at 50% 20%, rgba(23, 150, 219, 0.05) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 80% 35%, rgba(245, 83, 94, 0.04) 0%, transparent 70%);
-}
-
 /* ---- Layout ---- */
 .og-card {
   position: relative;
   width: 1200px;
   height: 630px;
   overflow: hidden;
+}
+
+/* Wave background */
+.wave-bg {
+  position: absolute;
+  top: -200px;
+  left: 0;
+  width: 100%;
+  height: 1320px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wave-bg svg {
+  width: 100%;
+  height: 100%;
 }
 
 /* Content */
@@ -74,7 +68,7 @@ body.light::before {
   align-items: center;
   padding: 0 72px;
   height: 100%;
-  gap: 48px;
+  gap: 32px;
 }
 
 .hero-text {
@@ -116,32 +110,19 @@ body.light::before {
   letter-spacing: 0.02em;
 }
 
-/* Logo area */
-.hero-logo {
-  flex: 0 0 320px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+/* Hero illustrations grid */
+.hero-illustrations {
+  flex: 0 0 380px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  max-width: 380px;
 }
 
-.logo-mark {
-  width: 280px;
-  height: 280px;
-  border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f5535e;
-}
-
-body.light .logo-mark {
-  background: #f5535e;
-}
-
-.logo-mark svg {
-  width: 200px;
-  height: 200px;
+.hero-img {
+  width: 100%;
+  height: auto;
 }
 
 /* Bottom brand stripe */
@@ -153,10 +134,6 @@ body.light .logo-mark {
   height: 10px;
   background: #f5535e;
   z-index: 10;
-}
-
-body.light .hero-stripe {
-  background: #f5535e;
 }
 
 /* Top accent line */
@@ -176,6 +153,9 @@ body.light .hero-stripe {
   <!-- Top gradient stripe -->
   <div class="hero-stripe-top" aria-hidden="true"></div>
 
+  <!-- Wave background -->
+  <div class="wave-bg" id="wave-bg" aria-hidden="true"></div>
+
   <!-- Content -->
   <div class="hero-content">
     <div class="hero-text">
@@ -184,15 +164,7 @@ body.light .hero-stripe {
       <p class="hero-tagline-sub text-secondary">One model for storyboard, docs, code, and tests.</p>
       <p class="hero-url url-text">narrativedriven.org</p>
     </div>
-    <div class="hero-logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M25.9872 7.18368C25.9872 6.99014 26.1445 6.83325 26.3385 6.83325H29.1488C29.3428 6.83325 29.5001 6.99014 29.5001 7.18368V9.9871C29.5001 10.1806 29.3428 10.3375 29.1488 10.3375H26.3385C26.1445 10.3375 25.9872 10.1806 25.9872 9.9871V7.18368Z" fill="white"/>
-          <path d="M11.2334 9.28597C11.2334 9.00563 11.5496 8.83743 11.7814 8.99862L29.3455 20.794C29.4439 20.8571 29.5001 20.9692 29.5001 21.0814V24.4385C29.5001 24.7188 29.1839 24.887 28.9521 24.7258L11.388 12.9374C11.2896 12.8744 11.2334 12.7622 11.2334 12.6501V9.28597Z" fill="white"/>
-          <path d="M11.2334 18.1728C11.2334 17.8925 11.5496 17.7243 11.7814 17.8855L29.3455 29.6809C29.4439 29.744 29.5001 29.8561 29.5001 29.9682V33.3253C29.5001 33.6057 29.1839 33.7739 28.9521 33.6127L11.388 21.8243C11.2896 21.7612 11.2334 21.6491 11.2334 21.537V18.1728Z" fill="white"/>
-        </svg>
-      </div>
-    </div>
+    <div class="hero-illustrations" id="hero-illustrations"></div>
   </div>
 
   <!-- Bottom brand stripe -->
@@ -202,9 +174,47 @@ body.light .hero-stripe {
 <script>
 const params = new URLSearchParams(window.location.search);
 const theme = params.get('theme') || 'dark';
-if (theme === 'light') {
+const isDark = theme === 'dark';
+
+if (!isDark) {
   document.body.classList.add('light');
 }
+
+// Wave background SVG (from WaveBackground.vue)
+const startColor = isDark ? '#1a1a1a' : '#ffffff';
+const endColor1 = isDark ? '#2a4a60' : '#a0ddff';
+const endColor2 = isDark ? '#264055' : '#abdaf3';
+
+document.getElementById('wave-bg').innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1707 1320" fill="none" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="wg0" x1="384.5" y1="40" x2="384.5" y2="934.5" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="${startColor}" />
+        <stop offset="1" stop-color="${endColor1}" />
+      </linearGradient>
+      <linearGradient id="wg1" x1="760.5" y1="510.6" x2="760.5" y2="-103.9" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="${startColor}" />
+        <stop offset="1" stop-color="${endColor2}" />
+      </linearGradient>
+    </defs>
+    <path fill="url(#wg0)" fill-opacity="0.5"
+      d="M1707,577.2C653.2,961,672.5,181.1,0,226.5L0,0L1707,0L1707,577.2Z" />
+    <path fill="url(#wg1)" fill-opacity="0.5"
+      d="M0,.1L0,602L1707,602L1707,286C977,-296.5,652.5,397.5,0,.1Z"
+      transform="translate(0, 680)" />
+  </svg>`;
+
+// Hero images (from HeroIllustrations.vue)
+const suffix = isDark ? '-dark' : '';
+const base = new URL('/', window.location.origin).href;
+const grid = document.getElementById('hero-illustrations');
+[1, 2, 3, 4].forEach(n => {
+  const img = document.createElement('img');
+  img.src = `${base}docs/public/images/hero-${n}${suffix}.png`;
+  img.className = 'hero-img';
+  img.alt = '';
+  grid.appendChild(img);
+});
 </script>
 </body>
 </html>
