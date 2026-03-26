@@ -2,8 +2,8 @@
 layout: home
 hero:
   name: Narrative-Driven Development
-  text: "A narrative model for software."
-  tagline: "Shared structure for storyboard, docs, code, and tests. Run it on Auto."
+  text: "Specify software as narratives."
+  tagline: "One model for storyboard, docs, code, and tests. Auto turns it into working software."
   actions:
     - theme: brand
       text: Try it on Auto
@@ -47,6 +47,8 @@ AI sped up output. It also sped up drift. Specs, prompts, tickets, and code spli
 ## A Working Model
 
 One scene from a concert-booking app in NDD:
+
+The same scene can be reviewed as a storyboard, a readable document, or executable code.
 
 **Narrative: Listing a Show / Scene: Happy path**
 
@@ -105,6 +107,8 @@ narrative("Listing a Show", () => {
 })
 ```
 
+<p><a class="VPButton alt" href="https://on.auto">See this on Auto</a></p>
+
 </div>
 
 This is one scene, not the whole app. The full model also captures sold-out paths, cancellations, and waitlist promotions.
@@ -141,6 +145,8 @@ NDD is the modeling language. Auto is the platform that turns it into working so
 <div class="positioning-strip">
 
 ## Not a Doc. Not a Prompt.
+
+Not a methodology workshop. Not static documentation. Not prompt improvisation.
 
 NDD gives software teams a structured, shared model of behavior that can actually drive implementation.
 

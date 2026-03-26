@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "portless run vitepress dev",
     "build": "vitepress build",
-    "preview": "vitepress preview"
+    "preview": "vitepress preview",
+    "generate:og": "node scripts/og/generate.mjs"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "license": "CC-BY-NC-ND-4.0",
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "puppeteer": "^24.39.1",
     "vitepress": "^1.6.4"
   },
   "dependencies": {

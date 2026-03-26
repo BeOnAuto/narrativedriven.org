@@ -14,7 +14,7 @@ export default defineConfig({
   },
   lang: 'en-US',
   title: 'Narrative-Driven Development',
-  description: 'A narrative model for software. One shared model for storyboard, docs, code, and tests. Auto turns it into working software.',
+  description: 'Specify software as narratives. One model for storyboard, docs, code, and tests. Auto turns it into working software.',
   appearance: true,
   cleanUrls: true,
 
@@ -27,12 +27,12 @@ export default defineConfig({
     // OpenGraph
     ['meta', { property: 'og:title', content: 'Narrative-Driven Development' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:description', content: 'A narrative model for software. Auto turns the model into working software.' }],
+    ['meta', { property: 'og:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
     ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:site_name', content: 'Narrative-Driven Development' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Narrative-Driven Development' }],
-    ['meta', { name: 'twitter:description', content: 'A narrative model for software. Auto makes it real.' }],
+    ['meta', { name: 'twitter:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
   ],
 
   themeConfig: {
@@ -42,7 +42,7 @@ export default defineConfig({
       { text: 'What is NDD?', link: '/what-is-ndd' },
       { text: 'How it Works', link: '/guides/narratives-to-code' },
       { text: 'Example', link: '/guides/first-narrative' },
-      { text: 'Docs', items: [
+      { text: 'Learn', items: [
         { text: 'Guides', link: '/guides/' },
         { text: 'Reference', link: '/reference/' },
         { text: 'Explanation', link: '/explanation/' },
