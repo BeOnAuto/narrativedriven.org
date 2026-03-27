@@ -85,7 +85,7 @@ async function generate() {
     console.log(`Generating ${output}...`);
 
     const page = await browser.newPage();
-    await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 2 });
+    await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 1 });
 
     const url = `http://127.0.0.1:${port}/scripts/og/template.html?theme=${theme}`;
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 15000 });

@@ -76,6 +76,7 @@ body.light .url-text { color: #f5535e; }
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .hero-name {
@@ -105,9 +106,33 @@ body.light .url-text { color: #f5535e; }
 }
 
 .hero-url {
-  font-size: 1.8rem;
+  position: absolute;
+  bottom: 28px;
+  right: 72px;
+  font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  z-index: 11;
+}
+
+.hero-cta {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 20px;
+  padding: 14px 36px;
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  background: #f5535e;
+  color: #fff;
+  border: none;
+}
+
+body.light .hero-cta {
+  background: #f5535e;
+  color: #fff;
 }
 
 /* Hero illustrations grid */
@@ -162,10 +187,13 @@ body.light .url-text { color: #f5535e; }
       <h1 class="hero-name">Narrative-Driven<br>Development</h1>
       <p class="hero-tagline-main">Tell the story. Build the software.</p>
       <p class="hero-tagline-sub text-secondary">One model for storyboard, docs, code, and tests.</p>
-      <p class="hero-url url-text">narrativedriven.org</p>
+      <div class="hero-cta">Learn How It Works &rarr;</div>
     </div>
     <div class="hero-illustrations" id="hero-illustrations"></div>
   </div>
+
+  <!-- URL -->
+  <p class="hero-url url-text">narrativedriven.org</p>
 
   <!-- Bottom brand stripe -->
   <div class="hero-stripe" aria-hidden="true"></div>

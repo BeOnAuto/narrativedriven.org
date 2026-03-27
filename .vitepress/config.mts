@@ -25,9 +25,9 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     // OpenGraph
-    ['meta', { property: 'og:title', content: 'Narrative-Driven Development' }],
+    ['meta', { property: 'og:title', content: 'Narrative-Driven Development — Specify Software as Stories' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
+    ['meta', { property: 'og:description', content: 'One model for storyboard, docs, code, and tests. Specify software as structured narratives — reviewable, testable, and executable.' }],
     ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:site_name', content: 'Narrative-Driven Development' }],
     ['meta', { property: 'og:image', content: `${siteUrl}/og-image.png` }],
@@ -35,8 +35,8 @@ export default defineConfig({
     ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { property: 'og:image:alt', content: 'Narrative-Driven Development — Tell the story. Build the software.' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'Narrative-Driven Development' }],
-    ['meta', { name: 'twitter:description', content: 'Specify software as narratives. Auto turns the model into working software.' }],
+    ['meta', { name: 'twitter:title', content: 'Narrative-Driven Development — Specify Software as Stories' }],
+    ['meta', { name: 'twitter:description', content: 'One model for storyboard, docs, code, and tests. Specify software as structured narratives — reviewable, testable, and executable.' }],
     ['meta', { name: 'twitter:image', content: `${siteUrl}/og-image.png` }],
   ],
 
