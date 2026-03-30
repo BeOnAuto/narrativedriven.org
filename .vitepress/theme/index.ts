@@ -44,6 +44,8 @@ export default {
         api_host: isLocal ? 'https://us.i.posthog.com' : '/idata',
         capture_pageview: false,
         persistence: isLocal ? 'memory' : 'localStorage+cookie',
+        disable_session_recording: true,
+        autocapture: false,
       })
 
       posthog.register({ environment: isLocal ? 'development' : 'production' })
