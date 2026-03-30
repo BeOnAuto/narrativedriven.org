@@ -28,6 +28,7 @@
     "vitepress": "^1.6.4"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.67.0"
+    "@lottiefiles/dotlottie-web": "^0.67.0",
+    "posthog-js": "^1.360.2"
   }
 }
