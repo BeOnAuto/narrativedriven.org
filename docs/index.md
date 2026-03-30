@@ -121,24 +121,24 @@ This is one scene, not the whole app. The full model also captures sold-out path
 
 <div class="pipeline-grid">
   <div class="pipeline-step">
-    <strong>Derive structure</strong>
-    <span>entities, commands, events, and queries from the narrative model</span>
+    <strong>Model on Auto</strong>
+    <span>describe your app and Auto generates a structured narrative with scenes, moments, and specs</span>
   </div>
   <div class="pipeline-step">
-    <strong>Generate scaffolds</strong>
-    <span>schema, services, and application frames from the same source</span>
+    <strong>Validate before code</strong>
+    <span>50+ structural rules catch missing flows, incomplete specs, and broken references automatically</span>
   </div>
   <div class="pipeline-step">
-    <strong>Guide implementation</strong>
-    <span>AI works inside the model instead of inventing hidden behavior</span>
+    <strong>Connect your agent</strong>
+    <span>your coding agent receives the validated model and builds the application on your machine</span>
   </div>
   <div class="pipeline-step">
-    <strong>Check before shipping</strong>
-    <span>deterministic verification catches gaps before code goes live</span>
+    <strong>Close the loop</strong>
+    <span>if the agent changes the model, Auto validates it back and keeps the spec as the source of truth</span>
   </div>
 </div>
 
-NDD is the modeling language. Auto is the platform that turns it into working software.
+NDD is the modeling language. Auto is the platform that makes it operational. Your coding agent is the builder.
 
 </div>
 
