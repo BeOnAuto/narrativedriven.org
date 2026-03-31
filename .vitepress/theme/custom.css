@@ -39,7 +39,7 @@
   --vp-c-divider: #e2e2e3;
   --vp-c-gutter: var(--ndd-light-gray);
   --vp-font-family-base: 'Albert Sans', sans-serif;
-  --vp-font-family-mono: 'Inter', ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
+  --vp-font-family-mono: 'Source Code Pro', ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
   --vp-nav-height: 80px;
   --vp-nav-screen-bg-color: var(--vp-c-bg);
   --ndd-ease: cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -414,6 +414,41 @@ body {
   box-shadow: 0 24px 60px rgba(25, 38, 45, 0.18);
 }
 
+:root:not(.dark) .example-strip {
+  background: #f5f5f7;
+  color: var(--ndd-black);
+  box-shadow: 0 24px 60px rgba(25, 38, 45, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+:root:not(.dark) .example-strip h2 {
+  color: var(--ndd-black);
+}
+
+:root:not(.dark) .example-strip > p {
+  color: var(--ndd-dark-gray);
+}
+
+:root:not(.dark) .example-strip > p:last-child {
+  color: var(--ndd-medium-gray);
+}
+
+:root:not(.dark) .example-strip strong {
+  color: var(--ndd-black);
+}
+
+:root:not(.dark) .product-view h3 {
+  color: var(--ndd-black);
+}
+
+:root:not(.dark) .product-view > p {
+  color: var(--ndd-dark-gray);
+}
+
+:root:not(.dark) .product-view div[class*='language-'] {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
 .dark .example-strip {
   background: #0d1a20;
 }
@@ -553,6 +588,15 @@ body {
   font-size: 0.88em;
 }
 
+.example-strip .shiki code {
+  background: transparent !important;
+}
+
+/* --- Theme-Aware Images --- */
+.only-dark { display: none !important; }
+.dark .only-dark { display: block !important; }
+.dark .only-light { display: none !important; }
+
 /* --- Product views (One Model, Three Views) --- */
 .product-views {
   display: flex;
@@ -585,13 +629,68 @@ body {
 
 /* Code block inside product view */
 .product-view div[class*='language-'] {
-  background: rgba(0, 0, 0, 0.3) !important;
-  border-radius: 8px;
+  background: #0d0f14 !important;
+  border-radius: 12px;
   margin: 16px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .product-view .shiki {
   background: transparent !important;
+  font-family: 'Source Code Pro', ui-monospace, monospace !important;
+}
+
+/* NDD-themed syntax colors — dark mode
+   Matches the Auto app's moment type colors:
+   - Command moments: amber/orange
+   - Query moments: teal
+   - Experience moments: purple
+   - NDD functions: brand coral */
+
+/* Function calls: narrative(), scene(), moment() — NDD brand coral */
+.dark .example-strip .shiki span[style*="--shiki-dark:#B392F0"] {
+  color: #f5535e !important;
+}
+
+/* Strings — warm amber (matches command moment headings) */
+.dark .example-strip .shiki span[style*="--shiki-dark:#9ECBFF"] {
+  color: #e8a84c !important;
+}
+
+/* Punctuation, keywords, property keys — soft lavender */
+.dark .example-strip .shiki span[style*="--shiki-dark:#E1E4E8"] {
+  color: #c4b5e0 !important;
+}
+
+/* Arrows — teal (matches query moments) */
+.dark .example-strip .shiki span[style*="--shiki-dark:#F97583"] {
+  color: #3da89e !important;
+}
+
+/* Light mode code block */
+:root:not(.dark) .product-view div[class*='language-'] {
+  background: #f8f8fa !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Function calls — NDD brand (deeper for light bg) */
+:root:not(.dark) .example-strip .shiki span[style*="--shiki-light:#6F42C1"] {
+  color: #d93a47 !important;
+}
+
+/* Strings — warm amber */
+:root:not(.dark) .example-strip .shiki span[style*="--shiki-light:#032F62"] {
+  color: #c77a20 !important;
+}
+
+/* Punctuation, keywords, property keys — muted dark */
+:root:not(.dark) .example-strip .shiki span[style*="--shiki-light:#24292E"] {
+  color: #6b5b8a !important;
+}
+
+/* Arrows — teal */
+:root:not(.dark) .example-strip .shiki span[style*="--shiki-light:#D73A49"] {
+  color: #2e8a80 !important;
 }
 
 /* --- Auto pipeline section --- */

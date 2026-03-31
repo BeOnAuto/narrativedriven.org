@@ -56,8 +56,9 @@ The same narrative model renders as a visual storyboard, a structured document, 
 
 Your app as a storyboard on a shared canvas. Each narrative is a card, each scene is a filmstrip, each moment is a step in the journey. Drag, connect, and chat with individual moments to refine them.
 
-<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
-<img src="/images/product/visual-canvas.png" alt="Visual narratives on the shared canvas — a concert booking app modeled as connected narrative cards with storyboard images and wireframes" style="width: 100%; display: block;" />
+<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08);">
+<img class="only-dark" src="/images/product/visual-canvas.png" alt="Visual narratives on the shared canvas" style="width: 100%; display: block;" />
+<img class="only-light" src="/images/product/visual-canvas-light.png" alt="Visual narratives on the shared canvas" style="width: 100%; display: block;" />
 </div>
 
 </div>
@@ -68,8 +69,9 @@ Your app as a storyboard on a shared canvas. Each narrative is a card, each scen
 
 The same model as a structured, readable document. Each scene becomes a page. Each moment shows its specs — interaction behavior on the client side, business rules with Given/When/Then on the server side. For the people on your team who think in text, not pictures.
 
-<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
-<img src="/images/product/document-view.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
+<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08);">
+<img class="only-dark" src="/images/product/document-view.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
+<img class="only-light" src="/images/product/document-view-light.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
 </div>
 
 </div>
