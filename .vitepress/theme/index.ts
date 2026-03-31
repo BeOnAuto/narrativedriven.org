@@ -1,7 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { h, onMounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import posthog from 'posthog-js'
+import posthog from 'posthog-js/dist/module.full.no-external'
 import HeroIllustrations from './HeroIllustrations.vue'
 import WaveBackground from './WaveBackground.vue'
 import LottieLogo from './LottieLogo.vue'
@@ -44,8 +44,6 @@ export default {
         api_host: isLocal ? 'https://us.i.posthog.com' : '/idata',
         capture_pageview: false,
         persistence: isLocal ? 'memory' : 'localStorage+cookie',
-        disable_session_recording: true,
-        autocapture: false,
       })
 
       posthog.register({ environment: isLocal ? 'development' : 'production' })
