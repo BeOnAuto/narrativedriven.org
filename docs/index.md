@@ -20,7 +20,7 @@ features:
   - icon:
       src: /images/features/feat-running-code.png
     title: From Model to Software
-    details: "Auto turns the model into schema, scaffolds, implementation, checks, and running software."
+    details: "Your coding agent builds from the model — guided by structure, not guessing from a prompt. Auto validates every step."
     link: /guides/narratives-to-code
   - icon:
       src: /images/features/feat-stories.png
@@ -44,48 +44,41 @@ AI sped up output. It also sped up drift. Specs, prompts, tickets, and code spli
 
 <div class="example-strip">
 
-## A Working Model
+## One Model, Three Views
 
-One scene from a concert-booking app in NDD:
+The same narrative model renders as a visual storyboard, a structured document, and executable code. Edit in any view — the others stay in sync.
 
-The same scene can be reviewed as a storyboard, a readable document, or executable code.
+<div class="product-views">
 
-**Narrative: Listing a Show / Scene: Happy path**
+<div class="product-view">
 
-<div class="view-tabs">
-  <div class="view-tab active" data-view="storyboard">Storyboard</div>
-  <div class="view-tab" data-view="document">Document</div>
-  <div class="view-tab" data-view="code">Code</div>
+### The Visual View
+
+Your app as a storyboard on a shared canvas. Each narrative is a card, each scene is a filmstrip, each moment is a step in the journey. Drag, connect, and chat with individual moments to refine them.
+
+<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+<img src="/images/product/visual-canvas.png" alt="Visual narratives on the shared canvas — a concert booking app modeled as connected narrative cards with storyboard images and wireframes" style="width: 100%; display: block;" />
 </div>
-
-<div class="view-panel active" data-view="storyboard">
-
-1. **Experience** — Promoter navigates to "Create Show"
-2. **Command** — Promoter submits show details → `ShowScheduled`
-3. **Query** — Promoter previews the draft listing
-4. **Command** — Promoter publishes → `ShowPublished`
 
 </div>
 
-<div class="view-panel" data-view="document">
+<div class="product-view">
 
-### Scene: Happy path — Promoter lists a new show
+### The Document View
 
-**Moment 1: Navigate to Create Show** (Experience)
-The promoter opens the show creation form from the dashboard.
+The same model as a structured, readable document. Each scene becomes a page. Each moment shows its specs — interaction behavior on the client side, business rules with Given/When/Then on the server side. For the people on your team who think in text, not pictures.
 
-**Moment 2: Submit show details** (Command: `ScheduleShow`)
-The promoter enters venue, date, artist, and ticket count. On submit, the system emits `ShowScheduled`.
-
-**Moment 3: Preview draft listing** (Query: `DraftShowView`)
-The promoter reviews the draft before publishing. Data derives from `ShowScheduled` event.
-
-**Moment 4: Publish the show** (Command: `PublishShow`)
-The promoter confirms publication. System emits `ShowPublished`. The show appears in public listings.
+<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
+<img src="/images/product/document-view.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
+</div>
 
 </div>
 
-<div class="view-panel" data-view="code">
+<div class="product-view">
+
+### The Code View
+
+The same model as a TypeScript DSL. Full type safety and IntelliSense. For developers who prefer working directly in code.
 
 ```typescript
 narrative("Listing a Show", () => {
@@ -107,11 +100,13 @@ narrative("Listing a Show", () => {
 })
 ```
 
-<p><a class="VPButton alt" href="https://on.auto">See this on Auto</a></p>
+</div>
 
 </div>
 
-This is one scene, not the whole app. The full model also captures sold-out paths, cancellations, and waitlist promotions.
+This is one model, not three tools. A change in any view is reflected everywhere else. That's how your whole team — product, design, engineering, AI — stays aligned.
+
+<p style="margin-top: 24px;"><a class="VPButton brand" href="https://on.auto">Try it on Auto</a></p>
 
 </div>
 

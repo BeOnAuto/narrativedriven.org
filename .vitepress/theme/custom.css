@@ -553,6 +553,47 @@ body {
   font-size: 0.88em;
 }
 
+/* --- Product views (One Model, Three Views) --- */
+.product-views {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.product-view h3 {
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #ffffffde;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  border-top: none;
+}
+
+.product-view > p {
+  color: #ffffffab;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.product-view img {
+  border-radius: 12px;
+}
+
+/* Code block inside product view */
+.product-view div[class*='language-'] {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border-radius: 8px;
+  margin: 16px 0 0;
+}
+
+.product-view .shiki {
+  background: transparent !important;
+}
+
 /* --- Auto pipeline section --- */
 .pipeline-strip {
   max-width: 980px;
