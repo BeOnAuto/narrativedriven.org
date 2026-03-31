@@ -28,6 +28,13 @@ export default defineConfig({
 			"link",
 			{ rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
 		],
+		[
+			"link",
+			{
+				href: "https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap",
+				rel: "stylesheet",
+			},
+		],
 		// OpenGraph
 		[
 			"meta",
