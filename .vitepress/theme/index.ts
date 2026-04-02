@@ -1,7 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { h, onMounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import posthog from 'posthog-js/dist/module.full.no-external'
+import posthog from 'posthog-js'
 import HeroIllustrations from './HeroIllustrations.vue'
 import WaveBackground from './WaveBackground.vue'
 import LottieLogo from './LottieLogo.vue'
