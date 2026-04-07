@@ -1010,19 +1010,7 @@ scene('Questionnaire Flow', 'QUEST-001', () => {});
 
     const code = getCode(await modelToNarrative(questionnairesModel));
 
-    expect(code).toEqual(`import {
-  data,
-  describe,
-  example,
-  experience,
-  gql,
-  it,
-  query,
-  rule,
-  scene,
-  source,
-  specs,
-} from '@onauto/narrative';
+    expect(code).toEqual(`import { data, describe, example, experience, gql, it, query, rule, scene, source, specs } from '@onauto/narrative';
 import type { Event, State } from '@onauto/narrative';
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',
