@@ -1,8 +1,8 @@
-# @auto-engineer/narrative — Fluent TypeScript DSL for defining behavioral specifications as scenes, moments, and examples
+# @onauto/narrative — Fluent TypeScript DSL for defining behavioral specifications as scenes, moments, and examples
 
 ## Purpose
 
-Without `@auto-engineer/narrative`, you would have to hand-write JSON model files describing your system's scenes, moments, messages, data flows, and BDD specifications — then manually keep them in sync with your TypeScript types. This package provides a fluent DSL that lets you author `.narrative.ts` files, automatically extracts type information from your code, and bidirectionally transforms between the DSL representation and a canonical JSON model.
+Without `@onauto/narrative`, you would have to hand-write JSON model files describing your system's scenes, moments, messages, data flows, and BDD specifications — then manually keep them in sync with your TypeScript types. This package provides a fluent DSL that lets you author `.narrative.ts` files, automatically extracts type information from your code, and bidirectionally transforms between the DSL representation and a canonical JSON model.
 
 ## Key Concepts
 
@@ -24,7 +24,7 @@ graph TD
 ## Installation
 
 ```bash
-pnpm add @auto-engineer/narrative
+pnpm add @onauto/narrative
 ```
 
 ## Quick Start
@@ -41,7 +41,7 @@ import {
   source,
   describe,
   it,
-} from '@auto-engineer/narrative';
+} from '@onauto/narrative';
 
 // Define message types alongside your narrative
 interface PlaceOrder {
@@ -89,7 +89,7 @@ scene('Place order', () => {
 ### Define a query moment
 
 ```typescript
-import { scene, query, specs, rule, example, data, source } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, data, source } from '@onauto/narrative';
 
 scene('View orders', () => {
   query('Get order summary')
@@ -118,7 +118,7 @@ scene('View orders', () => {
 ### Define a reaction moment
 
 ```typescript
-import { scene, react, specs, rule, example, createIntegration } from '@auto-engineer/narrative';
+import { scene, react, specs, rule, example, createIntegration } from '@onauto/narrative';
 
 const emailService = createIntegration('email', 'EmailService');
 
@@ -140,7 +140,7 @@ scene('Order confirmation', () => {
 ### Define data sinks and sources
 
 ```typescript
-import { data, sink, source, target } from '@auto-engineer/narrative';
+import { data, sink, source, target } from '@onauto/narrative';
 
 // Event to stream
 sink().event('OrderPlaced').toStream('order-${orderId}');
@@ -170,7 +170,7 @@ target().event('OrderPlaced');
 ### Load narrative files and produce a model
 
 ```typescript
-import { getScenes } from '@auto-engineer/narrative';
+import { getScenes } from '@onauto/narrative';
 
 const result = await getScenes({
   vfs,   // IFileStore instance
@@ -184,7 +184,7 @@ const model = result.toModel();    // Model (full JSON specification)
 ### Convert a model back to narrative files
 
 ```typescript
-import { modelToNarrative } from '@auto-engineer/narrative';
+import { modelToNarrative } from '@onauto/narrative';
 
 const generated = await modelToNarrative(model);
 for (const file of generated.files) {
@@ -195,7 +195,7 @@ for (const file of generated.files) {
 ### Add auto-generated IDs to a model
 
 ```typescript
-import { addAutoIds, hasAllIds } from '@auto-engineer/narrative';
+import { addAutoIds, hasAllIds } from '@onauto/narrative';
 
 if (!hasAllIds(model)) {
   const withIds = addAutoIds(model);
@@ -205,7 +205,7 @@ if (!hasAllIds(model)) {
 ### Validate moment requests against the model
 
 ```typescript
-import { validateMomentRequests } from '@auto-engineer/narrative';
+import { validateMomentRequests } from '@onauto/narrative';
 
 const errors = validateMomentRequests(model);
 if (errors.length > 0) {
@@ -219,9 +219,9 @@ if (errors.length > 0) {
 
 | Import path | Description |
 |---|---|
-| `@auto-engineer/narrative` | Main entry — DSL functions, builders, transformers, and all schema re-exports |
-| `@auto-engineer/narrative/schema` | Zod schemas and inferred TypeScript types for the model |
-| `@auto-engineer/narrative/node` | Re-exports everything from the main entry (Node.js convenience alias) |
+| `@onauto/narrative` | Main entry — DSL functions, builders, transformers, and all schema re-exports |
+| `@onauto/narrative/schema` | Zod schemas and inferred TypeScript types for the model |
+| `@onauto/narrative/node` | Re-exports everything from the main entry (Node.js convenience alias) |
 
 ### Scene and moment DSL
 
@@ -476,7 +476,7 @@ type Query<T extends string, D extends Record<string, unknown>> = {
 };
 ```
 
-### Key Zod schemas (`@auto-engineer/narrative/schema`)
+### Key Zod schemas (`@onauto/narrative/schema`)
 
 | Schema | Validates |
 |---|---|

@@ -15,7 +15,7 @@ import {
   sink,
   source,
   specs,
-} from '@auto-engineer/narrative';
+} from '@onauto/narrative';
 
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',

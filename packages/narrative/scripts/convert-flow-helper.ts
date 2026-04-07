@@ -18,7 +18,7 @@ const main = async () => {
     // Create a temporary wrapper script file in the same directory as the flow file
     const tempScript = join(flowDir, `.convert-flow-wrapper-${Date.now()}.mjs`);
     const wrapperScript = `
-import { convertFlowToJson } from '@auto-engineer/narrative';
+import { convertFlowToJson } from '@onauto/narrative';
 
 const run = async () => {
   try {

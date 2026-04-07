@@ -60,7 +60,7 @@ export async function createEnhancedImportMap(base: Record<string, unknown> = {}
     './fluent-builder': ensureESModuleInterop(fluentMod),
     './testing': ensureESModuleInterop(testingMod),
     './data-flow-builders': ensureESModuleInterop(dataFlowMod),
-    '@auto-engineer/narrative': ensureESModuleInterop(selfEntry),
+    '@onauto/narrative': ensureESModuleInterop(selfEntry),
     zod: ensureESModuleInterop(zod),
     'graphql-tag': (gqlTag as { default?: unknown }).default ?? gqlTag,
     debug: { default: (debugMod as { default?: unknown }).default ?? createDebug },

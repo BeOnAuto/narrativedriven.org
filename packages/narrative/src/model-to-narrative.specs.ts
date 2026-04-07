@@ -26,8 +26,8 @@ describe('modelToNarrative', () => {
   sink,
   source,
   specs,
-} from '@auto-engineer/narrative';
-import type { Command, Event, State } from '@auto-engineer/narrative';
+} from '@onauto/narrative';
+import type { Command, Event, State } from '@onauto/narrative';
 import { AI, ProductCatalog } from '../server/src/integrations';
 type EnterShoppingCriteria = Command<
   'EnterShoppingCriteria',
@@ -408,7 +408,7 @@ scene('Seasonal Assistant', () => {
 
     const code = getCode(await modelToNarrative(experienceModel));
 
-    expect(code).toEqual(`import { experience, it, scene } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { experience, it, scene } from '@onauto/narrative';
 scene('Test Experience Flow', 'TEST-001', () => {
   experience('Homepage', 'EXP-001').client(() => {
     it('show a hero section with a welcome message');
@@ -453,7 +453,7 @@ scene('Test Experience Flow', 'TEST-001', () => {
 
     const code = getCode(await modelToNarrative(modelWithoutIds));
 
-    expect(code).toEqual(`import { describe, experience, it, scene } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { describe, experience, it, scene } from '@onauto/narrative';
 scene('Test Flow without IDs', () => {
   experience('Homepage').client(() => {
     describe('Homepage specs', () => {
@@ -527,7 +527,7 @@ scene('Test Flow without IDs', () => {
 
     const code = getCode(await modelToNarrative(modelWithIds));
 
-    expect(code).toEqual(`import { describe, experience, it, query, scene, specs } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { describe, experience, it, query, scene, specs } from '@onauto/narrative';
 scene('Test Flow with IDs', 'FLOW-123', () => {
   experience('Homepage', 'SLICE-ABC').client(() => {
     describe('Homepage specs', () => {
@@ -628,8 +628,8 @@ scene('Test Flow with IDs', 'FLOW-123', () => {
 
     const code = getCode(await modelToNarrative(modelWithRuleIds));
 
-    expect(code).toEqual(`import { command, example, rule, scene, specs } from '@auto-engineer/narrative';
-import type { Command, Event } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { command, example, rule, scene, specs } from '@onauto/narrative';
+import type { Command, Event } from '@onauto/narrative';
 type ProcessCommand = Command<
   'ProcessCommand',
   {
@@ -692,8 +692,8 @@ scene('Test Flow with Rule IDs', 'FLOW-456', () => {
 
     const code = getCode(await modelToNarrative(modelWithQueryMessage));
 
-    expect(code).toEqual(`import { scene } from '@auto-engineer/narrative';
-import type { Event, Query } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { scene } from '@onauto/narrative';
+import type { Event, Query } from '@onauto/narrative';
 type GetWorkoutHistory = Query<
   'GetWorkoutHistory',
   {
@@ -754,8 +754,8 @@ scene('Workout Flow', 'FLOW-001', () => {});
 
     const code = getCode(await modelToNarrative(modelWithDateTypes));
 
-    expect(code).toEqual(`import { scene } from '@auto-engineer/narrative';
-import type { Event } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { scene } from '@onauto/narrative';
+import type { Event } from '@onauto/narrative';
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',
   {
@@ -1022,8 +1022,8 @@ scene('Questionnaire Flow', 'QUEST-001', () => {});
   scene,
   source,
   specs,
-} from '@auto-engineer/narrative';
-import type { Event, State } from '@auto-engineer/narrative';
+} from '@onauto/narrative';
+import type { Event, State } from '@onauto/narrative';
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',
   {
@@ -1255,8 +1255,8 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
 
     const code = getCode(await modelToNarrative(modelWithDuplicateRules));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@auto-engineer/narrative';
-import type { Event, State } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
+import type { Event, State } from '@onauto/narrative';
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',
   {
@@ -1460,8 +1460,8 @@ scene('Test Flow', 'TEST-FLOW', () => {
 
     const code = getCode(await modelToNarrative(modelWithMultiGiven));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@auto-engineer/narrative';
-import type { Event, State } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
+import type { Event, State } from '@onauto/narrative';
 type QuestionnaireConfig = State<
   'QuestionnaireConfig',
   {
@@ -1674,8 +1674,8 @@ scene('Multi Given Flow', 'MULTI-GIVEN', () => {
 
     const code = getCode(await modelToNarrative(modelWithReferencedStates));
 
-    expect(code).toEqual(`import { data, example, query, rule, scene, source, specs } from '@auto-engineer/narrative';
-import type { State } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { data, example, query, rule, scene, source, specs } from '@onauto/narrative';
+import type { State } from '@onauto/narrative';
 type QuestionnaireProgress = State<
   'QuestionnaireProgress',
   {
@@ -1829,8 +1829,8 @@ scene('Referenced States Flow', 'REF-STATES', () => {
 
     const code = getCode(await modelToNarrative(modelWithDateFields));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@auto-engineer/narrative';
-import type { Event, State } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
+import type { Event, State } from '@onauto/narrative';
 type TimestampedEvent = Event<
   'TimestampedEvent',
   {
@@ -1934,7 +1934,7 @@ scene('Date Handling Flow', 'DATE-FLOW', () => {
 
     const code = getCode(await modelToNarrative(modelWithMultipleFlowsSameSource));
 
-    expect(code).toEqual(`import { experience, it, scene } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { experience, it, scene } from '@onauto/narrative';
 scene('Home Screen', () => {
   experience('Active Surveys Summary', 'aifPcU3hw').client(() => {
     it('show active surveys summary');
@@ -2096,8 +2096,8 @@ scene('Response Analytics', () => {
 
     const code = getCode(await modelToNarrative(modelWithEmptyWhen));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@auto-engineer/narrative';
-import type { Event, State } from '@auto-engineer/narrative';
+    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
+import type { Event, State } from '@onauto/narrative';
 type TodoAdded = Event<
   'TodoAdded',
   {
@@ -2231,8 +2231,8 @@ scene('Todo List Summary', 'TODO-001', () => {
 
       const code = getCode(await modelToNarrative(modelWithSingletonProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@auto-engineer/narrative';
-import type { State } from '@auto-engineer/narrative';
+      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
+import type { State } from '@onauto/narrative';
 type TodoListSummary = State<
   'TodoListSummary',
   {
@@ -2310,8 +2310,8 @@ scene('Todo Summary Flow', 'TODO-SUMMARY', () => {
 
       const code = getCode(await modelToNarrative(modelWithRegularProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@auto-engineer/narrative';
-import type { State } from '@auto-engineer/narrative';
+      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
+import type { State } from '@onauto/narrative';
 type TodoState = State<
   'TodoState',
   {
@@ -2390,8 +2390,8 @@ scene('Todo Flow', 'TODO-FLOW', () => {
 
       const code = getCode(await modelToNarrative(modelWithCompositeProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@auto-engineer/narrative';
-import type { State } from '@auto-engineer/narrative';
+      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
+import type { State } from '@onauto/narrative';
 type UserProjectState = State<
   'UserProjectState',
   {
@@ -2557,8 +2557,8 @@ scene('User Project Flow', 'USER-PROJECT-FLOW', () => {
 
       const code = getCode(await modelToNarrative(modelWithAllProjectionTypes));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@auto-engineer/narrative';
-import type { State } from '@auto-engineer/narrative';
+      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
+import type { State } from '@onauto/narrative';
 type TodoListSummary = State<
   'TodoListSummary',
   {

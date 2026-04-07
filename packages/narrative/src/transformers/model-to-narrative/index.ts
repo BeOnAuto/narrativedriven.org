@@ -14,7 +14,7 @@ import type { GeneratedScenes } from './types';
  * @returns Promise resolving to GeneratedScenes with files array
  */
 export async function modelToNarrative(model: Model): Promise<GeneratedScenes> {
-  const flowImport = '@auto-engineer/narrative';
+  const flowImport = '@onauto/narrative';
   const integrationImport = extractIntegrationImportFromModel(model);
 
   const rawFiles = generateAllModulesCode(model, { flowImport, integrationImport });

@@ -402,7 +402,7 @@ describe('getScenes', (_mode) => {
   it('should handle experience slice with client specs', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowWithExperienceContent = `
-import { scene, experience, it, specs } from '@auto-engineer/narrative';
+import { scene, experience, it, specs } from '@onauto/narrative';
 
 scene('Test Experience Flow', () => {
   experience('Homepage', 'H1a4Bn6Cy').client(() => {
@@ -443,7 +443,7 @@ scene('Test Experience Flow', () => {
   it('simulates browser execution with transpiled CommonJS code', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowContent = `
-import { scene, experience, it, specs } from '@auto-engineer/narrative';
+import { scene, experience, it, specs } from '@onauto/narrative';
 
 scene('Browser Test Flow', () => {
   experience('HomePage').client(() => {
@@ -489,7 +489,7 @@ scene('Browser Test Flow', () => {
     const { registry } = await import('./narrative-registry');
 
     const flowContent = `
-import { scene, experience } from '@auto-engineer/narrative';
+import { scene, experience } from '@onauto/narrative';
 
 scene('Questionnaires', 'Q9m2Kp4Lx', () => {
   experience('Homepage', 'H1a4Bn6Cy').client(() => {});
@@ -693,7 +693,7 @@ scene('questionnaires-test', () => {
   it('should convert all given events to eventRef', async (): Promise<void> => {
     const memoryVfs = new InMemoryFileStore();
     const todoSummaryFlowContent = `
-import { scene, query, specs, rule, example, type Event, type State } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, type Event, type State } from '@onauto/narrative';
 
 type TodoAdded = Event<
   'TodoAdded',
@@ -982,7 +982,7 @@ import {
   type Command,
   type Event,
   type State,
-} from '@auto-engineer/narrative';
+} from '@onauto/narrative';
 
 type SendQuestionnaireLink = Command<
   'SendQuestionnaireLink',
@@ -1248,7 +1248,7 @@ describe('modules in toModel()', () => {
     const memoryVfs = new InMemoryFileStore();
 
     const ordersContent = `
-import { scene, command, specs, rule, example, type Command, type Event } from '@auto-engineer/narrative';
+import { scene, command, specs, rule, example, type Command, type Event } from '@onauto/narrative';
 
 type CreateOrder = Command<'CreateOrder', { orderId: string }>;
 type OrderCreated = Event<'OrderCreated', { orderId: string; createdAt: Date }>;
@@ -1268,7 +1268,7 @@ scene('Orders', () => {
 `;
 
     const usersContent = `
-import { scene, command, specs, rule, example, type Command, type Event } from '@auto-engineer/narrative';
+import { scene, command, specs, rule, example, type Command, type Event } from '@onauto/narrative';
 
 type CreateUser = Command<'CreateUser', { userId: string; name: string }>;
 type UserCreated = Event<'UserCreated', { userId: string; name: string; createdAt: Date }>;
@@ -1319,7 +1319,7 @@ scene('Users', () => {
     const memoryVfs = new InMemoryFileStore();
 
     const content = `
-import { scene, command, specs, rule, example, type Command, type Event } from '@auto-engineer/narrative';
+import { scene, command, specs, rule, example, type Command, type Event } from '@onauto/narrative';
 
 type CreateOrder = Command<'CreateOrder', { orderId: string }>;
 type OrderCreated = Event<'OrderCreated', { orderId: string }>;
@@ -1360,7 +1360,7 @@ scene('Orders', () => {
     const memoryVfs = new InMemoryFileStore();
 
     const content = `
-import { scene, command, query, specs, rule, example, type Command, type Event, type State } from '@auto-engineer/narrative';
+import { scene, command, query, specs, rule, example, type Command, type Event, type State } from '@onauto/narrative';
 
 type CreateTodo = Command<'CreateTodo', { todoId: string }>;
 type TodoCreated = Event<'TodoCreated', { todoId: string }>;
@@ -1416,7 +1416,7 @@ scene('View Todos', () => {
     const memoryVfs = new InMemoryFileStore();
 
     const content = `
-import { scene, command, specs, rule, example, type Command, type Event } from '@auto-engineer/narrative';
+import { scene, command, specs, rule, example, type Command, type Event } from '@onauto/narrative';
 
 type DoSomething = Command<'DoSomething', { id: string }>;
 type SomethingDone = Event<'SomethingDone', { id: string }>;
@@ -1459,7 +1459,7 @@ describe('projection DSL methods', () => {
   it('should generate correct origin for singleton projection', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowContent = `
-import { scene, query, specs, rule, example, data, source, type Event, type State } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, data, source, type Event, type State } from '@onauto/narrative';
 
 type TodoAdded = Event<'TodoAdded', { todoId: string; description: string; addedAt: Date }>;
 type TodoListSummary = State<'TodoListSummary', { summaryId: string; totalTodos: number }>;
@@ -1511,7 +1511,7 @@ scene('Projection Test', () => {
   it('should generate correct origin for regular projection with single idField', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowContent = `
-import { scene, query, specs, rule, example, data, source, type Event, type State } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, data, source, type Event, type State } from '@onauto/narrative';
 
 type TodoAdded = Event<'TodoAdded', { todoId: string; description: string; addedAt: Date }>;
 type TodoState = State<'TodoState', { todoId: string; description: string; status: string }>;
@@ -1563,7 +1563,7 @@ scene('Projection Test', () => {
   it('should generate correct origin for composite projection with multiple idFields', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowContent = `
-import { scene, query, specs, rule, example, data, source, type Event, type State } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, data, source, type Event, type State } from '@onauto/narrative';
 
 type UserProjectAssigned = Event<'UserProjectAssigned', { userId: string; projectId: string; assignedAt: Date }>;
 type UserProjectState = State<'UserProjectState', { userId: string; projectId: string; role: string }>;
@@ -1615,7 +1615,7 @@ scene('Projection Test', () => {
   it('should validate all three projection patterns together', async () => {
     const memoryVfs = new InMemoryFileStore();
     const flowContent = `
-import { scene, query, specs, rule, example, data, source, type Event, type State } from '@auto-engineer/narrative';
+import { scene, query, specs, rule, example, data, source, type Event, type State } from '@onauto/narrative';
 
 type TodoAdded = Event<'TodoAdded', { todoId: string; userId: string; projectId: string; description: string; addedAt: Date }>;
 
@@ -1718,7 +1718,7 @@ scene('All Projection Patterns', () => {
     const memoryVfs = new InMemoryFileStore();
 
     const flowContent = `
-import { scene, command, query, specs, rule, example, data, sink, source, type Event, type State } from '@auto-engineer/narrative';
+import { scene, command, query, specs, rule, example, data, sink, source, type Event, type State } from '@onauto/narrative';
 
 type OrderPlaced = Event<'OrderPlaced', { orderId: string; amount: number }>;
 type OrderState = State<'OrderState', { orderId: string; status: string }>;
