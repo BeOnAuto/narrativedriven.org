@@ -249,8 +249,8 @@ export async function buildGraph(
     }
   }
 
-  async function processImports(imports: string[], path: string): Promise<Map<string, import('./types').Resolved>> {
-    const resolved = new Map<string, import('./types').Resolved>();
+  async function processImports(imports: string[], path: string): Promise<Map<string, Resolved>> {
+    const resolved = new Map<string, Resolved>();
 
     for (const spec of imports) {
       const r = await resolveSpecifier(vfs, spec, path, importMap);
