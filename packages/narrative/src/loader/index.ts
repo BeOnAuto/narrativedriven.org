@@ -5,8 +5,14 @@ import { setGivenTypesByFile } from '../narrative-context';
 import { registry } from '../narrative-registry';
 import { type BuildGraphResult, buildGraph } from './graph';
 import { createEnhancedImportMap } from './importmap';
+import type { IFileStore } from '../file-store';
 import { runGraph } from './runtime-cjs';
-import type { ExecuteOptions } from './types';
+
+export type ExecuteOptions = {
+  entryFiles: string[];
+  vfs: IFileStore;
+  importMap?: Record<string, unknown>;
+};
 
 const debug = createDebug('auto:flow:ast-loader:index');
 

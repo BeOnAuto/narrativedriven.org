@@ -1,4 +1,4 @@
-import { type IFileStore, InMemoryFileStore } from '@auto-engineer/file-store';
+import { type IFileStore, InMemoryFileStore } from './file-store';
 import gql from 'graphql-tag';
 import { beforeEach, describe, expect, it } from 'vitest';
 import * as dataBuilders from './data-narrative-builders';

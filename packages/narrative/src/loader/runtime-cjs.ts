@@ -3,7 +3,7 @@ import { integrationRegistry } from '../integration-registry';
 import { registry } from '../narrative-registry';
 import type { Integration } from '../types';
 import { dirname, toPosix } from './fs-path';
-import type { Graph } from './types';
+import type { Graph } from './graph';
 
 const debug = createDebug('auto:flow:runtime');
 const dImp = createDebug('auto:flow:runtime:require');

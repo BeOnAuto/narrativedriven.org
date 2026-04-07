@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { InMemoryFileStore } from '@auto-engineer/file-store';
-import { NodeFileStore } from '@auto-engineer/file-store/node';
+import { InMemoryFileStore } from './file-store';
+import { NodeFileStore } from './file-store/node';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { clearGetScenesCache, getScenes } from './getScenes';
 import { type Example, type Model, modelToNarrative, type QueryMoment, type Scene } from './index';

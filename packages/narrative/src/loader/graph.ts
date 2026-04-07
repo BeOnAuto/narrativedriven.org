@@ -1,8 +1,8 @@
-import type { IFileStore } from '@auto-engineer/file-store';
+import type { IFileStore } from '../file-store';
 import createDebug from 'debug';
 import { integrationExportRegistry } from '../integration-export-registry';
 import { toPosix } from './fs-path';
-import { resolveSpecifier } from './resolver';
+import { type Resolved, resolveSpecifier } from './resolver';
 import {
   parseGivenTypeArguments,
   parseImports,
@@ -15,8 +15,15 @@ import {
   type TypeInfo,
   transpileToCjs,
 } from './ts-utils';
-import type { Graph } from './types';
 import { createVfsCompilerHost } from './vfs-compiler-host';
+
+export type ModuleCode = {
+  js: string;
+  imports: string[];
+  resolved: Map<string, Resolved>;
+};
+
+export type Graph = Map<string, ModuleCode>;
 
 const debug = createDebug('auto:flow:graph');
 

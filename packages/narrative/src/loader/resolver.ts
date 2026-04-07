@@ -1,6 +1,10 @@
-import type { IFileStore } from '@auto-engineer/file-store';
+import type { IFileStore } from '../file-store';
 import { resolveAbsolute, resolveRelative } from './ts-utils';
-import type { Resolved } from './types';
+
+export type Resolved =
+  | { kind: 'vfs'; path: string }
+  | { kind: 'mapped'; value: unknown }
+  | { kind: 'external'; spec: string };
 
 export async function resolveSpecifier(
   vfs: IFileStore,

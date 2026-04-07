@@ -1,4 +1,4 @@
-import type { IFileStore } from '@auto-engineer/file-store';
+import type { IFileStore } from './file-store';
 import createDebug from 'debug';
 import { sha256 } from 'js-sha256';
 import type { Model, Scene } from './index';
