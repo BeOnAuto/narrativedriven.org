@@ -1,0 +1,236 @@
+import createDebug from 'debug';
+import type { DataTargetItem } from './data-narrative-builders';
+import {
+  clearCurrentScene,
+  endClientBlock,
+  endServerBlock,
+  getCurrentMoment,
+  popDescribe,
+  pushDescribe,
+  pushSpec,
+  recordErrorStep,
+  recordExample,
+  recordIt,
+  recordRule,
+  recordStep,
+  setMomentData,
+  startClientBlock,
+  startScene,
+  startServerBlock,
+} from './narrative-context';
+import { registry } from './narrative-registry';
+import type { Data, DataItem } from './types';
+
+const debug = createDebug('auto:narrative:narrative');
+if ('color' in debug && typeof debug === 'object') {
+  (debug as { color: string }).color = '6';
+}
+
+export function scene(name: string, fn: () => void): void;
+export function scene(name: string, id: string, fn: () => void): void;
+export function scene(name: string, idOrFn: string | (() => void), fn?: () => void): void {
+  const id = typeof idOrFn === 'string' ? idOrFn : undefined;
+  const callback = typeof idOrFn === 'function' ? idOrFn : fn!;
+
+  debug('Starting scene definition: %s', name);
+  const sceneObj = startScene(name, id);
+  debug('Executing scene function for: %s', name);
+  callback();
+  debug('Scene function executed, registering scene: %s with %d moments', name, sceneObj.moments.length);
+  registry.register(sceneObj);
+  clearCurrentScene();
+  debug('Scene registered and context cleared: %s', name);
+}
+
+export const client = (fn: () => void) => {
+  const moment = getCurrentMoment();
+  if (moment) {
+    startClientBlock(moment);
+    fn();
+    endClientBlock();
+  }
+};
+
+export const server = (fn: () => void) => {
+  const moment = getCurrentMoment();
+  if (moment) {
+    startServerBlock(moment, '');
+    fn();
+    endServerBlock();
+  }
+};
+
+export const request = (_query: unknown) => ({
+  with: (..._dependencies: unknown[]) => {},
+});
+
+export function describe(fn: () => void): void;
+export function describe(title: string, fn: () => void): void;
+export function describe(title: string, id: string, fn: () => void): void;
+export function describe(titleOrFn: string | (() => void), idOrFn?: string | (() => void), fn?: () => void): void {
+  if (typeof titleOrFn === 'function') {
+    const moment = getCurrentMoment();
+    const inferredTitle = moment?.name ?? '';
+    pushDescribe(inferredTitle, undefined);
+    titleOrFn();
+    popDescribe();
+    return;
+  }
+
+  const title = titleOrFn;
+  const hasId = typeof idOrFn === 'string';
+  const id = hasId ? idOrFn : undefined;
+  const callback = hasId ? fn! : (idOrFn as () => void);
+
+  pushDescribe(title, id);
+  callback();
+  popDescribe();
+}
+
+export function it(title: string): void;
+export function it(title: string, id: string): void;
+export function it(title: string, id?: string): void {
+  recordIt(title, id);
+}
+
+export function should(title: string): void;
+export function should(title: string, id: string): void;
+export function should(title: string, id?: string): void {
+  recordIt(title, id);
+}
+
+export function specs(feature: string, fn: () => void): void;
+export function specs(fn: () => void): void;
+export function specs(featureOrFn: string | (() => void), fn?: () => void): void {
+  const feature = typeof featureOrFn === 'string' ? featureOrFn : '';
+  const callback = typeof featureOrFn === 'function' ? featureOrFn : fn!;
+
+  pushSpec(feature);
+  callback();
+}
+
+export function rule(name: string, fn: () => void): void;
+export function rule(name: string, id: string, fn: () => void): void;
+export function rule(name: string, idOrFn: string | (() => void), fn?: () => void): void {
+  const id = typeof idOrFn === 'string' ? idOrFn : undefined;
+  const callback = typeof idOrFn === 'function' ? idOrFn : fn!;
+  recordRule(name, id);
+  callback();
+}
+
+type ExtractData<T> = T extends { data: infer D } ? D : T;
+
+export interface ThenBuilder {
+  and<T>(data: ExtractData<T>): ThenBuilder;
+}
+
+export interface WhenBuilder {
+  then<T>(data: ExtractData<T>): ThenBuilder;
+  and<T>(data: ExtractData<T>): WhenBuilder;
+}
+
+export interface GivenBuilder {
+  and<T>(data: ExtractData<T>): GivenBuilder;
+  when<W>(data: ExtractData<W>): WhenBuilder;
+  then<T>(data: ExtractData<T>): ThenBuilder;
+}
+
+export interface ExampleBuilder {
+  given<T>(data: ExtractData<T>): GivenBuilder;
+  when<W>(data: ExtractData<W>): WhenBuilder;
+}
+
+function createThenBuilder(): ThenBuilder {
+  return {
+    and<T>(data: ExtractData<T>): ThenBuilder {
+      recordStep('And', 'InferredType', data);
+      return createThenBuilder();
+    },
+  };
+}
+
+function createWhenBuilder(): WhenBuilder {
+  return {
+    then<T>(data: ExtractData<T>): ThenBuilder {
+      recordStep('Then', 'InferredType', data);
+      return createThenBuilder();
+    },
+    and<T>(data: ExtractData<T>): WhenBuilder {
+      recordStep('And', 'InferredType', data);
+      return createWhenBuilder();
+    },
+  };
+}
+
+function createGivenBuilder(): GivenBuilder {
+  return {
+    and<T>(data: ExtractData<T>): GivenBuilder {
+      recordStep('And', 'InferredType', data);
+      return createGivenBuilder();
+    },
+    when<W>(data: ExtractData<W>): WhenBuilder {
+      recordStep('When', 'InferredType', data);
+      return createWhenBuilder();
+    },
+    then<T>(data: ExtractData<T>): ThenBuilder {
+      recordStep('Then', 'InferredType', data);
+      return createThenBuilder();
+    },
+  };
+}
+
+function createExampleBuilder(): ExampleBuilder {
+  return {
+    given<T>(data: ExtractData<T>): GivenBuilder {
+      recordStep('Given', 'InferredType', data);
+      return createGivenBuilder();
+    },
+    when<W>(data: ExtractData<W>): WhenBuilder {
+      recordStep('When', 'InferredType', data);
+      return createWhenBuilder();
+    },
+  };
+}
+
+export function example(name: string): ExampleBuilder;
+export function example(name: string, id: string): ExampleBuilder;
+export function example(name: string, id?: string): ExampleBuilder {
+  recordExample(name, id);
+  return createExampleBuilder();
+}
+
+type ErrorType = 'IllegalStateError' | 'ValidationError' | 'NotFoundError';
+
+export function thenError(errorType: ErrorType, message?: string): void {
+  recordErrorStep(errorType, message);
+}
+
+export const MomentType = {
+  COMMAND: 'command' as const,
+  QUERY: 'query' as const,
+  REACT: 'react' as const,
+} as const;
+
+export interface MomentTypeValueInterface {
+  readonly value: 'command' | 'query' | 'react';
+}
+
+export function data(config: Data | (DataItem | DataTargetItem)[]): void {
+  const moment = getCurrentMoment();
+  if (!moment) throw new Error('No active moment for data configuration');
+
+  // Normalize to Data structure - cast needed since DataItem includes __type discriminator
+  // which gets stripped by setMomentData
+  const dataConfig: Data = Array.isArray(config) ? { items: config as unknown as Data['items'] } : config;
+
+  const momentType = moment.type;
+
+  if (momentType === MomentType.QUERY) {
+    const hasSink = dataConfig.items.some((item) => '__type' in item && item.__type === 'sink');
+    if (hasSink) {
+      throw new Error('Query moments cannot have data sinks, only sources');
+    }
+  }
+
+  setMomentData(dataConfig);
+}
