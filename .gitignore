@@ -1,5 +1,8 @@
 node_modules/
-.vitepress/dist/
-.vitepress/cache/
+dist/
+**/.vitepress/dist/
+**/.vitepress/cache/
+.turbo/
 .DS_Store
 *.log
+.claude-auto/
