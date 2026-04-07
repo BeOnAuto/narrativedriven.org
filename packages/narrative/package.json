@@ -41,6 +41,11 @@
     "tsx": "^4.20.3",
     "vitest": "^3.2.4"
   },
+  "files": [
+    "dist/src/",
+    "LICENSE",
+    "README.md"
+  ],
   "publishConfig": {
     "access": "public"
   },
