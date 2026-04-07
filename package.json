@@ -1,34 +1,21 @@
 {
   "name": "narrativedriven.org",
-  "version": "1.0.0",
-  "description": "Narrative-Driven Development — Tell the story. Build the software.",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "portless run vitepress dev",
-    "build": "vitepress build",
-    "preview": "vitepress preview",
-    "generate:og": "node scripts/og/generate.mjs"
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "type-check": "turbo run type-check",
+    "version": "changeset version",
+    "release": "turbo run release"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BeOnAuto/narrativedriven.org.git"
-  },
-  "keywords": [
-    "ndd",
-    "narrative-driven",
-    "spec-driven",
-    "documentation"
-  ],
-  "author": "Auto team",
-  "license": "CC-BY-NC-ND-4.0",
   "devDependencies": {
-    "@types/node": "^25.5.0",
-    "puppeteer": "^24.39.1",
-    "vitepress": "^1.6.4"
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.27.1",
+    "turbo": "^2.8.10"
   },
-  "dependencies": {
-    "@lottiefiles/dotlottie-web": "^0.67.0",
-    "posthog-js": "^1.364.5"
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
