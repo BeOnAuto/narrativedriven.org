@@ -1,0 +1,22 @@
+{
+  "name": "@onauto/narrativedriven-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "CC-BY-NC-ND-4.0",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "generate:og": "node scripts/og/generate.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "puppeteer": "^24.39.1",
+    "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-web": "^0.67.0",
+    "posthog-js": "^1.364.5"
+  }
+}
