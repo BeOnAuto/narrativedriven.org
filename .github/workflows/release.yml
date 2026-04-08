@@ -53,14 +53,16 @@ jobs:
 
       - name: Publish to npm via OIDC
         working-directory: packages/narrative
+        env:
+          NODE_AUTH_TOKEN: ""
         run: |
           CURRENT=$(node -p "require('./package.json').version")
           PUBLISHED=$(npm view @onauto/narrative version 2>/dev/null || echo "none")
           if [ "$CURRENT" != "$PUBLISHED" ]; then
             echo "Publishing @onauto/narrative@$CURRENT (npm has $PUBLISHED)"
-            # Clear the placeholder token so npm uses OIDC exchange
-            echo "//registry.npmjs.org/:_authToken=" > "$HOME/.npmrc"
-            echo "registry=https://registry.npmjs.org/" >> "$HOME/.npmrc"
+            # Wipe the setup-node .npmrc so npm falls through to native OIDC
+            echo "registry=https://registry.npmjs.org/" > "${NPM_CONFIG_USERCONFIG}"
+            unset NODE_AUTH_TOKEN
             npm publish --provenance --access public
           else
             echo "Version $CURRENT already published, skipping"
