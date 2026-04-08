@@ -42,24 +42,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @onauto/narrative build
 
-      - name: Version packages (if changesets exist)
+      - name: Create release PR or publish
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: echo "skip"
+          publish: ./scripts/publish.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to npm via OIDC
-        working-directory: packages/narrative
-        run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          PUBLISHED=$(npm view @onauto/narrative version 2>/dev/null || echo "none")
-          if [ "$CURRENT" != "$PUBLISHED" ]; then
-            echo "Publishing @onauto/narrative@$CURRENT (npm has $PUBLISHED)"
-            npm publish --provenance --access public
-          else
-            echo "Version $CURRENT already published, skipping"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
