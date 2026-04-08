@@ -38,14 +38,27 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @onauto/narrative build
 
-      - name: Create release PR or publish
+      - name: Version packages (if changesets exist)
+        id: changesets
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: ./scripts/publish.sh
+          publish: echo "skip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm via OIDC
+        if: steps.changesets.outputs.published != 'true'
+        working-directory: packages/narrative
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view @onauto/narrative version 2>/dev/null || echo "none")
+          if [ "$CURRENT" != "$PUBLISHED" ]; then
+            echo "Publishing @onauto/narrative@$CURRENT (npm has $PUBLISHED)"
+            npm publish --provenance --access public
+          else
+            echo "Version $CURRENT already published, skipping"
+          fi
