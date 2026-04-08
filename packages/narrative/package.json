@@ -32,7 +32,7 @@
     "test": "vitest run --reporter=dot",
     "test:coverage": "vitest run --reporter=dot --coverage --coverage.reporter=text",
     "type-check": "tsc --noEmit",
-    "release": "pnpm publish --no-git-checks"
+    "release": "npm publish --provenance --access public"
   },
   "devDependencies": {
     "@types/debug": "^4.1.13",
