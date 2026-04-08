@@ -42,10 +42,26 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @onauto/narrative build
 
-      - name: Create release PR or publish
+      - name: Version packages (if changesets exist)
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: ./scripts/publish.sh
+          publish: echo "skip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm via OIDC
+        working-directory: packages/narrative
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view @onauto/narrative version 2>/dev/null || echo "none")
+          if [ "$CURRENT" != "$PUBLISHED" ]; then
+            echo "Publishing @onauto/narrative@$CURRENT (npm has $PUBLISHED)"
+            # Overwrite setup-node's .npmrc to remove _authToken reference
+            # This forces npm to use its native OIDC exchange instead of
+            # the leaked NODE_AUTH_TOKEN from changesets/action
+            echo "registry=https://registry.npmjs.org/" > "${NPM_CONFIG_USERCONFIG}"
+            npm publish --provenance --access public
+          else
+            echo "Version $CURRENT already published, skipping"
+          fi
