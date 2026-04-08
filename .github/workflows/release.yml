@@ -42,13 +42,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @onauto/narrative build
 
-      - name: Version packages (if changesets exist)
+      - name: Create release PR or publish
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: echo "skip"
+          publish: ./scripts/publish.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to npm via OIDC
-        run: ./scripts/publish.sh
