@@ -40,11 +40,12 @@ jobs:
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @onauto/narrative build
 
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: pnpm run release
+          publish: cd packages/narrative && npm publish --provenance --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
