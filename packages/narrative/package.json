@@ -49,6 +49,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeOnAuto/narrativedriven.org",
+    "directory": "packages/narrative"
+  },
   "license": "Elastic-2.0",
-  "version": "0.2.1"
+  "version": "0.2.2"
 }
