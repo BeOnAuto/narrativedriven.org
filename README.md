@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://narrativedriven.org">
-    <img src="docs/public/og-light.png" alt="Narrative-Driven Development" width="600" />
+    <img src="site/docs/public/og-light.png" alt="Narrative-Driven Development" width="600" />
   </a>
 </p>
 
@@ -31,10 +31,10 @@ Every page on the site has an **Edit this page on GitHub** link at the bottom.
 ## Run locally
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm --filter @onauto/narrativedriven-site dev
 ```
 
 ## License
 
-[CC BY-NC-ND 4.0](./LICENSE) · An initiative by [Auto](https://on.auto).
+This repo contains multiple licenses — see [LICENSE](./LICENSE) for details. An initiative by [Auto](https://on.auto).
