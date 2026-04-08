@@ -46,6 +46,6 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: bash -c "cd packages/narrative && npm publish --provenance --access public"
+          publish: ./scripts/publish.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
