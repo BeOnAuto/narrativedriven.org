@@ -57,6 +57,41 @@ describe('CommandMomentSchema', () => {
   });
 });
 
+describe('BaseMomentSchema initiator', () => {
+  it('accepts optional initiator field on a command moment', () => {
+    const moment = {
+      type: 'command' as const,
+      name: 'Submit Order',
+      client: { specs: [] },
+      server: { description: 'Submits', specs: [] },
+      initiator: 'User',
+    };
+
+    const result = CommandMomentSchema.safeParse(moment);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.initiator).toBe('User');
+    }
+  });
+
+  it('allows omitting initiator', () => {
+    const moment = {
+      type: 'command' as const,
+      name: 'Submit Order',
+      client: { specs: [] },
+      server: { description: 'Submits', specs: [] },
+    };
+
+    const result = CommandMomentSchema.safeParse(moment);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.initiator).toBeUndefined();
+    }
+  });
+});
+
 describe('CommandMomentSchema client.ui', () => {
   it('accepts ui block in client alongside specs', () => {
     const moment = {

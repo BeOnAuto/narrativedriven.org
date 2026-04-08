@@ -286,6 +286,7 @@ const BaseMomentSchema = z
     additionalInstructions: z.string().optional().describe('Additional instructions'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
     exits: z.array(ExitSchema).optional().describe('Conditional exits from this moment to other scenes'),
+    initiator: z.string().optional().describe('Who or what initiates this moment (e.g., "User", "System")'),
   })
   .describe('Base properties shared by all moment types');
 
