@@ -24,33 +24,12 @@ jobs:
       - run: pnpm --filter @onauto/narrative test
       - run: pnpm --filter @onauto/narrative type-check
 
-  version:
+  release:
     needs: build-and-test
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-    steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Version packages (if changesets exist)
-        uses: changesets/action@v1
-        with:
-          version: pnpm run version
-          publish: echo "skip"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  publish:
-    needs: [build-and-test, version]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
       id-token: write
     steps:
       - uses: actions/checkout@v5
@@ -59,8 +38,18 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+          registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @onauto/narrative build
+
+      - name: Version packages (if changesets exist)
+        uses: changesets/action@v1
+        with:
+          version: pnpm run version
+          publish: echo "skip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish to npm via OIDC
         working-directory: packages/narrative
         run: |
@@ -68,7 +57,9 @@ jobs:
           PUBLISHED=$(npm view @onauto/narrative version 2>/dev/null || echo "none")
           if [ "$CURRENT" != "$PUBLISHED" ]; then
             echo "Publishing @onauto/narrative@$CURRENT (npm has $PUBLISHED)"
-            npm publish --provenance --access public --registry https://registry.npmjs.org
+            npm publish --provenance --access public
           else
             echo "Version $CURRENT already published, skipping"
           fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
