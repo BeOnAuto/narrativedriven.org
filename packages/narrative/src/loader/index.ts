@@ -2,6 +2,7 @@ import createDebug from 'debug';
 import { integrationExportRegistry } from '../integration-export-registry';
 import { integrationRegistry } from '../integration-registry';
 import { setGivenTypesByFile } from '../narrative-context';
+import { modelLevelRegistry } from '../model-level-registry';
 import { registry } from '../narrative-registry';
 import { type BuildGraphResult, buildGraph } from './graph';
 import { createEnhancedImportMap } from './importmap';
@@ -36,6 +37,7 @@ export async function executeAST(
   rootDir: string,
 ): Promise<ExecuteResult> {
   registry.clearAll();
+  modelLevelRegistry.clearAll();
   integrationRegistry.clear();
   integrationExportRegistry.clear();
 
