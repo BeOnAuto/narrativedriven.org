@@ -1,10 +1,12 @@
 import createDebug from 'debug';
 import type { DataTargetItem } from './data-narrative-builders';
+import { modelLevelRegistry } from './model-level-registry';
 import {
   clearCurrentScene,
   endClientBlock,
   endServerBlock,
   getCurrentMoment,
+  getCurrentScene,
   popDescribe,
   pushDescribe,
   pushSpec,
@@ -19,6 +21,7 @@ import {
   startServerBlock,
 } from './narrative-context';
 import { registry } from './narrative-registry';
+import { ActorSchema } from './schema';
 import type { Data, DataItem } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
@@ -233,4 +236,9 @@ export function data(config: Data | (DataItem | DataTargetItem)[]): void {
   }
 
   setMomentData(dataConfig);
+}
+
+export function actor(config: { name: string; kind: 'person' | 'system'; description: string }): void {
+  if (getCurrentScene()) throw new Error('actor() must be called at model level, not inside a scene');
+  modelLevelRegistry.addActor(ActorSchema.parse(config));
 }
