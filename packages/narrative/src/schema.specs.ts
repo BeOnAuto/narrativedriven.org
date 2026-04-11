@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type {
+  Actor,
   ComponentDefinition,
+  Entity,
+  Impact,
   Narrative,
   NarrativePlanning,
   SceneClassification,
@@ -10,15 +13,19 @@ import type {
   UISpec,
 } from './schema';
 import {
+  ActorSchema,
   CommandMomentSchema,
   ComponentDefinitionSchema,
   DataSchema,
   DataTargetSchema,
   DesignSchema,
+  EntitySchema,
+  ImpactSchema,
   modelSchema,
   NarrativePlanningSchema,
   NarrativeSchema,
   QueryMomentSchema,
+  ReactMomentSchema,
   SceneClassificationSchema,
   SceneNamesOnlySchema,
   SceneRouteSchema,
@@ -57,37 +64,47 @@ describe('CommandMomentSchema', () => {
   });
 });
 
-describe('BaseMomentSchema initiator', () => {
-  it('accepts optional initiator field on a command moment', () => {
-    const moment = {
+describe('BaseMomentSchema initiator field', () => {
+  it('should accept command moment with optional initiator', () => {
+    const input = {
       type: 'command' as const,
-      name: 'Submit Order',
+      name: 'Submit',
+      initiator: 'Operator',
       client: { specs: [] },
       server: { description: 'Submits', specs: [] },
-      initiator: 'User',
     };
-
-    const result = CommandMomentSchema.safeParse(moment);
-
+    const result = CommandMomentSchema.safeParse(input);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.initiator).toBe('User');
+      expect(result.data).toEqual(input);
     }
   });
 
-  it('allows omitting initiator', () => {
-    const moment = {
+  it('should accept react moment with optional initiator', () => {
+    const input = {
+      type: 'react' as const,
+      name: 'Process',
+      initiator: 'Gateway',
+      server: { specs: [] },
+    };
+    const result = ReactMomentSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
+  });
+
+  it('should accept moment without initiator (backward compat)', () => {
+    const input = {
       type: 'command' as const,
-      name: 'Submit Order',
+      name: 'Submit',
       client: { specs: [] },
       server: { description: 'Submits', specs: [] },
     };
-
-    const result = CommandMomentSchema.safeParse(moment);
-
+    const result = CommandMomentSchema.safeParse(input);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.initiator).toBeUndefined();
+      expect(result.data).toEqual(input);
     }
   });
 });
@@ -241,6 +258,28 @@ describe('SceneSchema scene field', () => {
       expect(result.data.scene).toBeUndefined();
     }
   });
+
+  it('should accept scene with requirements and assumptions', () => {
+    const input = {
+      name: 'Process Item',
+      moments: [],
+      requirements: 'Must validate input before processing',
+      assumptions: ['Input is well-formed JSON'],
+    };
+    const result = SceneSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
+  });
+
+  it('should accept scene without requirements and assumptions (backward compat)', () => {
+    const result = SceneSchema.safeParse({ name: 'Simple', moments: [] });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({ name: 'Simple', moments: [] });
+    }
+  });
 });
 
 describe('NarrativeSchema', () => {
@@ -279,6 +318,31 @@ describe('NarrativeSchema', () => {
 
   it('should reject missing sceneIds', () => {
     const result = NarrativeSchema.safeParse({ name: 'Onboarding' });
+    expect(result.success).toBe(false);
+  });
+
+  it('should accept narrative with outcome, impact, requirements, and assumptions', () => {
+    const input = {
+      name: 'Registration',
+      sceneIds: ['n-1'],
+      outcome: 'User gains access to the system',
+      impact: 'critical' as const,
+      requirements: 'Must complete within 60 seconds',
+      assumptions: ['Email service is reachable', 'Unique constraint on username'],
+    };
+    const result = NarrativeSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
+  });
+
+  it('should reject invalid impact value', () => {
+    const result = NarrativeSchema.safeParse({
+      name: 'X',
+      sceneIds: [],
+      impact: 'low',
+    });
     expect(result.success).toBe(false);
   });
 });
@@ -438,6 +502,44 @@ describe('NarrativePlanningSchema', () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  it('should accept planning narrative with outcome, impact, and assumptions', () => {
+    const input = {
+      variant: 'narrative-planning' as const,
+      narratives: [
+        {
+          name: 'Setup',
+          sceneNames: ['Configure'],
+          outcome: 'System is configured',
+          impact: 'important' as const,
+          assumptions: ['Admin has credentials'],
+        },
+      ],
+      scenes: [{ name: 'Configure' }],
+    };
+    const result = NarrativePlanningSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
+  });
+
+  it('should accept planning schema with model-level actors, entities, assumptions, requirements', () => {
+    const input = {
+      variant: 'narrative-planning' as const,
+      narratives: [{ name: 'Flow', sceneNames: ['Step'] }],
+      scenes: [{ name: 'Step' }],
+      actors: [{ name: 'Operator', kind: 'person' as const, description: 'Runs the system' }],
+      entities: [{ name: 'Task', description: 'A unit of work' }],
+      assumptions: ['System is online'],
+      requirements: 'Must handle concurrent access',
+    };
+    const result = NarrativePlanningSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
   });
 });
 
@@ -804,5 +906,158 @@ describe('exported UI types', () => {
     });
     const typed: ComponentDefinition = parsed;
     expect(typed).toEqual(parsed);
+  });
+});
+
+describe('ActorSchema', () => {
+  it('should accept a valid person actor', () => {
+    const result = ActorSchema.safeParse({
+      name: 'Operator',
+      kind: 'person',
+      description: 'Manages the system',
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({
+        name: 'Operator',
+        kind: 'person',
+        description: 'Manages the system',
+      });
+    }
+  });
+
+  it('should accept a valid system actor', () => {
+    const result = ActorSchema.safeParse({
+      name: 'Gateway',
+      kind: 'system',
+      description: 'Routes requests',
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({
+        name: 'Gateway',
+        kind: 'system',
+        description: 'Routes requests',
+      });
+    }
+  });
+
+  it('should reject invalid kind', () => {
+    const result = ActorSchema.safeParse({
+      name: 'Bot',
+      kind: 'robot',
+      description: 'Does things',
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('should reject missing required fields', () => {
+    expect(ActorSchema.safeParse({ name: 'X' }).success).toBe(false);
+    expect(ActorSchema.safeParse({ kind: 'person' }).success).toBe(false);
+    expect(ActorSchema.safeParse({ description: 'Y' }).success).toBe(false);
+  });
+
+  it('Actor type matches ActorSchema inference', () => {
+    const parsed = ActorSchema.parse({ name: 'A', kind: 'person', description: 'D' });
+    const typed: Actor = parsed;
+    expect(typed).toEqual({ name: 'A', kind: 'person', description: 'D' });
+  });
+});
+
+describe('EntitySchema', () => {
+  it('should accept entity with name and description', () => {
+    const result = EntitySchema.safeParse({
+      name: 'Item',
+      description: 'A trackable item',
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({
+        name: 'Item',
+        description: 'A trackable item',
+      });
+    }
+  });
+
+  it('should accept entity with optional attributes', () => {
+    const result = EntitySchema.safeParse({
+      name: 'Record',
+      description: 'A data record',
+      attributes: ['status', 'priority', 'label'],
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({
+        name: 'Record',
+        description: 'A data record',
+        attributes: ['status', 'priority', 'label'],
+      });
+    }
+  });
+
+  it('should reject missing required fields', () => {
+    expect(EntitySchema.safeParse({ name: 'X' }).success).toBe(false);
+    expect(EntitySchema.safeParse({ description: 'Y' }).success).toBe(false);
+  });
+
+  it('Entity type matches EntitySchema inference', () => {
+    const parsed = EntitySchema.parse({ name: 'E', description: 'D' });
+    const typed: Entity = parsed;
+    expect(typed).toEqual({ name: 'E', description: 'D' });
+  });
+});
+
+describe('ImpactSchema', () => {
+  it('should accept all valid impact levels', () => {
+    expect(ImpactSchema.safeParse('critical').success).toBe(true);
+    expect(ImpactSchema.safeParse('important').success).toBe(true);
+    expect(ImpactSchema.safeParse('nice-to-have').success).toBe(true);
+  });
+
+  it('should reject invalid impact level', () => {
+    expect(ImpactSchema.safeParse('low').success).toBe(false);
+    expect(ImpactSchema.safeParse('high').success).toBe(false);
+  });
+
+  it('Impact type matches ImpactSchema inference', () => {
+    const parsed = ImpactSchema.parse('critical');
+    const typed: Impact = parsed;
+    expect(typed).toBe('critical');
+  });
+});
+
+describe('modelSchema model-level metadata fields', () => {
+  const minimalModel = {
+    variant: 'specs' as const,
+    scenes: [],
+    messages: [],
+    modules: [],
+    narratives: [],
+  };
+
+  it('should accept model without new metadata fields (backward compat)', () => {
+    const result = modelSchema.safeParse(minimalModel);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(minimalModel);
+    }
+  });
+
+  it('should accept model with all metadata fields', () => {
+    const input = {
+      ...minimalModel,
+      actors: [
+        { name: 'Operator', kind: 'person' as const, description: 'Manages system' },
+        { name: 'Gateway', kind: 'system' as const, description: 'Routes requests' },
+      ],
+      entities: [{ name: 'Record', description: 'A data record', attributes: ['status', 'label'] }],
+      assumptions: ['All users are authenticated', 'System runs in UTC'],
+      requirements: '## Domain Requirements\n\nMust support multi-tenancy.',
+    };
+    const result = modelSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual(input);
+    }
   });
 });

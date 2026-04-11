@@ -34,6 +34,24 @@ const IntegrationSchema = z
   })
   .describe('External service integration configuration');
 
+const ActorSchema = z
+  .object({
+    name: z.string().describe('Actor name'),
+    kind: z.enum(['person', 'system']).describe('Whether this actor is a person or a system'),
+    description: z.string().describe('What this actor does in the domain'),
+  })
+  .describe('A person or system involved in the domain');
+
+const EntitySchema = z
+  .object({
+    name: z.string().describe('Entity name'),
+    description: z.string().describe('What this entity represents'),
+    attributes: z.array(z.string()).optional().describe('Key attributes of this entity'),
+  })
+  .describe('A domain noun — something actors interact with');
+
+const ImpactSchema = z.enum(['critical', 'important', 'nice-to-have']).describe('Priority level');
+
 // Data flow schemas for unified architecture
 export const MessageTargetSchema = z
   .object({
@@ -286,7 +304,7 @@ const BaseMomentSchema = z
     additionalInstructions: z.string().optional().describe('Additional instructions'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
     exits: z.array(ExitSchema).optional().describe('Conditional exits from this moment to other scenes'),
-    initiator: z.string().optional().describe('Who or what initiates this moment (e.g., "User", "System")'),
+    initiator: z.string().optional().describe('Which actor initiates this moment — references actor by name'),
   })
   .describe('Base properties shared by all moment types');
 
@@ -470,6 +488,10 @@ export const NarrativeSchema = z
     actors: z.array(z.string()).optional(),
     sceneIds: z.array(z.string()).describe('Ordered scene IDs composing this narrative'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
+    outcome: z.string().optional().describe('What value this journey delivers'),
+    impact: ImpactSchema.optional().describe('Priority — drives which narratives to build first'),
+    requirements: z.string().optional().describe('Markdown requirements document (narrative level)'),
+    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
   .describe('Narrative grouping scenes into an ordered flow');
 
@@ -482,6 +504,8 @@ const SceneSchema = z
     sourceFile: z.string().optional(),
     scene: SceneClassificationSchema.optional(),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
+    requirements: z.string().optional().describe('Markdown requirements document (scene level)'),
+    assumptions: z.array(z.string()).optional().describe('Flow-specific assumptions'),
   })
   .describe('Business scene containing related moments');
 
@@ -550,6 +574,9 @@ const NarrativePlanningNarrativeSchema = z
     description: z.string().optional(),
     actors: z.array(z.string()).optional(),
     sceneNames: z.array(z.string()).describe('Ordered scene names'),
+    outcome: z.string().optional().describe('What value this journey delivers'),
+    impact: ImpactSchema.optional().describe('Priority — drives which narratives to build first'),
+    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
   .describe('Narrative with scene names for planning');
 
@@ -558,6 +585,10 @@ export const NarrativePlanningSchema = z
     variant: z.literal('narrative-planning').describe('Narrative-based planning with scene names'),
     narratives: z.array(NarrativePlanningNarrativeSchema),
     scenes: z.array(SceneNamesOnlySchema),
+    actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
+    entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
+    assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
+    requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
   })
   .describe('Progressive disclosure variant for narrative-based planning');
 
@@ -595,6 +626,10 @@ export const modelSchema = z
     modules: z.array(ModuleSchema).describe('Modules for type ownership and file grouping'),
     narratives: z.array(NarrativeSchema),
     design: ModelDesignSchema.optional().describe('Design fields for visual representation'),
+    actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
+    entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
+    assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
+    requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
   })
   .describe('Complete system specification with all implementation details');
 
@@ -626,6 +661,9 @@ export {
   StepWithErrorSchema,
   UISchema,
   ComponentDefinitionSchema,
+  ActorSchema,
+  EntitySchema,
+  ImpactSchema,
 };
 
 export type Model = z.infer<typeof modelSchema>;
@@ -658,3 +696,6 @@ export type UI = z.infer<typeof UISchema>;
 export type ComponentDefinition = z.infer<typeof ComponentDefinitionSchema>;
 export type UiBlock = z.infer<typeof UiBlockSchema>;
 export type Exit = z.infer<typeof ExitSchema>;
+export type Actor = z.infer<typeof ActorSchema>;
+export type Entity = z.infer<typeof EntitySchema>;
+export type Impact = z.infer<typeof ImpactSchema>;
