@@ -3595,4 +3595,106 @@ scene('All Projection Types', 'ALL-PROJ', () => {
     expect(code).toContain("surface: 'route'");
     expect(code).toContain("root: 'layout-root'");
   });
+
+  it('should emit .stream(), .initiator(), and .via() on moments', async () => {
+    const model: Model = {
+      variant: 'specs',
+      scenes: [
+        {
+          name: 'Process',
+          id: 'n-1',
+          moments: [
+            {
+              type: 'command',
+              name: 'Submit',
+              stream: 'item-${itemId}',
+              initiator: 'Operator',
+              via: ['notifier'],
+              client: { specs: [] },
+              server: { description: 'Submits item', specs: [] },
+            },
+          ],
+        },
+      ],
+      messages: [],
+      integrations: [{ name: 'notifier', source: './integrations' }],
+      modules: [],
+      narratives: [],
+    };
+
+    const result = await modelToNarrative(model);
+    const code = getCode(result);
+
+    expect(code).toContain(".stream('item-${itemId}')");
+    expect(code).toContain(".initiator('Operator')");
+    expect(code).toContain('.via(Notifier)');
+  });
+
+  it('should generate metadata file with actors, entities, and narratives', async () => {
+    const model: Model = {
+      variant: 'specs',
+      scenes: [{ name: 'Step A', id: 'n-1', moments: [] }],
+      messages: [],
+      modules: [],
+      narratives: [
+        {
+          name: 'Flow',
+          sceneIds: ['n-1'],
+          outcome: 'Goal achieved',
+          impact: 'critical',
+          actors: ['Op'],
+        },
+      ],
+      actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
+      entities: [{ name: 'Item', description: 'A thing' }],
+      assumptions: ['Online'],
+      requirements: 'Fast',
+    };
+
+    const result = await modelToNarrative(model);
+    const metadataFile = result.files.find((f) => f.path === 'model.narrative.ts');
+
+    expect(metadataFile).toEqual({
+      path: 'model.narrative.ts',
+      code: expect.stringMatching(/actor\([\s\S]*entity\([\s\S]*assumptions\([\s\S]*requirements\([\s\S]*narrative\(/),
+    });
+  });
+
+  it('should not generate metadata file when model has no metadata', async () => {
+    const model: Model = {
+      variant: 'specs',
+      scenes: [{ name: 'Simple', id: 'n-1', moments: [] }],
+      messages: [],
+      modules: [],
+      narratives: [{ name: 'Default', sceneIds: ['n-1'] }],
+    };
+
+    const result = await modelToNarrative(model);
+    const metadataPaths = result.files.filter((f) => f.path === 'model.narrative.ts');
+
+    expect(metadataPaths).toEqual([]);
+  });
+
+  it('should emit assumptions() and requirements() inside scene callbacks', async () => {
+    const model: Model = {
+      variant: 'specs',
+      scenes: [
+        {
+          name: 'Process',
+          id: 'n-1',
+          moments: [],
+          assumptions: ['Input valid'],
+          requirements: 'Must validate first',
+        },
+      ],
+      messages: [],
+      modules: [],
+      narratives: [],
+    };
+
+    const result = await modelToNarrative(model);
+    const code = getCode(result);
+
+    expect(code).toMatch(/scene\([\s\S]*assumptions\([\s\S]*requirements\(/);
+  });
 });

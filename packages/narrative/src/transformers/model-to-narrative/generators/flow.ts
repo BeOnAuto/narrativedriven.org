@@ -17,7 +17,9 @@ import type {
   OriginSchema,
 } from '../../../schema';
 import { jsonToExpr } from '../ast/emit-helpers';
+import { integrationNameToPascalCase } from '../utils/strings';
 import { buildConsolidatedGwtSpecBlock, type GWTBlock } from './gwt';
+import { buildAssumptionsCall, buildRequirementsCall } from './metadata';
 
 type CommandMoment = CommandMomentType;
 type QueryMoment = QueryMomentType;
@@ -772,6 +774,33 @@ function addServerToChain(
   return chain;
 }
 
+function addStreamToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Moment): tsNS.Expression {
+  if (slice.stream !== undefined) {
+    return f.createCallExpression(f.createPropertyAccessExpression(chain, f.createIdentifier('stream')), undefined, [
+      f.createStringLiteral(slice.stream),
+    ]);
+  }
+  return chain;
+}
+
+function addInitiatorToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Moment): tsNS.Expression {
+  if (slice.initiator !== undefined) {
+    return f.createCallExpression(f.createPropertyAccessExpression(chain, f.createIdentifier('initiator')), undefined, [
+      f.createStringLiteral(slice.initiator),
+    ]);
+  }
+  return chain;
+}
+
+function addViaToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Moment): tsNS.Expression {
+  if (slice.via !== undefined && slice.via.length > 0) {
+    const identifiers = slice.via.map((name) => f.createIdentifier(integrationNameToPascalCase(name)));
+    const arg = identifiers.length === 1 ? identifiers[0] : f.createArrayLiteralExpression(identifiers);
+    return f.createCallExpression(f.createPropertyAccessExpression(chain, f.createIdentifier('via')), undefined, [arg]);
+  }
+  return chain;
+}
+
 function buildMoment(
   ts: typeof import('typescript'),
   f: tsNS.NodeFactory,
@@ -794,6 +823,9 @@ function buildMoment(
 
   let chain: tsNS.Expression = f.createCallExpression(f.createIdentifier(sliceCtor), undefined, args);
 
+  chain = addStreamToChain(f, chain, slice);
+  chain = addInitiatorToChain(f, chain, slice);
+  chain = addViaToChain(f, chain, slice);
   chain = addClientToChain(ts, f, chain, slice);
   chain = addUiToChain(ts, f, chain, slice);
   chain = addRequestToChain(f, chain, slice);
@@ -810,7 +842,11 @@ export function buildFlowStatements(
 ): tsNS.Statement[] {
   const f = ts.factory;
 
-  const body = (flow.moments ?? []).map((sl: Moment) => buildMoment(ts, f, sl, messages));
+  const sceneMetadata: tsNS.Statement[] = [];
+  if (flow.assumptions?.length) sceneMetadata.push(buildAssumptionsCall(ts, f, flow.assumptions));
+  if (flow.requirements) sceneMetadata.push(buildRequirementsCall(f, flow.requirements));
+  const momentStatements = (flow.moments ?? []).map((sl: Moment) => buildMoment(ts, f, sl, messages));
+  const body = [...sceneMetadata, ...momentStatements];
 
   const flowArgs: tsNS.Expression[] = [f.createStringLiteral(flow.name)];
   if (flow.id !== null && flow.id !== undefined) {
