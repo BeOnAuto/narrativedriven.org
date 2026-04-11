@@ -47,6 +47,7 @@ export {
   example,
   it,
   MomentType,
+  narrative,
   request,
   requirements,
   rule,

@@ -1,5 +1,6 @@
 import createDebug from 'debug';
 import type { DataTargetItem } from './data-narrative-builders';
+import type { NarrativeDefinition } from './model-level-registry';
 import { modelLevelRegistry } from './model-level-registry';
 import {
   addSceneAssumptions,
@@ -23,7 +24,7 @@ import {
   startServerBlock,
 } from './narrative-context';
 import { registry } from './narrative-registry';
-import { ActorSchema, EntitySchema } from './schema';
+import { ActorSchema, EntitySchema, ImpactSchema } from './schema';
 import type { Data, DataItem } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
@@ -248,6 +249,22 @@ export function actor(config: { name: string; kind: 'person' | 'system'; descrip
 export function entity(config: { name: string; description: string; attributes?: string[] }): void {
   if (getCurrentScene()) throw new Error('entity() must be called at model level, not inside a scene');
   modelLevelRegistry.addEntity(EntitySchema.parse(config));
+}
+
+type NarrativeConfig = Omit<NarrativeDefinition, 'name' | 'id'>;
+
+export function narrative(name: string, config: NarrativeConfig): void;
+export function narrative(name: string, id: string, config: NarrativeConfig): void;
+export function narrative(name: string, idOrConfig: string | NarrativeConfig, config?: NarrativeConfig): void {
+  const id = typeof idOrConfig === 'string' ? idOrConfig : undefined;
+  const cfg = typeof idOrConfig === 'string' ? config! : idOrConfig;
+
+  if (cfg.impact !== undefined) ImpactSchema.parse(cfg.impact);
+
+  const def: NarrativeDefinition = { name, ...cfg };
+  if (id !== undefined) def.id = id;
+
+  modelLevelRegistry.addNarrativeDefinition(def);
 }
 
 export function assumptions(...items: string[]): void {

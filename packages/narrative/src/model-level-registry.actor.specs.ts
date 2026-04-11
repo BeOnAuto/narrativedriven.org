@@ -21,6 +21,7 @@ describe('actor() DSL', () => {
       entities: [],
       assumptions: [],
       requirements: undefined,
+      narrativeDefinitions: [],
     });
   });
 
@@ -33,6 +34,7 @@ describe('actor() DSL', () => {
       entities: [],
       assumptions: [],
       requirements: undefined,
+      narrativeDefinitions: [],
     });
   });
 

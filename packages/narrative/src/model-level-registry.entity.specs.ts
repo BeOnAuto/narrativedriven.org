@@ -17,6 +17,7 @@ describe('entity() DSL', () => {
       entities: [{ name: 'Record', description: 'A data record', attributes: ['status'] }],
       assumptions: [],
       requirements: undefined,
+      narrativeDefinitions: [],
     });
   });
 
