@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { command } from './fluent-builder';
 import { modelLevelRegistry } from './model-level-registry';
-import { actor, assumptions, entity, narrative, requirements } from './narrative';
+import { actor, assumptions, entity, narrative, outcome, requirements } from './narrative';
 import { clearCurrentScene, getCurrentScene, startScene } from './narrative-context';
 import { registry } from './narrative-registry';
 import { scenesToModel } from './transformers/narrative-to-model';
@@ -18,6 +18,7 @@ describe('DSL → scenesToModel round-trip', () => {
     entity({ name: 'Item', description: 'A thing' });
     assumptions('System online');
     requirements('Must be fast');
+    outcome('Records managed efficiently');
     narrative('Flow', {
       outcome: 'Goal met',
       impact: 'critical',
@@ -43,6 +44,7 @@ describe('DSL → scenesToModel round-trip', () => {
         entities: [{ name: 'Item', description: 'A thing' }],
         assumptions: ['System online'],
         requirements: 'Must be fast',
+        outcome: 'Records managed efficiently',
         narratives: [
           {
             name: 'Flow',
@@ -54,10 +56,15 @@ describe('DSL → scenesToModel round-trip', () => {
             requirements: 'Sub-second',
           },
         ],
+        scenes: [
+          expect.objectContaining({
+            name: 'Step',
+            assumptions: ['Input valid'],
+            requirements: 'Validate first',
+            moments: [expect.objectContaining({ initiator: 'Operator' })],
+          }),
+        ],
       }),
     );
-    expect(model.scenes[0].assumptions).toEqual(['Input valid']);
-    expect(model.scenes[0].requirements).toBe('Validate first');
-    expect(model.scenes[0].moments[0].initiator).toBe('Operator');
   });
 });
