@@ -48,6 +48,7 @@ export {
   it,
   MomentType,
   narrative,
+  outcome,
   request,
   requirements,
   rule,

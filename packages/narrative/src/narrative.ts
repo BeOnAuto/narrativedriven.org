@@ -275,6 +275,11 @@ export function assumptions(...items: string[]): void {
   }
 }
 
+export function outcome(value: string): void {
+  if (getCurrentScene()) throw new Error('outcome() must be called at model level, not inside a scene');
+  modelLevelRegistry.setOutcome(value);
+}
+
 export function requirements(doc: string): void {
   if (getCurrentScene()) {
     setSceneRequirements(doc);

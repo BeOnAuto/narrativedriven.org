@@ -16,6 +16,7 @@ class ModelLevelRegistry {
   private entities: Entity[] = [];
   private assumptions: string[] = [];
   private requirements: string | undefined = undefined;
+  private outcome: string | undefined = undefined;
   private narrativeDefinitions: NarrativeDefinition[] = [];
 
   addActor(actorDef: Actor) {
@@ -34,6 +35,10 @@ class ModelLevelRegistry {
     this.requirements = doc;
   }
 
+  setOutcome(value: string) {
+    this.outcome = value;
+  }
+
   addNarrativeDefinition(def: NarrativeDefinition) {
     this.narrativeDefinitions.push(def);
   }
@@ -44,6 +49,7 @@ class ModelLevelRegistry {
       entities: [...this.entities],
       assumptions: [...this.assumptions],
       requirements: this.requirements,
+      outcome: this.outcome,
       narrativeDefinitions: [...this.narrativeDefinitions],
     };
   }
@@ -53,6 +59,7 @@ class ModelLevelRegistry {
     this.entities = [];
     this.assumptions = [];
     this.requirements = undefined;
+    this.outcome = undefined;
     this.narrativeDefinitions = [];
   }
 }
