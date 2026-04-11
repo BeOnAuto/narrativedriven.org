@@ -12,6 +12,7 @@ export const ALL_FLOW_FUNCTION_NAMES = [
   'gql',
   'it',
   'narrative',
+  'outcome',
   'query',
   'react',
   'requirements',

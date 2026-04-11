@@ -42,27 +42,46 @@ function buildEntityCall(
   );
 }
 
-export function buildModelMetadataStatements(ts: typeof import('typescript'), model: Model): tsNS.Statement[] {
+function buildOutcomeCall(f: tsNS.NodeFactory, value: string): tsNS.Statement {
+  return f.createExpressionStatement(
+    f.createCallExpression(f.createIdentifier('outcome'), undefined, [f.createStringLiteral(value)]),
+  );
+}
+
+export function buildModelMetadataStatements(
+  ts: typeof import('typescript'),
+  model: Model,
+): { statements: tsNS.Statement[]; usedFunctions: Set<string> } {
   const f = ts.factory;
   const statements: tsNS.Statement[] = [];
+  const usedFunctions = new Set<string>();
 
   if (model.actors?.length) {
     for (const a of model.actors) statements.push(buildActorCall(ts, f, a));
+    usedFunctions.add('actor');
   }
 
   if (model.entities?.length) {
     for (const e of model.entities) statements.push(buildEntityCall(ts, f, e));
+    usedFunctions.add('entity');
   }
 
   if (model.assumptions?.length) {
     statements.push(buildAssumptionsCall(ts, f, model.assumptions));
+    usedFunctions.add('assumptions');
   }
 
   if (model.requirements) {
     statements.push(buildRequirementsCall(f, model.requirements));
+    usedFunctions.add('requirements');
   }
 
-  return statements;
+  if (model.outcome) {
+    statements.push(buildOutcomeCall(f, model.outcome));
+    usedFunctions.add('outcome');
+  }
+
+  return { statements, usedFunctions };
 }
 
 function buildNarrativeCall(
@@ -108,6 +127,7 @@ function modelHasMetadata(model: Model): boolean {
     (model.entities?.length ?? 0) > 0 ||
     (model.assumptions?.length ?? 0) > 0 ||
     model.requirements !== undefined ||
+    model.outcome !== undefined ||
     model.narratives?.some(hasNarrativeMetadata)
   );
 }
@@ -119,13 +139,7 @@ export function buildAllMetadataStatements(
   if (!modelHasMetadata(model)) return null;
 
   const f = ts.factory;
-  const usedFunctions = new Set<string>();
-  const modelStatements = buildModelMetadataStatements(ts, model);
-
-  if (model.actors?.length) usedFunctions.add('actor');
-  if (model.entities?.length) usedFunctions.add('entity');
-  if (model.assumptions?.length) usedFunctions.add('assumptions');
-  if (model.requirements) usedFunctions.add('requirements');
+  const { statements: modelStatements, usedFunctions } = buildModelMetadataStatements(ts, model);
 
   const sceneIdToName = new Map(model.scenes.map((s) => [s.id ?? s.name, s.name]));
   const narrativeStatements: tsNS.Statement[] = [];

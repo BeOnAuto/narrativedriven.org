@@ -11,30 +11,34 @@ function printStatements(statements: ts.Statement[]): string {
 }
 
 describe('buildModelMetadataStatements', () => {
-  it('generates actor, entity, assumptions, and requirements calls', () => {
+  it('generates actor, entity, assumptions, requirements, and outcome calls', () => {
     const model = {
       actors: [{ name: 'Operator', kind: 'person', description: 'Runs it' }],
       entities: [{ name: 'Item', description: 'A thing', attributes: ['status'] }],
       assumptions: ['Always online'],
       requirements: 'Must be fast',
+      outcome: 'Records managed efficiently',
     } as Model;
 
-    const statements = buildModelMetadataStatements(ts, model);
+    const { statements, usedFunctions } = buildModelMetadataStatements(ts, model);
     const code = printStatements(statements);
 
     expect(code).toEqual(
       'actor({ name: "Operator", kind: "person", description: "Runs it" });\n' +
         'entity({ name: "Item", description: "A thing", attributes: ["status"] });\n' +
         'assumptions("Always online");\n' +
-        'requirements("Must be fast");\n',
+        'requirements("Must be fast");\n' +
+        'outcome("Records managed efficiently");\n',
     );
+    expect(usedFunctions).toEqual(new Set(['actor', 'entity', 'assumptions', 'requirements', 'outcome']));
   });
 
-  it('returns empty array when model has no metadata', () => {
+  it('returns empty statements and usedFunctions when model has no metadata', () => {
     const model = {} as Model;
 
-    const statements = buildModelMetadataStatements(ts, model);
+    const { statements, usedFunctions } = buildModelMetadataStatements(ts, model);
 
     expect(statements).toEqual([]);
+    expect(usedFunctions).toEqual(new Set());
   });
 });
