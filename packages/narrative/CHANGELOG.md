@@ -1,5 +1,20 @@
 # @auto-engineer/flow
 
+## 0.3.0
+
+### Minor Changes
+
+- [`15fbc19`](https://github.com/BeOnAuto/narrativedriven.org/commit/15fbc19197075ff403166fd113f17ddc82315f4a) Thanks [@rami-hatoum](https://github.com/rami-hatoum)! - Restore domain modeling metadata and add model-level outcome
+  - Restore ActorSchema, EntitySchema, ImpactSchema and metadata fields on Narrative/Scene/Model schemas
+  - Restore model-level registry with actor(), entity(), narrative(), assumptions(), requirements() DSL functions
+  - Restore .initiator() on all fluent moment builders
+  - Restore assembleSpecs with buildNarratives and model metadata passthrough
+  - Restore model-to-narrative code generation pipeline (stream, initiator, via, metadata file)
+  - Add model-level outcome field with full pipeline coverage (schema, DSL, code-to-model, model-to-code)
+  - Fix ModelMetadata type to use Pick<Model, ...> instead of manual type declaration
+  - Eliminate duplicate field-presence checks in metadata generator
+  - Simplify narrative-to-model index.ts by removing redundant per-field filtering
+
 ## 1.157.0
 
 ### Minor Changes
