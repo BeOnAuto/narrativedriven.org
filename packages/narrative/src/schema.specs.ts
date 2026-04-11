@@ -534,6 +534,7 @@ describe('NarrativePlanningSchema', () => {
       entities: [{ name: 'Task', description: 'A unit of work' }],
       assumptions: ['System is online'],
       requirements: 'Must handle concurrent access',
+      outcome: 'Tasks are completed on time',
     };
     const result = NarrativePlanningSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -1053,6 +1054,7 @@ describe('modelSchema model-level metadata fields', () => {
       entities: [{ name: 'Record', description: 'A data record', attributes: ['status', 'label'] }],
       assumptions: ['All users are authenticated', 'System runs in UTC'],
       requirements: '## Domain Requirements\n\nMust support multi-tenancy.',
+      outcome: 'Users can manage records efficiently',
     };
     const result = modelSchema.safeParse(input);
     expect(result.success).toBe(true);

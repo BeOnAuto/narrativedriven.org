@@ -589,6 +589,7 @@ export const NarrativePlanningSchema = z
     entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
     assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
     requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
+    outcome: z.string().optional().describe('Domain-level outcome — what value this system delivers'),
   })
   .describe('Progressive disclosure variant for narrative-based planning');
 
@@ -630,6 +631,7 @@ export const modelSchema = z
     entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
     assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
     requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
+    outcome: z.string().optional().describe('Domain-level outcome — what value this system delivers'),
   })
   .describe('Complete system specification with all implementation details');
 
