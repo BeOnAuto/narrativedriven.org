@@ -41,6 +41,7 @@ export {
   actor,
   client,
   data,
+  entity,
   describe,
   example,
   it,

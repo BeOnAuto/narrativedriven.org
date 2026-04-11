@@ -18,6 +18,7 @@ describe('actor() DSL', () => {
         { name: 'Operator', kind: 'person', description: 'Runs the system' },
         { name: 'Gateway', kind: 'system', description: 'Routes traffic' },
       ],
+      entities: [],
     });
   });
 
@@ -27,6 +28,7 @@ describe('actor() DSL', () => {
 
     expect(modelLevelRegistry.getAll()).toEqual({
       actors: [],
+      entities: [],
     });
   });
 

@@ -21,7 +21,7 @@ import {
   startServerBlock,
 } from './narrative-context';
 import { registry } from './narrative-registry';
-import { ActorSchema } from './schema';
+import { ActorSchema, EntitySchema } from './schema';
 import type { Data, DataItem } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
@@ -241,4 +241,9 @@ export function data(config: Data | (DataItem | DataTargetItem)[]): void {
 export function actor(config: { name: string; kind: 'person' | 'system'; description: string }): void {
   if (getCurrentScene()) throw new Error('actor() must be called at model level, not inside a scene');
   modelLevelRegistry.addActor(ActorSchema.parse(config));
+}
+
+export function entity(config: { name: string; description: string; attributes?: string[] }): void {
+  if (getCurrentScene()) throw new Error('entity() must be called at model level, not inside a scene');
+  modelLevelRegistry.addEntity(EntitySchema.parse(config));
 }
