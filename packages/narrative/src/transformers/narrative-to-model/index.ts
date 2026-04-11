@@ -2,6 +2,7 @@ import type { Message, Model, Moment, Scene } from '../../index';
 import { integrationExportRegistry } from '../../integration-export-registry';
 import { globalIntegrationRegistry } from '../../integration-registry';
 import type { TypeInfo } from '../../loader/ts-utils';
+import { modelLevelRegistry } from '../../model-level-registry';
 import { assembleSpecs } from './assemble';
 import { applyExampleShapeHints, type ExampleShapeHints } from './example-shapes';
 import { inlineAllMessageFieldTypes } from './inlining';
@@ -340,5 +341,25 @@ export const scenesToModel = (scenes: Scene[], typesByFile?: Map<string, Map<str
     inlineAllMessageFieldTypes(messages, unionTypes);
   }
 
-  return assembleSpecs(scenes, Array.from(messages.values()), Array.from(integrations.values()));
+  const {
+    actors,
+    entities,
+    assumptions: modelAssumptions,
+    requirements: modelRequirements,
+    narrativeDefinitions,
+  } = modelLevelRegistry.getAll();
+  const modelMetadata = {
+    ...(actors.length > 0 ? { actors } : {}),
+    ...(entities.length > 0 ? { entities } : {}),
+    ...(modelAssumptions.length > 0 ? { assumptions: modelAssumptions } : {}),
+    ...(modelRequirements ? { requirements: modelRequirements } : {}),
+  };
+
+  return assembleSpecs(
+    scenes,
+    Array.from(messages.values()),
+    Array.from(integrations.values()),
+    Object.keys(modelMetadata).length > 0 ? modelMetadata : undefined,
+    narrativeDefinitions.length > 0 ? narrativeDefinitions : undefined,
+  );
 };

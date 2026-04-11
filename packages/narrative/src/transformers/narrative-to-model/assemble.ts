@@ -1,23 +1,72 @@
-import type { Message, Model, Narrative, Scene } from '../../index';
+import type { Actor, Entity, Message, Model, Narrative, Scene } from '../../index';
+import type { NarrativeDefinition } from '../../model-level-registry';
 import { deriveModules } from './derive-modules';
 
-export function assembleSpecs(scenes: Scene[], messages: unknown[], integrations: unknown[]): Model {
-  const typedMessages = messages as Message[];
-  const modules = deriveModules(scenes, typedMessages);
+type ModelMetadata = {
+  actors?: Actor[];
+  entities?: Entity[];
+  assumptions?: string[];
+  requirements?: string;
+};
 
-  const narratives: Narrative[] = [
-    {
-      name: 'Default',
-      sceneIds: scenes.filter((s) => s.id).map((s) => s.id!),
-    },
-  ];
+export function assembleSpecs(
+  scenes: Scene[],
+  messages: Message[],
+  integrations?: Model['integrations'],
+  modelMetadata?: ModelMetadata,
+  narrativeDefinitions?: NarrativeDefinition[],
+): Model {
+  const modules = deriveModules(scenes, messages);
+
+  const narratives = buildNarratives(scenes, narrativeDefinitions);
 
   return {
     variant: 'specs' as const,
     scenes,
-    messages: typedMessages,
-    integrations: integrations as Model['integrations'],
+    messages,
+    integrations,
     modules,
     narratives,
+    ...(modelMetadata?.actors?.length ? { actors: modelMetadata.actors } : {}),
+    ...(modelMetadata?.entities?.length ? { entities: modelMetadata.entities } : {}),
+    ...(modelMetadata?.assumptions?.length ? { assumptions: modelMetadata.assumptions } : {}),
+    ...(modelMetadata?.requirements ? { requirements: modelMetadata.requirements } : {}),
   };
+}
+
+function buildNarratives(scenes: Scene[], definitions?: NarrativeDefinition[]): Narrative[] {
+  if (!definitions || definitions.length === 0) {
+    return [
+      {
+        name: 'Default',
+        sceneIds: scenes.filter((s) => s.id).map((s) => s.id!),
+      },
+    ];
+  }
+
+  const nameToId = new Map(scenes.filter((s) => s.id).map((s) => [s.name, s.id!]));
+  const coveredSceneIds = new Set<string>();
+
+  const narratives: Narrative[] = definitions.map((def) => {
+    const sceneIds = (def.scenes ?? [])
+      .map((name) => nameToId.get(name))
+      .filter((id): id is string => id !== undefined);
+    for (const id of sceneIds) coveredSceneIds.add(id);
+
+    const nar: Narrative = { name: def.name, sceneIds };
+    if (def.id) nar.id = def.id;
+    if (def.outcome) nar.outcome = def.outcome;
+    if (def.impact) nar.impact = def.impact;
+    if (def.actors?.length) nar.actors = def.actors;
+    if (def.assumptions?.length) nar.assumptions = def.assumptions;
+    if (def.requirements) nar.requirements = def.requirements;
+    return nar;
+  });
+
+  const uncoveredIds = scenes.filter((s) => s.id && !coveredSceneIds.has(s.id)).map((s) => s.id!);
+  if (uncoveredIds.length > 0) {
+    narratives.push({ name: 'Default', sceneIds: uncoveredIds });
+  }
+
+  return narratives;
 }
