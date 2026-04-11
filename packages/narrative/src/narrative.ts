@@ -2,6 +2,7 @@ import createDebug from 'debug';
 import type { DataTargetItem } from './data-narrative-builders';
 import { modelLevelRegistry } from './model-level-registry';
 import {
+  addSceneAssumptions,
   clearCurrentScene,
   endClientBlock,
   endServerBlock,
@@ -16,6 +17,7 @@ import {
   recordRule,
   recordStep,
   setMomentData,
+  setSceneRequirements,
   startClientBlock,
   startScene,
   startServerBlock,
@@ -246,4 +248,20 @@ export function actor(config: { name: string; kind: 'person' | 'system'; descrip
 export function entity(config: { name: string; description: string; attributes?: string[] }): void {
   if (getCurrentScene()) throw new Error('entity() must be called at model level, not inside a scene');
   modelLevelRegistry.addEntity(EntitySchema.parse(config));
+}
+
+export function assumptions(...items: string[]): void {
+  if (getCurrentScene()) {
+    addSceneAssumptions(items);
+  } else {
+    modelLevelRegistry.addAssumptions(items);
+  }
+}
+
+export function requirements(doc: string): void {
+  if (getCurrentScene()) {
+    setSceneRequirements(doc);
+  } else {
+    modelLevelRegistry.setRequirements(doc);
+  }
 }

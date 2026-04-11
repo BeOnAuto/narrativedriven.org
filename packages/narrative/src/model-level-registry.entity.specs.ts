@@ -15,6 +15,8 @@ describe('entity() DSL', () => {
     expect(modelLevelRegistry.getAll()).toEqual({
       actors: [],
       entities: [{ name: 'Record', description: 'A data record', attributes: ['status'] }],
+      assumptions: [],
+      requirements: undefined,
     });
   });
 

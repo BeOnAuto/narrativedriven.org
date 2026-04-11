@@ -87,6 +87,16 @@ export function clearCurrentScene(): void {
   context = null;
 }
 
+export function addSceneAssumptions(items: string[]): void {
+  if (!context) throw new Error('No active scene');
+  context.scene.assumptions = [...(context.scene.assumptions ?? []), ...items];
+}
+
+export function setSceneRequirements(doc: string): void {
+  if (!context) throw new Error('No active scene');
+  context.scene.requirements = doc;
+}
+
 export function getCurrentMoment(): Moment | null {
   if (!context || context.currentMomentIndex === null) return null;
   return context.scene.moments[context.currentMomentIndex] ?? null;
