@@ -1,13 +1,8 @@
-import type { Actor, Entity, Message, Model, Narrative, Scene } from '../../index';
+import type { Message, Model, Narrative, Scene } from '../../index';
 import type { NarrativeDefinition } from '../../model-level-registry';
 import { deriveModules } from './derive-modules';
 
-type ModelMetadata = {
-  actors?: Actor[];
-  entities?: Entity[];
-  assumptions?: string[];
-  requirements?: string;
-};
+type ModelMetadata = Pick<Model, 'actors' | 'entities' | 'assumptions' | 'requirements' | 'outcome'>;
 
 export function assembleSpecs(
   scenes: Scene[],
@@ -31,6 +26,7 @@ export function assembleSpecs(
     ...(modelMetadata?.entities?.length ? { entities: modelMetadata.entities } : {}),
     ...(modelMetadata?.assumptions?.length ? { assumptions: modelMetadata.assumptions } : {}),
     ...(modelMetadata?.requirements ? { requirements: modelMetadata.requirements } : {}),
+    ...(modelMetadata?.outcome ? { outcome: modelMetadata.outcome } : {}),
   };
 }
 

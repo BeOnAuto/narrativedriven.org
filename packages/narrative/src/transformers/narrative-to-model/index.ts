@@ -341,25 +341,13 @@ export const scenesToModel = (scenes: Scene[], typesByFile?: Map<string, Map<str
     inlineAllMessageFieldTypes(messages, unionTypes);
   }
 
-  const {
-    actors,
-    entities,
-    assumptions: modelAssumptions,
-    requirements: modelRequirements,
-    narrativeDefinitions,
-  } = modelLevelRegistry.getAll();
-  const modelMetadata = {
-    ...(actors.length > 0 ? { actors } : {}),
-    ...(entities.length > 0 ? { entities } : {}),
-    ...(modelAssumptions.length > 0 ? { assumptions: modelAssumptions } : {}),
-    ...(modelRequirements ? { requirements: modelRequirements } : {}),
-  };
+  const { narrativeDefinitions, ...modelMetadata } = modelLevelRegistry.getAll();
 
   return assembleSpecs(
     scenes,
     Array.from(messages.values()),
     Array.from(integrations.values()),
-    Object.keys(modelMetadata).length > 0 ? modelMetadata : undefined,
+    modelMetadata,
     narrativeDefinitions.length > 0 ? narrativeDefinitions : undefined,
   );
 };

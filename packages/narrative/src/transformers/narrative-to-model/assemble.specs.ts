@@ -25,12 +25,22 @@ describe('assembleSpecs', () => {
       entities: [{ name: 'Item', description: 'A thing' }],
       assumptions: ['Always online'],
       requirements: 'Must be fast',
+      outcome: 'Records managed efficiently',
     });
 
-    expect(model.actors).toEqual([{ name: 'Op', kind: 'person', description: 'Runs it' }]);
-    expect(model.entities).toEqual([{ name: 'Item', description: 'A thing' }]);
-    expect(model.assumptions).toEqual(['Always online']);
-    expect(model.requirements).toBe('Must be fast');
+    expect(model).toEqual({
+      variant: 'specs',
+      scenes: [],
+      messages: [],
+      integrations: undefined,
+      modules: expect.any(Array),
+      narratives: [{ name: 'Default', sceneIds: [] }],
+      actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
+      entities: [{ name: 'Item', description: 'A thing' }],
+      assumptions: ['Always online'],
+      requirements: 'Must be fast',
+      outcome: 'Records managed efficiently',
+    });
   });
 
   it('resolves narrative sceneNames to sceneIds', () => {
