@@ -391,6 +391,7 @@ export const UiBlockSchema = z
       .describe('Layout regions with placed components'),
     spec: z.record(z.unknown()).optional().describe('UI specification tree'),
     surface: z.enum(['route', 'overlay', 'ephemeral']).optional().describe('Presentation context'),
+    specHash: z.string().optional().describe('Content hash of the spec, used for cache busting'),
   })
   .describe('UI composition block for a moment');
 
