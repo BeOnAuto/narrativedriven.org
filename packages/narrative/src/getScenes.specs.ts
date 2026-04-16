@@ -382,7 +382,7 @@ describe('getScenes', (_mode) => {
         const example = submitMoment.server?.specs?.[0]?.rules[0]?.examples[0];
         const whenStep = example?.steps?.find((s) => s.keyword === 'When');
         if (whenStep && 'text' in whenStep) {
-          expect(whenStep.text).toBe('SubmitQuestionnaire');
+          expect((whenStep as { __typeName?: string }).__typeName).toBe('SubmitQuestionnaire');
         }
       }
     }
@@ -1198,13 +1198,15 @@ function getFirstExampleFromRule(rule: unknown): unknown {
 }
 
 function validateExampleCommandRef(example: unknown): void {
-  const ex = example as { steps?: Array<{ keyword: string; text?: string; docString?: unknown }> };
+  const ex = example as {
+    steps?: Array<{ keyword: string; text?: string; __typeName?: string; docString?: unknown }>;
+  };
   expect(ex?.steps).toBeDefined();
   const whenStep = ex?.steps?.find((s) => s.keyword === 'When');
   expect(whenStep).toBeDefined();
   if (whenStep && 'text' in whenStep) {
-    expect(whenStep.text).toBe('SubmitQuestionnaire');
-    expect(whenStep.text).not.toBe('SendQuestionnaireLink');
+    expect(whenStep.__typeName).toBe('SubmitQuestionnaire');
+    expect(whenStep.__typeName).not.toBe('SendQuestionnaireLink');
     expect(whenStep.docString).toEqual({
       questionnaireId: 'q-001',
       participantId: 'participant-abc',
@@ -1215,14 +1217,16 @@ function validateExampleCommandRef(example: unknown): void {
 }
 
 function validateThenEvents(example: unknown): void {
-  const ex = example as { steps?: Array<{ keyword: string; text?: string; docString?: unknown }> };
+  const ex = example as {
+    steps?: Array<{ keyword: string; text?: string; __typeName?: string; docString?: unknown }>;
+  };
   expect(ex?.steps).toBeDefined();
   const thenSteps = ex?.steps?.filter((s) => s.keyword === 'Then');
   expect(thenSteps).toHaveLength(1);
 
   const thenStep = thenSteps?.[0];
   if (thenStep && 'text' in thenStep) {
-    expect(thenStep.text).toBe('QuestionnaireSubmitted');
+    expect(thenStep.__typeName).toBe('QuestionnaireSubmitted');
     expect(thenStep.docString).toEqual({
       questionnaireId: 'q-001',
       participantId: 'participant-abc',

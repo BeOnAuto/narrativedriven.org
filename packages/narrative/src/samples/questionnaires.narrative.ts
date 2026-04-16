@@ -1,99 +1,75 @@
 import {
-  type Command,
   command,
   data,
+  defineCommand,
+  defineEvent,
+  defineState,
   describe,
-  type Event,
   example,
   experience,
   gql,
   it,
   query,
   rule,
-  type State,
   scene,
   sink,
   source,
   specs,
 } from '@onauto/narrative';
 
-type QuestionnaireLinkSent = Event<
-  'QuestionnaireLinkSent',
-  {
-    questionnaireId: string;
-    participantId: string;
-    link: string;
-    sentAt: Date;
-  }
->;
+const QuestionnaireLinkSent = defineEvent<{
+  questionnaireId: string;
+  participantId: string;
+  link: string;
+  sentAt: Date;
+}>('QuestionnaireLinkSent');
 
-type QuestionAnswered = Event<
-  'QuestionAnswered',
-  {
-    questionnaireId: string;
-    participantId: string;
-    questionId: string;
-    answer: unknown;
-    savedAt: Date;
-  }
->;
+const QuestionAnswered = defineEvent<{
+  questionnaireId: string;
+  participantId: string;
+  questionId: string;
+  answer: unknown;
+  savedAt: Date;
+}>('QuestionAnswered');
 
-type QuestionnaireSubmitted = Event<
-  'QuestionnaireSubmitted',
-  {
-    questionnaireId: string;
-    participantId: string;
-    submittedAt: Date;
-  }
->;
+const QuestionnaireSubmitted = defineEvent<{
+  questionnaireId: string;
+  participantId: string;
+  submittedAt: Date;
+}>('QuestionnaireSubmitted');
 
-type QuestionnaireEditRejected = Event<
-  'QuestionnaireEditRejected',
-  {
-    questionnaireId: string;
-    participantId: string;
-    reason: string;
-    attemptedAt: Date;
-  }
->;
+const QuestionnaireEditRejected = defineEvent<{
+  questionnaireId: string;
+  participantId: string;
+  reason: string;
+  attemptedAt: Date;
+}>('QuestionnaireEditRejected');
 
-type AnswerQuestion = Command<
-  'AnswerQuestion',
-  {
-    questionnaireId: string;
-    participantId: string;
-    questionId: string;
-    answer: unknown;
-  }
->;
+const AnswerQuestion = defineCommand<{
+  questionnaireId: string;
+  participantId: string;
+  questionId: string;
+  answer: unknown;
+}>('AnswerQuestion');
 
-type SubmitQuestionnaire = Command<
-  'SubmitQuestionnaire',
-  {
-    questionnaireId: string;
-    participantId: string;
-  }
->;
+const SubmitQuestionnaire = defineCommand<{
+  questionnaireId: string;
+  participantId: string;
+}>('SubmitQuestionnaire');
 
-type QuestionnaireConfig = State<
-  'QuestionnaireConfig',
-  {
-    questionnaireId: string;
-    numberOfQuestions: number;
-  }
->;
+const QuestionnaireConfig = defineState<{
+  questionnaireId: string;
+  numberOfQuestions: number;
+}>('QuestionnaireConfig');
 
-type QuestionnaireProgress = State<
-  'QuestionnaireProgress',
-  {
-    questionnaireId: string;
-    participantId: string;
-    status: 'in_progress' | 'ready_to_submit' | 'submitted';
-    currentQuestionId: string | null;
-    remainingQuestions: string[];
-    answers: { questionId: string; value: unknown }[];
-  }
->;
+const QuestionnaireProgress = defineState<{
+  questionnaireId: string;
+  participantId: string;
+  status: 'in_progress' | 'ready_to_submit' | 'submitted';
+  currentQuestionId: string | null;
+  remainingQuestions: string[];
+  answers: { questionId: string; value: unknown }[];
+}>('QuestionnaireProgress');
 
 scene('Questionnaires', 'Q9m2Kp4Lx', () => {
   experience('Homepage', 'H1a4Bn6Cy').client(() => {
@@ -106,20 +82,20 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
       specs(() => {
         rule('questionnaires show current progress', 'r1A3Bp9W', () => {
           example('a question has already been answered')
-            .given<QuestionnaireLinkSent>({
+            .given(QuestionnaireLinkSent, 'the questionnaire link was sent', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               link: 'https://app.example.com/q/q-001?participant=participant-abc',
               sentAt: new Date('2030-01-01T09:00:00Z'),
             })
-            .when<QuestionAnswered>({
+            .when(QuestionAnswered, 'a question is answered', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
               answer: 'Yes',
               savedAt: new Date('2030-01-01T09:05:00Z'),
             })
-            .then<QuestionnaireProgress>({
+            .then(QuestionnaireProgress, 'the progress reflects the answered question', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               status: 'in_progress',
@@ -128,13 +104,13 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
               answers: [{ questionId: 'q1', value: 'Yes' }],
             });
           example('no questions have been answered yet')
-            .given<QuestionnaireLinkSent>({
+            .given(QuestionnaireLinkSent, 'the questionnaire link was sent', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               link: 'https://app.example.com/q/q-001?participant=participant-abc',
               sentAt: new Date('2030-01-01T09:00:00Z'),
             })
-            .then<QuestionnaireProgress>({
+            .then(QuestionnaireProgress, 'the progress shows the first question as current', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               status: 'in_progress',
@@ -175,13 +151,13 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
       specs(() => {
         rule('answers are allowed while the questionnaire has not been submitted', 'r2D5Eq0Y', () => {
           example('no questions have been answered yet')
-            .when<AnswerQuestion>({
+            .when(AnswerQuestion, 'the user answers the first question', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
               answer: 'Yes',
             })
-            .then<QuestionAnswered>({
+            .then(QuestionAnswered, 'the answer is recorded', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
@@ -190,18 +166,18 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
             });
 
           example('all questions have already been answered and submitted')
-            .given<QuestionnaireSubmitted>({
+            .given(QuestionnaireSubmitted, 'the questionnaire was submitted earlier', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               submittedAt: new Date('2030-01-01T09:00:00Z'),
             })
-            .when<AnswerQuestion>({
+            .when(AnswerQuestion, 'the user tries to answer after submission', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
               answer: 'Yes',
             })
-            .then<QuestionnaireEditRejected>({
+            .then(QuestionnaireEditRejected, 'the edit is rejected', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               reason: 'Questionnaire already submitted',
@@ -233,31 +209,31 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
       specs(() => {
         rule('questionnaire is ready for submission when all questions are answered', 'r3G8Iv2W', () => {
           example('all questions have been answered')
-            .given<QuestionnaireConfig>({
+            .given(QuestionnaireConfig, 'the questionnaire has 2 questions', {
               questionnaireId: 'q-001',
               numberOfQuestions: 2,
             })
-            .and<QuestionnaireLinkSent>({
+            .and(QuestionnaireLinkSent, 'the link was sent', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               link: 'https://app.example.com/q/q-001?participant=participant-abc',
               sentAt: new Date('2030-01-01T09:00:00Z'),
             })
-            .and<QuestionAnswered>({
+            .and(QuestionAnswered, 'the first question was answered', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
               answer: 'Yes',
               savedAt: new Date('2030-01-01T09:05:00Z'),
             })
-            .and<QuestionAnswered>({
+            .and(QuestionAnswered, 'the second question was answered', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q2',
               answer: 'No',
               savedAt: new Date('2030-01-01T09:05:00Z'),
             })
-            .then<QuestionnaireProgress>({
+            .then(QuestionnaireProgress, 'the questionnaire is ready for submission', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               status: 'ready_to_submit',
@@ -269,20 +245,20 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
               ],
             });
           example('some questions are still unanswered')
-            .given<QuestionnaireLinkSent>({
+            .given(QuestionnaireLinkSent, 'the link was sent', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               link: 'https://app.example.com/q/q-001?participant=participant-abc',
               sentAt: new Date('2030-01-01T09:00:00Z'),
             })
-            .when<QuestionAnswered>({
+            .when(QuestionAnswered, 'the first question is answered', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               questionId: 'q1',
               answer: 'Yes',
               savedAt: new Date('2030-01-01T09:05:00Z'),
             })
-            .then<QuestionnaireProgress>({
+            .then(QuestionnaireProgress, 'the progress shows some questions remaining', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               status: 'in_progress',
@@ -324,11 +300,11 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
       specs(() => {
         rule('questionnaire allowed to be submitted when all questions are answered', 'r4H0Lx4U', () => {
           example('submits the questionnaire successfully')
-            .when<SubmitQuestionnaire>({
+            .when(SubmitQuestionnaire, 'the user submits the questionnaire', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
             })
-            .then<QuestionnaireSubmitted>({
+            .then(QuestionnaireSubmitted, 'the questionnaire is submitted', {
               questionnaireId: 'q-001',
               participantId: 'participant-abc',
               submittedAt: new Date('2030-01-01T09:00:00Z'),
