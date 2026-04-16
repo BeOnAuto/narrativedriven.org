@@ -1,7 +1,5 @@
-import createDebug from 'debug';
 import type { z } from 'zod';
 import type { CommandMoment, ExperienceMoment, Moment, QueryMoment, Scene } from './index';
-import type { GivenTypeInfo } from './loader/ts-utils';
 import type { ClientSpecNode, DataTarget, ExampleSchema, RuleSchema, SpecSchema, StepSchema } from './schema';
 import type { Data, DataSink, DataSource } from './types';
 
@@ -9,8 +7,6 @@ type Step = z.infer<typeof StepSchema>;
 type Example = z.infer<typeof ExampleSchema>;
 type Spec = z.infer<typeof SpecSchema>;
 type Rule = z.infer<typeof RuleSchema>;
-
-const debug = createDebug('auto:narrative:context:given-types');
 
 type MajorKeyword = 'Given' | 'When' | 'Then';
 
@@ -26,39 +22,9 @@ interface SceneContext {
 }
 
 let context: SceneContext | null = null;
-let givenTypesByFile: Map<string, GivenTypeInfo[]> = new Map();
-let whenTypesByFile: Map<string, GivenTypeInfo[]> = new Map();
-let thenTypesByFile: Map<string, GivenTypeInfo[]> = new Map();
-const givenCallCounters: Map<string, number> = new Map();
-const whenCallCounters: Map<string, number> = new Map();
-const thenCallCounters: Map<string, number> = new Map();
-
-export function setGivenTypesByFile(types: Map<string, GivenTypeInfo[]>): void {
-  const whenTypes = types.get('__whenTypes') as Map<string, GivenTypeInfo[]> | undefined;
-  if (whenTypes) {
-    whenTypesByFile = whenTypes;
-    types.delete('__whenTypes');
-  }
-
-  const thenTypes = types.get('__thenTypes') as Map<string, GivenTypeInfo[]> | undefined;
-  if (thenTypes) {
-    thenTypesByFile = thenTypes;
-    types.delete('__thenTypes');
-  }
-
-  givenTypesByFile = types;
-  givenCallCounters.clear();
-  whenCallCounters.clear();
-  thenCallCounters.clear();
-}
 
 export function startScene(name: string, id?: string): Scene {
   const sourceFile = (globalThis as Record<string, unknown>).__aeCurrentModulePath as string | undefined;
-  if (sourceFile !== null && sourceFile !== undefined && sourceFile !== '') {
-    givenCallCounters.set(sourceFile, 0);
-    whenCallCounters.set(sourceFile, 0);
-    thenCallCounters.set(sourceFile, 0);
-  }
 
   const sceneObj: Scene = {
     name,
@@ -362,64 +328,9 @@ export function recordExample(name: string, id?: string): void {
 type StepKeyword = 'Given' | 'When' | 'Then' | 'And';
 type ErrorType = 'IllegalStateError' | 'ValidationError' | 'NotFoundError';
 
-function isValidSourceFile(sourceFile: string | null | undefined): sourceFile is string {
-  return sourceFile !== null && sourceFile !== undefined && sourceFile !== '';
-}
-
-function isValidMatchingType(
-  matchingType: import('./loader/ts-utils').GivenTypeInfo | undefined,
-): matchingType is import('./loader/ts-utils').GivenTypeInfo {
-  return matchingType !== null && matchingType !== undefined && matchingType.typeName !== '';
-}
-
-function resolveEffectiveKeyword(keyword: StepKeyword): MajorKeyword {
-  if (keyword !== 'And') {
-    return keyword;
-  }
-  return context?.lastMajorKeyword ?? 'Given';
-}
-
-function getTypesByFileForKeyword(keyword: MajorKeyword): Map<string, GivenTypeInfo[]> {
-  if (keyword === 'Given') return givenTypesByFile;
-  if (keyword === 'When') return whenTypesByFile;
-  return thenTypesByFile;
-}
-
-function getCountersForKeyword(keyword: MajorKeyword): Map<string, number> {
-  if (keyword === 'Given') return givenCallCounters;
-  if (keyword === 'When') return whenCallCounters;
-  return thenCallCounters;
-}
-
-function getTypeNameFromAST(effectiveKeyword: MajorKeyword): string | null {
-  const sourceFile = context?.scene.sourceFile;
-  if (!isValidSourceFile(sourceFile)) {
-    return null;
-  }
-
-  const typesByFile = getTypesByFileForKeyword(effectiveKeyword);
-  const counters = getCountersForKeyword(effectiveKeyword);
-
-  const currentCount = counters.get(sourceFile) ?? 0;
-  counters.set(sourceFile, currentCount + 1);
-
-  const types = typesByFile.get(sourceFile) || [];
-  const matchingType = types[currentCount];
-
-  if (isValidMatchingType(matchingType)) {
-    debug(
-      'AST match for %s keyword %s at ordinal %d: %s',
-      sourceFile,
-      effectiveKeyword,
-      currentCount,
-      matchingType.typeName,
-    );
-    return matchingType.typeName;
-  }
-
-  debug('No AST match for %s keyword %s at ordinal %d', sourceFile, effectiveKeyword, currentCount);
-  return null;
-}
+// The ordinal-based AST scanner that recovered the generic type argument from
+// `.given<T>(data)` calls has been retired. Type info now arrives at runtime
+// as a TypedRef via `.given(Ref, "sentence", data)`.
 
 function getActiveExampleContext(): { example: Example } {
   if (
@@ -452,15 +363,13 @@ function getActiveExampleContext(): { example: Example } {
  */
 export function recordStep(keyword: StepKeyword, text: string, data: unknown, typeNameOverride?: string): void {
   const { example } = getActiveExampleContext();
-  const effectiveKeyword = resolveEffectiveKeyword(keyword);
 
   if (keyword !== 'And') {
     context!.lastMajorKeyword = keyword as MajorKeyword;
   }
 
-  const shouldInferType = text === 'InferredType';
-  const resolvedText = shouldInferType ? (getTypeNameFromAST(effectiveKeyword) ?? 'InferredType') : text;
-  const typeName = typeNameOverride ?? resolvedText;
+  const typeName = typeNameOverride ?? text;
+  const resolvedText = text;
 
   const docString = typeof data === 'object' && data !== null ? (data as Record<string, unknown>) : undefined;
 

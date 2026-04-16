@@ -1,7 +1,6 @@
 import createDebug from 'debug';
 import { integrationExportRegistry } from '../integration-export-registry';
 import { integrationRegistry } from '../integration-registry';
-import { setGivenTypesByFile } from '../narrative-context';
 import { modelLevelRegistry } from '../model-level-registry';
 import { registry } from '../narrative-registry';
 import { type BuildGraphResult, buildGraph } from './graph';
@@ -67,9 +66,6 @@ export async function executeAST(
   } else {
     final = first;
   }
-
-  // Set given types before running graph so flow-context can use them
-  setGivenTypesByFile(final.givenTypesByFile);
 
   runGraph(entryFiles, final.graph);
 
