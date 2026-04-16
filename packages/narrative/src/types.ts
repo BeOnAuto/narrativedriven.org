@@ -233,3 +233,63 @@ export type Query<QueryType extends string, QueryData extends Record<string, unk
 };
 
 export type ExtractStateData<T> = T extends State<string, infer Data, DefaultRecord | undefined> ? Data : never;
+
+export const ClassificationValues = ['command', 'event', 'state', 'query'] as const;
+export type Classification = (typeof ClassificationValues)[number];
+
+export interface TypedRef<K extends Classification, N extends string, D extends DefaultRecord> {
+  readonly __kind: K;
+  readonly name: N;
+  readonly _data?: D;
+}
+
+export type AnyTypedRef = TypedRef<Classification, string, DefaultRecord>;
+export type DataOf<T> = T extends TypedRef<Classification, string, infer D> ? D : never;
+export type NameOf<T> = T extends TypedRef<Classification, infer N, DefaultRecord> ? N : never;
+export type KindOf<T> = T extends TypedRef<infer K, string, DefaultRecord> ? K : never;
+
+const refRegistry = new Map<string, Classification>();
+
+export function registerRef(name: string, kind: Classification): void {
+  const existing = refRegistry.get(name);
+  if (existing !== undefined && existing !== kind) {
+    throw new Error(`Type "${name}" is already registered as "${existing}"; cannot reregister as "${kind}".`);
+  }
+  refRegistry.set(name, kind);
+}
+
+export function getClassificationFor(name: string): Classification | undefined {
+  return refRegistry.get(name);
+}
+
+export function resetRefRegistry(): void {
+  refRegistry.clear();
+}
+
+export function defineCommand<D extends DefaultRecord = DefaultRecord, N extends string = string>(
+  name: N,
+): TypedRef<'command', N, D> {
+  registerRef(name, 'command');
+  return Object.freeze({ __kind: 'command' as const, name }) as TypedRef<'command', N, D>;
+}
+
+export function defineEvent<D extends DefaultRecord = DefaultRecord, N extends string = string>(
+  name: N,
+): TypedRef<'event', N, D> {
+  registerRef(name, 'event');
+  return Object.freeze({ __kind: 'event' as const, name }) as TypedRef<'event', N, D>;
+}
+
+export function defineState<D extends DefaultRecord = DefaultRecord, N extends string = string>(
+  name: N,
+): TypedRef<'state', N, D> {
+  registerRef(name, 'state');
+  return Object.freeze({ __kind: 'state' as const, name }) as TypedRef<'state', N, D>;
+}
+
+export function defineQuery<D extends DefaultRecord = DefaultRecord, N extends string = string>(
+  name: N,
+): TypedRef<'query', N, D> {
+  registerRef(name, 'query');
+  return Object.freeze({ __kind: 'query' as const, name }) as TypedRef<'query', N, D>;
+}

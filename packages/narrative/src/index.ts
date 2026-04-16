@@ -1,8 +1,11 @@
 export { gql } from 'graphql-tag';
 export type {
+  AnyTypedRef,
+  Classification,
   Command,
   Data,
   DataItem,
+  DataOf,
   DataSink,
   DataSinkItem,
   DataSource,
@@ -10,12 +13,25 @@ export type {
   Destination,
   Event,
   Integration,
+  KindOf,
   MessageTarget,
+  NameOf,
   Origin,
   Query,
   State,
+  TypedRef,
 } from './types';
-export { createIntegration } from './types';
+export {
+  ClassificationValues,
+  createIntegration,
+  defineCommand,
+  defineEvent,
+  defineQuery,
+  defineState,
+  getClassificationFor,
+  registerRef,
+  resetRefRegistry,
+} from './types';
 
 export const get = (strings: TemplateStringsArray, ...values: unknown[]) => {
   return strings.reduce((result, str, i) => {
