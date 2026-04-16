@@ -896,29 +896,15 @@ function validateMixedGivenTypes(example: Example): void {
   const givenSteps = example.steps.filter((s) => s.keyword === 'Given' || s.keyword === 'And');
   expect(givenSteps).toHaveLength(4);
 
-  const firstGiven = givenSteps[0];
-  expect('text' in firstGiven).toBe(true);
-  if ('text' in firstGiven) {
-    expect(firstGiven.text).toBe('ConfigState');
-  }
+  const typeNameOf = (step: unknown): string | undefined =>
+    step !== null && typeof step === 'object' && '__typeName' in step
+      ? ((step as { __typeName?: string }).__typeName)
+      : undefined;
 
-  const secondGiven = givenSteps[1];
-  expect('text' in secondGiven).toBe(true);
-  if ('text' in secondGiven) {
-    expect(secondGiven.text).toBe('SystemInitialized');
-  }
-
-  const thirdGiven = givenSteps[2];
-  expect('text' in thirdGiven).toBe(true);
-  if ('text' in thirdGiven) {
-    expect(thirdGiven.text).toBe('ItemAdded');
-  }
-
-  const fourthGiven = givenSteps[3];
-  expect('text' in fourthGiven).toBe(true);
-  if ('text' in fourthGiven) {
-    expect(fourthGiven.text).toBe('ItemAdded');
-  }
+  expect(typeNameOf(givenSteps[0])).toBe('ConfigState');
+  expect(typeNameOf(givenSteps[1])).toBe('SystemInitialized');
+  expect(typeNameOf(givenSteps[2])).toBe('ItemAdded');
+  expect(typeNameOf(givenSteps[3])).toBe('ItemAdded');
 }
 
 function validateEmptyWhenClause(example: Example): void {
@@ -932,9 +918,11 @@ function validateThenClause(example: Example): void {
 
   const thenOutcome = thenSteps[0];
   expect('text' in thenOutcome).toBe(true);
-  if ('text' in thenOutcome) {
-    expect(thenOutcome.text).toBe('SystemStatus');
-  }
+  const thenTypeName =
+    thenOutcome !== null && typeof thenOutcome === 'object' && '__typeName' in thenOutcome
+      ? (thenOutcome as { __typeName?: string }).__typeName
+      : undefined;
+  expect(thenTypeName).toBe('SystemStatus');
 }
 
 function validateMixedGivenTypeMessages(model: Model): void {

@@ -200,12 +200,34 @@ function processSteps(
     // Prefer __typeName when present (new sentence-form steps); fall back to
     // text for legacy steps where text still carries the type name.
     const typeName = step.__typeName ?? step.text;
-    const refItem = {
-      eventRef: typeName,
-      commandRef: typeName,
-      stateRef: typeName,
-      exampleData: step.docString,
-    };
+
+    // Look up classification via the resolver. When known, set only the
+    // matching ref field so downstream processors don't double-dispatch
+    // (the old shotgun `{eventRef, commandRef, stateRef}` caused last-write-
+    // wins between handlers, which misclassified factory-defined types).
+    const { typeInfo } = resolveTypeAndInfo(typeName, undefined, step.docString);
+    const classification = typeInfo?.classification;
+
+    const refItem: {
+      eventRef?: string;
+      commandRef?: string;
+      stateRef?: string;
+      exampleData?: Record<string, unknown>;
+    } = { exampleData: step.docString };
+
+    if (classification === 'state') {
+      refItem.stateRef = typeName;
+    } else if (classification === 'command' || classification === 'query') {
+      refItem.commandRef = typeName;
+    } else if (classification === 'event') {
+      refItem.eventRef = typeName;
+    } else {
+      // Classification unknown — preserve the shotgun behavior so legacy
+      // sentinel/alt-resolution paths can still recover the type.
+      refItem.eventRef = typeName;
+      refItem.commandRef = typeName;
+      refItem.stateRef = typeName;
+    }
 
     if (effectiveKeyword === 'Given') {
       processGiven([refItem], resolveTypeAndInfo, messages, exampleShapeHints);

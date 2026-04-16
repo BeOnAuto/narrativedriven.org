@@ -248,7 +248,17 @@ export type DataOf<T> = T extends TypedRef<Classification, string, infer D> ? D 
 export type NameOf<T> = T extends TypedRef<Classification, infer N, DefaultRecord> ? N : never;
 export type KindOf<T> = T extends TypedRef<infer K, string, DefaultRecord> ? K : never;
 
-const refRegistry = new Map<string, Classification>();
+// Use a globalThis-scoped registry so the loader's isolated module runtime
+// (runtime-cjs / `new Function` sandbox) shares the same map with the host
+// process. Without this, factory calls in a loaded `.narrative.ts` file
+// register into a local map that the resolver never sees.
+const GLOBAL_REGISTRY_KEY = '__narrativeRefRegistry_v1';
+type GlobalWithRegistry = typeof globalThis & { [GLOBAL_REGISTRY_KEY]?: Map<string, Classification> };
+const globalContainer = globalThis as GlobalWithRegistry;
+if (!globalContainer[GLOBAL_REGISTRY_KEY]) {
+  globalContainer[GLOBAL_REGISTRY_KEY] = new Map<string, Classification>();
+}
+const refRegistry: Map<string, Classification> = globalContainer[GLOBAL_REGISTRY_KEY]!;
 
 export function registerRef(name: string, kind: Classification): void {
   const existing = refRegistry.get(name);
