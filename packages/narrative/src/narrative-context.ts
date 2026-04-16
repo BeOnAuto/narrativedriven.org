@@ -437,7 +437,20 @@ function getActiveExampleContext(): { example: Example } {
   return { example };
 }
 
-export function recordStep(keyword: StepKeyword, text: string, data: unknown): void {
+/**
+ * Records a step on the current example.
+ *
+ * Two call shapes during the ongoing migration:
+ *
+ * 1. Legacy (existing callers):  `recordStep(keyword, typeName, data)`
+ *    — `text` holds the type name; `__typeName` defaults to the same value.
+ * 2. New (Gherkin sentence form): `recordStep(keyword, sentence, data, typeName)`
+ *    — `text` holds the English sentence; `__typeName` is the passed-in type name.
+ *
+ * Once the DSL builders switch to `(ref, sentence, data)` the legacy shape will
+ * stop being invoked.
+ */
+export function recordStep(keyword: StepKeyword, text: string, data: unknown, typeNameOverride?: string): void {
   const { example } = getActiveExampleContext();
   const effectiveKeyword = resolveEffectiveKeyword(keyword);
 
@@ -446,13 +459,14 @@ export function recordStep(keyword: StepKeyword, text: string, data: unknown): v
   }
 
   const shouldInferType = text === 'InferredType';
-  const typeName = shouldInferType ? (getTypeNameFromAST(effectiveKeyword) ?? 'InferredType') : text;
+  const resolvedText = shouldInferType ? (getTypeNameFromAST(effectiveKeyword) ?? 'InferredType') : text;
+  const typeName = typeNameOverride ?? resolvedText;
 
   const docString = typeof data === 'object' && data !== null ? (data as Record<string, unknown>) : undefined;
 
   const step: Step = {
     keyword,
-    text: typeName,
+    text: resolvedText,
     __typeName: typeName,
     ...(docString !== undefined && Object.keys(docString).length > 0 ? { docString } : {}),
   };
