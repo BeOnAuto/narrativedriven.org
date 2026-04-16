@@ -67,7 +67,6 @@ interface CacheEntry {
     typings: Record<string, string[]>;
     typeMap: Map<string, string>;
     typesByFile: Map<string, Map<string, unknown>>;
-    givenTypesByFile: Map<string, unknown[]>;
     toModel: () => Model;
   };
   contentHash: string;
@@ -128,7 +127,6 @@ export const getScenes = async (
   typings: Record<string, string[]>;
   typeMap: Map<string, string>;
   typesByFile: Map<string, Map<string, unknown>>;
-  givenTypesByFile: Map<string, unknown[]>;
   toModel: () => Model;
 }> => {
   const { vfs, root, pattern = DEFAULT_PATTERN, importMap = {} } = opts;
@@ -150,7 +148,6 @@ export const getScenes = async (
       typings: {},
       typeMap: new Map(),
       typesByFile: new Map(),
-      givenTypesByFile: new Map(),
       toModel: () => ({ variant: 'specs' as const, scenes: [], messages: [], modules: [], narratives: [] }),
     };
   }
@@ -176,7 +173,6 @@ export const getScenes = async (
     typings: exec.typings,
     typeMap: exec.typeMap,
     typesByFile: exec.typesByFile,
-    givenTypesByFile: exec.givenTypesByFile,
     toModel: (): Model => scenesToModel(scenes, exec.typesByFile),
   };
 

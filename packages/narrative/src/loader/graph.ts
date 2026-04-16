@@ -4,13 +4,10 @@ import { integrationExportRegistry } from '../integration-export-registry';
 import { toPosix } from './fs-path';
 import { type Resolved, resolveSpecifier } from './resolver';
 import {
-  parseGivenTypeArguments,
   parseImports,
   parseIntegrationExports,
   parseIntegrationImports,
-  parseThenTypeArguments,
   parseTypeDefinitions,
-  parseWhenTypeArguments,
   patchImportMeta,
   type TypeInfo,
   transpileToCjs,
@@ -169,7 +166,6 @@ export type BuildGraphResult = {
   typings: Record<string, string[]>; // absolute POSIX paths of .d.ts
   typeMap: Map<string, string>; // mapping from TypeScript type names to string literals
   typesByFile: Map<string, Map<string, TypeInfo>>; // mapping from file path to type definitions in that file
-  givenTypesByFile: Map<string, import('./ts-utils').GivenTypeInfo[]>; // mapping from file path to given type info
 };
 
 export async function buildGraph(
@@ -188,7 +184,6 @@ export async function buildGraph(
   const externalPkgs = new Set<string>();
   const globalTypeMap = new Map<string, string>();
   const typesByFile = new Map<string, Map<string, TypeInfo>>();
-  const givenTypesByFile = new Map<string, import('./ts-utils').GivenTypeInfo[]>();
 
   const compilerOptions: import('typescript').CompilerOptions = {
     target: ts.ScriptTarget.ES2020,
@@ -322,68 +317,12 @@ export async function buildGraph(
     }
   }
 
-  function extractTypeInfoFromProgram(
-    program: import('typescript').Program,
-    checker: import('typescript').TypeChecker,
-  ): {
-    whenTypes: Map<string, import('./ts-utils').GivenTypeInfo[]>;
-    thenTypes: Map<string, import('./ts-utils').GivenTypeInfo[]>;
-  } {
-    const whenTypesByFile: Map<string, import('./ts-utils').GivenTypeInfo[]> = new Map();
-    const thenTypesByFile: Map<string, import('./ts-utils').GivenTypeInfo[]> = new Map();
-
-    for (const sourceFile of program.getSourceFiles()) {
-      const posixPath = toPosix(sourceFile.fileName);
-      if (!sourceFiles.has(posixPath) || posixPath.endsWith('.d.ts')) continue;
-
-      const fileTypeMap = typesByFile.get(posixPath) || new Map();
-      const extractedGivenTypes = parseGivenTypeArguments(ts, checker, sourceFile, fileTypeMap, typesByFile);
-      const extractedWhenTypes = parseWhenTypeArguments(ts, checker, sourceFile, fileTypeMap, typesByFile);
-      const extractedThenTypes = parseThenTypeArguments(ts, checker, sourceFile, fileTypeMap, typesByFile);
-
-      if (extractedGivenTypes.length > 0) {
-        givenTypesByFile.set(posixPath, extractedGivenTypes);
-        debug('[given-types] extracted %d given<T>() calls from %s', extractedGivenTypes.length, posixPath);
-      }
-
-      if (extractedWhenTypes.length > 0) {
-        whenTypesByFile.set(posixPath, extractedWhenTypes);
-        debug(
-          '[when-types] extracted %d when<T>() calls from %s: %o',
-          extractedWhenTypes.length,
-          posixPath,
-          extractedWhenTypes.map((t) => ({ typeName: t.typeName, classification: t.classification })),
-        );
-      }
-
-      if (extractedThenTypes.length > 0) {
-        thenTypesByFile.set(posixPath, extractedThenTypes);
-        debug(
-          '[then-types] extracted %d then<T>() calls from %s: %o',
-          extractedThenTypes.length,
-          posixPath,
-          extractedThenTypes.map((t) => ({ typeName: t.typeName, classification: t.classification })),
-        );
-      }
-    }
-
-    return { whenTypes: whenTypesByFile, thenTypes: thenTypesByFile };
-  }
-
   for (const entry of entryFiles) {
     await buildRec(toPosix(entry));
   }
 
   const pkgTypings = await collectAllTypings(vfs, externalPkgs, rootDir);
   await loadTypingFiles(pkgTypings);
-
-  const program = ts.createProgram([...sourceFiles.keys()], compilerOptions, host);
-  const checker = program.getTypeChecker();
-
-  const { whenTypes, thenTypes } = extractTypeInfoFromProgram(program, checker);
-
-  givenTypesByFile.set('__whenTypes', whenTypes as unknown as import('./ts-utils').GivenTypeInfo[]);
-  givenTypesByFile.set('__thenTypes', thenTypes as unknown as import('./ts-utils').GivenTypeInfo[]);
 
   const result: BuildGraphResult = {
     graph,
@@ -393,7 +332,6 @@ export async function buildGraph(
     typings: Object.fromEntries([...pkgTypings.entries()].map(([k, v]) => [k, [...v].sort()])),
     typeMap: globalTypeMap,
     typesByFile,
-    givenTypesByFile,
   };
 
   debug(
