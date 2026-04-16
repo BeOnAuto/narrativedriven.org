@@ -1,32 +1,18 @@
 import { command } from '../fluent-builder';
 import { describe, example, it, rule, scene, specs } from '../narrative';
+import { defineCommand, defineEvent } from '../types';
 
-export interface OrderPlaced {
-  type: 'OrderPlaced';
-  data: {
-    orderId: string;
-    productId: string;
-    quantity: number;
-    placedAt: Date;
-  };
-}
+const PlaceOrder = defineCommand<{
+  productId: string;
+  quantity: number;
+}>('PlaceOrder');
 
-export interface PlaceOrderNarrative {
-  type: 'PlaceOrder';
-  data: {
-    productId: string;
-    quantity: number;
-  };
-}
-
-export interface OrderSummary {
-  type: 'OrderSummary';
-  data: {
-    orderId: string;
-    productId: string;
-    quantity: number;
-  };
-}
+const OrderPlaced = defineEvent<{
+  orderId: string;
+  productId: string;
+  quantity: number;
+  placedAt: Date;
+}>('OrderPlaced');
 
 scene('Place order', () => {
   command('Submit order')
@@ -41,11 +27,11 @@ scene('Place order', () => {
       specs('User submits a new order', () => {
         rule('Valid orders should be processed successfully', () => {
           example('User places order for available product')
-            .when<PlaceOrderNarrative>({
+            .when(PlaceOrder, 'the user places an order', {
               productId: 'product_789',
               quantity: 3,
             })
-            .then<OrderPlaced>({
+            .then(OrderPlaced, 'the order is placed', {
               orderId: 'order_001',
               productId: 'product_789',
               quantity: 3,

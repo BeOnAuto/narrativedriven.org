@@ -155,11 +155,11 @@ describe('getScenes', (_mode) => {
         expect(whenStep).toBeDefined();
         expect(thenStep).toBeDefined();
         if (whenStep && 'text' in whenStep) {
-          expect(whenStep.text).toBe('PlaceOrder');
+          expect((whenStep as { __typeName?: string }).__typeName).toBe('PlaceOrder');
           expect(whenStep.docString).toMatchObject({ productId: 'product_789', quantity: 3 });
         }
         if (thenStep && 'text' in thenStep) {
-          expect(thenStep.text).toBe('OrderPlaced');
+          expect((thenStep as { __typeName?: string }).__typeName).toBe('OrderPlaced');
           expect(thenStep.docString).toMatchObject({
             orderId: 'order_001',
             productId: 'product_789',
