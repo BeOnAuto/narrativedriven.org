@@ -1,39 +1,27 @@
 import { command, query, react } from '../fluent-builder';
 import { example, rule, scene, specs, thenError } from '../narrative';
-import type { Command, Event, State } from '../types';
+import { defineCommand, defineEvent, defineState } from '../types';
 
-type TestItemCreated = Event<
-  'TestItemCreated',
-  {
-    id: string;
-    name: string;
-    createdAt: Date;
-  }
->;
+const TestItemCreated = defineEvent<{
+  id: string;
+  name: string;
+  createdAt: Date;
+}>('TestItemCreated');
 
-type CreateTestItem = Command<
-  'CreateTestItem',
-  {
-    itemId: string;
-    name: string;
-  }
->;
+const CreateTestItem = defineCommand<{
+  itemId: string;
+  name: string;
+}>('CreateTestItem');
 
-type TestItemState = State<
-  'TestItemState',
-  {
-    id: string;
-    name: string;
-  }
->;
+const TestItemState = defineState<{
+  id: string;
+  name: string;
+}>('TestItemState');
 
-type SendNotification = Event<
-  'SendNotification',
-  {
-    message: string;
-    recipientId: string;
-  }
->;
+const SendNotification = defineEvent<{
+  message: string;
+  recipientId: string;
+}>('SendNotification');
 
 scene('Test Flow with IDs', 'FLOW-001', () => {
   command('Create test item', 'SLICE-001')
@@ -42,11 +30,11 @@ scene('Test Flow with IDs', 'FLOW-001', () => {
       specs('Test item creation specs', () => {
         rule('Valid test items should be created successfully', 'RULE-001', () => {
           example('User creates a new test item with valid data')
-            .when<CreateTestItem>({
+            .when(CreateTestItem, 'the user submits a new test item', {
               itemId: 'test_123',
               name: 'Test Item',
             })
-            .then<TestItemCreated>({
+            .then(TestItemCreated, 'the test item is recorded', {
               id: 'test_123',
               name: 'Test Item',
               createdAt: new Date('2024-01-15T10:00:00Z'),
@@ -54,7 +42,7 @@ scene('Test Flow with IDs', 'FLOW-001', () => {
         });
 
         rule('Invalid test items should be rejected', 'RULE-002', () => {
-          example('User tries to create item with empty name').when<CreateTestItem>({
+          example('User tries to create item with empty name').when(CreateTestItem, 'the user submits a test item with an empty name', {
             itemId: 'test_456',
             name: '',
           });
@@ -69,12 +57,12 @@ scene('Test Flow with IDs', 'FLOW-001', () => {
       specs('Test item retrieval specs', () => {
         rule('Items should be retrievable after creation', 'RULE-003', () => {
           example('Item becomes available after creation event')
-            .when<TestItemCreated>({
+            .when(TestItemCreated, 'a test item has been created', {
               id: 'test_123',
               name: 'Test Item',
               createdAt: new Date('2024-01-15T10:00:00Z'),
             })
-            .then<TestItemState>({
+            .then(TestItemState, 'the test item is retrievable', {
               id: 'test_123',
               name: 'Test Item',
             });
@@ -86,12 +74,12 @@ scene('Test Flow with IDs', 'FLOW-001', () => {
     specs('Test event reaction specs', () => {
       rule('System should react to test item creation', 'RULE-004', () => {
         example('Notification sent when test item is created')
-          .when<TestItemCreated>({
+          .when(TestItemCreated, 'a test item is created', {
             id: 'test_789',
             name: 'Another Test Item',
             createdAt: new Date('2024-01-16T10:00:00Z'),
           })
-          .then<SendNotification>({
+          .then(SendNotification, 'a notification is sent to the admin', {
             message: 'New test item created: Another Test Item',
             recipientId: 'admin',
           });
