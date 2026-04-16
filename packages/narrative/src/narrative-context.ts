@@ -453,6 +453,7 @@ export function recordStep(keyword: StepKeyword, text: string, data: unknown): v
   const step: Step = {
     keyword,
     text: typeName,
+    __typeName: typeName,
     ...(docString !== undefined && Object.keys(docString).length > 0 ? { docString } : {}),
   };
 

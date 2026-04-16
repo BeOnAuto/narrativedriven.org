@@ -1890,11 +1890,12 @@ describe('round-trip: model -> narrative code -> VFS -> getScenes -> toModel', {
     if (publishMoment?.type === 'command') {
       const example = publishMoment.server.specs[0].rules[0].examples[0];
       expect(example.steps).toEqual([
-        { keyword: 'Given', text: 'StayCreated', docString: { stayId: 'stay_1', title: 'Beach house' } },
-        { keyword: 'When', text: 'PublishStay', docString: { stayId: 'stay_1' } },
+        { keyword: 'Given', text: 'StayCreated', __typeName: 'StayCreated', docString: { stayId: 'stay_1', title: 'Beach house' } },
+        { keyword: 'When', text: 'PublishStay', __typeName: 'PublishStay', docString: { stayId: 'stay_1' } },
         {
           keyword: 'Then',
           text: 'StayPublished',
+          __typeName: 'StayPublished',
           docString: { stayId: 'stay_1', publishedAt: '2024-06-01T00:00:00.000Z' },
         },
       ]);
@@ -2048,20 +2049,21 @@ describe('round-trip: model -> narrative code -> VFS -> getScenes -> toModel', {
       const examples = completeMoment.server.specs[0].rules[0].examples;
 
       expect(examples[0].steps).toEqual([
-        { keyword: 'Given', text: 'OrderCreated', docString: { orderId: 'ord_1', customerId: 'cust_1' } },
-        { keyword: 'And', text: 'PaymentReceived', docString: { orderId: 'ord_1', amount: 100 } },
-        { keyword: 'When', text: 'CompleteOrder', docString: { orderId: 'ord_1' } },
+        { keyword: 'Given', text: 'OrderCreated', __typeName: 'OrderCreated', docString: { orderId: 'ord_1', customerId: 'cust_1' } },
+        { keyword: 'And', text: 'PaymentReceived', __typeName: 'PaymentReceived', docString: { orderId: 'ord_1', amount: 100 } },
+        { keyword: 'When', text: 'CompleteOrder', __typeName: 'CompleteOrder', docString: { orderId: 'ord_1' } },
         {
           keyword: 'Then',
           text: 'OrderCompleted',
+          __typeName: 'OrderCompleted',
           docString: { orderId: 'ord_1', completedAt: '2024-06-01T00:00:00.000Z' },
         },
       ]);
 
       expect(examples[1].steps).toEqual([
-        { keyword: 'Given', text: 'OrderCreated', docString: { orderId: 'ord_2', customerId: 'cust_2' } },
-        { keyword: 'When', text: 'CompleteOrder', docString: { orderId: 'ord_2' } },
-        { keyword: 'Then', text: 'OrderRejected', docString: { orderId: 'ord_2', reason: 'no payment' } },
+        { keyword: 'Given', text: 'OrderCreated', __typeName: 'OrderCreated', docString: { orderId: 'ord_2', customerId: 'cust_2' } },
+        { keyword: 'When', text: 'CompleteOrder', __typeName: 'CompleteOrder', docString: { orderId: 'ord_2' } },
+        { keyword: 'Then', text: 'OrderRejected', __typeName: 'OrderRejected', docString: { orderId: 'ord_2', reason: 'no payment' } },
       ]);
     }
   });
@@ -2267,12 +2269,14 @@ describe('round-trip: model -> narrative code -> VFS -> getScenes -> toModel', {
         {
           keyword: 'Given',
           text: 'StayPublished',
+          __typeName: 'StayPublished',
           docString: { stayId: 'stay_1', publishedAt: '2024-01-01T00:00:00.000Z' },
         },
-        { keyword: 'When', text: 'BookStay', docString: { stayId: 'stay_1', guestId: 'guest_1' } },
+        { keyword: 'When', text: 'BookStay', __typeName: 'BookStay', docString: { stayId: 'stay_1', guestId: 'guest_1' } },
         {
           keyword: 'Then',
           text: 'StayBooked',
+          __typeName: 'StayBooked',
           docString: { stayId: 'stay_1', guestId: 'guest_1', bookedAt: '2024-02-01T00:00:00.000Z' },
         },
       ]);
@@ -2285,8 +2289,8 @@ describe('round-trip: model -> narrative code -> VFS -> getScenes -> toModel', {
     if (createMoment?.type === 'command') {
       const example = createMoment.server.specs[0].rules[0].examples[0];
       expect(example.steps).toEqual([
-        { keyword: 'When', text: 'CreateStay', docString: { stayId: 'stay_1', title: 'Cozy cabin' } },
-        { keyword: 'Then', text: 'StayCreated', docString: { stayId: 'stay_1', title: 'Cozy cabin' } },
+        { keyword: 'When', text: 'CreateStay', __typeName: 'CreateStay', docString: { stayId: 'stay_1', title: 'Cozy cabin' } },
+        { keyword: 'Then', text: 'StayCreated', __typeName: 'StayCreated', docString: { stayId: 'stay_1', title: 'Cozy cabin' } },
       ]);
     }
   });

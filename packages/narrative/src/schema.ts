@@ -316,7 +316,8 @@ const StepErrorSchema = z.object({
 const StepWithDocStringSchema = z.object({
   id: z.string().optional().describe('Optional unique identifier for the step'),
   keyword: z.enum(['Given', 'When', 'Then', 'And']).describe('Gherkin keyword'),
-  text: z.string().describe('The type name (e.g., AddTodo, TodoAdded)'),
+  text: z.string().describe('Step sentence. Currently set to the type name during the ongoing migration to natural-English Gherkin; will become the sentence in a later burst.'),
+  __typeName: z.string().optional().describe('Domain type name (binding key to a registered TypedRef). Optional during migration; will become required once all writers populate it.'),
   docString: z.record(z.unknown()).optional().describe('The example data'),
 });
 
