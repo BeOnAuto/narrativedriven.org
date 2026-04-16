@@ -25,7 +25,7 @@ import {
 } from './narrative-context';
 import { registry } from './narrative-registry';
 import { ActorSchema, EntitySchema, ImpactSchema } from './schema';
-import type { Data, DataItem } from './types';
+import type { AnyTypedRef, Data, DataItem, DataOf } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
 if ('color' in debug && typeof debug === 'object') {
@@ -126,76 +126,112 @@ export function rule(name: string, idOrFn: string | (() => void), fn?: () => voi
 
 type ExtractData<T> = T extends { data: infer D } ? D : T;
 
+/**
+ * During migration both call shapes are supported:
+ *  - Legacy:  `.given<MyType>(data)` — AST ordinal matching recovers the type name
+ *  - New:     `.given(MyType, "sentence", data)` — TypedRef from factory carries the name
+ */
 export interface ThenBuilder {
   and<T>(data: ExtractData<T>): ThenBuilder;
+  and<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): ThenBuilder;
 }
 
 export interface WhenBuilder {
   then<T>(data: ExtractData<T>): ThenBuilder;
+  then<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): ThenBuilder;
   and<T>(data: ExtractData<T>): WhenBuilder;
+  and<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): WhenBuilder;
 }
 
 export interface GivenBuilder {
   and<T>(data: ExtractData<T>): GivenBuilder;
+  and<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): GivenBuilder;
   when<W>(data: ExtractData<W>): WhenBuilder;
+  when<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): WhenBuilder;
   then<T>(data: ExtractData<T>): ThenBuilder;
+  then<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): ThenBuilder;
 }
 
 export interface ExampleBuilder {
   given<T>(data: ExtractData<T>): GivenBuilder;
+  given<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): GivenBuilder;
   when<W>(data: ExtractData<W>): WhenBuilder;
+  when<T extends AnyTypedRef>(ref: T, sentence: string, data: DataOf<T>): WhenBuilder;
+}
+
+function isTypedRef(x: unknown): x is AnyTypedRef {
+  return (
+    x !== null &&
+    typeof x === 'object' &&
+    '__kind' in x &&
+    'name' in x &&
+    typeof (x as { name: unknown }).name === 'string'
+  );
+}
+
+function dispatchStep(
+  keyword: 'Given' | 'When' | 'Then' | 'And',
+  arg1: unknown,
+  sentence: string | undefined,
+  data: unknown,
+): void {
+  if (isTypedRef(arg1)) {
+    recordStep(keyword, sentence ?? '', data, arg1.name);
+  } else {
+    recordStep(keyword, 'InferredType', arg1);
+  }
 }
 
 function createThenBuilder(): ThenBuilder {
   return {
-    and<T>(data: ExtractData<T>): ThenBuilder {
-      recordStep('And', 'InferredType', data);
+    and(arg1: unknown, sentence?: string, data?: unknown): ThenBuilder {
+      dispatchStep('And', arg1, sentence, data);
       return createThenBuilder();
     },
-  };
+  } as ThenBuilder;
 }
 
 function createWhenBuilder(): WhenBuilder {
   return {
-    then<T>(data: ExtractData<T>): ThenBuilder {
-      recordStep('Then', 'InferredType', data);
+    then(arg1: unknown, sentence?: string, data?: unknown): ThenBuilder {
+      dispatchStep('Then', arg1, sentence, data);
       return createThenBuilder();
     },
-    and<T>(data: ExtractData<T>): WhenBuilder {
-      recordStep('And', 'InferredType', data);
+    and(arg1: unknown, sentence?: string, data?: unknown): WhenBuilder {
+      dispatchStep('And', arg1, sentence, data);
       return createWhenBuilder();
     },
-  };
+  } as WhenBuilder;
 }
 
 function createGivenBuilder(): GivenBuilder {
   return {
-    and<T>(data: ExtractData<T>): GivenBuilder {
-      recordStep('And', 'InferredType', data);
+    and(arg1: unknown, sentence?: string, data?: unknown): GivenBuilder {
+      dispatchStep('And', arg1, sentence, data);
       return createGivenBuilder();
     },
-    when<W>(data: ExtractData<W>): WhenBuilder {
-      recordStep('When', 'InferredType', data);
+    when(arg1: unknown, sentence?: string, data?: unknown): WhenBuilder {
+      dispatchStep('When', arg1, sentence, data);
       return createWhenBuilder();
     },
-    then<T>(data: ExtractData<T>): ThenBuilder {
-      recordStep('Then', 'InferredType', data);
+    then(arg1: unknown, sentence?: string, data?: unknown): ThenBuilder {
+      dispatchStep('Then', arg1, sentence, data);
       return createThenBuilder();
     },
-  };
+  } as GivenBuilder;
 }
 
 function createExampleBuilder(): ExampleBuilder {
   return {
-    given<T>(data: ExtractData<T>): GivenBuilder {
-      recordStep('Given', 'InferredType', data);
+    given(arg1: unknown, sentence?: string, data?: unknown): GivenBuilder {
+      dispatchStep('Given', arg1, sentence, data);
       return createGivenBuilder();
     },
-    when<W>(data: ExtractData<W>): WhenBuilder {
-      recordStep('When', 'InferredType', data);
+    when(arg1: unknown, sentence?: string, data?: unknown): WhenBuilder {
+      dispatchStep('When', arg1, sentence, data);
       return createWhenBuilder();
     },
-  };
+  } as ExampleBuilder;
 }
 
 export function example(name: string): ExampleBuilder;

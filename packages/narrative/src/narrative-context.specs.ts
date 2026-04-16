@@ -4,7 +4,7 @@ import { command } from './fluent-builder';
 import type { CommandMoment } from './index';
 import { example, describe as narrativeDescribe, it as narrativeIt, rule, scene, should, specs } from './narrative';
 import { registry } from './narrative-registry';
-import type { Event, State } from './types';
+import { defineCommand, defineEvent, resetRefRegistry, type Event, type State } from './types';
 
 type QuestionnaireLinkSent = Event<
   'QuestionnaireLinkSent',
@@ -167,6 +167,42 @@ describe('describe with id parameter', () => {
     expect(describeNode.type).toBe('describe');
     expect(describeNode.title).toBe('Todo List');
     expect(describeNode.id).toBe('DESC-001');
+  });
+});
+
+describe('Narrative DSL — TypedRef overload', () => {
+  beforeEach(() => {
+    registry.clearAll();
+    resetRefRegistry();
+  });
+
+  it('records sentence in text and ref.name in __typeName when using the (ref, sentence, data) form', () => {
+    const AddTodo = defineCommand<{ todoId: string }>('AddTodo');
+    const TodoAdded = defineEvent<{ todoId: string }>('TodoAdded');
+
+    scene('todos', () => {
+      command('add a todo').server(() => {
+        specs('adding todos', () => {
+          rule('a todo can be added', () => {
+            example('user adds a todo')
+              .when(AddTodo, 'the user adds a todo', { todoId: 't1' })
+              .then(TodoAdded, 'the todo is recorded', { todoId: 't1' });
+          });
+        });
+      });
+    });
+
+    const scenes = registry.getAllScenes();
+    const moment = scenes[0].moments[0] as CommandMoment;
+    const steps = moment.server.specs[0].rules[0].examples[0].steps as Array<{
+      keyword: string;
+      text: string;
+      __typeName?: string;
+    }>;
+
+    expect(steps).toHaveLength(2);
+    expect(steps[0]).toMatchObject({ keyword: 'When', text: 'the user adds a todo', __typeName: 'AddTodo' });
+    expect(steps[1]).toMatchObject({ keyword: 'Then', text: 'the todo is recorded', __typeName: 'TodoAdded' });
   });
 });
 
