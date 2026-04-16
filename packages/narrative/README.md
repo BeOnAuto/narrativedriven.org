@@ -41,18 +41,15 @@ import {
   source,
   describe,
   it,
+  defineCommand,
+  defineEvent,
 } from '@onauto/narrative';
 
-// Define message types alongside your narrative
-interface PlaceOrder {
-  type: 'PlaceOrder';
-  data: { productId: string; quantity: number };
-}
-
-interface OrderPlaced {
-  type: 'OrderPlaced';
-  data: { orderId: string; productId: string; quantity: number };
-}
+// Declare domain types as runtime-tagged values via factories. The factories
+// register each (name → classification) pair and carry the data shape for
+// TypeScript inference on the step data argument.
+const PlaceOrder = defineCommand<{ productId: string; quantity: number }>('PlaceOrder');
+const OrderPlaced = defineEvent<{ orderId: string; productId: string; quantity: number }>('OrderPlaced');
 
 scene('Place order', () => {
   command('Submit order')
@@ -72,8 +69,8 @@ scene('Place order', () => {
       specs('User submits a new order', () => {
         rule('Valid orders should be processed', () => {
           example('User places order for available product')
-            .when<PlaceOrder>({ productId: 'product_789', quantity: 3 })
-            .then<OrderPlaced>({
+            .when(PlaceOrder, 'the user places an order', { productId: 'product_789', quantity: 3 })
+            .then(OrderPlaced, 'the order is placed', {
               orderId: 'order_001',
               productId: 'product_789',
               quantity: 3,
@@ -106,9 +103,9 @@ scene('View orders', () => {
       specs('Fetching order data', () => {
         rule('Returns matching orders', () => {
           example('Order exists')
-            .given<OrderSummary>({ orderId: 'order_001', productId: 'p1', quantity: 2 })
-            .when<GetOrderSummary>({ orderId: 'order_001' })
-            .then<OrderSummary>({ orderId: 'order_001', productId: 'p1', quantity: 2 });
+            .given(OrderSummary, 'an existing order summary', { orderId: 'order_001', productId: 'p1', quantity: 2 })
+            .when(GetOrderSummary, 'the caller requests the summary', { orderId: 'order_001' })
+            .then(OrderSummary, 'the summary is returned', { orderId: 'order_001', productId: 'p1', quantity: 2 });
         });
       });
     });
@@ -129,8 +126,8 @@ scene('Order confirmation', () => {
       specs('Email sent on order placement', () => {
         rule('Confirmation email is sent', () => {
           example('Order placed triggers email')
-            .given<OrderPlaced>({ orderId: 'order_001', productId: 'p1', quantity: 2 })
-            .then<ConfirmationEmailSent>({ orderId: 'order_001' });
+            .given(OrderPlaced, 'an order has been placed', { orderId: 'order_001', productId: 'p1', quantity: 2 })
+            .then(ConfirmationEmailSent, 'a confirmation email is sent', { orderId: 'order_001' });
         });
       });
     });
@@ -449,32 +446,29 @@ interface MomentRequestValidationError {
 }
 ```
 
-### Message types
+### Declaring domain types
+
+Domain types are declared as runtime-tagged values via factories. Each factory
+call registers the type's classification in a module-load-time registry so the
+downstream pipeline and validator can resolve it.
 
 ```typescript
-type Command<T extends string, D extends Record<string, unknown>> = {
-  readonly type: T;
-  readonly data: Readonly<D>;
-  readonly kind?: 'Command';
-};
+import { defineCommand, defineEvent, defineState, defineQuery } from '@onauto/narrative';
 
-type Event<T extends string, D extends Record<string, unknown>> = {
-  readonly type: T;
-  readonly data: D;
-  readonly kind?: 'Event';
-};
-
-type State<T extends string, D extends Record<string, unknown>> = {
-  readonly type: T;
-  readonly data: D;
-  readonly kind?: 'State';
-};
-
-type Query<T extends string, D extends Record<string, unknown>> = {
-  type: T;
-  data: D;
-};
+const PlaceOrder = defineCommand<{ productId: string; quantity: number }>('PlaceOrder');
+const OrderPlaced = defineEvent<{ orderId: string; productId: string; quantity: number }>('OrderPlaced');
+const OrderSummary = defineState<{ orderId: string; productId: string; quantity: number }>('OrderSummary');
+const GetOrders = defineQuery<{ customerId: string }>('GetOrders');
 ```
+
+The generic type argument is the data shape (what the docString in each step
+must match); the string argument is the runtime type name. Each factory returns
+a `TypedRef<kind, name, data>` object you pass as the first positional arg to
+`.given` / `.when` / `.then` / `.and`.
+
+The legacy `Command<T,D>` / `Event<T,D>` / `State<T,D>` / `Query<T,D>` type
+aliases are still exported for external consumers that encoded messages as
+type aliases, but internal DSL code uses the factories.
 
 ### Key Zod schemas (`@onauto/narrative/schema`)
 
