@@ -114,12 +114,12 @@ describe('modelToNarrative', () => {
             specs('When shopper submits criteria, a shopping session is started', () => {
               rule('Valid criteria should start a shopping session', () => {
                 example('User submits shopping criteria for children')
-                  .when(EnterShoppingCriteria, 'EnterShoppingCriteria', {
+                  .when(EnterShoppingCriteria, 'enter shopping criteria', {
                     sessionId: 'shopper-123',
                     criteria:
                       'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
                   })
-                  .then(ShoppingCriteriaEntered, 'ShoppingCriteriaEntered', {
+                  .then(ShoppingCriteriaEntered, 'shopping criteria entered', {
                     sessionId: 'shopper-123',
                     criteria:
                       'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
@@ -131,12 +131,12 @@ describe('modelToNarrative', () => {
           specs('When shopping criteria are entered, request wishlist creation', () => {
             rule('Shopping criteria should trigger item suggestion', () => {
               example('Criteria entered triggers wishlist creation')
-                .when(ShoppingCriteriaEntered, 'ShoppingCriteriaEntered', {
+                .when(ShoppingCriteriaEntered, 'shopping criteria entered', {
                   sessionId: 'session-abc',
                   criteria:
                     'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
                 })
-                .then(SuggestShoppingItems, 'SuggestShoppingItems', {
+                .then(SuggestShoppingItems, 'suggest shopping items', {
                   sessionId: 'session-abc',
                   prompt:
                     'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
@@ -160,7 +160,7 @@ describe('modelToNarrative', () => {
           specs('When chat is triggered, AI suggests items based on product catalog', () => {
             rule('AI should suggest relevant items from available products', () => {
               example('Product catalog with matching items generates suggestions')
-                .given(Products, 'Products', {
+                .given(Products, 'products', {
                   products: [
                     {
                       productId: 'prod-soccer-ball',
@@ -196,12 +196,12 @@ describe('modelToNarrative', () => {
                     },
                   ],
                 })
-                .when(SuggestShoppingItems, 'SuggestShoppingItems', {
+                .when(SuggestShoppingItems, 'suggest shopping items', {
                   sessionId: 'session-abc',
                   prompt:
                     'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
                 })
-                .then(ShoppingItemsSuggested, 'ShoppingItemsSuggested', {
+                .then(ShoppingItemsSuggested, 'shopping items suggested', {
                   sessionId: 'session-abc',
                   suggestedItems: [
                     {
@@ -259,7 +259,7 @@ describe('modelToNarrative', () => {
             specs('Suggested items are available for viewing', () => {
               rule('Items should be available for viewing after suggestion', () => {
                 example('Item becomes available after AI suggestion event')
-                  .when(ShoppingItemsSuggested, 'ShoppingItemsSuggested', {
+                  .when(ShoppingItemsSuggested, 'shopping items suggested', {
                     sessionId: 'session-abc',
                     suggestedItems: [
                       {
@@ -288,7 +288,7 @@ describe('modelToNarrative', () => {
                       },
                     ],
                   })
-                  .then(SuggestedItems, 'SuggestedItems', {
+                  .then(SuggestedItems, 'suggested items', {
                     sessionId: 'session-abc',
                     items: [
                       {
@@ -333,7 +333,7 @@ describe('modelToNarrative', () => {
             specs('When shopper accepts items, they are added to cart', () => {
               rule('Accepted items should be added to the shopping cart', () => {
                 example('User selects all suggested items for cart')
-                  .when(AddItemsToCart, 'AddItemsToCart', {
+                  .when(AddItemsToCart, 'add items to cart', {
                     sessionId: 'session-abc',
                     items: [
                       { productId: 'prod-soccer-ball', quantity: 1 },
@@ -342,7 +342,7 @@ describe('modelToNarrative', () => {
                       { productId: 'prod-mtg-starter', quantity: 1 },
                     ],
                   })
-                  .then(ItemsAddedToCart, 'ItemsAddedToCart', {
+                  .then(ItemsAddedToCart, 'items added to cart', {
                     sessionId: 'session-abc',
                     items: [
                       { productId: 'prod-soccer-ball', quantity: 1 },

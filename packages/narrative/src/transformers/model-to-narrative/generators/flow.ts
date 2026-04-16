@@ -487,24 +487,6 @@ function isStepWithError(step: Step): step is StepWithError {
   return 'error' in step;
 }
 
-interface OldFormatThenItem {
-  eventRef?: string;
-  stateRef?: string;
-  commandRef?: string;
-  exampleData: Record<string, unknown>;
-}
-
-interface OldFormatExample {
-  description?: string;
-  name?: string;
-  given?: Array<{ eventRef?: string; stateRef?: string; exampleData: Record<string, unknown> }>;
-  when?:
-    | { commandRef?: string; eventRef?: string; exampleData: Record<string, unknown> }
-    | Array<{ eventRef: string; exampleData: Record<string, unknown> }>;
-  then?: OldFormatThenItem[];
-  steps?: Step[];
-}
-
 function refNameOf(step: StepWithDocString): string {
   return step.__typeName ?? step.text;
 }
@@ -577,40 +559,12 @@ function processStepsFormat(
   }
 }
 
-function mapThenItem(t: OldFormatThenItem): GWTBlock['then'][0] {
-  if (t.eventRef !== undefined && t.eventRef !== '') return { eventRef: t.eventRef, exampleData: t.exampleData };
-  if (t.commandRef !== undefined && t.commandRef !== '')
-    return { commandRef: t.commandRef, exampleData: t.exampleData };
-  if (t.stateRef !== undefined && t.stateRef !== '') return { stateRef: t.stateRef, exampleData: t.exampleData };
-  return { eventRef: '', exampleData: t.exampleData };
-}
-
-function processOldFormat(oldExample: OldFormatExample, gwtBlock: GWTBlock): void {
-  if (oldExample.given !== undefined && oldExample.given.length > 0) {
-    gwtBlock.given = oldExample.given.map((g) => ({
-      eventRef: g.eventRef ?? g.stateRef ?? '',
-      exampleData: g.exampleData,
-    }));
-  }
-
-  if (oldExample.when !== undefined) {
-    gwtBlock.when = oldExample.when as GWTBlock['when'];
-  }
-
-  if (oldExample.then !== undefined && oldExample.then.length > 0) {
-    gwtBlock.then = oldExample.then.map(mapThenItem);
-  }
-}
-
 function convertExampleToGWT(example: Example, momentType: 'command' | 'query' | 'react' | 'experience'): GWTBlock {
   const gwtBlock: GWTBlock = { then: [] };
-  const oldExample = example as OldFormatExample;
-  (gwtBlock as { name?: string }).name = oldExample.name ?? oldExample.description;
+  (gwtBlock as { name?: string }).name = example.name;
 
-  if (oldExample.steps !== undefined && oldExample.steps.length > 0) {
-    processStepsFormat(oldExample.steps, momentType, gwtBlock);
-  } else {
-    processOldFormat(oldExample, gwtBlock);
+  if (Array.isArray(example.steps) && example.steps.length > 0) {
+    processStepsFormat(example.steps as Step[], momentType, gwtBlock);
   }
 
   return gwtBlock;

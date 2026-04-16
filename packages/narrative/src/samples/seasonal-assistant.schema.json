@@ -13,12 +13,30 @@
                 "type": "describe",
                 "title": "Assistant Chat Interface",
                 "children": [
-                  { "type": "it", "title": "allow shopper to describe their shopping needs in natural language" },
-                  { "type": "it", "title": "provide a text input for entering criteria" },
-                  { "type": "it", "title": "show examples of what to include (age, interests, budget)" },
-                  { "type": "it", "title": "show a button to submit the criteria" },
-                  { "type": "it", "title": "generate a persisted session id for a visit" },
-                  { "type": "it", "title": "show the header on top of the page" }
+                  {
+                    "type": "it",
+                    "title": "allow shopper to describe their shopping needs in natural language"
+                  },
+                  {
+                    "type": "it",
+                    "title": "provide a text input for entering criteria"
+                  },
+                  {
+                    "type": "it",
+                    "title": "show examples of what to include (age, interests, budget)"
+                  },
+                  {
+                    "type": "it",
+                    "title": "show a button to submit the criteria"
+                  },
+                  {
+                    "type": "it",
+                    "title": "generate a persisted session id for a visit"
+                  },
+                  {
+                    "type": "it",
+                    "title": "show the header on top of the page"
+                  }
                 ]
               }
             ]
@@ -40,72 +58,84 @@
                 }
               ]
             },
-            "specs": {
-              "name": "When shopper submits criteria, a shopping session is started",
-              "rules": [
-                {
-                  "description": "Valid criteria should start a shopping session",
-                  "examples": [
-                    {
-                      "description": "User submits shopping criteria for children",
-                      "when": {
-                        "commandRef": "EnterShoppingCriteria",
-                        "exampleData": {
-                          "sessionId": "shopper-123",
-                          "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
-                        }
-                      },
-                      "then": [
-                        {
-                          "eventRef": "ShoppingCriteriaEntered",
-                          "exampleData": {
-                            "sessionId": "shopper-123",
-                            "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+            "specs": [
+              {
+                "type": "gherkin",
+                "feature": "When shopper submits criteria, a shopping session is started",
+                "rules": [
+                  {
+                    "name": "Valid criteria should start a shopping session",
+                    "examples": [
+                      {
+                        "name": "User submits shopping criteria for children",
+                        "steps": [
+                          {
+                            "keyword": "When",
+                            "text": "enter shopping criteria",
+                            "__typeName": "EnterShoppingCriteria",
+                            "docString": {
+                              "sessionId": "shopper-123",
+                              "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+                            }
+                          },
+                          {
+                            "keyword": "Then",
+                            "text": "shopping criteria entered",
+                            "__typeName": "ShoppingCriteriaEntered",
+                            "docString": {
+                              "sessionId": "shopper-123",
+                              "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+                            }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         },
         {
           "name": "creates a chat session",
           "type": "react",
           "server": {
-            "specs": {
-              "name": "When shopping criteria are entered, request wishlist creation",
-              "rules": [
-                {
-                  "description": "Shopping criteria should trigger item suggestion",
-                  "examples": [
-                    {
-                      "description": "Criteria entered triggers wishlist creation",
-                      "when": [
-                        {
-                          "eventRef": "ShoppingCriteriaEntered",
-                          "exampleData": {
-                            "sessionId": "session-abc",
-                            "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+            "specs": [
+              {
+                "type": "gherkin",
+                "feature": "When shopping criteria are entered, request wishlist creation",
+                "rules": [
+                  {
+                    "name": "Shopping criteria should trigger item suggestion",
+                    "examples": [
+                      {
+                        "name": "Criteria entered triggers wishlist creation",
+                        "steps": [
+                          {
+                            "keyword": "When",
+                            "text": "shopping criteria entered",
+                            "__typeName": "ShoppingCriteriaEntered",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "criteria": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+                            }
+                          },
+                          {
+                            "keyword": "Then",
+                            "text": "suggest shopping items",
+                            "__typeName": "SuggestShoppingItems",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "prompt": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+                            }
                           }
-                        }
-                      ],
-                      "then": [
-                        {
-                          "commandRef": "SuggestShoppingItems",
-                          "exampleData": {
-                            "sessionId": "session-abc",
-                            "prompt": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         },
         {
@@ -125,7 +155,9 @@
                   },
                   "destination": {
                     "type": "integration",
-                    "systems": ["AI"],
+                    "systems": [
+                      "AI"
+                    ],
                     "message": {
                       "name": "DoChat",
                       "type": "command"
@@ -139,7 +171,9 @@
                     },
                     "origin": {
                       "type": "integration",
-                      "systems": ["ProductCatalog"]
+                      "systems": [
+                        "ProductCatalog"
+                      ]
                     }
                   }
                 },
@@ -155,101 +189,123 @@
                 }
               ]
             },
-            "specs": {
-              "name": "When chat is triggered, AI suggests items based on product catalog",
-              "rules": [
-                {
-                  "description": "AI should suggest relevant items from available products",
-                  "examples": [
-                    {
-                      "description": "Product catalog with matching items generates suggestions",
-                      "given": [
-                        {
-                          "stateRef": "Products",
-                          "exampleData": {
-                            "products": [
-                              {
-                                "productId": "prod-soccer-ball",
-                                "name": "Super Soccer Ball",
-                                "category": "Sports",
-                                "price": 10,
-                                "tags": ["soccer", "sports"],
-                                "imageUrl": "https://example.com/soccer-ball.jpg"
-                              },
-                              {
-                                "productId": "prod-craft-kit",
-                                "name": "Deluxe Craft Kit",
-                                "category": "Arts & Crafts",
-                                "price": 25,
-                                "tags": ["crafts", "art", "creative"],
-                                "imageUrl": "https://example.com/craft-kit.jpg"
-                              },
-                              {
-                                "productId": "prod-laptop-bag",
-                                "name": "Tech Laptop Backpack",
-                                "category": "School Supplies",
-                                "price": 45,
-                                "tags": ["computers", "tech", "school"],
-                                "imageUrl": "https://example.com/laptop-bag.jpg"
-                              },
-                              {
-                                "productId": "prod-mtg-starter",
-                                "name": "Magic the Gathering Starter Set",
-                                "category": "Games",
-                                "price": 30,
-                                "tags": ["magic", "tcg", "games"],
-                                "imageUrl": "https://example.com/mtg-starter.jpg"
-                              }
-                            ]
+            "specs": [
+              {
+                "type": "gherkin",
+                "feature": "When chat is triggered, AI suggests items based on product catalog",
+                "rules": [
+                  {
+                    "name": "AI should suggest relevant items from available products",
+                    "examples": [
+                      {
+                        "name": "Product catalog with matching items generates suggestions",
+                        "steps": [
+                          {
+                            "keyword": "Given",
+                            "text": "products",
+                            "__typeName": "Products",
+                            "docString": {
+                              "products": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "name": "Super Soccer Ball",
+                                  "category": "Sports",
+                                  "price": 10,
+                                  "tags": [
+                                    "soccer",
+                                    "sports"
+                                  ],
+                                  "imageUrl": "https://example.com/soccer-ball.jpg"
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "name": "Deluxe Craft Kit",
+                                  "category": "Arts & Crafts",
+                                  "price": 25,
+                                  "tags": [
+                                    "crafts",
+                                    "art",
+                                    "creative"
+                                  ],
+                                  "imageUrl": "https://example.com/craft-kit.jpg"
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "name": "Tech Laptop Backpack",
+                                  "category": "School Supplies",
+                                  "price": 45,
+                                  "tags": [
+                                    "computers",
+                                    "tech",
+                                    "school"
+                                  ],
+                                  "imageUrl": "https://example.com/laptop-bag.jpg"
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "name": "Magic the Gathering Starter Set",
+                                  "category": "Games",
+                                  "price": 30,
+                                  "tags": [
+                                    "magic",
+                                    "tcg",
+                                    "games"
+                                  ],
+                                  "imageUrl": "https://example.com/mtg-starter.jpg"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "keyword": "When",
+                            "text": "suggest shopping items",
+                            "__typeName": "SuggestShoppingItems",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "prompt": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
+                            }
+                          },
+                          {
+                            "keyword": "Then",
+                            "text": "shopping items suggested",
+                            "__typeName": "ShoppingItemsSuggested",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "suggestedItems": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "name": "Super Soccer Ball",
+                                  "quantity": 1,
+                                  "reason": "Perfect for your daughter who loves soccer"
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "name": "Deluxe Craft Kit",
+                                  "quantity": 1,
+                                  "reason": "Great for creative activities and crafts"
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "name": "Tech Laptop Backpack",
+                                  "quantity": 1,
+                                  "reason": "Essential for your son's school computer needs"
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "name": "Magic the Gathering Starter Set",
+                                  "quantity": 1,
+                                  "reason": "Ideal starter set for Magic the Gathering enthusiasts"
+                                }
+                              ]
+                            }
                           }
-                        }
-                      ],
-                      "when": {
-                        "commandRef": "SuggestShoppingItems",
-                        "exampleData": {
-                          "sessionId": "session-abc",
-                          "prompt": "I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering."
-                        }
-                      },
-                      "then": [
-                        {
-                          "eventRef": "ShoppingItemsSuggested",
-                          "exampleData": {
-                            "sessionId": "session-abc",
-                            "suggestedItems": [
-                              {
-                                "productId": "prod-soccer-ball",
-                                "name": "Super Soccer Ball",
-                                "quantity": 1,
-                                "reason": "Perfect for your daughter who loves soccer"
-                              },
-                              {
-                                "productId": "prod-craft-kit",
-                                "name": "Deluxe Craft Kit",
-                                "quantity": 1,
-                                "reason": "Great for creative activities and crafts"
-                              },
-                              {
-                                "productId": "prod-laptop-bag",
-                                "name": "Tech Laptop Backpack",
-                                "quantity": 1,
-                                "reason": "Essential for your son's school computer needs"
-                              },
-                              {
-                                "productId": "prod-mtg-starter",
-                                "name": "Magic the Gathering Starter Set",
-                                "quantity": 1,
-                                "reason": "Ideal starter set for Magic the Gathering enthusiasts"
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         },
         {
@@ -261,10 +317,22 @@
                 "type": "describe",
                 "title": "Suggested Items Screen",
                 "children": [
-                  { "type": "it", "title": "display all suggested items with names and reasons" },
-                  { "type": "it", "title": "show quantity selectors for each item" },
-                  { "type": "it", "title": "have an \"Add to Cart\" button for selected items" },
-                  { "type": "it", "title": "allow removing items from the suggestions" }
+                  {
+                    "type": "it",
+                    "title": "display all suggested items with names and reasons"
+                  },
+                  {
+                    "type": "it",
+                    "title": "show quantity selectors for each item"
+                  },
+                  {
+                    "type": "it",
+                    "title": "have an \"Add to Cart\" button for selected items"
+                  },
+                  {
+                    "type": "it",
+                    "title": "allow removing items from the suggestions"
+                  }
                 ]
               }
             ]
@@ -287,85 +355,92 @@
                 }
               ]
             },
-            "specs": {
-              "name": "Suggested items are available for viewing",
-              "rules": [
-                {
-                  "description": "Items should be available for viewing after suggestion",
-                  "examples": [
-                    {
-                      "description": "Item becomes available after AI suggestion event",
-                      "when": {
-                        "exampleData": {
-                          "sessionId": "session-abc",
-                          "suggestedItems": [
-                            {
-                              "productId": "prod-soccer-ball",
-                              "name": "Super Soccer Ball",
-                              "quantity": 1,
-                              "reason": "Perfect for your daughter who loves soccer"
-                            },
-                            {
-                              "productId": "prod-craft-kit",
-                              "name": "Deluxe Craft Kit",
-                              "quantity": 1,
-                              "reason": "Great for creative activities and crafts"
-                            },
-                            {
-                              "productId": "prod-laptop-bag",
-                              "name": "Tech Laptop Backpack",
-                              "quantity": 1,
-                              "reason": "Essential for your son's school computer needs"
-                            },
-                            {
-                              "productId": "prod-mtg-starter",
-                              "name": "Magic the Gathering Starter Set",
-                              "quantity": 1,
-                              "reason": "Ideal starter set for Magic the Gathering enthusiasts"
+            "specs": [
+              {
+                "type": "gherkin",
+                "feature": "Suggested items are available for viewing",
+                "rules": [
+                  {
+                    "name": "Items should be available for viewing after suggestion",
+                    "examples": [
+                      {
+                        "name": "Item becomes available after AI suggestion event",
+                        "steps": [
+                          {
+                            "keyword": "When",
+                            "text": "shopping items suggested",
+                            "__typeName": "ShoppingItemsSuggested",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "suggestedItems": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "name": "Super Soccer Ball",
+                                  "quantity": 1,
+                                  "reason": "Perfect for your daughter who loves soccer"
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "name": "Deluxe Craft Kit",
+                                  "quantity": 1,
+                                  "reason": "Great for creative activities and crafts"
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "name": "Tech Laptop Backpack",
+                                  "quantity": 1,
+                                  "reason": "Essential for your son's school computer needs"
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "name": "Magic the Gathering Starter Set",
+                                  "quantity": 1,
+                                  "reason": "Ideal starter set for Magic the Gathering enthusiasts"
+                                }
+                              ]
                             }
-                          ]
-                        },
-                        "eventRef": "ShoppingItemsSuggested"
-                      },
-                      "then": [
-                        {
-                          "stateRef": "SuggestedItems",
-                          "exampleData": {
-                            "sessionId": "session-abc",
-                            "items": [
-                              {
-                                "productId": "prod-soccer-ball",
-                                "name": "Super Soccer Ball",
-                                "quantity": 1,
-                                "reason": "Perfect for your daughter who loves soccer"
-                              },
-                              {
-                                "productId": "prod-craft-kit",
-                                "name": "Deluxe Craft Kit",
-                                "quantity": 1,
-                                "reason": "Great for creative activities and crafts"
-                              },
-                              {
-                                "productId": "prod-laptop-bag",
-                                "name": "Tech Laptop Backpack",
-                                "quantity": 1,
-                                "reason": "Essential for your son's school computer needs"
-                              },
-                              {
-                                "productId": "prod-mtg-starter",
-                                "name": "Magic the Gathering Starter Set",
-                                "quantity": 1,
-                                "reason": "Ideal starter set for Magic the Gathering enthusiasts"
-                              }
-                            ]
+                          },
+                          {
+                            "keyword": "Then",
+                            "text": "suggested items",
+                            "__typeName": "SuggestedItems",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "items": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "name": "Super Soccer Ball",
+                                  "quantity": 1,
+                                  "reason": "Perfect for your daughter who loves soccer"
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "name": "Deluxe Craft Kit",
+                                  "quantity": 1,
+                                  "reason": "Great for creative activities and crafts"
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "name": "Tech Laptop Backpack",
+                                  "quantity": 1,
+                                  "reason": "Essential for your son's school computer needs"
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "name": "Magic the Gathering Starter Set",
+                                  "quantity": 1,
+                                  "reason": "Ideal starter set for Magic the Gathering enthusiasts"
+                                }
+                              ]
+                            }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         },
         {
@@ -377,9 +452,18 @@
                 "type": "describe",
                 "title": "Suggested Items Screen",
                 "children": [
-                  { "type": "it", "title": "allow selecting specific items to add" },
-                  { "type": "it", "title": "update quantities before adding to cart" },
-                  { "type": "it", "title": "provide feedback when items are added" }
+                  {
+                    "type": "it",
+                    "title": "allow selecting specific items to add"
+                  },
+                  {
+                    "type": "it",
+                    "title": "update quantities before adding to cart"
+                  },
+                  {
+                    "type": "it",
+                    "title": "provide feedback when items are added"
+                  }
                 ]
               }
             ]
@@ -400,69 +484,76 @@
                 }
               ]
             },
-            "specs": {
-              "name": "When shopper accepts items, they are added to cart",
-              "rules": [
-                {
-                  "description": "Accepted items should be added to the shopping cart",
-                  "examples": [
-                    {
-                      "description": "User selects all suggested items for cart",
-                      "when": {
-                        "commandRef": "AddItemsToCart",
-                        "exampleData": {
-                          "sessionId": "session-abc",
-                          "items": [
-                            {
-                              "productId": "prod-soccer-ball",
-                              "quantity": 1
-                            },
-                            {
-                              "productId": "prod-craft-kit",
-                              "quantity": 1
-                            },
-                            {
-                              "productId": "prod-laptop-bag",
-                              "quantity": 1
-                            },
-                            {
-                              "productId": "prod-mtg-starter",
-                              "quantity": 1
+            "specs": [
+              {
+                "type": "gherkin",
+                "feature": "When shopper accepts items, they are added to cart",
+                "rules": [
+                  {
+                    "name": "Accepted items should be added to the shopping cart",
+                    "examples": [
+                      {
+                        "name": "User selects all suggested items for cart",
+                        "steps": [
+                          {
+                            "keyword": "When",
+                            "text": "add items to cart",
+                            "__typeName": "AddItemsToCart",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "items": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "quantity": 1
+                                }
+                              ]
                             }
-                          ]
-                        }
-                      },
-                      "then": [
-                        {
-                          "eventRef": "ItemsAddedToCart",
-                          "exampleData": {
-                            "sessionId": "session-abc",
-                            "items": [
-                              {
-                                "productId": "prod-soccer-ball",
-                                "quantity": 1
-                              },
-                              {
-                                "productId": "prod-craft-kit",
-                                "quantity": 1
-                              },
-                              {
-                                "productId": "prod-laptop-bag",
-                                "quantity": 1
-                              },
-                              {
-                                "productId": "prod-mtg-starter",
-                                "quantity": 1
-                              }
-                            ]
+                          },
+                          {
+                            "keyword": "Then",
+                            "text": "items added to cart",
+                            "__typeName": "ItemsAddedToCart",
+                            "docString": {
+                              "sessionId": "session-abc",
+                              "items": [
+                                {
+                                  "productId": "prod-soccer-ball",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-craft-kit",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-laptop-bag",
+                                  "quantity": 1
+                                },
+                                {
+                                  "productId": "prod-mtg-starter",
+                                  "quantity": 1
+                                }
+                              ]
+                            }
                           }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         }
       ],
