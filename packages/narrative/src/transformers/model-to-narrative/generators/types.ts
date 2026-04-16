@@ -7,39 +7,49 @@ type Message = {
   fields: { name: string; type: string; required: boolean }[];
 };
 
+function factoryFor(kind: Message['type']): string {
+  if (kind === 'command') return 'defineCommand';
+  if (kind === 'event') return 'defineEvent';
+  if (kind === 'state') return 'defineState';
+  return 'defineQuery';
+}
+
+/**
+ * Emit `const X = define<Kind><{...fields}>('X')` statements for each message.
+ * Replaces the legacy `type X = Command<'X', {...}>` alias form so the emitted
+ * file works with the new runtime-tagged DSL — the `.when(X, "sentence", data)`
+ * call sites expect `X` to be a runtime value.
+ */
 export function buildTypeAliases(ts: typeof tsNS, messages: Message[], exportedTypes?: Set<string>): tsNS.Statement[] {
   const f = ts.factory;
 
-  const mkK = (s: string) => f.createLiteralTypeNode(f.createStringLiteral(s, true));
-
   return messages.map((m) => {
-    const typeArgs: tsNS.TypeNode[] = [
-      mkK(m.name),
-      // payload object type
-      (() => {
-        const members = m.fields.map((fld) =>
-          f.createPropertySignature(
-            undefined,
-            /^[A-Za-z_]\w*$/.test(fld.name) ? f.createIdentifier(fld.name) : f.createStringLiteral(fld.name, true),
-            fld.required ? undefined : f.createToken(ts.SyntaxKind.QuestionToken),
-            typeFromString(ts, f, fld.type),
-          ),
-        );
-        const lit = f.createTypeLiteralNode(members);
-        // Allow multiline formatting
-        return lit;
-      })(),
-    ];
+    const dataTypeLiteral = f.createTypeLiteralNode(
+      m.fields.map((fld) =>
+        f.createPropertySignature(
+          undefined,
+          /^[A-Za-z_]\w*$/.test(fld.name) ? f.createIdentifier(fld.name) : f.createStringLiteral(fld.name, true),
+          fld.required ? undefined : f.createToken(ts.SyntaxKind.QuestionToken),
+          typeFromString(ts, f, fld.type),
+        ),
+      ),
+    );
 
-    const name = f.createIdentifier(m.name);
+    const factoryCall = f.createCallExpression(
+      f.createIdentifier(factoryFor(m.type)),
+      [dataTypeLiteral],
+      [f.createStringLiteral(m.name, true)],
+    );
 
-    const baseTypeName =
-      m.type === 'event' ? 'Event' : m.type === 'command' ? 'Command' : m.type === 'query' ? 'Query' : 'State';
-    const rhs = f.createTypeReferenceNode(baseTypeName, typeArgs);
+    const declaration = f.createVariableDeclaration(
+      f.createIdentifier(m.name),
+      undefined,
+      undefined,
+      factoryCall,
+    );
 
-    // Add export modifier if this type is imported by other modules
     const modifiers = exportedTypes?.has(m.name) ? [f.createModifier(ts.SyntaxKind.ExportKeyword)] : undefined;
 
-    return f.createTypeAliasDeclaration(modifiers, name, [], rhs);
+    return f.createVariableStatement(modifiers, f.createVariableDeclarationList([declaration], ts.NodeFlags.Const));
   });
 }

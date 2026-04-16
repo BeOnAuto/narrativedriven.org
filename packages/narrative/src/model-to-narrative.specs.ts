@@ -12,371 +12,351 @@ describe('modelToNarrative', () => {
     const result = await modelToNarrative({ ...schema, modules: [] } as Model);
     const code = getCode(result);
 
-    expect(code).toEqual(`import {
-  command,
-  data,
-  describe,
-  example,
-  gql,
-  it,
-  query,
-  react,
-  rule,
-  scene,
-  sink,
-  source,
-  specs,
-} from '@onauto/narrative';
-import type { Command, Event, State } from '@onauto/narrative';
-import { AI, ProductCatalog } from '../server/src/integrations';
-type EnterShoppingCriteria = Command<
-  'EnterShoppingCriteria',
-  {
-    sessionId: string;
-    criteria: string;
-  }
->;
-type ShoppingCriteriaEntered = Event<
-  'ShoppingCriteriaEntered',
-  {
-    sessionId: string;
-    criteria: string;
-  }
->;
-type SuggestShoppingItems = Command<
-  'SuggestShoppingItems',
-  {
-    sessionId: string;
-    prompt: string;
-  }
->;
-type Products = State<
-  'Products',
-  {
-    products: {
-      productId: string;
-      name: string;
-      category: string;
-      price: number;
-      tags: Array<string>;
-      imageUrl: string;
-    }[];
-  }
->;
-type ShoppingItemsSuggested = Event<
-  'ShoppingItemsSuggested',
-  {
-    sessionId: string;
-    suggestedItems: {
-      productId: string;
-      name: string;
-      quantity: number;
-      reason: string;
-    }[];
-  }
->;
-type SuggestedItems = State<
-  'SuggestedItems',
-  {
-    sessionId: string;
-    items: {
-      productId: string;
-      name: string;
-      quantity: number;
-      reason: string;
-    }[];
-  }
->;
-type AddItemsToCart = Command<
-  'AddItemsToCart',
-  {
-    sessionId: string;
-    items: {
-      productId: string;
-      quantity: number;
-    }[];
-  }
->;
-type ItemsAddedToCart = Event<
-  'ItemsAddedToCart',
-  {
-    sessionId: string;
-    items: {
-      productId: string;
-      quantity: number;
-    }[];
-  }
->;
-scene('Seasonal Assistant', () => {
-  command('enters shopping criteria into assistant')
-    .client(() => {
-      describe('Assistant Chat Interface', () => {
-        it('allow shopper to describe their shopping needs in natural language');
-        it('provide a text input for entering criteria');
-        it('show examples of what to include (age, interests, budget)');
-        it('show a button to submit the criteria');
-        it('generate a persisted session id for a visit');
-        it('show the header on top of the page');
-      });
-    })
-    .request(
-      gql(\`mutation EnterShoppingCriteria($input: EnterShoppingCriteriaInput!) {
-  enterShoppingCriteria(input: $input) {
-    success
-    error {
-      type
-      message
-    }
-  }
-}\`),
-    )
-    .server(() => {
-      data({ items: [sink().event('ShoppingCriteriaEntered').toStream('shopping-session-\${sessionId}')] });
-      specs('When shopper submits criteria, a shopping session is started', () => {
-        rule('Valid criteria should start a shopping session', () => {
-          example('User submits shopping criteria for children')
-            .when<EnterShoppingCriteria>({
-              sessionId: 'shopper-123',
-              criteria:
-                'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
-            })
-            .then<ShoppingCriteriaEntered>({
-              sessionId: 'shopper-123',
-              criteria:
-                'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+    expect(code).toMatchInlineSnapshot(`
+      "import {
+        command,
+        data,
+        defineCommand,
+        defineEvent,
+        defineState,
+        describe,
+        example,
+        gql,
+        it,
+        query,
+        react,
+        rule,
+        scene,
+        sink,
+        source,
+        specs,
+      } from '@onauto/narrative';
+      import { AI, ProductCatalog } from '../server/src/integrations';
+      const EnterShoppingCriteria = defineCommand<{
+        sessionId: string;
+        criteria: string;
+      }>('EnterShoppingCriteria');
+      const ShoppingCriteriaEntered = defineEvent<{
+        sessionId: string;
+        criteria: string;
+      }>('ShoppingCriteriaEntered');
+      const SuggestShoppingItems = defineCommand<{
+        sessionId: string;
+        prompt: string;
+      }>('SuggestShoppingItems');
+      const Products = defineState<{
+        products: {
+          productId: string;
+          name: string;
+          category: string;
+          price: number;
+          tags: Array<string>;
+          imageUrl: string;
+        }[];
+      }>('Products');
+      const ShoppingItemsSuggested = defineEvent<{
+        sessionId: string;
+        suggestedItems: {
+          productId: string;
+          name: string;
+          quantity: number;
+          reason: string;
+        }[];
+      }>('ShoppingItemsSuggested');
+      const SuggestedItems = defineState<{
+        sessionId: string;
+        items: {
+          productId: string;
+          name: string;
+          quantity: number;
+          reason: string;
+        }[];
+      }>('SuggestedItems');
+      const AddItemsToCart = defineCommand<{
+        sessionId: string;
+        items: {
+          productId: string;
+          quantity: number;
+        }[];
+      }>('AddItemsToCart');
+      const ItemsAddedToCart = defineEvent<{
+        sessionId: string;
+        items: {
+          productId: string;
+          quantity: number;
+        }[];
+      }>('ItemsAddedToCart');
+      scene('Seasonal Assistant', () => {
+        command('enters shopping criteria into assistant')
+          .client(() => {
+            describe('Assistant Chat Interface', () => {
+              it('allow shopper to describe their shopping needs in natural language');
+              it('provide a text input for entering criteria');
+              it('show examples of what to include (age, interests, budget)');
+              it('show a button to submit the criteria');
+              it('generate a persisted session id for a visit');
+              it('show the header on top of the page');
             });
-        });
-      });
-    });
-  react('creates a chat session').server(() => {
-    specs('When shopping criteria are entered, request wishlist creation', () => {
-      rule('Shopping criteria should trigger item suggestion', () => {
-        example('Criteria entered triggers wishlist creation')
-          .when<ShoppingCriteriaEntered>({
-            sessionId: 'session-abc',
-            criteria:
-              'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
           })
-          .then<SuggestShoppingItems>({
-            sessionId: 'session-abc',
-            prompt:
-              'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+          .request(
+            gql(\`mutation EnterShoppingCriteria($input: EnterShoppingCriteriaInput!) {
+        enterShoppingCriteria(input: $input) {
+          success
+          error {
+            type
+            message
+          }
+        }
+      }\`),
+          )
+          .server(() => {
+            data({ items: [sink().event('ShoppingCriteriaEntered').toStream('shopping-session-\${sessionId}')] });
+            specs('When shopper submits criteria, a shopping session is started', () => {
+              rule('Valid criteria should start a shopping session', () => {
+                example('User submits shopping criteria for children')
+                  .when(EnterShoppingCriteria, 'EnterShoppingCriteria', {
+                    sessionId: 'shopper-123',
+                    criteria:
+                      'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+                  })
+                  .then(ShoppingCriteriaEntered, 'ShoppingCriteriaEntered', {
+                    sessionId: 'shopper-123',
+                    criteria:
+                      'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+                  });
+              });
+            });
           });
-      });
-    });
-  });
-  command('selects items relevant to the shopping criteria').server(() => {
-    data({
-      items: [
-        sink()
-          .command('SuggestShoppingItems')
-          .toIntegration(AI, 'DoChat', 'command')
-          .withState(source().state('Products').fromIntegration(ProductCatalog))
-          .additionalInstructions(
-            'add the following to the DoChat: schemaName: Products, systemPrompt: use the PRODUCT_CATALOGUE_PRODUCTS MCP tool to get product data',
-          ),
-        sink().event('ShoppingItemsSuggested').toStream('shopping-session-\${sessionId}'),
-      ],
-    });
-    specs('When chat is triggered, AI suggests items based on product catalog', () => {
-      rule('AI should suggest relevant items from available products', () => {
-        example('Product catalog with matching items generates suggestions')
-          .given<Products>({
-            products: [
-              {
-                productId: 'prod-soccer-ball',
-                name: 'Super Soccer Ball',
-                category: 'Sports',
-                price: 10,
-                tags: ['soccer', 'sports'],
-                imageUrl: 'https://example.com/soccer-ball.jpg',
-              },
-              {
-                productId: 'prod-craft-kit',
-                name: 'Deluxe Craft Kit',
-                category: 'Arts & Crafts',
-                price: 25,
-                tags: ['crafts', 'art', 'creative'],
-                imageUrl: 'https://example.com/craft-kit.jpg',
-              },
-              {
-                productId: 'prod-laptop-bag',
-                name: 'Tech Laptop Backpack',
-                category: 'School Supplies',
-                price: 45,
-                tags: ['computers', 'tech', 'school'],
-                imageUrl: 'https://example.com/laptop-bag.jpg',
-              },
-              {
-                productId: 'prod-mtg-starter',
-                name: 'Magic the Gathering Starter Set',
-                category: 'Games',
-                price: 30,
-                tags: ['magic', 'tcg', 'games'],
-                imageUrl: 'https://example.com/mtg-starter.jpg',
-              },
-            ],
-          })
-          .when<SuggestShoppingItems>({
-            sessionId: 'session-abc',
-            prompt:
-              'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
-          })
-          .then<ShoppingItemsSuggested>({
-            sessionId: 'session-abc',
-            suggestedItems: [
-              {
-                productId: 'prod-soccer-ball',
-                name: 'Super Soccer Ball',
-                quantity: 1,
-                reason: 'Perfect for your daughter who loves soccer',
-              },
-              {
-                productId: 'prod-craft-kit',
-                name: 'Deluxe Craft Kit',
-                quantity: 1,
-                reason: 'Great for creative activities and crafts',
-              },
-              {
-                productId: 'prod-laptop-bag',
-                name: 'Tech Laptop Backpack',
-                quantity: 1,
-                reason: "Essential for your son's school computer needs",
-              },
-              {
-                productId: 'prod-mtg-starter',
-                name: 'Magic the Gathering Starter Set',
-                quantity: 1,
-                reason: 'Ideal starter set for Magic the Gathering enthusiasts',
-              },
+        react('creates a chat session').server(() => {
+          specs('When shopping criteria are entered, request wishlist creation', () => {
+            rule('Shopping criteria should trigger item suggestion', () => {
+              example('Criteria entered triggers wishlist creation')
+                .when(ShoppingCriteriaEntered, 'ShoppingCriteriaEntered', {
+                  sessionId: 'session-abc',
+                  criteria:
+                    'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+                })
+                .then(SuggestShoppingItems, 'SuggestShoppingItems', {
+                  sessionId: 'session-abc',
+                  prompt:
+                    'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+                });
+            });
+          });
+        });
+        command('selects items relevant to the shopping criteria').server(() => {
+          data({
+            items: [
+              sink()
+                .command('SuggestShoppingItems')
+                .toIntegration(AI, 'DoChat', 'command')
+                .withState(source().state('Products').fromIntegration(ProductCatalog))
+                .additionalInstructions(
+                  'add the following to the DoChat: schemaName: Products, systemPrompt: use the PRODUCT_CATALOGUE_PRODUCTS MCP tool to get product data',
+                ),
+              sink().event('ShoppingItemsSuggested').toStream('shopping-session-\${sessionId}'),
             ],
           });
-      });
-    });
-  });
-  query('views suggested items')
-    .client(() => {
-      describe('Suggested Items Screen', () => {
-        it('display all suggested items with names and reasons');
-        it('show quantity selectors for each item');
-        it('have an "Add to Cart" button for selected items');
-        it('allow removing items from the suggestions');
-      });
-    })
-    .request(
-      gql(\`query GetSuggestedItems($sessionId: ID!) {
-  suggestedItems(sessionId: $sessionId) {
-    items {
-      productId
-      name
-      quantity
-      reason
-    }
-  }
-}\`),
-    )
-    .server(() => {
-      data({ items: [source().state('SuggestedItems').fromProjection('SuggestedItemsProjection', 'sessionId')] });
-      specs('Suggested items are available for viewing', () => {
-        rule('Items should be available for viewing after suggestion', () => {
-          example('Item becomes available after AI suggestion event')
-            .when<ShoppingItemsSuggested>({
-              sessionId: 'session-abc',
-              suggestedItems: [
-                {
-                  productId: 'prod-soccer-ball',
-                  name: 'Super Soccer Ball',
-                  quantity: 1,
-                  reason: 'Perfect for your daughter who loves soccer',
-                },
-                {
-                  productId: 'prod-craft-kit',
-                  name: 'Deluxe Craft Kit',
-                  quantity: 1,
-                  reason: 'Great for creative activities and crafts',
-                },
-                {
-                  productId: 'prod-laptop-bag',
-                  name: 'Tech Laptop Backpack',
-                  quantity: 1,
-                  reason: "Essential for your son's school computer needs",
-                },
-                {
-                  productId: 'prod-mtg-starter',
-                  name: 'Magic the Gathering Starter Set',
-                  quantity: 1,
-                  reason: 'Ideal starter set for Magic the Gathering enthusiasts',
-                },
-              ],
-            })
-            .then<SuggestedItems>({
-              sessionId: 'session-abc',
-              items: [
-                {
-                  productId: 'prod-soccer-ball',
-                  name: 'Super Soccer Ball',
-                  quantity: 1,
-                  reason: 'Perfect for your daughter who loves soccer',
-                },
-                {
-                  productId: 'prod-craft-kit',
-                  name: 'Deluxe Craft Kit',
-                  quantity: 1,
-                  reason: 'Great for creative activities and crafts',
-                },
-                {
-                  productId: 'prod-laptop-bag',
-                  name: 'Tech Laptop Backpack',
-                  quantity: 1,
-                  reason: "Essential for your son's school computer needs",
-                },
-                {
-                  productId: 'prod-mtg-starter',
-                  name: 'Magic the Gathering Starter Set',
-                  quantity: 1,
-                  reason: 'Ideal starter set for Magic the Gathering enthusiasts',
-                },
-              ],
+          specs('When chat is triggered, AI suggests items based on product catalog', () => {
+            rule('AI should suggest relevant items from available products', () => {
+              example('Product catalog with matching items generates suggestions')
+                .given(Products, 'Products', {
+                  products: [
+                    {
+                      productId: 'prod-soccer-ball',
+                      name: 'Super Soccer Ball',
+                      category: 'Sports',
+                      price: 10,
+                      tags: ['soccer', 'sports'],
+                      imageUrl: 'https://example.com/soccer-ball.jpg',
+                    },
+                    {
+                      productId: 'prod-craft-kit',
+                      name: 'Deluxe Craft Kit',
+                      category: 'Arts & Crafts',
+                      price: 25,
+                      tags: ['crafts', 'art', 'creative'],
+                      imageUrl: 'https://example.com/craft-kit.jpg',
+                    },
+                    {
+                      productId: 'prod-laptop-bag',
+                      name: 'Tech Laptop Backpack',
+                      category: 'School Supplies',
+                      price: 45,
+                      tags: ['computers', 'tech', 'school'],
+                      imageUrl: 'https://example.com/laptop-bag.jpg',
+                    },
+                    {
+                      productId: 'prod-mtg-starter',
+                      name: 'Magic the Gathering Starter Set',
+                      category: 'Games',
+                      price: 30,
+                      tags: ['magic', 'tcg', 'games'],
+                      imageUrl: 'https://example.com/mtg-starter.jpg',
+                    },
+                  ],
+                })
+                .when(SuggestShoppingItems, 'SuggestShoppingItems', {
+                  sessionId: 'session-abc',
+                  prompt:
+                    'I need back-to-school items for my 7-year-old daughter who loves soccer and crafts, and my 12-year-old son who is into computers and Magic the Gathering.',
+                })
+                .then(ShoppingItemsSuggested, 'ShoppingItemsSuggested', {
+                  sessionId: 'session-abc',
+                  suggestedItems: [
+                    {
+                      productId: 'prod-soccer-ball',
+                      name: 'Super Soccer Ball',
+                      quantity: 1,
+                      reason: 'Perfect for your daughter who loves soccer',
+                    },
+                    {
+                      productId: 'prod-craft-kit',
+                      name: 'Deluxe Craft Kit',
+                      quantity: 1,
+                      reason: 'Great for creative activities and crafts',
+                    },
+                    {
+                      productId: 'prod-laptop-bag',
+                      name: 'Tech Laptop Backpack',
+                      quantity: 1,
+                      reason: "Essential for your son's school computer needs",
+                    },
+                    {
+                      productId: 'prod-mtg-starter',
+                      name: 'Magic the Gathering Starter Set',
+                      quantity: 1,
+                      reason: 'Ideal starter set for Magic the Gathering enthusiasts',
+                    },
+                  ],
+                });
             });
+          });
         });
-      });
-    });
-  command('accepts items and adds to their cart')
-    .client(() => {
-      describe('Suggested Items Screen', () => {
-        it('allow selecting specific items to add');
-        it('update quantities before adding to cart');
-        it('provide feedback when items are added');
-      });
-    })
-    .server(() => {
-      data({ items: [sink().event('ItemsAddedToCart').toStream('shopping-session-\${sessionId}')] });
-      specs('When shopper accepts items, they are added to cart', () => {
-        rule('Accepted items should be added to the shopping cart', () => {
-          example('User selects all suggested items for cart')
-            .when<AddItemsToCart>({
-              sessionId: 'session-abc',
-              items: [
-                { productId: 'prod-soccer-ball', quantity: 1 },
-                { productId: 'prod-craft-kit', quantity: 1 },
-                { productId: 'prod-laptop-bag', quantity: 1 },
-                { productId: 'prod-mtg-starter', quantity: 1 },
-              ],
-            })
-            .then<ItemsAddedToCart>({
-              sessionId: 'session-abc',
-              items: [
-                { productId: 'prod-soccer-ball', quantity: 1 },
-                { productId: 'prod-craft-kit', quantity: 1 },
-                { productId: 'prod-laptop-bag', quantity: 1 },
-                { productId: 'prod-mtg-starter', quantity: 1 },
-              ],
+        query('views suggested items')
+          .client(() => {
+            describe('Suggested Items Screen', () => {
+              it('display all suggested items with names and reasons');
+              it('show quantity selectors for each item');
+              it('have an "Add to Cart" button for selected items');
+              it('allow removing items from the suggestions');
             });
-        });
+          })
+          .request(
+            gql(\`query GetSuggestedItems($sessionId: ID!) {
+        suggestedItems(sessionId: $sessionId) {
+          items {
+            productId
+            name
+            quantity
+            reason
+          }
+        }
+      }\`),
+          )
+          .server(() => {
+            data({ items: [source().state('SuggestedItems').fromProjection('SuggestedItemsProjection', 'sessionId')] });
+            specs('Suggested items are available for viewing', () => {
+              rule('Items should be available for viewing after suggestion', () => {
+                example('Item becomes available after AI suggestion event')
+                  .when(ShoppingItemsSuggested, 'ShoppingItemsSuggested', {
+                    sessionId: 'session-abc',
+                    suggestedItems: [
+                      {
+                        productId: 'prod-soccer-ball',
+                        name: 'Super Soccer Ball',
+                        quantity: 1,
+                        reason: 'Perfect for your daughter who loves soccer',
+                      },
+                      {
+                        productId: 'prod-craft-kit',
+                        name: 'Deluxe Craft Kit',
+                        quantity: 1,
+                        reason: 'Great for creative activities and crafts',
+                      },
+                      {
+                        productId: 'prod-laptop-bag',
+                        name: 'Tech Laptop Backpack',
+                        quantity: 1,
+                        reason: "Essential for your son's school computer needs",
+                      },
+                      {
+                        productId: 'prod-mtg-starter',
+                        name: 'Magic the Gathering Starter Set',
+                        quantity: 1,
+                        reason: 'Ideal starter set for Magic the Gathering enthusiasts',
+                      },
+                    ],
+                  })
+                  .then(SuggestedItems, 'SuggestedItems', {
+                    sessionId: 'session-abc',
+                    items: [
+                      {
+                        productId: 'prod-soccer-ball',
+                        name: 'Super Soccer Ball',
+                        quantity: 1,
+                        reason: 'Perfect for your daughter who loves soccer',
+                      },
+                      {
+                        productId: 'prod-craft-kit',
+                        name: 'Deluxe Craft Kit',
+                        quantity: 1,
+                        reason: 'Great for creative activities and crafts',
+                      },
+                      {
+                        productId: 'prod-laptop-bag',
+                        name: 'Tech Laptop Backpack',
+                        quantity: 1,
+                        reason: "Essential for your son's school computer needs",
+                      },
+                      {
+                        productId: 'prod-mtg-starter',
+                        name: 'Magic the Gathering Starter Set',
+                        quantity: 1,
+                        reason: 'Ideal starter set for Magic the Gathering enthusiasts',
+                      },
+                    ],
+                  });
+              });
+            });
+          });
+        command('accepts items and adds to their cart')
+          .client(() => {
+            describe('Suggested Items Screen', () => {
+              it('allow selecting specific items to add');
+              it('update quantities before adding to cart');
+              it('provide feedback when items are added');
+            });
+          })
+          .server(() => {
+            data({ items: [sink().event('ItemsAddedToCart').toStream('shopping-session-\${sessionId}')] });
+            specs('When shopper accepts items, they are added to cart', () => {
+              rule('Accepted items should be added to the shopping cart', () => {
+                example('User selects all suggested items for cart')
+                  .when(AddItemsToCart, 'AddItemsToCart', {
+                    sessionId: 'session-abc',
+                    items: [
+                      { productId: 'prod-soccer-ball', quantity: 1 },
+                      { productId: 'prod-craft-kit', quantity: 1 },
+                      { productId: 'prod-laptop-bag', quantity: 1 },
+                      { productId: 'prod-mtg-starter', quantity: 1 },
+                    ],
+                  })
+                  .then(ItemsAddedToCart, 'ItemsAddedToCart', {
+                    sessionId: 'session-abc',
+                    items: [
+                      { productId: 'prod-soccer-ball', quantity: 1 },
+                      { productId: 'prod-craft-kit', quantity: 1 },
+                      { productId: 'prod-laptop-bag', quantity: 1 },
+                      { productId: 'prod-mtg-starter', quantity: 1 },
+                    ],
+                  });
+              });
+            });
+          });
       });
-    });
-});
-`);
+      "
+    `);
   });
 
   it('should handle experience slices in model to flow conversion', async () => {
@@ -408,14 +388,16 @@ scene('Seasonal Assistant', () => {
 
     const code = getCode(await modelToNarrative(experienceModel));
 
-    expect(code).toEqual(`import { experience, it, scene } from '@onauto/narrative';
-scene('Test Experience Flow', 'TEST-001', () => {
-  experience('Homepage', 'EXP-001').client(() => {
-    it('show a hero section with a welcome message');
-    it('allow user to start the questionnaire');
-  });
-});
-`);
+    expect(code).toMatchInlineSnapshot(`
+      "import { experience, it, scene } from '@onauto/narrative';
+      scene('Test Experience Flow', 'TEST-001', () => {
+        experience('Homepage', 'EXP-001').client(() => {
+          it('show a hero section with a welcome message');
+          it('allow user to start the questionnaire');
+        });
+      });
+      "
+    `);
   });
 
   it('should handle flows and slices without IDs', async () => {
@@ -453,16 +435,18 @@ scene('Test Experience Flow', 'TEST-001', () => {
 
     const code = getCode(await modelToNarrative(modelWithoutIds));
 
-    expect(code).toEqual(`import { describe, experience, it, scene } from '@onauto/narrative';
-scene('Test Flow without IDs', () => {
-  experience('Homepage').client(() => {
-    describe('Homepage specs', () => {
-      it('show welcome message');
-      it('display navigation');
-    });
-  });
-});
-`);
+    expect(code).toMatchInlineSnapshot(`
+      "import { describe, experience, it, scene } from '@onauto/narrative';
+      scene('Test Flow without IDs', () => {
+        experience('Homepage').client(() => {
+          describe('Homepage specs', () => {
+            it('show welcome message');
+            it('display navigation');
+          });
+        });
+      });
+      "
+    `);
   });
 
   it('should include flow and slice IDs in generated code', async () => {
@@ -527,26 +511,28 @@ scene('Test Flow without IDs', () => {
 
     const code = getCode(await modelToNarrative(modelWithIds));
 
-    expect(code).toEqual(`import { describe, experience, it, query, scene, specs } from '@onauto/narrative';
-scene('Test Flow with IDs', 'FLOW-123', () => {
-  experience('Homepage', 'SLICE-ABC').client(() => {
-    describe('Homepage specs', () => {
-      it('show welcome message');
-      it('display navigation');
-    });
-  });
-  query('view products', 'SLICE-XYZ')
-    .client(() => {
-      describe('Product list specs', () => {
-        it('display all products');
-        it('allow filtering');
+    expect(code).toMatchInlineSnapshot(`
+      "import { describe, experience, it, query, scene, specs } from '@onauto/narrative';
+      scene('Test Flow with IDs', 'FLOW-123', () => {
+        experience('Homepage', 'SLICE-ABC').client(() => {
+          describe('Homepage specs', () => {
+            it('show welcome message');
+            it('display navigation');
+          });
+        });
+        query('view products', 'SLICE-XYZ')
+          .client(() => {
+            describe('Product list specs', () => {
+              it('display all products');
+              it('allow filtering');
+            });
+          })
+          .server(() => {
+            specs('Product data specs', () => {});
+          });
       });
-    })
-    .server(() => {
-      specs('Product data specs', () => {});
-    });
-});
-`);
+      "
+    `);
   });
 
   it('should include rule IDs in server specs when present', async () => {
@@ -628,34 +614,29 @@ scene('Test Flow with IDs', 'FLOW-123', () => {
 
     const code = getCode(await modelToNarrative(modelWithRuleIds));
 
-    expect(code).toEqual(`import { command, example, rule, scene, specs } from '@onauto/narrative';
-import type { Command, Event } from '@onauto/narrative';
-type ProcessCommand = Command<
-  'ProcessCommand',
-  {
-    id: string;
-    action: string;
-  }
->;
-type CommandProcessed = Event<
-  'CommandProcessed',
-  {
-    id: string;
-    status: string;
-  }
->;
-scene('Test Flow with Rule IDs', 'FLOW-456', () => {
-  command('process command', 'SLICE-789').server(() => {
-    specs('Command Processing', () => {
-      rule('Valid commands should be processed', 'RULE-ABC', () => {
-        example('User submits valid command')
-          .when<ProcessCommand>({ id: 'cmd-123', action: 'create' })
-          .then<CommandProcessed>({ id: 'cmd-123', status: 'success' });
+    expect(code).toMatchInlineSnapshot(`
+      "import { command, defineCommand, defineEvent, example, rule, scene, specs } from '@onauto/narrative';
+      const ProcessCommand = defineCommand<{
+        id: string;
+        action: string;
+      }>('ProcessCommand');
+      const CommandProcessed = defineEvent<{
+        id: string;
+        status: string;
+      }>('CommandProcessed');
+      scene('Test Flow with Rule IDs', 'FLOW-456', () => {
+        command('process command', 'SLICE-789').server(() => {
+          specs('Command Processing', () => {
+            rule('Valid commands should be processed', 'RULE-ABC', () => {
+              example('User submits valid command')
+                .when(ProcessCommand, 'ProcessCommand', { id: 'cmd-123', action: 'create' })
+                .then(CommandProcessed, 'CommandProcessed', { id: 'cmd-123', status: 'success' });
+            });
+          });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
   });
 
   it('should correctly generate Query type alias for query messages', async () => {
@@ -692,23 +673,18 @@ scene('Test Flow with Rule IDs', 'FLOW-456', () => {
 
     const code = getCode(await modelToNarrative(modelWithQueryMessage));
 
-    expect(code).toEqual(`import { scene } from '@onauto/narrative';
-import type { Event, Query } from '@onauto/narrative';
-type GetWorkoutHistory = Query<
-  'GetWorkoutHistory',
-  {
-    memberId: string;
-    limit?: number;
-  }
->;
-type WorkoutRecorded = Event<
-  'WorkoutRecorded',
-  {
-    workoutId: string;
-  }
->;
-scene('Workout Flow', 'FLOW-001', () => {});
-`);
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, defineQuery, scene } from '@onauto/narrative';
+      const GetWorkoutHistory = defineQuery<{
+        memberId: string;
+        limit?: number;
+      }>('GetWorkoutHistory');
+      const WorkoutRecorded = defineEvent<{
+        workoutId: string;
+      }>('WorkoutRecorded');
+      scene('Workout Flow', 'FLOW-001', () => {});
+      "
+    `);
   });
 
   it('should correctly resolve Date types in messages', async () => {
@@ -754,29 +730,24 @@ scene('Workout Flow', 'FLOW-001', () => {});
 
     const code = getCode(await modelToNarrative(modelWithDateTypes));
 
-    expect(code).toEqual(`import { scene } from '@onauto/narrative';
-import type { Event } from '@onauto/narrative';
-type QuestionnaireLinkSent = Event<
-  'QuestionnaireLinkSent',
-  {
-    questionnaireId: string;
-    participantId: string;
-    link: string;
-    sentAt: Date;
-  }
->;
-type QuestionAnswered = Event<
-  'QuestionAnswered',
-  {
-    questionnaireId: string;
-    participantId: string;
-    questionId: string;
-    answer: unknown;
-    savedAt: Date;
-  }
->;
-scene('Questionnaire Flow', 'QUEST-001', () => {});
-`);
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, scene } from '@onauto/narrative';
+      const QuestionnaireLinkSent = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        link: string;
+        sentAt: Date;
+      }>('QuestionnaireLinkSent');
+      const QuestionAnswered = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        questionId: string;
+        answer: unknown;
+        savedAt: Date;
+      }>('QuestionAnswered');
+      scene('Questionnaire Flow', 'QUEST-001', () => {});
+      "
+    `);
   });
 
   it('should generate browser-compatible imports without mixing values and types', async () => {
@@ -1010,105 +981,111 @@ scene('Questionnaire Flow', 'QUEST-001', () => {});
 
     const code = getCode(await modelToNarrative(questionnairesModel));
 
-    expect(code).toEqual(`import { data, describe, example, experience, gql, it, query, rule, scene, source, specs } from '@onauto/narrative';
-import type { Event, State } from '@onauto/narrative';
-type QuestionnaireLinkSent = Event<
-  'QuestionnaireLinkSent',
-  {
-    questionnaireId: string;
-    participantId: string;
-    link: string;
-    sentAt: Date;
-  }
->;
-type QuestionAnswered = Event<
-  'QuestionAnswered',
-  {
-    questionnaireId: string;
-    participantId: string;
-    questionId: string;
-    answer: unknown;
-    savedAt: Date;
-  }
->;
-type QuestionnaireProgress = State<
-  'QuestionnaireProgress',
-  {
-    questionnaireId: string;
-    participantId: string;
-    status: 'in_progress' | 'ready_to_submit' | 'submitted';
-    currentQuestionId: string | null;
-    remainingQuestions: string[];
-    answers: {
-      questionId: string;
-      value: unknown;
-    }[];
-  }
->;
-scene('Questionnaires', 'Q9m2Kp4Lx', () => {
-  experience('Homepage', 'H1a4Bn6Cy').client(() => {
-    it('show a hero section with a welcome message');
-    it('allow user to start the questionnaire');
-  });
-  query('views the questionnaire', 'V7n8Rq5M')
-    .client(() => {
-      describe('Questionnaire Progress', () => {
-        it('focus on the current question based on the progress state');
-        it('display the list of answered questions');
-        it('display the list of remaining questions');
-        it('show a progress indicator that is always visible as the user scrolls');
-      });
-    })
-    .request(
-      gql(\`query QuestionnaireProgress($participantId: ID!) {
-  questionnaireProgress(participantId: $participantId) {
-    questionnaireId
-    participantId
-    currentQuestionId
-    remainingQuestions
-    status
-    answers {
-      questionId
-      value
-    }
-  }
-}\`),
-    )
-    .server(() => {
-      data({
-        items: [
-          source().state('QuestionnaireProgress').fromProjection('Questionnaires', 'questionnaire-participantId'),
-        ],
-      });
-      specs(() => {
-        rule('questionnaires show current progress', 'r1A3Bp9W', () => {
-          example('a question has already been answered')
-            .given<QuestionnaireLinkSent>({
-              questionnaireId: 'q-001',
-              participantId: 'participant-abc',
-              link: 'https://app.example.com/q/q-001?participant=participant-abc',
-              sentAt: new Date('2030-01-01T09:00:00.000Z'),
-            })
-            .when<QuestionAnswered>({
-              questionnaireId: 'q-001',
-              participantId: 'participant-abc',
-              questionId: 'q1',
-              answer: 'Yes',
-              savedAt: new Date('2030-01-01T09:05:00.000Z'),
-            })
-            .then<QuestionnaireProgress>({
-              questionnaireId: 'q-001',
-              participantId: 'participant-abc',
-              status: 'in_progress',
-              currentQuestionId: 'q2',
-              remainingQuestions: ['q2', 'q3'],
-              answers: [{ questionId: 'q1', value: 'Yes' }],
-            });
+    expect(code).toMatchInlineSnapshot(`
+      "import {
+        data,
+        defineEvent,
+        defineState,
+        describe,
+        example,
+        experience,
+        gql,
+        it,
+        query,
+        rule,
+        scene,
+        source,
+        specs,
+      } from '@onauto/narrative';
+      const QuestionnaireLinkSent = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        link: string;
+        sentAt: Date;
+      }>('QuestionnaireLinkSent');
+      const QuestionAnswered = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        questionId: string;
+        answer: unknown;
+        savedAt: Date;
+      }>('QuestionAnswered');
+      const QuestionnaireProgress = defineState<{
+        questionnaireId: string;
+        participantId: string;
+        status: 'in_progress' | 'ready_to_submit' | 'submitted';
+        currentQuestionId: string | null;
+        remainingQuestions: string[];
+        answers: {
+          questionId: string;
+          value: unknown;
+        }[];
+      }>('QuestionnaireProgress');
+      scene('Questionnaires', 'Q9m2Kp4Lx', () => {
+        experience('Homepage', 'H1a4Bn6Cy').client(() => {
+          it('show a hero section with a welcome message');
+          it('allow user to start the questionnaire');
         });
+        query('views the questionnaire', 'V7n8Rq5M')
+          .client(() => {
+            describe('Questionnaire Progress', () => {
+              it('focus on the current question based on the progress state');
+              it('display the list of answered questions');
+              it('display the list of remaining questions');
+              it('show a progress indicator that is always visible as the user scrolls');
+            });
+          })
+          .request(
+            gql(\`query QuestionnaireProgress($participantId: ID!) {
+        questionnaireProgress(participantId: $participantId) {
+          questionnaireId
+          participantId
+          currentQuestionId
+          remainingQuestions
+          status
+          answers {
+            questionId
+            value
+          }
+        }
+      }\`),
+          )
+          .server(() => {
+            data({
+              items: [
+                source().state('QuestionnaireProgress').fromProjection('Questionnaires', 'questionnaire-participantId'),
+              ],
+            });
+            specs(() => {
+              rule('questionnaires show current progress', 'r1A3Bp9W', () => {
+                example('a question has already been answered')
+                  .given(QuestionnaireLinkSent, 'QuestionnaireLinkSent', {
+                    questionnaireId: 'q-001',
+                    participantId: 'participant-abc',
+                    link: 'https://app.example.com/q/q-001?participant=participant-abc',
+                    sentAt: new Date('2030-01-01T09:00:00.000Z'),
+                  })
+                  .when(QuestionAnswered, 'QuestionAnswered', {
+                    questionnaireId: 'q-001',
+                    participantId: 'participant-abc',
+                    questionId: 'q1',
+                    answer: 'Yes',
+                    savedAt: new Date('2030-01-01T09:05:00.000Z'),
+                  })
+                  .then(QuestionnaireProgress, 'QuestionnaireProgress', {
+                    questionnaireId: 'q-001',
+                    participantId: 'participant-abc',
+                    status: 'in_progress',
+                    currentQuestionId: 'q2',
+                    remainingQuestions: ['q2', 'q3'],
+                    answers: [{ questionId: 'q1', value: 'Yes' }],
+                  });
+              });
+            });
+          });
       });
-    });
-});
-`);
+      "
+    `);
   });
 
   it('should consolidate duplicate rules with multiple examples into single rule blocks', async () => {
@@ -1243,46 +1220,45 @@ scene('Questionnaires', 'Q9m2Kp4Lx', () => {
 
     const code = getCode(await modelToNarrative(modelWithDuplicateRules));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
-import type { Event, State } from '@onauto/narrative';
-type QuestionnaireLinkSent = Event<
-  'QuestionnaireLinkSent',
-  {
-    questionnaireId: string;
-    participantId: string;
-  }
->;
-type QuestionAnswered = Event<
-  'QuestionAnswered',
-  {
-    questionnaireId: string;
-    questionId: string;
-    answer: unknown;
-  }
->;
-type QuestionnaireProgress = State<
-  'QuestionnaireProgress',
-  {
-    questionnaireId: string;
-    status: string;
-  }
->;
-scene('Test Flow', 'TEST-FLOW', () => {
-  query('test slice', 'TEST-SLICE').server(() => {
-    specs('Test Rules', () => {
-      rule('questionnaires show current progress', 'r1A3Bp9W', () => {
-        example('a question has already been answered')
-          .given<QuestionnaireLinkSent>({ questionnaireId: 'q-001', participantId: 'participant-abc' })
-          .when<QuestionAnswered>({ questionnaireId: 'q-001', questionId: 'q1', answer: 'Yes' })
-          .then<QuestionnaireProgress>({ questionnaireId: 'q-001', status: 'in_progress' });
-        example('no questions have been answered yet')
-          .given<QuestionnaireLinkSent>({ questionnaireId: 'q-001', participantId: 'participant-abc' })
-          .then<QuestionnaireProgress>({ questionnaireId: 'q-001', status: 'in_progress' });
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, defineState, example, query, rule, scene, specs } from '@onauto/narrative';
+      const QuestionnaireLinkSent = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+      }>('QuestionnaireLinkSent');
+      const QuestionAnswered = defineEvent<{
+        questionnaireId: string;
+        questionId: string;
+        answer: unknown;
+      }>('QuestionAnswered');
+      const QuestionnaireProgress = defineState<{
+        questionnaireId: string;
+        status: string;
+      }>('QuestionnaireProgress');
+      scene('Test Flow', 'TEST-FLOW', () => {
+        query('test slice', 'TEST-SLICE').server(() => {
+          specs('Test Rules', () => {
+            rule('questionnaires show current progress', 'r1A3Bp9W', () => {
+              example('a question has already been answered')
+                .given(QuestionnaireLinkSent, 'QuestionnaireLinkSent', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                })
+                .when(QuestionAnswered, 'QuestionAnswered', { questionnaireId: 'q-001', questionId: 'q1', answer: 'Yes' })
+                .then(QuestionnaireProgress, 'QuestionnaireProgress', { questionnaireId: 'q-001', status: 'in_progress' });
+              example('no questions have been answered yet')
+                .given(QuestionnaireLinkSent, 'QuestionnaireLinkSent', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                })
+                .when(QuestionnaireLinkSent, 'QuestionnaireLinkSent', {})
+                .then(QuestionnaireProgress, 'QuestionnaireProgress', { questionnaireId: 'q-001', status: 'in_progress' });
+            });
+          });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
   });
 
   it('should chain multiple given examples with and() syntax', async () => {
@@ -1448,97 +1424,86 @@ scene('Test Flow', 'TEST-FLOW', () => {
 
     const code = getCode(await modelToNarrative(modelWithMultiGiven));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
-import type { Event, State } from '@onauto/narrative';
-type QuestionnaireConfig = State<
-  'QuestionnaireConfig',
-  {
-    questionnaireId: string;
-    numberOfQuestions: number;
-  }
->;
-type QuestionnaireLinkSent = Event<
-  'QuestionnaireLinkSent',
-  {
-    questionnaireId: string;
-    participantId: string;
-    link: string;
-    sentAt: Date;
-  }
->;
-type QuestionAnswered = Event<
-  'QuestionAnswered',
-  {
-    questionnaireId: string;
-    participantId: string;
-    questionId: string;
-    answer: unknown;
-    savedAt: Date;
-  }
->;
-type QuestionnaireProgress = State<
-  'QuestionnaireProgress',
-  {
-    questionnaireId: string;
-    participantId: string;
-    status: 'in_progress' | 'ready_to_submit' | 'submitted';
-    currentQuestionId: string | null;
-    remainingQuestions: string[];
-    answers: {
-      questionId: string;
-      value: unknown;
-    }[];
-  }
->;
-scene('Multi Given Flow', 'MULTI-GIVEN', () => {
-  query('multi given slice', 'MULTI-SLICE').server(() => {
-    specs('Multi Given Rules', () => {
-      rule('all questions have been answered', 'MultiGiven', () => {
-        example('questionnaire with multiple events')
-          .given<QuestionnaireConfig>({ questionnaireId: 'q-001', numberOfQuestions: 3 })
-          .and<QuestionnaireLinkSent>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            link: 'https://example.com/q/q-001',
-            sentAt: new Date('2030-01-01T09:00:00.000Z'),
-          })
-          .and<QuestionAnswered>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            questionId: 'q1',
-            answer: 'Yes',
-            savedAt: new Date('2030-01-01T09:05:00.000Z'),
-          })
-          .and<QuestionAnswered>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            questionId: 'q2',
-            answer: 'No',
-            savedAt: new Date('2030-01-01T09:10:00.000Z'),
-          })
-          .when<QuestionAnswered>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            questionId: 'q3',
-            answer: 'Maybe',
-            savedAt: new Date('2030-01-01T09:15:00.000Z'),
-          })
-          .then<QuestionnaireProgress>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            status: 'ready_to_submit',
-            currentQuestionId: null,
-            remainingQuestions: [],
-            answers: [
-              { questionId: 'q1', value: 'Yes' },
-              { questionId: 'q2', value: 'No' },
-            ],
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, defineState, example, query, rule, scene, specs } from '@onauto/narrative';
+      const QuestionnaireConfig = defineState<{
+        questionnaireId: string;
+        numberOfQuestions: number;
+      }>('QuestionnaireConfig');
+      const QuestionnaireLinkSent = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        link: string;
+        sentAt: Date;
+      }>('QuestionnaireLinkSent');
+      const QuestionAnswered = defineEvent<{
+        questionnaireId: string;
+        participantId: string;
+        questionId: string;
+        answer: unknown;
+        savedAt: Date;
+      }>('QuestionAnswered');
+      const QuestionnaireProgress = defineState<{
+        questionnaireId: string;
+        participantId: string;
+        status: 'in_progress' | 'ready_to_submit' | 'submitted';
+        currentQuestionId: string | null;
+        remainingQuestions: string[];
+        answers: {
+          questionId: string;
+          value: unknown;
+        }[];
+      }>('QuestionnaireProgress');
+      scene('Multi Given Flow', 'MULTI-GIVEN', () => {
+        query('multi given slice', 'MULTI-SLICE').server(() => {
+          specs('Multi Given Rules', () => {
+            rule('all questions have been answered', 'MultiGiven', () => {
+              example('questionnaire with multiple events')
+                .given(QuestionnaireConfig, 'QuestionnaireConfig', { questionnaireId: 'q-001', numberOfQuestions: 3 })
+                .and(QuestionnaireLinkSent, 'QuestionnaireLinkSent', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  link: 'https://example.com/q/q-001',
+                  sentAt: new Date('2030-01-01T09:00:00.000Z'),
+                })
+                .and(QuestionAnswered, 'QuestionAnswered', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  questionId: 'q1',
+                  answer: 'Yes',
+                  savedAt: new Date('2030-01-01T09:05:00.000Z'),
+                })
+                .and(QuestionAnswered, 'QuestionAnswered', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  questionId: 'q2',
+                  answer: 'No',
+                  savedAt: new Date('2030-01-01T09:10:00.000Z'),
+                })
+                .when(QuestionAnswered, 'QuestionAnswered', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  questionId: 'q3',
+                  answer: 'Maybe',
+                  savedAt: new Date('2030-01-01T09:15:00.000Z'),
+                })
+                .then(QuestionnaireProgress, 'QuestionnaireProgress', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  status: 'ready_to_submit',
+                  currentQuestionId: null,
+                  remainingQuestions: [],
+                  answers: [
+                    { questionId: 'q1', value: 'Yes' },
+                    { questionId: 'q2', value: 'No' },
+                  ],
+                });
+            });
           });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
   });
 
   it('should generate types for states referenced in data origins', async () => {
@@ -1662,52 +1627,48 @@ scene('Multi Given Flow', 'MULTI-GIVEN', () => {
 
     const code = getCode(await modelToNarrative(modelWithReferencedStates));
 
-    expect(code).toEqual(`import { data, example, query, rule, scene, source, specs } from '@onauto/narrative';
-import type { State } from '@onauto/narrative';
-type QuestionnaireProgress = State<
-  'QuestionnaireProgress',
-  {
-    questionnaireId: string;
-    participantId: string;
-    status: string;
-    totalQuestions: number;
-  }
->;
-type QuestionnaireConfig = State<
-  'QuestionnaireConfig',
-  {
-    questionnaireId: string;
-    numberOfQuestions: number;
-    title: string;
-  }
->;
-scene('Referenced States Flow', 'REF-STATES', () => {
-  query('query with database states', 'REF-SLICE').server(() => {
-    data({
-      items: [
-        source().state('QuestionnaireProgress').fromProjection('QuestionnaireProjection', 'participantId'),
-        source().state('QuestionnaireConfig').fromDatabase('ConfigStore', { questionnaireId: '$questionnaireId' }),
-      ],
-    });
-    specs('Database State Rules', () => {
-      rule('questionnaire config is available when referenced', 'RefState', () => {
-        example('config from database is accessible')
-          .given<QuestionnaireConfig>({
-            questionnaireId: 'q-001',
-            numberOfQuestions: 5,
-            title: 'Customer Satisfaction Survey',
-          })
-          .then<QuestionnaireProgress>({
-            questionnaireId: 'q-001',
-            participantId: 'participant-abc',
-            status: 'in_progress',
-            totalQuestions: 5,
+    expect(code).toMatchInlineSnapshot(`
+      "import { data, defineState, example, query, rule, scene, source, specs } from '@onauto/narrative';
+      const QuestionnaireProgress = defineState<{
+        questionnaireId: string;
+        participantId: string;
+        status: string;
+        totalQuestions: number;
+      }>('QuestionnaireProgress');
+      const QuestionnaireConfig = defineState<{
+        questionnaireId: string;
+        numberOfQuestions: number;
+        title: string;
+      }>('QuestionnaireConfig');
+      scene('Referenced States Flow', 'REF-STATES', () => {
+        query('query with database states', 'REF-SLICE').server(() => {
+          data({
+            items: [
+              source().state('QuestionnaireProgress').fromProjection('QuestionnaireProjection', 'participantId'),
+              source().state('QuestionnaireConfig').fromDatabase('ConfigStore', { questionnaireId: '$questionnaireId' }),
+            ],
           });
+          specs('Database State Rules', () => {
+            rule('questionnaire config is available when referenced', 'RefState', () => {
+              example('config from database is accessible')
+                .given(QuestionnaireConfig, 'QuestionnaireConfig', {
+                  questionnaireId: 'q-001',
+                  numberOfQuestions: 5,
+                  title: 'Customer Satisfaction Survey',
+                })
+                .when(QuestionnaireProgress, 'QuestionnaireProgress', {})
+                .then(QuestionnaireProgress, 'QuestionnaireProgress', {
+                  questionnaireId: 'q-001',
+                  participantId: 'participant-abc',
+                  status: 'in_progress',
+                  totalQuestions: 5,
+                });
+            });
+          });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
   });
 
   it('should generate new Date() constructors for Date fields', async () => {
@@ -1817,55 +1778,47 @@ scene('Referenced States Flow', 'REF-STATES', () => {
 
     const code = getCode(await modelToNarrative(modelWithDateFields));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
-import type { Event, State } from '@onauto/narrative';
-type TimestampedEvent = Event<
-  'TimestampedEvent',
-  {
-    id: string;
-    sentAt: Date;
-    savedAt: Date;
-    attemptedAt: Date;
-    submittedAt: Date;
-  }
->;
-type ProcessEvent = Event<
-  'ProcessEvent',
-  {
-    processedAt: Date;
-  }
->;
-type ProcessState = State<
-  'ProcessState',
-  {
-    id: string;
-    completedAt: Date;
-    status: string;
-  }
->;
-scene('Date Handling Flow', 'DATE-FLOW', () => {
-  query('date handling slice', 'DATE-SLICE').server(() => {
-    specs('Date Field Rules', () => {
-      rule('handles Date fields correctly', 'DateRule', () => {
-        example('event with Date fields')
-          .given<TimestampedEvent>({
-            id: 'event-123',
-            sentAt: new Date('2030-01-01T09:00:00.000Z'),
-            savedAt: new Date('2030-01-01T09:05:00.000Z'),
-            attemptedAt: new Date('2030-01-01T09:10:00.000Z'),
-            submittedAt: new Date('2030-01-01T09:15:00.000Z'),
-          })
-          .when<ProcessEvent>({ processedAt: new Date('2030-01-01T10:00:00.000Z') })
-          .then<ProcessState>({
-            id: 'state-123',
-            completedAt: new Date('2030-01-01T11:00:00.000Z'),
-            status: 'completed',
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, defineState, example, query, rule, scene, specs } from '@onauto/narrative';
+      const TimestampedEvent = defineEvent<{
+        id: string;
+        sentAt: Date;
+        savedAt: Date;
+        attemptedAt: Date;
+        submittedAt: Date;
+      }>('TimestampedEvent');
+      const ProcessEvent = defineEvent<{
+        processedAt: Date;
+      }>('ProcessEvent');
+      const ProcessState = defineState<{
+        id: string;
+        completedAt: Date;
+        status: string;
+      }>('ProcessState');
+      scene('Date Handling Flow', 'DATE-FLOW', () => {
+        query('date handling slice', 'DATE-SLICE').server(() => {
+          specs('Date Field Rules', () => {
+            rule('handles Date fields correctly', 'DateRule', () => {
+              example('event with Date fields')
+                .given(TimestampedEvent, 'TimestampedEvent', {
+                  id: 'event-123',
+                  sentAt: new Date('2030-01-01T09:00:00.000Z'),
+                  savedAt: new Date('2030-01-01T09:05:00.000Z'),
+                  attemptedAt: new Date('2030-01-01T09:10:00.000Z'),
+                  submittedAt: new Date('2030-01-01T09:15:00.000Z'),
+                })
+                .when(ProcessEvent, 'ProcessEvent', { processedAt: new Date('2030-01-01T10:00:00.000Z') })
+                .then(ProcessState, 'ProcessState', {
+                  id: 'state-123',
+                  completedAt: new Date('2030-01-01T11:00:00.000Z'),
+                  status: 'completed',
+                });
+            });
           });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
   });
 
   it('should generate multiple flows when multiple flows have the same sourceFile', async () => {
@@ -1922,23 +1875,25 @@ scene('Date Handling Flow', 'DATE-FLOW', () => {
 
     const code = getCode(await modelToNarrative(modelWithMultipleFlowsSameSource));
 
-    expect(code).toEqual(`import { experience, it, scene } from '@onauto/narrative';
-scene('Home Screen', () => {
-  experience('Active Surveys Summary', 'aifPcU3hw').client(() => {
-    it('show active surveys summary');
-  });
-});
-scene('Create Survey', () => {
-  experience('Create Survey Form', 'MPviTMrQC').client(() => {
-    it('allow entering survey title');
-  });
-});
-scene('Response Analytics', () => {
-  experience('Response Rate Charts', 'eME978Euk').client(() => {
-    it('show daily response rate charts');
-  });
-});
-`);
+    expect(code).toMatchInlineSnapshot(`
+      "import { experience, it, scene } from '@onauto/narrative';
+      scene('Home Screen', () => {
+        experience('Active Surveys Summary', 'aifPcU3hw').client(() => {
+          it('show active surveys summary');
+        });
+      });
+      scene('Create Survey', () => {
+        experience('Create Survey Form', 'MPviTMrQC').client(() => {
+          it('allow entering survey title');
+        });
+      });
+      scene('Response Analytics', () => {
+        experience('Response Rate Charts', 'eME978Euk').client(() => {
+          it('show daily response rate charts');
+        });
+      });
+      "
+    `);
   });
 
   it('should omit .when({}) when given has multiple items and when is empty', async () => {
@@ -2084,74 +2039,69 @@ scene('Response Analytics', () => {
 
     const code = getCode(await modelToNarrative(modelWithEmptyWhen));
 
-    expect(code).toEqual(`import { example, query, rule, scene, specs } from '@onauto/narrative';
-import type { Event, State } from '@onauto/narrative';
-type TodoAdded = Event<
-  'TodoAdded',
-  {
-    todoId: string;
-    description: string;
-    status: string;
-    addedAt: Date;
-  }
->;
-type TodoMarkedInProgress = Event<
-  'TodoMarkedInProgress',
-  {
-    todoId: string;
-    markedAt: Date;
-  }
->;
-type TodoMarkedComplete = Event<
-  'TodoMarkedComplete',
-  {
-    todoId: string;
-    completedAt: Date;
-  }
->;
-type TodoListSummary = State<
-  'TodoListSummary',
-  {
-    summaryId: string;
-    totalTodos: number;
-    pendingCount: number;
-    inProgressCount: number;
-    completedCount: number;
-    completionPercentage: number;
-  }
->;
-scene('Todo List Summary', 'TODO-001', () => {
-  query('views completion summary', 'SUMMARY-001').server(() => {
-    specs('Summary Statistics', () => {
-      rule('summary shows overall todo list statistics', 'RULE-SUMMARY', () => {
-        example('calculates summary from multiple todos')
-          .given<TodoAdded>({
-            todoId: 'todo-001',
-            description: 'Buy groceries',
-            status: 'pending',
-            addedAt: new Date('2030-01-01T09:00:00.000Z'),
-          })
-          .and<TodoAdded>({
-            todoId: 'todo-002',
-            description: 'Write report',
-            status: 'pending',
-            addedAt: new Date('2030-01-01T09:10:00.000Z'),
-          })
-          .and<TodoMarkedInProgress>({ todoId: 'todo-001', markedAt: new Date('2030-01-01T10:00:00.000Z') })
-          .and<TodoMarkedComplete>({ todoId: 'todo-002', completedAt: new Date('2030-01-01T11:00:00.000Z') })
-          .then<TodoListSummary>({
-            summaryId: 'main-summary',
-            totalTodos: 2,
-            pendingCount: 0,
-            inProgressCount: 1,
-            completedCount: 1,
-            completionPercentage: 50,
+    expect(code).toMatchInlineSnapshot(`
+      "import { defineEvent, defineState, example, query, rule, scene, specs } from '@onauto/narrative';
+      const TodoAdded = defineEvent<{
+        todoId: string;
+        description: string;
+        status: string;
+        addedAt: Date;
+      }>('TodoAdded');
+      const TodoMarkedInProgress = defineEvent<{
+        todoId: string;
+        markedAt: Date;
+      }>('TodoMarkedInProgress');
+      const TodoMarkedComplete = defineEvent<{
+        todoId: string;
+        completedAt: Date;
+      }>('TodoMarkedComplete');
+      const TodoListSummary = defineState<{
+        summaryId: string;
+        totalTodos: number;
+        pendingCount: number;
+        inProgressCount: number;
+        completedCount: number;
+        completionPercentage: number;
+      }>('TodoListSummary');
+      scene('Todo List Summary', 'TODO-001', () => {
+        query('views completion summary', 'SUMMARY-001').server(() => {
+          specs('Summary Statistics', () => {
+            rule('summary shows overall todo list statistics', 'RULE-SUMMARY', () => {
+              example('calculates summary from multiple todos')
+                .given(TodoAdded, 'TodoAdded', {
+                  todoId: 'todo-001',
+                  description: 'Buy groceries',
+                  status: 'pending',
+                  addedAt: new Date('2030-01-01T09:00:00.000Z'),
+                })
+                .and(TodoAdded, 'TodoAdded', {
+                  todoId: 'todo-002',
+                  description: 'Write report',
+                  status: 'pending',
+                  addedAt: new Date('2030-01-01T09:10:00.000Z'),
+                })
+                .and(TodoMarkedInProgress, 'TodoMarkedInProgress', {
+                  todoId: 'todo-001',
+                  markedAt: new Date('2030-01-01T10:00:00.000Z'),
+                })
+                .and(TodoMarkedComplete, 'TodoMarkedComplete', {
+                  todoId: 'todo-002',
+                  completedAt: new Date('2030-01-01T11:00:00.000Z'),
+                })
+                .then(TodoListSummary, 'TodoListSummary', {
+                  summaryId: 'main-summary',
+                  totalTodos: 2,
+                  pendingCount: 0,
+                  inProgressCount: 1,
+                  completedCount: 1,
+                  completionPercentage: 50,
+                });
+            });
           });
+        });
       });
-    });
-  });
-});
-`);
+      "
+    `);
 
     expect(code).not.toContain('when({})');
     expect(code).not.toContain('when<');
@@ -2219,22 +2169,20 @@ scene('Todo List Summary', 'TODO-001', () => {
 
       const code = getCode(await modelToNarrative(modelWithSingletonProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
-import type { State } from '@onauto/narrative';
-type TodoListSummary = State<
-  'TodoListSummary',
-  {
-    summaryId: string;
-    totalTodos: number;
-  }
->;
-scene('Todo Summary Flow', 'TODO-SUMMARY', () => {
-  query('views todo summary', 'SUMMARY-SLICE').server(() => {
-    data({ items: [source().state('TodoListSummary').fromSingletonProjection('TodoSummary')] });
-    specs('Summary Rules', () => {});
-  });
-});
-`);
+      expect(code).toMatchInlineSnapshot(`
+        "import { data, defineState, query, scene, source, specs } from '@onauto/narrative';
+        const TodoListSummary = defineState<{
+          summaryId: string;
+          totalTodos: number;
+        }>('TodoListSummary');
+        scene('Todo Summary Flow', 'TODO-SUMMARY', () => {
+          query('views todo summary', 'SUMMARY-SLICE').server(() => {
+            data({ items: [source().state('TodoListSummary').fromSingletonProjection('TodoSummary')] });
+            specs('Summary Rules', () => {});
+          });
+        });
+        "
+      `);
     });
 
     it('should generate fromProjection with single idField for regular projections', async () => {
@@ -2298,22 +2246,20 @@ scene('Todo Summary Flow', 'TODO-SUMMARY', () => {
 
       const code = getCode(await modelToNarrative(modelWithRegularProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
-import type { State } from '@onauto/narrative';
-type TodoState = State<
-  'TodoState',
-  {
-    todoId: string;
-    description: string;
-  }
->;
-scene('Todo Flow', 'TODO-FLOW', () => {
-  query('views todo', 'TODO-SLICE').server(() => {
-    data({ items: [source().state('TodoState').fromProjection('Todos', 'todoId')] });
-    specs('Todo Rules', () => {});
-  });
-});
-`);
+      expect(code).toMatchInlineSnapshot(`
+        "import { data, defineState, query, scene, source, specs } from '@onauto/narrative';
+        const TodoState = defineState<{
+          todoId: string;
+          description: string;
+        }>('TodoState');
+        scene('Todo Flow', 'TODO-FLOW', () => {
+          query('views todo', 'TODO-SLICE').server(() => {
+            data({ items: [source().state('TodoState').fromProjection('Todos', 'todoId')] });
+            specs('Todo Rules', () => {});
+          });
+        });
+        "
+      `);
     });
 
     it('should generate fromCompositeProjection with array idField for composite key projections', async () => {
@@ -2378,25 +2324,23 @@ scene('Todo Flow', 'TODO-FLOW', () => {
 
       const code = getCode(await modelToNarrative(modelWithCompositeProjection));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
-import type { State } from '@onauto/narrative';
-type UserProjectState = State<
-  'UserProjectState',
-  {
-    userId: string;
-    projectId: string;
-    role: string;
-  }
->;
-scene('User Project Flow', 'USER-PROJECT-FLOW', () => {
-  query('views user project', 'USER-PROJECT-SLICE').server(() => {
-    data({
-      items: [source().state('UserProjectState').fromCompositeProjection('UserProjects', ['userId', 'projectId'])],
-    });
-    specs('User Project Rules', () => {});
-  });
-});
-`);
+      expect(code).toMatchInlineSnapshot(`
+        "import { data, defineState, query, scene, source, specs } from '@onauto/narrative';
+        const UserProjectState = defineState<{
+          userId: string;
+          projectId: string;
+          role: string;
+        }>('UserProjectState');
+        scene('User Project Flow', 'USER-PROJECT-FLOW', () => {
+          query('views user project', 'USER-PROJECT-SLICE').server(() => {
+            data({
+              items: [source().state('UserProjectState').fromCompositeProjection('UserProjects', ['userId', 'projectId'])],
+            });
+            specs('User Project Rules', () => {});
+          });
+        });
+        "
+      `);
     });
 
     it('should generate all three projection types in a single narrative', async () => {
@@ -2545,47 +2489,39 @@ scene('User Project Flow', 'USER-PROJECT-FLOW', () => {
 
       const code = getCode(await modelToNarrative(modelWithAllProjectionTypes));
 
-      expect(code).toEqual(`import { data, query, scene, source, specs } from '@onauto/narrative';
-import type { State } from '@onauto/narrative';
-type TodoListSummary = State<
-  'TodoListSummary',
-  {
-    summaryId: string;
-    totalTodos: number;
-  }
->;
-type TodoState = State<
-  'TodoState',
-  {
-    todoId: string;
-    description: string;
-  }
->;
-type UserProjectTodos = State<
-  'UserProjectTodos',
-  {
-    userId: string;
-    projectId: string;
-    todos: string[];
-  }
->;
-scene('All Projection Types', 'ALL-PROJ', () => {
-  query('views summary', 'SUMMARY-SLICE').server(() => {
-    data({ items: [source().state('TodoListSummary').fromSingletonProjection('TodoSummary')] });
-    specs('Summary Rules', () => {});
-  });
-  query('views todo', 'TODO-SLICE').server(() => {
-    data({ items: [source().state('TodoState').fromProjection('Todos', 'todoId')] });
-    specs('Todo Rules', () => {});
-  });
-  query('views user project todos', 'USER-PROJECT-SLICE').server(() => {
-    data({
-      items: [source().state('UserProjectTodos').fromCompositeProjection('UserProjectTodos', ['userId', 'projectId'])],
-    });
-    specs('User Project Rules', () => {});
-  });
-});
-`);
+      expect(code).toMatchInlineSnapshot(`
+        "import { data, defineState, query, scene, source, specs } from '@onauto/narrative';
+        const TodoListSummary = defineState<{
+          summaryId: string;
+          totalTodos: number;
+        }>('TodoListSummary');
+        const TodoState = defineState<{
+          todoId: string;
+          description: string;
+        }>('TodoState');
+        const UserProjectTodos = defineState<{
+          userId: string;
+          projectId: string;
+          todos: string[];
+        }>('UserProjectTodos');
+        scene('All Projection Types', 'ALL-PROJ', () => {
+          query('views summary', 'SUMMARY-SLICE').server(() => {
+            data({ items: [source().state('TodoListSummary').fromSingletonProjection('TodoSummary')] });
+            specs('Summary Rules', () => {});
+          });
+          query('views todo', 'TODO-SLICE').server(() => {
+            data({ items: [source().state('TodoState').fromProjection('Todos', 'todoId')] });
+            specs('Todo Rules', () => {});
+          });
+          query('views user project todos', 'USER-PROJECT-SLICE').server(() => {
+            data({
+              items: [source().state('UserProjectTodos').fromCompositeProjection('UserProjectTodos', ['userId', 'projectId'])],
+            });
+            specs('User Project Rules', () => {});
+          });
+        });
+        "
+      `);
     });
   });
 
@@ -2664,7 +2600,7 @@ scene('All Projection Types', 'ALL-PROJ', () => {
       expect(result.files).toHaveLength(2);
 
       for (const file of result.files) {
-        expect(file.code).toContain('type SharedEvent = Event<');
+        expect(file.code).toContain("const SharedEvent = defineEvent<");
         expect(file.code).not.toContain('import type { SharedEvent }');
       }
     });
@@ -2746,9 +2682,9 @@ scene('All Projection Types', 'ALL-PROJ', () => {
       const ordersFile = result.files.find((f) => f.path.includes('orders'));
       expect(ordersFile).toBeDefined();
 
-      expect(ordersFile!.code).toContain("import type { OrderCreated } from '../shared/types.narrative';");
-      expect(ordersFile!.code).toContain('type CreateOrder = Command<');
-      expect(ordersFile!.code).not.toContain('type OrderCreated = Event<');
+      expect(ordersFile!.code).toContain("import { OrderCreated } from '../shared/types.narrative';");
+      expect(ordersFile!.code).toContain("const CreateOrder = defineCommand<");
+      expect(ordersFile!.code).not.toContain("const OrderCreated = defineEvent<");
     });
 
     it('generates correct relative import paths for nested directories', async () => {
@@ -2817,7 +2753,7 @@ scene('All Projection Types', 'ALL-PROJ', () => {
 
       const featureFile = result.files.find((f) => f.path.includes('feature'));
       expect(featureFile).toBeDefined();
-      expect(featureFile!.code).toContain("import type { CoreEvent } from '../../core/types.narrative';");
+      expect(featureFile!.code).toContain("import { CoreEvent } from '../../core/types.narrative';");
     });
 
     it('groups multiple imported types from same module into single import', async () => {
@@ -2891,8 +2827,9 @@ scene('All Projection Types', 'ALL-PROJ', () => {
       const consumerFile = result.files.find((f) => f.path.includes('consumer'));
       expect(consumerFile).toBeDefined();
 
-      expect(consumerFile!.code).toMatch(/import type \{ EventA, EventB \} from/);
-      expect(consumerFile!.code.match(/import type \{/g)?.length).toBe(1);
+      expect(consumerFile!.code).toMatch(/import \{ EventA, EventB \} from/);
+      // Exactly one cross-module import line for the two types.
+      expect(consumerFile!.code.match(/import \{ EventA, EventB \}/g)?.length).toBe(1);
     });
 
     it('sorts cross-module imports alphabetically by path', async () => {
@@ -2968,7 +2905,9 @@ scene('All Projection Types', 'ALL-PROJ', () => {
       const consumerFile = result.files.find((f) => f.path.includes('consumer'));
       expect(consumerFile).toBeDefined();
 
-      const importLines = consumerFile!.code.split('\n').filter((line) => line.startsWith('import type {'));
+      const importLines = consumerFile!.code
+        .split('\n')
+        .filter((line) => line.startsWith('import {') && (line.includes('a-types') || line.includes('z-types')));
 
       expect(importLines).toHaveLength(2);
       expect(importLines[0]).toContain('a-types');
@@ -3000,7 +2939,7 @@ scene('All Projection Types', 'ALL-PROJ', () => {
       expect(result.files.map((f) => f.path).sort()).toEqual(['a.narrative.ts', 'b.narrative.ts']);
 
       for (const file of result.files) {
-        expect(file.code).toContain('type TestEvent = Event<');
+        expect(file.code).toContain("const TestEvent = defineEvent<");
       }
     });
   });
@@ -3553,9 +3492,9 @@ scene('All Projection Types', 'ALL-PROJ', () => {
     const code = getCode(result);
 
     // All 3 declared types should be generated
-    expect(code).toContain("type SetFitnessGoal = Command<'SetFitnessGoal'");
-    expect(code).toContain("type FitnessGoalCreated = Event<'FitnessGoalCreated'");
-    expect(code).toContain("type FitnessGoalsView = State<'FitnessGoalsView'");
+    expect(code).toContain("const SetFitnessGoal = defineCommand<");
+    expect(code).toContain("const FitnessGoalCreated = defineEvent<");
+    expect(code).toContain("const FitnessGoalsView = defineState<");
   });
 
   it('emits .ui() when moment has client.ui', async () => {

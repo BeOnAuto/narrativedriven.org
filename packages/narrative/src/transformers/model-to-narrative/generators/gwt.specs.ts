@@ -34,8 +34,8 @@ describe('buildGwtSpecBlock', () => {
     expect(code).toContain('rule("todos can be added to the list"');
     expect(code).toContain('"r1B2Cp8Y"');
     expect(code).toContain('example("adds a new todo successfully")');
-    expect(code).toContain('.when<AddTodo>');
-    expect(code).toContain('.then<TodoAdded>');
+    expect(code).toContain('.when(AddTodo,');
+    expect(code).toContain('.then(TodoAdded,');
     expect(code).not.toMatch(/example\("[^"]+",\s*\(\)/);
   });
 
@@ -68,9 +68,9 @@ describe('buildGwtSpecBlock', () => {
     const code = printNode(result);
 
     expect(code).toContain('example("moves a pending todo to in progress")');
-    expect(code).toContain('.given<TodoAdded>');
-    expect(code).toContain('.when<MarkTodoInProgress>');
-    expect(code).toContain('.then<TodoMarkedInProgress>');
+    expect(code).toContain('.given(TodoAdded,');
+    expect(code).toContain('.when(MarkTodoInProgress,');
+    expect(code).toContain('.then(TodoMarkedInProgress,');
     expect(code).not.toMatch(/example\("[^"]+",\s*\(\)/);
   });
 
@@ -101,10 +101,10 @@ describe('buildGwtSpecBlock', () => {
     const result = buildGwtSpecBlock(ts, ts.factory, gwtBlock, 'command');
     const code = printNode(result);
 
-    expect(code).toContain('.given<TodoAdded>');
-    expect(code).toContain('.and<TodoMarkedInProgress>');
-    expect(code).toContain('.when<MarkTodoComplete>');
-    expect(code).toContain('.then<TodoMarkedComplete>');
+    expect(code).toContain('.given(TodoAdded,');
+    expect(code).toContain('.and(TodoMarkedInProgress,');
+    expect(code).toContain('.when(MarkTodoComplete,');
+    expect(code).toContain('.then(TodoMarkedComplete,');
     expect(code).not.toMatch(/example\("[^"]+",\s*\(\)/);
   });
 
@@ -174,9 +174,9 @@ describe('buildConsolidatedGwtSpecBlock', () => {
     expect(code).toContain('"r3D4Eq0A"');
     expect(code).toContain('example("marks an in-progress todo as complete")');
     expect(code).toContain('example("marks a pending todo directly as complete")');
-    expect(code).toContain('.given<TodoAdded>');
-    expect(code).toContain('.when<MarkTodoComplete>');
-    expect(code).toContain('.then<TodoMarkedComplete>');
+    expect(code).toContain('.given(TodoAdded,');
+    expect(code).toContain('.when(MarkTodoComplete,');
+    expect(code).toContain('.then(TodoMarkedComplete,');
     expect(code).not.toMatch(/example\("[^"]+",\s*\(\)/);
   });
 });

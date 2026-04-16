@@ -171,9 +171,10 @@ function buildStatements(
   if (imports.importIntegrationTypes !== null) statements.push(imports.importIntegrationTypes);
 
   for (const imp of crossModuleImports) {
-    const isTypeOnly = true;
+    // Cross-module type refs are now runtime consts (factory-declared TypedRefs),
+    // so they must be value imports, not type-only.
     const importClause = f.createImportClause(
-      isTypeOnly,
+      false,
       undefined,
       f.createNamedImports(
         imp.typeNames.map((name) => f.createImportSpecifier(false, undefined, f.createIdentifier(name))),

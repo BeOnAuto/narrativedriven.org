@@ -30,7 +30,10 @@ function checkFlowFunctionReference(node: ts.Node, flowFunctionNames: string[], 
 }
 
 function checkCallExpressionTypes(node: ts.Node, typeNames: string[], usedTypes: Set<string>): void {
-  if (ts.isCallExpression(node) && node.typeArguments) {
+  if (!ts.isCallExpression(node)) return;
+
+  // Legacy `<T>` generic argument form.
+  if (node.typeArguments) {
     for (const typeArg of node.typeArguments) {
       if (ts.isTypeReferenceNode(typeArg) && ts.isIdentifier(typeArg.typeName)) {
         const typeName = typeArg.typeName.text;
@@ -38,6 +41,21 @@ function checkCallExpressionTypes(node: ts.Node, typeNames: string[], usedTypes:
           usedTypes.add(typeName);
         }
       }
+    }
+  }
+
+  // New `.given(Ref, "sentence", data)` form — detect a type identifier appearing
+  // as the first positional argument to a Gherkin-step builder method.
+  if (
+    ts.isPropertyAccessExpression(node.expression) &&
+    ts.isIdentifier(node.expression.name) &&
+    ['given', 'when', 'then', 'and'].includes(node.expression.name.text) &&
+    node.arguments.length > 0 &&
+    ts.isIdentifier(node.arguments[0])
+  ) {
+    const refName = node.arguments[0].text;
+    if (typeNames.includes(refName)) {
+      usedTypes.add(refName);
     }
   }
 }

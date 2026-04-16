@@ -5,6 +5,10 @@ export const ALL_FLOW_FUNCTION_NAMES = [
   'assumptions',
   'command',
   'data',
+  'defineCommand',
+  'defineEvent',
+  'defineQuery',
+  'defineState',
   'describe',
   'entity',
   'example',
@@ -34,21 +38,24 @@ export function buildImports(
 ) {
   const f = ts.factory;
 
-  const flowValueNames = usedFlowFunctionNames.length > 0 ? [...usedFlowFunctionNames].sort() : [];
-
-  // Determine which flow types are actually needed based on the messages
-  const usedMessageTypes = new Set(messages.map((msg) => msg.type));
-  const typeMapping: Record<string, string> = {
-    command: 'Command',
-    event: 'Event',
-    state: 'State',
-    query: 'Query',
+  // Runtime factories needed per message-type so the emitted
+  // `const X = define<Kind>(...)` declarations resolve.
+  const factoryMapping: Record<string, string> = {
+    command: 'defineCommand',
+    event: 'defineEvent',
+    state: 'defineState',
+    query: 'defineQuery',
   };
+  const usedMessageTypes = new Set(messages.map((msg) => msg.type));
+  const factoryNames = Array.from(usedMessageTypes)
+    .map((type) => factoryMapping[type])
+    .filter(Boolean);
 
-  const flowTypeNames = Array.from(usedMessageTypes)
-    .map((type) => typeMapping[type])
-    .filter(Boolean)
-    .sort();
+  const flowValueNames = Array.from(new Set([...usedFlowFunctionNames, ...factoryNames])).sort();
+
+  // Type-level imports for `Command<...>` / `Event<...>` aliases are no longer
+  // emitted — factory call declarations replace them. Empty the list.
+  const flowTypeNames: string[] = [];
 
   const importFlowValues =
     flowValueNames.length > 0

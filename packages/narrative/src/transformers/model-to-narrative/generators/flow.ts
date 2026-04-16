@@ -471,11 +471,13 @@ function addRequestToChain(
 interface StepWithDocString {
   keyword: 'Given' | 'When' | 'Then' | 'And';
   text: string;
+  __typeName?: string;
   docString?: Record<string, unknown>;
 }
 
 interface StepWithError {
   keyword: 'Then';
+  text?: string;
   error: { type: string; message?: string };
 }
 
@@ -503,16 +505,26 @@ interface OldFormatExample {
   steps?: Step[];
 }
 
+function refNameOf(step: StepWithDocString): string {
+  return step.__typeName ?? step.text;
+}
+
+/** The emitter stores the Gherkin sentence as step.text when it differs from the type name. */
+function sentenceOf(step: StepWithDocString): string | undefined {
+  return step.__typeName !== undefined && step.__typeName !== step.text ? step.text : undefined;
+}
+
 function processErrorStep(step: StepWithError, gwtBlock: GWTBlock): void {
   gwtBlock.then.push({
     errorType: step.error.type as 'IllegalStateError' | 'ValidationError' | 'NotFoundError',
     message: step.error.message,
+    sentence: step.text,
   });
 }
 
 function processGivenStep(step: StepWithDocString, gwtBlock: GWTBlock): void {
   if (!gwtBlock.given) gwtBlock.given = [];
-  gwtBlock.given.push({ eventRef: step.text, exampleData: step.docString ?? {} });
+  gwtBlock.given.push({ eventRef: refNameOf(step), exampleData: step.docString ?? {}, sentence: sentenceOf(step) });
 }
 
 function processWhenStep(
@@ -520,10 +532,12 @@ function processWhenStep(
   momentType: 'command' | 'query' | 'react' | 'experience',
   gwtBlock: GWTBlock,
 ): void {
+  const refName = refNameOf(step);
+  const sentence = sentenceOf(step);
   if (momentType === 'command') {
-    gwtBlock.when = { commandRef: step.text, exampleData: step.docString ?? {} };
+    gwtBlock.when = { commandRef: refName, exampleData: step.docString ?? {}, sentence };
   } else if (momentType === 'react' || momentType === 'query') {
-    const eventData = { eventRef: step.text, exampleData: step.docString ?? {} };
+    const eventData = { eventRef: refName, exampleData: step.docString ?? {}, sentence };
     if (!gwtBlock.when) {
       gwtBlock.when = [eventData];
     } else if (Array.isArray(gwtBlock.when)) {
@@ -533,7 +547,7 @@ function processWhenStep(
 }
 
 function processThenStep(step: StepWithDocString, gwtBlock: GWTBlock): void {
-  gwtBlock.then.push({ eventRef: step.text, exampleData: step.docString ?? {} });
+  gwtBlock.then.push({ eventRef: refNameOf(step), exampleData: step.docString ?? {}, sentence: sentenceOf(step) });
 }
 
 function processStepsFormat(

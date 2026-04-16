@@ -58,13 +58,13 @@ describe('module functionality', () => {
 
       // Both files should declare SharedEvent (type duplication for derived modules)
       for (const file of result.files) {
-        expect(file.code).toContain('type SharedEvent = Event<');
+        expect(file.code).toContain("const SharedEvent = defineEvent<");
         expect(file.code).toContain("'SharedEvent'");
       }
 
       // No cross-file imports for derived modules
       for (const file of result.files) {
-        expect(file.code).not.toContain('import type { SharedEvent }');
+        expect(file.code).not.toContain('{ SharedEvent } from');
       }
     });
   });
@@ -155,10 +155,10 @@ describe('module functionality', () => {
       const ordersFile = result.files.find((f) => f.path.includes('orders'));
       expect(ordersFile).toBeDefined();
 
-      expect(ordersFile!.code).toContain("import type { OrderCreated } from '../shared/types.narrative';");
+      expect(ordersFile!.code).toContain("import { OrderCreated } from '../shared/types.narrative';");
       const sharedFile = result.files.find((f) => f.path.includes('types'));
       expect(sharedFile).toBeDefined();
-      expect(sharedFile!.code).toContain('export type OrderCreated = Event<');
+      expect(sharedFile!.code).toContain("export const OrderCreated = defineEvent<");
     });
   });
 
@@ -458,7 +458,7 @@ describe('module functionality', () => {
       const result = await modelToNarrative(model);
 
       for (const file of result.files) {
-        expect(file.code).toContain('type SharedEvent = Event<');
+        expect(file.code).toContain("const SharedEvent = defineEvent<");
       }
     });
 
@@ -534,8 +534,8 @@ describe('module functionality', () => {
 
       const ordersFile = result.files.find((f) => f.path.includes('orders'));
       expect(ordersFile).toBeDefined();
-      expect(ordersFile!.code).toContain("import type { OrderCreated } from '../shared/types.narrative';");
-      expect(ordersFile!.code).not.toContain('type OrderCreated = Event<');
+      expect(ordersFile!.code).toContain("import { OrderCreated } from '../shared/types.narrative';");
+      expect(ordersFile!.code).not.toContain("const OrderCreated = defineEvent<");
     });
   });
 
