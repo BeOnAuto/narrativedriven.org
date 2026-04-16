@@ -149,6 +149,20 @@ In the document editor, each scene is its own page. "Browse and Book" shows the 
 In the code editor, the same model appears as TypeScript:
 
 ```typescript
+const ScheduleShow = defineCommand<{
+  title: string;
+  dateTime: Date;
+  venue: string;
+  tickets: number;
+  description: string;
+}>('ScheduleShow');
+
+const ShowScheduled = defineEvent<{
+  showId: string;
+  title: string;
+  tickets: number;
+}>('ShowScheduled');
+
 narrative('Listing a Show', () => {
   scene('Schedule and Publish', () => {
     command('Schedule Show')
@@ -162,14 +176,14 @@ narrative('Listing a Show', () => {
         specs(() => {
           rule('Draft show scheduling', () => {
             example('Promoter schedules a new show')
-              .when<ScheduleShow>({
+              .when(ScheduleShow, 'the promoter schedules a new show', {
                 title: 'Neon Drift Live',
                 dateTime: new Date('2024-04-15T19:30:00Z'),
                 venue: 'The Roundhouse',
                 tickets: 500,
                 description: 'An evening of electronic beats and live visuals',
               })
-              .then<ShowScheduled>({
+              .then(ShowScheduled, 'the show is recorded as a draft', {
                 showId: 'shw_123',
                 title: 'Neon Drift Live',
                 tickets: 500,
