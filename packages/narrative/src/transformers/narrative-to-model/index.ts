@@ -3,6 +3,7 @@ import { integrationExportRegistry } from '../../integration-export-registry';
 import { globalIntegrationRegistry } from '../../integration-registry';
 import type { TypeInfo } from '../../loader/ts-utils';
 import { modelLevelRegistry } from '../../model-level-registry';
+import { getClassificationFor } from '../../types';
 import { assembleSpecs } from './assemble';
 import { applyExampleShapeHints, type ExampleShapeHints } from './example-shapes';
 import { inlineAllMessageFieldTypes } from './inlining';
@@ -126,13 +127,26 @@ function createTypeResolver(
       result = tryResolveFromUnionTypes(t, unionTypes, expected, exampleData);
     }
 
-    if (result && result.resolvedName !== 'InferredType') {
+    if (result && result.resolvedName !== 'InferredType' && result.typeInfo !== undefined) {
       return result;
     }
 
     const messagesTypeMap = buildTypeInfoFromMessages(messages);
     if (messagesTypeMap) {
-      return tryResolveFromUnionTypes(t, messagesTypeMap, expected, exampleData);
+      const messageHit = tryResolveFromUnionTypes(t, messagesTypeMap, expected, exampleData);
+      if (messageHit.typeInfo !== undefined) {
+        return messageHit;
+      }
+    }
+
+    // Last tier: runtime TypedRef factory registry (populated by
+    // defineCommand / defineEvent / defineState / defineQuery at module load).
+    const registryClassification = getClassificationFor(t);
+    if (registryClassification !== undefined) {
+      return {
+        resolvedName: t,
+        typeInfo: { stringLiteral: t, classification: registryClassification },
+      };
     }
 
     return result ?? { resolvedName: t, typeInfo: undefined };
@@ -149,6 +163,7 @@ function getServerSpecs(moment: Moment) {
 interface StepWithDocString {
   keyword: 'Given' | 'When' | 'Then' | 'And';
   text: string;
+  __typeName?: string;
   docString?: Record<string, unknown>;
 }
 
@@ -182,10 +197,13 @@ function processSteps(
       effectiveKeyword = keyword;
     }
 
+    // Prefer __typeName when present (new sentence-form steps); fall back to
+    // text for legacy steps where text still carries the type name.
+    const typeName = step.__typeName ?? step.text;
     const refItem = {
-      eventRef: step.text,
-      commandRef: step.text,
-      stateRef: step.text,
+      eventRef: typeName,
+      commandRef: typeName,
+      stateRef: typeName,
       exampleData: step.docString,
     };
 

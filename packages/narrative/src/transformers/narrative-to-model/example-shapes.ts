@@ -58,9 +58,23 @@ export function applyExampleShapeHints(msgs: Map<string, Message>, hints: Exampl
   for (const [msgName, fieldsByName] of hints) {
     const msg = msgs.get(msgName);
     if (!msg || !Array.isArray(msg.fields)) continue;
-    msg.fields = msg.fields.map((f) => {
+
+    const existingByName = new Map(msg.fields.map((f) => [f.name, f] as const));
+
+    // Update types on existing fields from hints.
+    const updated = msg.fields.map((f) => {
       const hint = fieldsByName.get(f.name);
       return hint !== undefined && shouldApplyExampleShape(f.type, hint) ? { ...f, type: hint } : f;
     });
+
+    // Add fields that appear in the example data but not on the message (e.g. when
+    // the type was declared via a runtime factory with no AST-extracted dataFields).
+    for (const [name, type] of fieldsByName) {
+      if (!existingByName.has(name)) {
+        updated.push({ name, type, required: true, description: undefined, defaultValue: undefined });
+      }
+    }
+
+    msg.fields = updated;
   }
 }

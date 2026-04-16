@@ -2,32 +2,23 @@ import gql from 'graphql-tag';
 import { source } from '../data-narrative-builders';
 import { command, query } from '../fluent-builder';
 import { data, describe, example, it, rule, scene, specs } from '../narrative';
-import type { Command, Event, State } from '../types';
+import { defineCommand, defineEvent, defineState } from '../types';
 
-type ItemCreated = Event<
-  'ItemCreated',
-  {
-    id: string;
-    description: string;
-    addedAt: Date;
-  }
->;
+const ItemCreated = defineEvent<{
+  id: string;
+  description: string;
+  addedAt: Date;
+}>('ItemCreated');
 
-type CreateItem = Command<
-  'CreateItem',
-  {
-    itemId: string;
-    description: string;
-  }
->;
+const CreateItem = defineCommand<{
+  itemId: string;
+  description: string;
+}>('CreateItem');
 
-type AvailableItems = State<
-  'AvailableItems',
-  {
-    id: string;
-    description: string;
-  }
->;
+const AvailableItems = defineState<{
+  id: string;
+  description: string;
+}>('AvailableItems');
 
 scene('items', () => {
   command('Create item')
@@ -41,11 +32,11 @@ scene('items', () => {
       specs('User can add an item', () => {
         rule('Valid items should be created successfully', () => {
           example('User creates a new item with valid data')
-            .when<CreateItem>({
+            .when(CreateItem, 'the user creates a new item', {
               itemId: 'item_123',
               description: 'A new item',
             })
-            .then<ItemCreated>({
+            .then(ItemCreated, 'the item is recorded', {
               id: 'item_123',
               description: 'A new item',
               addedAt: new Date('2024-01-15T10:00:00Z'),
@@ -75,12 +66,12 @@ scene('items', () => {
       specs('Suggested items are available for viewing', () => {
         rule('Items should be available for viewing after creation', () => {
           example('Item becomes available after creation event')
-            .when<ItemCreated>({
+            .when(ItemCreated, 'an item has been created', {
               id: 'item_123',
               description: 'A new item',
               addedAt: new Date('2024-01-15T10:00:00Z'),
             })
-            .then<AvailableItems>({
+            .then(AvailableItems, 'the item is listed as available', {
               id: 'item_123',
               description: 'A new item',
             });

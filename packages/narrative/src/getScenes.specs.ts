@@ -79,14 +79,14 @@ describe('getScenes', (_mode) => {
         expect(whenStep).toBeDefined();
         expect(thenStep).toBeDefined();
         if (whenStep && 'text' in whenStep) {
-          expect(whenStep.text).toBe('CreateItem');
+          expect((whenStep as { __typeName?: string }).__typeName).toBe('CreateItem');
           expect(whenStep.docString).toMatchObject({
             itemId: 'item_123',
             description: 'A new item',
           });
         }
         if (thenStep && 'text' in thenStep) {
-          expect(thenStep.text).toBe('ItemCreated');
+          expect((thenStep as { __typeName?: string }).__typeName).toBe('ItemCreated');
           expect(thenStep.docString).toMatchObject({
             id: 'item_123',
             description: 'A new item',
