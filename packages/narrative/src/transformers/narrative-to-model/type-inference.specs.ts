@@ -186,78 +186,12 @@ describe('Type inference in narrative-to-model transformer', () => {
   });
 });
 
-describe('Messages-derived fallback in type resolution', () => {
-  it('resolves InferredType in second example When step via messages populated by first example', () => {
-    const flows: Scene[] = [
-      {
-        name: 'Booking Flow',
-        id: 'FLOW-001',
-        moments: [
-          {
-            id: 'SLICE-001',
-            type: 'command',
-            name: 'Request Booking',
-            client: { specs: [] },
-            server: {
-              description: 'Request booking server',
-              specs: [
-                {
-                  type: 'gherkin',
-                  feature: 'Request Booking Specs',
-                  rules: [
-                    {
-                      id: 'RULE-001',
-                      name: 'Happy path',
-                      examples: [
-                        {
-                          name: 'Room available',
-                          steps: [
-                            {
-                              keyword: 'When',
-                              text: 'RequestBooking',
-                              docString: { guestId: 'g-1', roomType: 'suite' },
-                            },
-                            {
-                              keyword: 'Then',
-                              text: 'BookingRequested',
-                              docString: { guestId: 'g-1', roomType: 'suite' },
-                            },
-                          ],
-                        },
-                        {
-                          name: 'Capacity exceeded',
-                          steps: [
-                            {
-                              keyword: 'When',
-                              text: 'InferredType',
-                              docString: { guestId: 'g-2', roomType: 'double' },
-                            },
-                            {
-                              keyword: 'Then',
-                              text: 'BookingDenied',
-                              docString: { guestId: 'g-2', reason: 'no availability' },
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        ],
-      },
-    ];
-
-    const model = scenesToModel(flows);
-
-    expect(model.messages.some((msg) => msg.name === 'InferredType')).toBe(false);
-    expect(model.messages.some((msg) => msg.name === 'RequestBooking')).toBe(true);
-    expect(model.messages.some((msg) => msg.name === 'BookingRequested')).toBe(true);
-    expect(model.messages.some((msg) => msg.name === 'BookingDenied')).toBe(true);
-  });
-});
+// The `Messages-derived fallback in type resolution` suite has been removed.
+// It probed the retired `InferredType` sentinel resolution behavior — a step
+// with text === 'InferredType' could have its type recovered at model-build
+// time by consulting messages populated by earlier examples. The runtime-tagged
+// DSL no longer produces InferredType steps; the sentinel-recovery code path
+// is deleted.
 
 describe('messageToTypeInfo', () => {
   it('converts a Message to TypeInfo with correct field mapping', () => {

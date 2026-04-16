@@ -10,7 +10,7 @@ import { inlineAllMessageFieldTypes } from './inlining';
 import { extractMessagesFromIntegrations, processDataItemIntegrations } from './integrations';
 import { processGiven, processThen, processWhen } from './spec-processors';
 import { matchesScenePattern } from './strings';
-import { buildTypeInfoFromMessages, resolveInferredType } from './type-inference';
+import { buildTypeInfoFromMessages } from './type-inference';
 
 type TypeResolver = (
   t: string,
@@ -46,101 +46,28 @@ function getTypesForScene(
   return undefined;
 }
 
-function tryResolveFromSceneTypes(
-  t: string,
-  sceneSpecificTypes: Map<string, TypeInfo>,
-  expected?: 'command' | 'event' | 'state' | 'query',
-  exampleData?: unknown,
-): { resolvedName: string; typeInfo: TypeInfo | undefined } {
-  if (t !== 'InferredType') {
-    const typeInfo = sceneSpecificTypes.get(t);
-    if (typeInfo) {
-      return { resolvedName: t, typeInfo };
-    }
-    const inferredName = resolveInferredType(t, sceneSpecificTypes, expected, exampleData);
-    return { resolvedName: inferredName, typeInfo: sceneSpecificTypes.get(inferredName) };
-  }
-
-  const inferredName = resolveInferredType(t, sceneSpecificTypes, expected, exampleData);
-  return { resolvedName: inferredName, typeInfo: sceneSpecificTypes.get(inferredName) };
-}
-
-function tryFallbackToUnionTypes(
-  t: string,
-  resolvedName: string,
-  typeInfo: TypeInfo | undefined,
-  unionTypes: Map<string, TypeInfo>,
-  expected?: 'command' | 'event' | 'state' | 'query',
-  exampleData?: unknown,
-): { resolvedName: string; typeInfo: TypeInfo | undefined } {
-  if (resolvedName !== 'InferredType' && typeInfo) {
-    return { resolvedName, typeInfo };
-  }
-
-  const fallbackName = resolveInferredType(t, unionTypes, expected, exampleData);
-  const fallbackTypeInfo = unionTypes.get(fallbackName);
-
-  if (fallbackName !== 'InferredType' && fallbackTypeInfo) {
-    return { resolvedName: fallbackName, typeInfo: fallbackTypeInfo };
-  }
-
-  return { resolvedName, typeInfo };
-}
-
-function tryResolveFromUnionTypes(
-  t: string,
-  unionTypes: Map<string, TypeInfo>,
-  expected?: 'command' | 'event' | 'state' | 'query',
-  exampleData?: unknown,
-): { resolvedName: string; typeInfo: TypeInfo | undefined } {
-  if (t !== 'InferredType') {
-    const typeInfo = unionTypes.get(t);
-    if (typeInfo) {
-      return { resolvedName: t, typeInfo };
-    }
-    const inferredName = resolveInferredType(t, unionTypes, expected, exampleData);
-    return { resolvedName: inferredName, typeInfo: unionTypes.get(inferredName) };
-  }
-
-  const inferredName = resolveInferredType(t, unionTypes, expected, exampleData);
-  return { resolvedName: inferredName, typeInfo: unionTypes.get(inferredName) };
-}
-
 function createTypeResolver(
   sceneSpecificTypes: Map<string, TypeInfo> | undefined,
   unionTypes: Map<string, TypeInfo> | undefined,
   messages: Map<string, Message>,
 ) {
-  return (
-    t: string,
-    expected?: 'command' | 'event' | 'state' | 'query',
-    exampleData?: unknown,
-  ): { resolvedName: string; typeInfo: TypeInfo | undefined } => {
-    let result: { resolvedName: string; typeInfo: TypeInfo | undefined } | undefined;
+  // Four-tier lookup in order of priority:
+  //   1. Scene-specific types     (from AST scan of the scene's source file)
+  //   2. Cross-scene union types  (from AST scan of sibling scene files)
+  //   3. Messages-derived types   (from messages already collected this pass)
+  //   4. TypedRef factory registry (populated by `define*` factory calls at
+  //      module load time — the canonical runtime source)
+  return (t: string): { resolvedName: string; typeInfo: TypeInfo | undefined } => {
+    const sceneHit = sceneSpecificTypes?.get(t);
+    if (sceneHit) return { resolvedName: t, typeInfo: sceneHit };
 
-    if (sceneSpecificTypes) {
-      const nr = tryResolveFromSceneTypes(t, sceneSpecificTypes, expected, exampleData);
-      result = unionTypes
-        ? tryFallbackToUnionTypes(t, nr.resolvedName, nr.typeInfo, unionTypes, expected, exampleData)
-        : nr;
-    } else if (unionTypes) {
-      result = tryResolveFromUnionTypes(t, unionTypes, expected, exampleData);
-    }
-
-    if (result && result.resolvedName !== 'InferredType' && result.typeInfo !== undefined) {
-      return result;
-    }
+    const unionHit = unionTypes?.get(t);
+    if (unionHit) return { resolvedName: t, typeInfo: unionHit };
 
     const messagesTypeMap = buildTypeInfoFromMessages(messages);
-    if (messagesTypeMap) {
-      const messageHit = tryResolveFromUnionTypes(t, messagesTypeMap, expected, exampleData);
-      if (messageHit.typeInfo !== undefined) {
-        return messageHit;
-      }
-    }
+    const messageHit = messagesTypeMap?.get(t);
+    if (messageHit) return { resolvedName: t, typeInfo: messageHit };
 
-    // Last tier: runtime TypedRef factory registry (populated by
-    // defineCommand / defineEvent / defineState / defineQuery at module load).
     const registryClassification = getClassificationFor(t);
     if (registryClassification !== undefined) {
       return {
@@ -149,7 +76,7 @@ function createTypeResolver(
       };
     }
 
-    return result ?? { resolvedName: t, typeInfo: undefined };
+    return { resolvedName: t, typeInfo: undefined };
   };
 }
 
