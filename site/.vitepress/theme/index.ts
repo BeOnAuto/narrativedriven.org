@@ -5,6 +5,7 @@ import posthog from 'posthog-js'
 import HeroIllustrations from './HeroIllustrations.vue'
 import WaveBackground from './WaveBackground.vue'
 import LottieLogo from './LottieLogo.vue'
+import CopyMarkdownButton from './CopyMarkdownButton.vue'
 import './custom.css'
 
 function initViewTabs() {
@@ -32,8 +33,12 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'home-hero-image': () => h(HeroIllustrations),
-      'home-hero-before': () => h(WaveBackground),
+      'home-hero-before': () => [
+        h(WaveBackground),
+        h(CopyMarkdownButton, { placement: 'home' }),
+      ],
       'nav-bar-title-after': () => h(LottieLogo),
+      'doc-before': () => h(CopyMarkdownButton),
     })
   },
   enhanceApp({ router }) {

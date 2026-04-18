@@ -1,4 +1,7 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { defineConfig } from "vitepress";
+import { cleanMarkdown } from "./clean-markdown";
 
 const base = "/";
 const siteUrl = "https://www.narrativedriven.org";
@@ -18,6 +21,19 @@ export default defineConfig({
 		"Specify software as narratives. One model for storyboard, docs, code, and tests. Auto turns it into working software.",
 	appearance: true,
 	cleanUrls: true,
+
+	transformPageData(pageData, { siteConfig }) {
+		try {
+			const filePath = join(siteConfig.srcDir, pageData.relativePath);
+			const raw = readFileSync(filePath, "utf8");
+			pageData.frontmatter = {
+				...pageData.frontmatter,
+				copyMarkdown: cleanMarkdown(raw),
+			};
+		} catch {
+			// Non-file pages (e.g. dynamic routes) — silently skip.
+		}
+	},
 
 	head: [
 		// Favicon
