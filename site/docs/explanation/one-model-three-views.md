@@ -16,7 +16,7 @@ NDD takes a different approach. One model. Three views.
 
 ## The Model
 
-At the core of NDD is a structured model defined by a Zod schema. It's JSON under the hood, containing narratives, scenes, moments, messages (commands, events, state, queries), data flows, integrations, and design assets.
+At the core of NDD is a structured model defined by a Zod schema. It's JSON under the hood. The top-level model is the domain — capability, actors, entities — and inside it sit narratives, scenes, moments, messages (commands, events, state, queries), data flows, integrations, and design assets.
 
 The model isn't a document. It's a data structure with integrity constraints (like [data completeness](/explanation/data-completeness)). It has a schema that tools can parse, validate, and transform.
 
@@ -24,7 +24,7 @@ The model isn't a document. It's a data structure with integrity constraints (li
 
 ### For Designers and Product Teams: The Visual View
 
-A canvas where narratives show up as storyboard cards with AI-generated images. Click into a scene and you get a filmstrip of moments, each with a wireframe thumbnail. It looks like a storyboard you'd find on a design team's wall.
+A canvas where the domain holds narrative cards with AI-generated storyboard images. Each scene appears as its outcome, with a filmstrip of moments inside it, each with a wireframe thumbnail. It looks like a storyboard you'd find on a design team's wall.
 
 *Coming soon: expandable event model view with commands (blue), events (orange), and state (green). Figma plugin for bidirectional storyboard sync.*
 

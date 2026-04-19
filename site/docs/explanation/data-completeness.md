@@ -14,7 +14,7 @@ Data completeness is one of the ideas that sets NDD apart from looser specificat
 
 ## The Principle
 
-In NDD, your system's behavior is modeled with three atomic units. Commands are things the system is told to do (`ScheduleShow`, `BookTickets`). Events are things that happened as a result (`ShowScheduled`, `TicketsReserved`). State is the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`).
+In NDD, your system's behaviour is modelled with three atomic units inside the domain. Commands are things the system is told to do (`ScheduleShow`, `BookTickets`). Events are things that happened as a result (`ShowScheduled`, `TicketsReserved`). State is the current view of data, derived from events (`AvailableShowsView`, `MyBookingsView`).
 
 Data completeness means the chain from command to event to state is unbroken. If a query moment renders `MyBookingsView`, then:
 
@@ -45,7 +45,7 @@ Moment: Browse Available Shows (query)
     { shows: [{ showId: "shw_123", title: "Neon Drift Live", remainingTickets: 500 }] }
 ```
 
-The `Given` steps tell you: this state depends on `ShowPublished` and `ShowScheduled`. Tracing backward, `ShowPublished` comes from the Publish Show command moment in the "Listing a Show" narrative. `ShowScheduled` comes from the Schedule Show command moment in the same narrative. The chain crosses narrative boundaries but remains complete.
+The `Given` steps tell you: this state depends on `ShowPublished` and `ShowScheduled`. Tracing backward, `ShowPublished` comes from the Publish Show command moment in the "Listing a Show" narrative (Scene: Show published). `ShowScheduled` comes from the Schedule Show command moment in the same scene. The chain crosses narrative and scene boundaries but remains complete within the domain.
 
 Now imagine someone adds a "rating" field without specifying how ratings enter the system. Data completeness flags the gap: there's no `RatingSubmitted` event, no `SubmitRating` command. The field is impossible to populate.
 

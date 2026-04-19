@@ -40,9 +40,9 @@ This is why teams using NDD catch bugs in requirements that survived months of t
 
 ## The Filmmaking Metaphor
 
-NDD borrows its vocabulary from filmmaking on purpose. Narratives, scenes, moments. Filmmakers have spent a century figuring out how to tell coherent stories that audiences can follow, and the vocabulary reflects that.
+NDD borrows its vocabulary from filmmaking on purpose. Narratives, scenes, moments. Filmmakers have spent a century figuring out how to tell coherent stories that audiences can follow, and the vocabulary reflects that. NDD adds one level above — the domain — because software lives inside a business capability, not just a story.
 
-A narrative is the whole story. Scenes are the paths it can take, the happy path and its alternatives. A moment is a beat.
+A domain is the world the story takes place in. A narrative is a goal thread within that world. Scenes are the outcomes that fulfil the goal. A moment is a beat that moves a scene toward its outcome.
 
 When you structure software this way, non-technical stakeholders can actually participate. They're not reading schemas or architecture diagrams. They're following a story. And when the story doesn't make sense, they can say so.
 

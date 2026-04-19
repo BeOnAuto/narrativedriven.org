@@ -4,7 +4,7 @@ title: Explanation
 
 # Explanation
 
-Understand the ideas and principles behind Narrative-Driven Development. These pages explain the *why*, not the *how*.
+Understand the ideas and principles behind Narrative-Driven Development. These pages explain the *why*, not the *how*. NDD organises every system into four levels — Domain → Narrative → Scene → Moment — and the explanations below unpack the reasoning behind that structure.
 
 **[Why Storytelling Works for Software](/explanation/why-storytelling)**
 Your brain is wired for narrative coherence. NDD exploits this to catch gaps that other specification approaches miss.
