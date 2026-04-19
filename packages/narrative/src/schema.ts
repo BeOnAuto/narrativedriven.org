@@ -498,7 +498,7 @@ const SceneWithMomentNamesSchema = z
   .object({
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
-    description: z.string().optional(),
+    outcome: z.string().optional().describe('The single outcome this scene achieves'),
     moments: z.array(MomentNamesOnlySchema),
   })
   .describe('Scene with moment names for structure planning');
@@ -527,7 +527,7 @@ const SceneWithClientServerNamesSchema = z
   .object({
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
-    description: z.string().optional(),
+    outcome: z.string().optional().describe('The single outcome this scene achieves'),
     moments: z.array(ClientServerNamesMomentSchema),
   })
   .describe('Scene with client/server descriptions for behavior planning');
