@@ -51,11 +51,10 @@ describe('assembleSpecs', () => {
     const defs: NarrativeDefinition[] = [
       {
         name: 'Checkout',
-        outcome: 'Items purchased',
+        goal: 'Customer completes a purchase',
         actors: ['Buyer'],
+        entities: ['Order'],
         scenes: ['Add to Cart', 'Payment'],
-        assumptions: ['Gateway up'],
-        requirements: 'PCI',
       },
     ];
 
@@ -65,10 +64,9 @@ describe('assembleSpecs', () => {
       {
         name: 'Checkout',
         sceneIds: ['n-1', 'n-2'],
-        outcome: 'Items purchased',
+        goal: 'Customer completes a purchase',
         actors: ['Buyer'],
-        assumptions: ['Gateway up'],
-        requirements: 'PCI',
+        entities: ['Order'],
       },
     ]);
   });

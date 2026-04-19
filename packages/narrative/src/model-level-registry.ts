@@ -4,10 +4,9 @@ export type NarrativeDefinition = {
   name: string;
   id?: string;
   scenes?: string[];
-  outcome?: string;
+  goal?: string;
   actors?: string[];
-  assumptions?: string[];
-  requirements?: string;
+  entities?: string[];
 };
 
 class ModelLevelRegistry {

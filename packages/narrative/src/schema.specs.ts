@@ -178,15 +178,17 @@ describe('NarrativeSchema', () => {
     const result = NarrativeSchema.safeParse({
       id: 'j-1',
       name: 'Checkout',
-      description: 'Full checkout flow',
+      goal: 'Customer completes a purchase',
       actors: ['buyer', 'seller'],
+      entities: ['Order'],
       sceneIds: ['n-cart', 'n-pay'],
     });
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.id).toBe('j-1');
-      expect(result.data.description).toBe('Full checkout flow');
+      expect(result.data.goal).toBe('Customer completes a purchase');
       expect(result.data.actors).toEqual(['buyer', 'seller']);
+      expect(result.data.entities).toEqual(['Order']);
     }
   });
 
@@ -200,13 +202,13 @@ describe('NarrativeSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('should accept narrative with outcome, requirements, and assumptions', () => {
+  it('should accept narrative with goal, actors, and entities', () => {
     const input = {
       name: 'Registration',
       sceneIds: ['n-1'],
-      outcome: 'User gains access to the system',
-      requirements: 'Must complete within 60 seconds',
-      assumptions: ['Email service is reachable', 'Unique constraint on username'],
+      goal: 'User gains access to the system',
+      actors: ['Visitor'],
+      entities: ['Account'],
     };
     const result = NarrativeSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -265,7 +267,7 @@ describe('NarrativePlanningSchema', () => {
       narratives: [
         {
           name: 'Onboarding',
-          description: 'New user onboarding flow',
+          goal: 'New user gets set up',
           sceneNames: ['Sign Up', 'Verify Email'],
         },
         {
@@ -290,7 +292,7 @@ describe('NarrativePlanningSchema', () => {
         narratives: [
           {
             name: 'Onboarding',
-            description: 'New user onboarding flow',
+            goal: 'New user gets set up',
             sceneNames: ['Sign Up', 'Verify Email'],
           },
           {
@@ -373,15 +375,16 @@ describe('NarrativePlanningSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('should accept planning narrative with outcome and assumptions', () => {
+  it('should accept planning narrative with goal, actors, entities', () => {
     const input = {
       variant: 'narrative-planning' as const,
       narratives: [
         {
           name: 'Setup',
           sceneNames: ['Configure'],
-          outcome: 'System is configured',
-          assumptions: ['Admin has credentials'],
+          goal: 'Admin configures the system',
+          actors: ['Admin'],
+          entities: ['Configuration'],
         },
       ],
       scenes: [{ name: 'Configure' }],

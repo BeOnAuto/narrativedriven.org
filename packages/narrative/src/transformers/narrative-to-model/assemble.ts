@@ -51,10 +51,9 @@ function buildNarratives(scenes: Scene[], definitions?: NarrativeDefinition[]): 
 
     const nar: Narrative = { name: def.name, sceneIds };
     if (def.id) nar.id = def.id;
-    if (def.outcome) nar.outcome = def.outcome;
+    if (def.goal) nar.goal = def.goal;
     if (def.actors?.length) nar.actors = def.actors;
-    if (def.assumptions?.length) nar.assumptions = def.assumptions;
-    if (def.requirements) nar.requirements = def.requirements;
+    if (def.entities?.length) nar.entities = def.entities;
     return nar;
   });
 

@@ -452,13 +452,11 @@ export const NarrativeSchema = z
   .object({
     id: z.string().optional().describe('Unique identifier for the narrative'),
     name: z.string().describe('Narrative name'),
-    description: z.string().optional(),
-    actors: z.array(z.string()).optional(),
+    goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
+    actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
+    entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
     sceneIds: z.array(z.string()).describe('Ordered scene IDs composing this narrative'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
-    outcome: z.string().optional().describe('What value this journey delivers'),
-    requirements: z.string().optional().describe('Markdown requirements document (narrative level)'),
-    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
   .describe('Narrative grouping scenes into an ordered flow');
 
@@ -539,11 +537,10 @@ const SceneWithClientServerNamesSchema = z
 const NarrativePlanningNarrativeSchema = z
   .object({
     name: z.string(),
-    description: z.string().optional(),
-    actors: z.array(z.string()).optional(),
+    goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
+    actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
+    entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
     sceneNames: z.array(z.string()).describe('Ordered scene names'),
-    outcome: z.string().optional().describe('What value this journey delivers'),
-    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
   .describe('Narrative with scene names for planning');
 

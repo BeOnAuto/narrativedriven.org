@@ -92,16 +92,13 @@ function buildNarrativeCall(
 ): tsNS.Statement {
   const configProps: tsNS.ObjectLiteralElementLike[] = [];
 
-  if (nar.outcome) configProps.push(f.createPropertyAssignment('outcome', f.createStringLiteral(nar.outcome)));
+  if (nar.goal) configProps.push(f.createPropertyAssignment('goal', f.createStringLiteral(nar.goal)));
   if (nar.actors?.length) configProps.push(f.createPropertyAssignment('actors', jsonToExpr(ts, f, nar.actors)));
+  if (nar.entities?.length) configProps.push(f.createPropertyAssignment('entities', jsonToExpr(ts, f, nar.entities)));
   if (nar.sceneIds.length > 0) {
     const sceneNames = nar.sceneIds.map((id) => sceneIdToName.get(id) ?? id);
     configProps.push(f.createPropertyAssignment('scenes', jsonToExpr(ts, f, sceneNames)));
   }
-  if (nar.assumptions?.length)
-    configProps.push(f.createPropertyAssignment('assumptions', jsonToExpr(ts, f, nar.assumptions)));
-  if (nar.requirements)
-    configProps.push(f.createPropertyAssignment('requirements', f.createStringLiteral(nar.requirements)));
 
   const args: tsNS.Expression[] = [f.createStringLiteral(nar.name)];
   if (nar.id) args.push(f.createStringLiteral(nar.id));
@@ -112,10 +109,9 @@ function buildNarrativeCall(
 
 function hasNarrativeMetadata(nar: Narrative): boolean {
   return (
-    nar.outcome !== undefined ||
+    nar.goal !== undefined ||
     (nar.actors?.length ?? 0) > 0 ||
-    (nar.assumptions?.length ?? 0) > 0 ||
-    nar.requirements !== undefined
+    (nar.entities?.length ?? 0) > 0
   );
 }
 

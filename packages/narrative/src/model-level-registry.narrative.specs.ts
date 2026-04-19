@@ -9,21 +9,19 @@ describe('narrative() DSL', () => {
 
   it('registers narrative definition with all config fields', () => {
     narrative('Checkout', {
-      outcome: 'Items purchased',
+      goal: 'Customer completes a purchase',
       actors: ['Buyer', 'Gateway'],
+      entities: ['Order'],
       scenes: ['Add to Cart', 'Payment'],
-      assumptions: ['Gateway reachable'],
-      requirements: 'PCI compliance',
     });
 
     expect(modelLevelRegistry.getAll().narrativeDefinitions).toEqual([
       {
         name: 'Checkout',
-        outcome: 'Items purchased',
+        goal: 'Customer completes a purchase',
         actors: ['Buyer', 'Gateway'],
+        entities: ['Order'],
         scenes: ['Add to Cart', 'Payment'],
-        assumptions: ['Gateway reachable'],
-        requirements: 'PCI compliance',
       },
     ]);
   });
