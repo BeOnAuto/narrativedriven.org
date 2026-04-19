@@ -26,7 +26,7 @@ NDD has all three. Its model is a Zod schema that tools validate and transform. 
 
 The ancestral spec languages (Gherkin's Given/When/Then and describe/it/should) proved specs could be human-readable and machine-executable. But they were individual patterns, not unified systems.
 
-NDD combines both into a single model with a model-based architecture (Zod schema), multimodal access (visual + document + code), and executable specifications. No other approach in the current landscape provides all four.
+NDD combines both into a single model with a four-level structural hierarchy (Domain → Narrative → Scene → Moment), a model-based architecture (Zod schema), multimodal access (visual + document + code), and executable specifications. The hierarchy is what holds the dialect together: each level owns a different scope of outcome, so specs at every level stay coherent and compose into the whole. No other approach in the current landscape provides all four.
 
 ## The Executability Gap
 
