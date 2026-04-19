@@ -154,7 +154,7 @@ export default defineConfig({
 									link: "/guides/build-concert-platform",
 								},
 								{
-									text: "Structuring Narratives and Scenes",
+									text: "Structuring Domains, Narratives, and Scenes",
 									link: "/guides/structuring-narratives",
 								},
 							],
