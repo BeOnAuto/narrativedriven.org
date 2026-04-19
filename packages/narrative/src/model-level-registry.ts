@@ -1,11 +1,10 @@
-import type { Actor, Entity, Impact } from './schema';
+import type { Actor, Entity } from './schema';
 
 export type NarrativeDefinition = {
   name: string;
   id?: string;
   scenes?: string[];
   outcome?: string;
-  impact?: Impact;
   actors?: string[];
   assumptions?: string[];
   requirements?: string;

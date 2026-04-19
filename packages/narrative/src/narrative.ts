@@ -24,7 +24,7 @@ import {
   startServerBlock,
 } from './narrative-context';
 import { registry } from './narrative-registry';
-import { ActorSchema, EntitySchema, ImpactSchema } from './schema';
+import { ActorSchema, EntitySchema } from './schema';
 import type { AnyTypedRef, Data, DataItem, DataOf } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
@@ -294,8 +294,6 @@ export function narrative(name: string, id: string, config: NarrativeConfig): vo
 export function narrative(name: string, idOrConfig: string | NarrativeConfig, config?: NarrativeConfig): void {
   const id = typeof idOrConfig === 'string' ? idOrConfig : undefined;
   const cfg = typeof idOrConfig === 'string' ? config! : idOrConfig;
-
-  if (cfg.impact !== undefined) ImpactSchema.parse(cfg.impact);
 
   const def: NarrativeDefinition = { name, ...cfg };
   if (id !== undefined) def.id = id;

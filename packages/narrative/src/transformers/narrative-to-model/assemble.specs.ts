@@ -52,7 +52,6 @@ describe('assembleSpecs', () => {
       {
         name: 'Checkout',
         outcome: 'Items purchased',
-        impact: 'critical',
         actors: ['Buyer'],
         scenes: ['Add to Cart', 'Payment'],
         assumptions: ['Gateway up'],
@@ -67,7 +66,6 @@ describe('assembleSpecs', () => {
         name: 'Checkout',
         sceneIds: ['n-1', 'n-2'],
         outcome: 'Items purchased',
-        impact: 'critical',
         actors: ['Buyer'],
         assumptions: ['Gateway up'],
         requirements: 'PCI',

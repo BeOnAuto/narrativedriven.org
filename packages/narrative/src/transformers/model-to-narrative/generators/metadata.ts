@@ -93,7 +93,6 @@ function buildNarrativeCall(
   const configProps: tsNS.ObjectLiteralElementLike[] = [];
 
   if (nar.outcome) configProps.push(f.createPropertyAssignment('outcome', f.createStringLiteral(nar.outcome)));
-  if (nar.impact) configProps.push(f.createPropertyAssignment('impact', f.createStringLiteral(nar.impact)));
   if (nar.actors?.length) configProps.push(f.createPropertyAssignment('actors', jsonToExpr(ts, f, nar.actors)));
   if (nar.sceneIds.length > 0) {
     const sceneNames = nar.sceneIds.map((id) => sceneIdToName.get(id) ?? id);
@@ -114,7 +113,6 @@ function buildNarrativeCall(
 function hasNarrativeMetadata(nar: Narrative): boolean {
   return (
     nar.outcome !== undefined ||
-    nar.impact !== undefined ||
     (nar.actors?.length ?? 0) > 0 ||
     (nar.assumptions?.length ?? 0) > 0 ||
     nar.requirements !== undefined

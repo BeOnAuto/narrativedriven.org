@@ -10,7 +10,6 @@ describe('narrative() DSL', () => {
   it('registers narrative definition with all config fields', () => {
     narrative('Checkout', {
       outcome: 'Items purchased',
-      impact: 'critical',
       actors: ['Buyer', 'Gateway'],
       scenes: ['Add to Cart', 'Payment'],
       assumptions: ['Gateway reachable'],
@@ -21,7 +20,6 @@ describe('narrative() DSL', () => {
       {
         name: 'Checkout',
         outcome: 'Items purchased',
-        impact: 'critical',
         actors: ['Buyer', 'Gateway'],
         scenes: ['Add to Cart', 'Payment'],
         assumptions: ['Gateway reachable'],

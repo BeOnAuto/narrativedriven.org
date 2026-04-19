@@ -3,7 +3,6 @@ import type {
   Actor,
   ComponentDefinition,
   Entity,
-  Impact,
   Narrative,
   NarrativePlanning,
   UI,
@@ -18,7 +17,6 @@ import {
   DataTargetSchema,
   DesignSchema,
   EntitySchema,
-  ImpactSchema,
   modelSchema,
   NarrativePlanningSchema,
   NarrativeSchema,
@@ -201,12 +199,11 @@ describe('NarrativeSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('should accept narrative with outcome, impact, requirements, and assumptions', () => {
+  it('should accept narrative with outcome, requirements, and assumptions', () => {
     const input = {
       name: 'Registration',
       sceneIds: ['n-1'],
       outcome: 'User gains access to the system',
-      impact: 'critical' as const,
       requirements: 'Must complete within 60 seconds',
       assumptions: ['Email service is reachable', 'Unique constraint on username'],
     };
@@ -215,15 +212,6 @@ describe('NarrativeSchema', () => {
     if (result.success) {
       expect(result.data).toEqual(input);
     }
-  });
-
-  it('should reject invalid impact value', () => {
-    const result = NarrativeSchema.safeParse({
-      name: 'X',
-      sceneIds: [],
-      impact: 'low',
-    });
-    expect(result.success).toBe(false);
   });
 });
 
@@ -384,7 +372,7 @@ describe('NarrativePlanningSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('should accept planning narrative with outcome, impact, and assumptions', () => {
+  it('should accept planning narrative with outcome and assumptions', () => {
     const input = {
       variant: 'narrative-planning' as const,
       narratives: [
@@ -392,7 +380,6 @@ describe('NarrativePlanningSchema', () => {
           name: 'Setup',
           sceneNames: ['Configure'],
           outcome: 'System is configured',
-          impact: 'important' as const,
           assumptions: ['Admin has credentials'],
         },
       ],
@@ -869,25 +856,6 @@ describe('EntitySchema', () => {
     const parsed = EntitySchema.parse({ name: 'E', description: 'D' });
     const typed: Entity = parsed;
     expect(typed).toEqual({ name: 'E', description: 'D' });
-  });
-});
-
-describe('ImpactSchema', () => {
-  it('should accept all valid impact levels', () => {
-    expect(ImpactSchema.safeParse('critical').success).toBe(true);
-    expect(ImpactSchema.safeParse('important').success).toBe(true);
-    expect(ImpactSchema.safeParse('nice-to-have').success).toBe(true);
-  });
-
-  it('should reject invalid impact level', () => {
-    expect(ImpactSchema.safeParse('low').success).toBe(false);
-    expect(ImpactSchema.safeParse('high').success).toBe(false);
-  });
-
-  it('Impact type matches ImpactSchema inference', () => {
-    const parsed = ImpactSchema.parse('critical');
-    const typed: Impact = parsed;
-    expect(typed).toBe('critical');
   });
 });
 

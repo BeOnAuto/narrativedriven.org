@@ -3580,7 +3580,6 @@ describe('modelToNarrative', () => {
           name: 'Flow',
           sceneIds: ['n-1'],
           outcome: 'Goal achieved',
-          impact: 'critical',
           actors: ['Op'],
         },
       ],

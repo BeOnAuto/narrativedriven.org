@@ -21,7 +21,6 @@ describe('DSL → scenesToModel round-trip', () => {
     outcome('Records managed efficiently');
     narrative('Flow', {
       outcome: 'Goal met',
-      impact: 'critical',
       actors: ['Operator'],
       scenes: ['Step'],
       assumptions: ['Data ready'],
@@ -50,7 +49,6 @@ describe('DSL → scenesToModel round-trip', () => {
             name: 'Flow',
             sceneIds: ['n-1'],
             outcome: 'Goal met',
-            impact: 'critical',
             actors: ['Operator'],
             assumptions: ['Data ready'],
             requirements: 'Sub-second',

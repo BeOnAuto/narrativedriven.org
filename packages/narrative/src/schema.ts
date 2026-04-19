@@ -50,8 +50,6 @@ const EntitySchema = z
   })
   .describe('A domain noun — something actors interact with');
 
-const ImpactSchema = z.enum(['critical', 'important', 'nice-to-have']).describe('Priority level');
-
 // Data flow schemas for unified architecture
 export const MessageTargetSchema = z
   .object({
@@ -459,7 +457,6 @@ export const NarrativeSchema = z
     sceneIds: z.array(z.string()).describe('Ordered scene IDs composing this narrative'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
     outcome: z.string().optional().describe('What value this journey delivers'),
-    impact: ImpactSchema.optional().describe('Priority — drives which narratives to build first'),
     requirements: z.string().optional().describe('Markdown requirements document (narrative level)'),
     assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
@@ -544,7 +541,6 @@ const NarrativePlanningNarrativeSchema = z
     actors: z.array(z.string()).optional(),
     sceneNames: z.array(z.string()).describe('Ordered scene names'),
     outcome: z.string().optional().describe('What value this journey delivers'),
-    impact: ImpactSchema.optional().describe('Priority — drives which narratives to build first'),
     assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
   })
   .describe('Narrative with scene names for planning');
@@ -634,7 +630,6 @@ export {
   ComponentDefinitionSchema,
   ActorSchema,
   EntitySchema,
-  ImpactSchema,
 };
 
 export type Model = z.infer<typeof modelSchema>;
@@ -667,4 +662,3 @@ export type UiBlock = z.infer<typeof UiBlockSchema>;
 export type Exit = z.infer<typeof ExitSchema>;
 export type Actor = z.infer<typeof ActorSchema>;
 export type Entity = z.infer<typeof EntitySchema>;
-export type Impact = z.infer<typeof ImpactSchema>;
