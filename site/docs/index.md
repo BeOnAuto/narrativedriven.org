@@ -80,11 +80,11 @@ The same model as a structured, readable document. Each scene becomes a page. Ea
 
 ### The Code View
 
-The same model as a TypeScript DSL. Full type safety and IntelliSense. For developers who prefer working directly in code.
+The same model as a TypeScript DSL. Full type safety and IntelliSense. For developers who prefer working directly in code. The whole file lives inside a domain (your workspace); narratives, scenes, and moments compose down from there.
 
 ```typescript
 narrative("Listing a Show", () => {
-  scene("Happy path", () => {
+  scene("Show published", () => {
     moment("Navigate to Create Show", Experience)
     moment("Submit show details", Command, {
       command: "ScheduleShow",
