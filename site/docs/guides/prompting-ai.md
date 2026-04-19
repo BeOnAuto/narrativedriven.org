@@ -6,33 +6,35 @@ title: Prompting AI for NDD
 
 AI is a collaborator in NDD. You can use it to generate an initial model, expand a narrative, or fill in business specs. The quality of what you get back depends on how you prompt it.
 
-## The NDD Skill
+## Hand the AI the canonical structure
 
-We provide a ready-made skill file, a system prompt you can give to any AI assistant to teach it NDD methodology. Download it and include it in your AI's context:
+The site serves three resources designed for AI consumption. Pick the one that matches the AI's needs:
 
-**[Download the NDD Skill →](https://www.narrativedriven.org/ndd-skill.md)**
+- **[/llms.txt](https://www.narrativedriven.org/llms.txt)** — short index of canonical docs with the four-level hierarchy in one paragraph. Good for agents that follow the [llms.txt convention](https://llmstxt.org).
+- **[/llms-full.txt](https://www.narrativedriven.org/llms-full.txt)** — the full LLM-facing structural reference: definitions, generation procedure, validation rules, naming, anti-patterns. Drop this into context when you want the AI to reason rigorously about structure.
+- **[NDD Skill](https://www.narrativedriven.org/ndd-skill.md)** — a concise, paste-ready system prompt that teaches NDD methodology, the moment types, the outcome-based scene-worthiness rubric, and the modelling workflow.
 
-The skill encodes the same rubric and methodology described in these docs, formatted for AI consumption: token-efficient and precise.
+Any of these gives the AI the same canonical definitions: Domain → Narrative → Scene → Moment.
 
-## How to Use It
+## How to Use the Skill
 
-The simplest approach: paste the skill into your AI's system prompt or custom instructions. The AI will then understand NDD concepts and produce structured narratives when asked.
+The simplest approach: paste the [NDD Skill](https://www.narrativedriven.org/ndd-skill.md) into your AI's system prompt or custom instructions. The AI will then understand NDD concepts and produce structured narratives when asked.
 
 You can also include it at the start of a conversation. Describe your application and ask the AI to model it.
 
-The most productive approach is iterative. Start with a rough description, let the AI generate a first pass, then refine together, just as you would in a collaborative modeling session with humans.
+The most productive approach is iterative. Start with a rough description, let the AI generate a first pass, then refine together — just as you would in a collaborative modelling session with humans.
 
 ## Effective Prompts
 
 ### Starting from scratch
 
-> "I'm building a concert booking platform. Two actors: Promoter and Fan. The promoter lists shows, fans browse and book tickets, and the system manages waitlists when shows sell out. Model this as NDD narratives with scenes and moments."
+> "I'm building a concert booking platform. Two actors: Promoter and Fan. The promoter lists shows, fans browse and book tickets, and the system manages waitlists when shows sell out. Model this as an NDD domain with narratives, scenes, and moments. Reason top-down."
 
-The AI should produce multiple narratives (not one big one), identify the happy path and alternative scenes, and check data completeness.
+The AI should produce one domain (Concert Booking), multiple narratives that each fulfil a broader goal, scenes named by their outcomes, and moments that move each scene toward its outcome. It should also check data completeness across the chain.
 
 ### Expanding a narrative
 
-> "I have a 'Getting Tickets' narrative with a happy path scene. Add an alternative scene for when the show is sold out and the fan joins a waitlist. Make sure to branch from the Book Tickets moment."
+> "I have a 'Getting Tickets' narrative with a 'Tickets reserved' scene. Add a sibling scene for when the show is sold out and the fan ends up on a waitlist. The Book Tickets moment should be the transition point into the new scene."
 
 ### Checking data completeness
 
@@ -40,21 +42,29 @@ The AI should produce multiple narratives (not one big one), identify the happy 
 
 ### Applying the rubric
 
-> "The fan enters an invalid email when booking. Is this a separate scene or incidental detail? Apply the scene-worthiness rubric."
+> "The fan enters an invalid email when booking. Is this a separate scene or incidental detail? Apply the outcome-based scene-worthiness rubric."
 
-The AI should apply all three tests (Storyboard, Discussion, Actor Impact) and explain its reasoning.
+The AI should apply all three tests (Outcome, Discussion, Actor Impact) and explain its reasoning.
 
 ## What Good AI Output Looks Like
 
-When the AI models your application correctly, you should see multiple narratives for distinct stories, not one monolithic blob. The happy path comes first in each narrative, with alternative scenes branching from specific moments. Branching should pass the rubric, meaning alternative scenes where the actor's journey actually changes. Every query moment's state should trace back through events to commands (data completeness). Incidental detail stays within moment business specs, not promoted to scenes. And all four moment types should appear where appropriate: commands for state changes, queries for data retrieval, reacts for automated system responses, experiences for UI-only interactions.
+- A single domain at the top, with capability, actors, and entities captured once.
+- Multiple narratives — each a coherent goal thread, not one monolithic blob.
+- Scenes named by outcomes ("Tickets reserved," not "Booking flow").
+- Each moment has a type and contributes to its scene's outcome.
+- Distinct outcomes get distinct scenes, even when the same upstream moment leads into them.
+- Every query moment's state traces back through events to commands.
+- Validation and incidental edge cases stay inside moment business specs, not promoted to scenes.
+- All four moment types appear where appropriate: commands for state changes, queries for data retrieval, reacts for automated system responses, experiences for UI-only interactions.
 
 ## Common AI Mistakes
 
-The most common mistake is **one big narrative**. The AI puts everything into a single narrative with many scenes. Push back: "These scenes represent different user journeys. Split them into separate narratives."
+The most common mistake is **collapsing the hierarchy** — treating a narrative as a domain or a moment as a scene. Push back: "Reason top-down. What's the business capability? What's the goal thread? What outcome becomes true?"
 
-Watch for **missing alternative scenes** too. The AI tends to only model the happy path. Ask: "What happens when things go wrong? Apply the scene-worthiness rubric to identify alternative paths."
+Watch for **scenes named after screens or workflows** — "Checkout page," "Booking flow." Push back: "Name the outcome, not the screen. What becomes true here?"
 
-Sometimes the AI goes the other direction and **creates scenes for validation errors**. Push back: "Does the actor's journey actually change? Or is this a business spec within the moment?"
+The AI sometimes **only models one outcome per narrative** — the equivalent of the old happy path. Ask: "What other outcomes does this narrative cover? If the actor can end up in a meaningfully different state, that's another scene."
+
+Sometimes the AI goes the other direction and **creates scenes for validation errors**. Push back: "Does the actor end up in a different state, or are they still on the same screen? If they're still in the same state, it's an incidental edge case in the moment, not a new scene."
 
 Finally, check for **broken data completeness**. The AI shows state in a query that has no source event. Ask: "Where does this data come from? Trace it back to a command."
-
