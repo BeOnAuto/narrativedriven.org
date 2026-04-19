@@ -7,7 +7,7 @@ next:
 
 # What Is Narrative-Driven Development?
 
-Narrative-Driven Development (NDD) is a collaborative modeling technique where humans and AI describe software through storytelling. You model your application as a sequence of moments through time, told from the perspective of the people who use it.
+Narrative-Driven Development (NDD) is a collaborative modelling technique where humans and AI describe software through storytelling. You model your application as a sequence of moments through time, told from the perspective of the people who use it.
 
 That narrative isn't a document. It's a structured model. It renders as storyboards, rich documents, and code, all projections of the same underlying model. Change one, the others update.
 
@@ -23,27 +23,38 @@ NDD works with your wiring instead of against it. You tell the story of how a us
 
 [Why storytelling works in depth →](/explanation/why-storytelling)
 
-## The Structure: Narratives, Scenes, Moments
+## The Structure: Domain, Narrative, Scene, Moment
 
-NDD borrows its structure from filmmaking and organizes software into three levels:
+NDD organises every system into four levels. Each level has one job:
 
-### Narratives
+```
+Domain (business capability)
+└── Narrative (goal thread)
+    └── Scene (single outcome)
+        └── Moment (single step toward that outcome)
+```
 
-A narrative is the top-level unit. It describes how actors and entities interact through time, their attributes, behaviours, and the outcomes of those interactions. A narrative can span multiple actors. Think of it like a chapter in a comic book: the cover shows who's involved and what's at stake. "Listing a Show" is one narrative (Promoter-focused). "Getting Tickets" is another (Fan-focused). "Managing Your Booking" is a third (Fan and System). Each narrative has a name, description, and storyboard image.
+### Domain
 
-### Scenes
+The top-level model. A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. One workspace = one domain. Examples: Billing, Scheduling, Identity and Access, Concert Booking. The domain holds the actors, entities, and capability statement that every narrative within it shares.
 
-A scene is a path within a narrative. If the narrative is the story, scenes are the branches, the different ways it can unfold. Every narrative starts with a happy-path scene. Alternative scenes branch off when the actor's journey diverges: the show is sold out, the booking gets cancelled, the waitlist kicks in.
+A domain answers: *what business area are we in?*
 
-Scenes can branch from a specific moment. When a moment has an exit point, it leads to the beginning of another scene, in the same narrative or even a different one. Scenes are always entered from the beginning, never mid-way. This keeps each scene self-contained and readable on its own.
+### Narrative
 
-In the document view, each scene becomes its own page. In the visual view, scenes appear as a filmstrip with branch lines connecting them.
+A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Narratives are larger than a single outcome but smaller than the whole business area. Within Concert Booking, three narratives might be "Listing a Show," "Getting Tickets," and "Managing Your Booking." Each is a goal thread with its own arc, actors, and chain of outcomes.
 
-### Moments
+A narrative answers: *what broader goal is being fulfilled?*
 
-A moment is a single point in time within a scene. It's the atomic unit of NDD. Something happens: a user submits a form, the system fetches data, an automated process fires. A moment can also be an exit point, the place where the story branches to an alternative scene.
+### Scene
 
-Every moment has a type:
+A self-contained outcome achieved through one or more moments. This is the structural unit you'll spend most of your time in. A scene names a single thing that becomes true: "Show published," "Tickets reserved," "Fan added to waitlist," "Booking cancelled." Each scene is independently understandable and independently verifiable.
+
+A scene answers: *what single outcome is being achieved?*
+
+### Moment
+
+A single interaction or system step that moves a scene toward its outcome. Each moment has a type (command, query, react, or experience) and carries the specifications that make the outcome verifiable.
 
 | Moment type    | What happens                               | Example                 |
 | -------------- | ------------------------------------------ | ----------------------- |
@@ -54,7 +65,19 @@ Every moment has a type:
 
 Each moment carries specifications. Interaction specs describe what the user sees and does. Business specs describe the domain rules with concrete examples. Command and query moments have both. Experience moments only have interaction specs. React moments only have business specs.
 
+A moment answers: *what step happens here?*
+
 [Full glossary →](/reference/glossary) | [Moment types reference →](/reference/moment-types)
+
+## Outcomes All the Way Down
+
+NDD is outcome-centred. Different levels own different scopes of outcome:
+
+- **Scene outcome** — the direct, immediate result ("Tickets reserved")
+- **Narrative outcome** — the broader goal achieved through multiple scene outcomes ("Fan successfully books and manages a show")
+- **Domain outcome space** — the family of related outcomes the business capability enables ("Concert booking works end to end")
+
+Don't conflate them. Scenes don't try to do the work of narratives. Moments aren't mistaken for outcomes.
 
 ## Data Completeness
 
@@ -80,7 +103,7 @@ NDD originated at [Xolvio](https://xolvio.com) through years of enterprise clien
 
 It evolved from a facilitation technique into a model-based approach as the world shifted to remote work and AI. The workshop didn't disappear. The model absorbed it.
 
-NDD draws on BDD (Given/When/Then), EventStorming (collaborative domain discovery), Specification by Example (concrete examples), Domain-Driven Design (ubiquitous language), and User Story Mapping (journey-based organization).
+NDD draws on BDD (Given/When/Then), EventStorming (collaborative domain discovery), Specification by Example (concrete examples), Domain-Driven Design (the domain itself, ubiquitous language), and User Story Mapping (journey-based organisation).
 
 [Origin story →](/explanation/origin-story) | [Standing on shoulders →](/explanation/standing-on-shoulders)
 
