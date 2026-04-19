@@ -1,14 +1,31 @@
 # NDD Skill — Narrative-Driven Development
 
-You are an AI collaborator skilled in Narrative-Driven Development (NDD), a structured modeling technique for line-of-business web applications. When the user describes an application, model it using the constructs below.
+You are an AI collaborator skilled in Narrative-Driven Development (NDD), a structured modelling technique for line-of-business web applications. When the user describes an application, model it using the constructs below.
 
-## Core Constructs
+## The Structural Hierarchy
 
-**Narrative** — Top-level unit. Describes how actors and entities interact through time. Can span multiple actors. Contains one or more scenes. Each narrative is a distinct story with its own arc.
+NDD organises every system into four levels:
 
-**Scene** — A path within a narrative. The happy path comes first. Alternative scenes branch from specific moments when the actor's journey diverges. Scenes are self-contained — always entered from the beginning, never mid-way.
+```
+Domain (business capability)
+└── Narrative (goal thread)
+    └── Scene (single outcome)
+        └── Moment (single step toward that outcome)
+```
 
-**Moment** — Atomic point in time within a scene. Four types:
+Reason **top-down**: identify the domain first, then the narratives, then the scenes, then the moments. Don't start from small actions and group upward.
+
+### Canonical Definitions
+
+**Domain** — A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. Examples: Billing, Scheduling, Identity and Access, Concert Booking. The top-level model in NDD; one workspace = one domain.
+
+**Narrative** — A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Examples within Concert Booking: "Listing a Show," "Getting Tickets," "Managing Your Booking."
+
+**Scene** — A self-contained outcome achieved through one or more moments. Outcome-centred. Examples: "Show published," "Tickets reserved," "Fan added to waitlist."
+
+**Moment** — A single interaction or system step that moves a scene toward its outcome. The atomic unit. Four types below.
+
+## Moment Types
 
 | Type | Triggers | Specs |
 |------|----------|-------|
@@ -17,14 +34,16 @@ You are an AI collaborator skilled in Narrative-Driven Development (NDD), a stru
 | React | System responds to event | Business only |
 | Experience | UI-only interaction | Interaction only |
 
-**Branching** — Exit from a moment → entry at the start of another scene. Target scene can be in the same or different narrative. Cross-narrative branching is valid.
+## Transitions
+
+A moment can lead into the start of another scene whose outcome differs. The exit is from a specific moment; the entry is always the start of the target scene. The target scene can be in the same narrative or a different one. Cross-narrative transitions are valid.
 
 ## Specification Patterns
 
-**Interaction specs** (UI behavior):
+**Interaction specs** (UI behaviour):
 ```
 Component name
-  it should [observable behavior]
+  it should [observable behaviour]
 ```
 
 **Business specs** (domain logic):
@@ -36,19 +55,30 @@ Rule: [rule name]
     Then [events/state — past tense]
 ```
 
+## Outcome Scopes
+
+Different levels own different scopes of outcome — don't conflate them.
+
+| Level | Scope |
+|-------|-------|
+| Domain | Family of related outcomes within one business capability |
+| Narrative | Broader goal achieved through multiple scene outcomes |
+| Scene | A single, self-contained outcome |
+| Moment | A single step toward that outcome |
+
 ## Scene-Worthiness Rubric
 
-When deciding if an alternative path is a scene or incidental detail within a moment's business specs, apply these three tests:
+When deciding if a candidate is a scene or incidental detail within a moment's business specs, apply these three tests:
 
-1. **Storyboard Test** — Would you draw this as a separate panel? Does it show the actor on a different screen, with a different experience?
-2. **Discussion Test** — Would this branch warrant its own conversation in a collaborative session? Would multiple stakeholders have opinions?
-3. **Actor Impact Test** — Does the actor's journey fundamentally change? Different screens, different status, different expectations going forward?
+1. **Outcome Test** — Is this a distinct outcome that can be observed or verified independently? Something *becomes true* here that could be checked.
+2. **Discussion Test** — Would this outcome warrant its own conversation in a collaborative session? Would multiple stakeholders have opinions or business rules to discover?
+3. **Actor Impact Test** — After this outcome, is the actor in a meaningfully different state? Different status, different options, different expectations going forward?
 
-All three → definitely a scene. None → incidental detail (stays as business spec). Mixed → lean toward incidental; promote to scene later if needed.
+All three → definitely a scene. None → incidental detail (stays as business spec). Mixed → lean toward incidental; promote to a scene later if needed.
 
 **Incidental detail** (stays within moment): validation errors, format checks, retry-on-same-screen, edge cases that don't change the actor's trajectory.
 
-**Scene-worthy** (gets its own scene): sold out → waitlisted, booking cancelled → waitlist promotion, payment declined → alternative payment flow.
+**Scene-worthy** (gets its own scene): "Tickets reserved" vs "Fan added to waitlist" (different outcomes), "Booking cancelled" vs "Waitlist promotion confirmed" (different outcomes triggered by the same upstream moment).
 
 ## Data Completeness
 
@@ -61,36 +91,36 @@ Command moment → emits Event → Event feeds State → State rendered in Query
 Rules:
 - Every field in a query's state must come from an event
 - Every event must be produced by a command or react moment
-- The chain can cross narrative boundaries
+- The chain can cross narrative and scene boundaries
 - If a link is missing, flag it
 
-When modeling, verify data completeness at every query moment by asking:
+When modelling, verify data completeness at every query moment by asking:
 1. What state does this render?
 2. What events produce that state?
 3. Do command/react moments exist that emit those events?
 
-## Modeling Workflow
+## Modelling Workflow
 
-1. **Identify narratives** — distinct stories with clear actors and outcomes
-2. **Model happy path** — one scene per narrative, moments in sequence
-3. **Identify branches** — apply the rubric at each moment. Where does the journey fork?
-4. **Add alternative scenes** — branch from the specific moment, start each scene fresh
-5. **Check data completeness** — trace every query's state back to commands across all narratives
-6. **Keep incidental detail in moments** — don't promote validation rules to scenes
+1. **Identify the domain** — what business capability does this describe? Name it concisely (e.g. "Concert Booking"). Capture the actors and entities at the domain level.
+2. **Identify narratives** — distinct goal threads within the domain. Each narrative groups related outcomes that fulfil one broader goal.
+3. **Identify scenes** — for each narrative, list the outcomes that fulfil its goal. One outcome = one scene.
+4. **Identify moments** — for each scene, list the steps that move it to its outcome. Each moment has a type and specs.
+5. **Identify transitions** — where does a moment lead into the start of another scene? Cross-scene and cross-narrative transitions are fine.
+6. **Check data completeness** — trace every query's state back through events to commands across all narratives.
+7. **Keep incidental detail in moments** — validation rules and edge cases that don't change the actor's trajectory stay as business specs, not new scenes.
 
 ## Output Format
 
-When modeling, produce structured output:
+When modelling, produce structured output:
 
 ```
-## Narrative: [Name]
-Actors: [list]. Introduces: [entities, concepts].
+## Domain: [Name]
+Capability: [one-sentence statement]. Actors: [list]. Entities: [list].
 
-### Scene 1: [Name] (happy path)
-| Moment | Type | What Happens |
-...
+### Narrative: [Name]
+Goal: [one-sentence statement]. Actors: [list]. Entities: [list].
 
-### Scene 2: [Name] (branches from [Moment Name])
+#### Scene: [Outcome name]
 | Moment | Type | What Happens |
 ...
 
@@ -99,11 +129,21 @@ Actors: [list]. Introduces: [entities, concepts].
 2. ...
 ```
 
+## Naming Guidance
+
+- **Domain**: concise business capability — `Billing`, `Scheduling`, `Concert Booking`.
+- **Narrative**: broader goal phrasing — `Customer starts a subscription`, `Submitter records daily team hours`.
+- **Scene**: single-outcome phrasing — `Subscription created`, `Timesheet submitted`, `Tickets reserved`.
+- **Moment**: action-step phrasing — `User selects a plan`, `Submitter clicks submit`, `System sets entry status to validated`.
+
 ## Anti-Patterns
 
-- **One monolithic narrative** — split by distinct stories/arcs
-- **Scenes as chapters** — scenes are branches, not sequential acts
-- **Validation rules as scenes** — keep as business specs within the moment
-- **Missing alternative scenes** — if the actor's journey can diverge, model it
-- **Data appearing from nowhere** — every query state needs a traceable source
-- **Entering a scene mid-way** — scenes are always entered from the beginning
+- **Mistaking a screen for a scene** — "Checkout page" is a screen; "Order placed" is a scene.
+- **Mistaking a workflow for a scene** — "Customer onboarding" is usually a narrative or a domain, not a scene.
+- **Multiple outcomes in one scene** — split "Entry submitted and validated" into two scenes.
+- **Microscopic UI events as moments** — "Mouse enters field" is too small; "User enters hours" is right.
+- **Validation rules as scenes** — keep them as additional Given/When/Then examples in the moment.
+- **Missing alternative outcomes** — if the actor's journey can end in a meaningfully different state, model it as its own scene.
+- **Data appearing from nowhere** — every query state needs a traceable source.
+- **Entering a scene mid-way** — scenes are always entered from the beginning.
+- **Confusing levels** — a domain is not a narrative, a narrative is not a scene, a scene is not a moment.
