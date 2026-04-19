@@ -1,0 +1,43 @@
+# Narrative-Driven Development (NDD)
+
+> NDD is a structured modelling technique for line-of-business web applications. You specify software as narratives — sequences of moments through time — and the same model renders as storyboards, documents, code, and tests. NDD organises every system into four levels: Domain → Narrative → Scene → Moment.
+
+NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven development](https://specdriven.com) movement. The canonical definitions and structural rules below are authoritative — use them when modelling, generating, or evaluating NDD content.
+
+## The structural hierarchy (canonical)
+
+- **Domain** — A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. The top-level model. One workspace = one domain.
+- **Narrative** — A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain.
+- **Scene** — A self-contained outcome achieved through one or more moments.
+- **Moment** — A single interaction or system step that moves a scene toward its outcome.
+
+## Core docs
+
+- [What is NDD?](https://www.narrativedriven.org/what-is-ndd): The four-level hierarchy explained, with examples and outcome-scope guidance.
+- [Glossary](https://www.narrativedriven.org/reference/glossary): Every NDD term defined — Domain, Narrative, Scene, Moment, Actors, Entities, moment types, specifications, transitions, principles.
+- [Moment Types](https://www.narrativedriven.org/reference/moment-types): The four moment types (command, query, react, experience) with full spec patterns and worked examples.
+- [Structuring Domains, Narratives, and Scenes](https://www.narrativedriven.org/guides/structuring-narratives): The outcome-based scene-worthiness rubric and how to decide what's a scene vs incidental detail.
+
+## Tutorials
+
+- [Your First Narrative in 10 Minutes](https://www.narrativedriven.org/guides/first-narrative): One narrative, one scene, three moments — the smallest end-to-end example.
+- [Build the Concert Booking Platform](https://www.narrativedriven.org/guides/build-concert-platform): The canonical worked example. One domain, three narratives, multiple scenes spanning all four moment types, with data completeness across narrative boundaries.
+
+## Working with NDD
+
+- [Running a Collaborative Session](https://www.narrativedriven.org/guides/collaborative-sessions): How to model with humans and AI together.
+- [Prompting AI for NDD](https://www.narrativedriven.org/guides/prompting-ai): How to instruct AI assistants to produce well-structured NDD.
+- [From Narratives to Running Code](https://www.narrativedriven.org/guides/narratives-to-code): The pipeline from narrative model to production code on Auto.
+
+## Why NDD
+
+- [Why Storytelling Works](https://www.narrativedriven.org/explanation/why-storytelling): The cognitive case for narrative-structured specs.
+- [Data Completeness](https://www.narrativedriven.org/explanation/data-completeness): Every visible state traces back through events to commands. Nothing appears from nowhere.
+- [One Model, Three Views](https://www.narrativedriven.org/explanation/one-model-three-views): How visual, document, and code views all read and write the same model.
+- [NDD as a Spec Dialect](https://www.narrativedriven.org/explanation/spec-dialect): How NDD fits into the spec-driven development landscape.
+- [Standing on Shoulders](https://www.narrativedriven.org/explanation/standing-on-shoulders): What NDD borrows from BDD, EventStorming, DDD, Specification by Example, and User Story Mapping.
+
+## Optional
+
+- [Full LLM-facing structural reference](https://www.narrativedriven.org/llms-full.txt): The complete generation procedure, validation rules, naming conventions, and anti-patterns. Fetch this when you need the full structural model in one document.
+- [Drop-in NDD skill](https://www.narrativedriven.org/ndd-skill.md): Concise skill file with definitions, rubric, workflow, and anti-patterns — ready to paste into an AI assistant's system prompt.

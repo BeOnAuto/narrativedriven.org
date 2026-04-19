@@ -1,0 +1,352 @@
+# Narrative-Driven Development — Structural Instructions for LLMs
+
+This document defines how to interpret and generate the four structural levels used in Narrative-Driven Development (NDD):
+
+- Domain
+- Narrative
+- Scene
+- Moment
+
+It is intended for LLM consumption.
+
+---
+
+## Canonical Definitions
+
+### Domain
+A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. The top-level model in NDD; one workspace = one domain.
+
+### Narrative
+A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain.
+
+### Scene
+A self-contained outcome achieved through one or more moments.
+
+### Moment
+A single interaction or system step that moves a scene toward its outcome.
+
+---
+
+## Structural Hierarchy
+
+Always model NDD using this hierarchy:
+
+```
+Domain
+└── Narrative
+    └── Scene
+        └── Moment
+```
+
+Semantic meaning:
+
+```
+Business capability
+└── Goal thread
+    └── Outcome
+        └── Step
+```
+
+---
+
+## Core Rules
+
+### Rule 1: Think top-down
+
+When generating structure, reason in this order:
+
+1. Domain
+2. Narrative
+3. Scene
+4. Moment
+
+Do not start from small actions and group them upward arbitrarily. Start from business capability, then identify broader goals, then isolate outcomes, then list steps.
+
+### Rule 2: Treat the Scene as the core unit
+
+The scene is the primary structural unit in NDD. A scene is concrete, outcome-centred, independently understandable, and testable or verifiable. If uncertain, optimise for better scenes.
+
+### Rule 3: A Domain is a business capability area
+
+A domain must represent a coherent area of business responsibility.
+
+Good examples: Billing, Scheduling, Identity and Access, Concert Booking, Team Timesheet Management.
+
+Bad examples: Frontend, Admin Screens, User Flow, Prototype Features.
+
+A domain is not a feature bucket, screen group, technical module, or project phase. A domain may later map to one or more bounded contexts, but in NDD it should first be modelled as a business capability area.
+
+### Rule 4: A Narrative is a broader goal thread
+
+A narrative groups related scenes that together fulfil a meaningful user or business goal. It must be broader than a scene, narrower than a domain, and coherent as one goal thread. A narrative should not mix unrelated concerns.
+
+Good examples: Customer starts a subscription, Patient books an appointment, Submitter records daily team hours, Controller validates submitted entries.
+
+### Rule 5: A Scene must describe one outcome
+
+A scene is a self-contained outcome. Use outcome-complete phrasing.
+
+Good examples: Subscription created, Appointment booked, Timesheet submitted, Tickets reserved, Fan added to waitlist.
+
+A scene must not describe a screen, describe a vague area, contain multiple outcomes, or be an oversized workflow.
+
+Bad examples: Checkout page, Payment settings, Customer onboarding, Timesheet submitted and validated.
+
+If a candidate scene contains multiple completed states, split it.
+
+### Rule 6: A Moment must describe one meaningful step
+
+A moment is one interaction or system action that moves a scene forward.
+
+Good examples: User enters hours, Submitter clicks submit, Controller validates entry, System increments version, Batch process closes entries.
+
+Bad examples: User enters hours and submits, System validates and closes timesheet, Cursor moves to field, Field receives focus.
+
+A moment should be meaningful, but not microscopic.
+
+---
+
+## Outcome Model
+
+NDD is outcome-oriented.
+
+### Scene outcome
+A direct, immediate outcome. Examples: Payment method updated, Entry validated, Appointment booked, Tickets reserved.
+
+### Narrative outcome
+A broader goal achieved through multiple scene outcomes. Examples: Customer successfully subscribes, Patient successfully books care, Fan successfully books and manages a show.
+
+### Domain outcome space
+A family of related outcomes within one business capability. Examples: Customers can pay and stay in good standing, Users can securely access the system, Concert booking works end to end.
+
+Do not treat all levels as the same kind of thing. They are different scopes.
+
+---
+
+## Generation Procedure
+
+When given a user prompt, generate structure in this order.
+
+### Step 1: Identify the Domain
+
+Ask:
+- What business capability does this describe?
+- What area of responsibility owns this work?
+- What concepts and rules hold the workflows together?
+
+Output:
+- One domain name
+- Optionally one sentence defining the business capability
+
+### Step 2: Identify Narratives
+
+Ask:
+- What broader goals are being fulfilled within the domain?
+- Which groups of outcomes belong to the same story thread?
+- What would a human describe as one coherent job to be done?
+
+Output:
+- A short list of narratives
+- Each narrative should represent one broader goal thread
+
+### Step 3: Identify Scenes
+
+Ask:
+- What single thing becomes true here?
+- Can this outcome be verified?
+- Is this one outcome, not several?
+
+Output:
+- Scenes grouped under each narrative
+- Each scene should be phrased as one outcome
+
+### Step 4: Identify Moments
+
+Ask:
+- What one interaction or system step happens here?
+- Does it directly move the scene toward its outcome?
+- Can it be separated cleanly from the step before and after?
+
+Output:
+- Moments grouped under scenes
+- Each moment should describe one meaningful step
+
+---
+
+## Validation Rules
+
+### Domain validation
+
+A domain is valid if:
+- it names a coherent business capability
+- its narratives share concepts and rules
+- it is broader than any one narrative
+
+### Narrative validation
+
+A narrative is valid if:
+- its scenes support one broader goal
+- it is broader than a scene
+- it does not mix unrelated concerns
+
+### Scene validation
+
+A scene is valid if:
+- it describes one outcome
+- the outcome can be observed or verified
+- it may require multiple moments to achieve
+
+### Moment validation
+
+A moment is valid if:
+- it describes one step
+- it directly contributes to a scene outcome
+- it is smaller than a scene but meaningful in isolation
+
+---
+
+## Naming Rules
+
+### Domain names
+
+Use concise business capability names: Billing, Scheduling, Identity and Access, Concert Booking, Team Timesheet Management.
+
+### Narrative names
+
+Use broader goal phrasing: Customer starts a subscription, Patient books an appointment, Submitter records daily team hours, Director revises a validated timesheet.
+
+### Scene names
+
+Use single-outcome phrasing: Subscription created, Appointment booked, Timesheet submitted, Tickets reserved, Fan added to waitlist.
+
+### Moment names
+
+Use action-step phrasing: User selects a plan, Submitter enters hours, Controller validates entry, System marks entry closed.
+
+---
+
+## Boundary Rules
+
+### Do not confuse domain and narrative
+
+Bad: Domain: Submit timesheet
+Better: Domain: Team Timesheet Management; Narrative: Submitter records daily team hours.
+
+### Do not confuse narrative and scene
+
+Bad: Narrative: Timesheet submitted
+Better: Narrative: Submitter records daily team hours; Scene: Timesheet submitted.
+
+### Do not confuse scene and moment
+
+Bad: Scene: Submitter clicks submit
+Better: Scene: Timesheet submitted; Moment: Submitter clicks submit.
+
+---
+
+## Anti-Patterns
+
+### Feature buckets as scenes
+
+Bad: Dashboard, Profile, Payment settings. These are areas, not outcomes.
+
+### Giant workflows as scenes
+
+Bad: Customer onboarding, Appointment management, Timesheet processing. These are usually narratives or domains.
+
+### Multiple outcomes in one scene
+
+Bad: Entry submitted and validated, Subscription created and receipt sent. Split into separate scenes if independently meaningful.
+
+### Microscopic UI telemetry as moments
+
+Bad: Mouse enters field, Button gains focus. Use meaningful user or system steps instead.
+
+### Scene-as-path framing
+
+Bad: "Scene 1 is the happy path; Scene 2 branches off when the show is sold out." Better: each outcome is its own scene. "Tickets reserved" and "Fan added to waitlist" are two scenes; the moment that triggers them can transition into the start of either.
+
+### Validation rules as scenes
+
+Bad: a scene per validation error. Keep them as additional Given/When/Then examples within the moment's business specs.
+
+### Data appearing from nowhere
+
+Every query state must trace back through events to commands. If a link is missing, flag it.
+
+### Entering a scene mid-way
+
+Scenes are always entered from the beginning. The exit from a moment leads to the start of another scene, not into its middle.
+
+---
+
+## Worked Example
+
+### Input prompt
+
+A submitter fills in team timesheets daily, controllers validate entries, directors can revise only after full validation, version numbers increment on changes, and a batch process closes completed timesheets.
+
+### Domain
+
+Team Timesheet Management
+
+### Example narratives
+
+- Submitter records daily team hours
+- Controller validates submitted entries
+- Director revises a validated timesheet
+- System closes completed timesheets
+
+### Example scenes
+
+Under "Submitter records daily team hours":
+- Team selected for entry
+- Daily hours entered
+- Timesheet submitted
+- Timesheet version incremented after edit
+
+Under "Controller validates submitted entries":
+- Submitted entry validated
+- All entries validated for a team
+
+Under "Director revises a validated timesheet":
+- Validated timesheet opened for revision
+- Hours updated on a validated entry
+- Timesheet version incremented after director change
+
+Under "System closes completed timesheets":
+- Fully completed timesheet identified
+- Entries marked closed
+- Timesheet marked closed
+
+### Example moments
+
+Under "Timesheet submitted":
+- Submitter reviews current entries
+- Submitter clicks submit
+- System sets entry statuses to submitted
+- System sets timesheet status to Submitted
+- System records version as v1
+
+Under "Submitted entry validated":
+- Controller opens submitted entries
+- Controller selects an entry
+- Controller validates the entry
+- System sets entry status to validated
+
+Under "Timesheet marked closed":
+- System confirms all entries are closed
+- System sets timesheet status to Closed
+
+---
+
+## Final Compression
+
+Use this model at all times:
+
+- Domain = business capability area
+- Narrative = related goal thread
+- Scene = single outcome
+- Moment = single step toward that outcome
+
+This is the canonical structural model for Narrative-Driven Development.
