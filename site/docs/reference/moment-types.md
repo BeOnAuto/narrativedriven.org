@@ -7,7 +7,7 @@ next:
 
 # The Four Moment Types
 
-Every moment in NDD has one of four types. The type determines what specifications it carries and what role it plays in the narrative.
+A moment is a single step that moves a scene toward its outcome. Every moment in NDD has one of four types. The type determines what specifications it carries and what role it plays in the scene.
 
 ## Command
 
