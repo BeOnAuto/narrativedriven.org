@@ -450,38 +450,6 @@ const MomentSchema = z.discriminatedUnion('type', [
   ExperienceMomentSchema,
 ]);
 
-export const SceneRouteSchema = z
-  .object({
-    type: z.enum(['dedicated', 'nested', 'no-route']).describe('Route affinity type'),
-    deepLinkable: z.boolean().optional(),
-    requiresAuth: z.boolean().optional(),
-    preservesState: z.boolean().optional(),
-  })
-  .describe('Routing characteristics for the scene');
-
-export const SceneClassificationSchema = z
-  .object({
-    kind: z.enum(['page', 'modal', 'drawer', 'tab-panel', 'wizard-step', 'embedded-panel', 'popover']).optional(),
-    pattern: z
-      .enum([
-        'create-form',
-        'edit-form',
-        'search-filter-results',
-        'browse-detail',
-        'review-confirm-submit',
-        'wizard-step',
-        'dashboard',
-        'feed',
-        'auth-gate',
-        'detail-view',
-        'settings-panel',
-        'list-bulk-actions',
-      ])
-      .optional(),
-    route: SceneRouteSchema.optional(),
-  })
-  .describe('Scene classification metadata for a scene');
-
 export const NarrativeSchema = z
   .object({
     id: z.string().optional().describe('Unique identifier for the narrative'),
@@ -504,7 +472,6 @@ const SceneSchema = z
     description: z.string().optional(),
     moments: z.array(MomentSchema),
     sourceFile: z.string().optional(),
-    scene: SceneClassificationSchema.optional(),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
     requirements: z.string().optional().describe('Markdown requirements document (scene level)'),
     assumptions: z.array(z.string()).optional().describe('Flow-specific assumptions'),
@@ -689,8 +656,6 @@ export type MappingFieldRef = z.infer<typeof MappingFieldRefSchema>;
 export type MappingEntry = z.infer<typeof MappingEntrySchema>;
 export type Narrative = z.infer<typeof NarrativeSchema>;
 export type DataTarget = z.infer<typeof DataTargetSchema>;
-export type SceneClassification = z.infer<typeof SceneClassificationSchema>;
-export type SceneRoute = z.infer<typeof SceneRouteSchema>;
 export type NarrativePlanning = z.infer<typeof NarrativePlanningSchema>;
 export type ImageAsset = z.infer<typeof ImageAssetSchema>;
 export type Design = z.infer<typeof DesignSchema>;

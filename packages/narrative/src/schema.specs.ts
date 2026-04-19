@@ -6,8 +6,6 @@ import type {
   Impact,
   Narrative,
   NarrativePlanning,
-  SceneClassification,
-  SceneRoute,
   UI,
   UIElement,
   UISpec,
@@ -26,9 +24,7 @@ import {
   NarrativeSchema,
   QueryMomentSchema,
   ReactMomentSchema,
-  SceneClassificationSchema,
   SceneNamesOnlySchema,
-  SceneRouteSchema,
   SceneSchema,
   UIElementSchema,
   UISchema,
@@ -142,123 +138,7 @@ describe('CommandMomentSchema client.ui', () => {
   });
 });
 
-describe('SceneRouteSchema', () => {
-  it('should accept valid route types', () => {
-    for (const type of ['dedicated', 'nested', 'no-route'] as const) {
-      const result = SceneRouteSchema.safeParse({ type });
-      expect(result.success).toBe(true);
-    }
-  });
-
-  it('should reject invalid route type', () => {
-    const result = SceneRouteSchema.safeParse({ type: 'invalid' });
-    expect(result.success).toBe(false);
-  });
-
-  it('should accept optional boolean fields', () => {
-    const result = SceneRouteSchema.safeParse({
-      type: 'dedicated',
-      deepLinkable: true,
-      requiresAuth: false,
-      preservesState: true,
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.deepLinkable).toBe(true);
-      expect(result.data.requiresAuth).toBe(false);
-      expect(result.data.preservesState).toBe(true);
-    }
-  });
-});
-
-describe('SceneClassificationSchema', () => {
-  it('should accept all valid kind values', () => {
-    const kinds = ['page', 'modal', 'drawer', 'tab-panel', 'wizard-step', 'embedded-panel', 'popover'] as const;
-    for (const kind of kinds) {
-      const result = SceneClassificationSchema.safeParse({ kind });
-      expect(result.success).toBe(true);
-    }
-  });
-
-  it('should accept all valid pattern values', () => {
-    const patterns = [
-      'create-form',
-      'edit-form',
-      'search-filter-results',
-      'browse-detail',
-      'review-confirm-submit',
-      'wizard-step',
-      'dashboard',
-      'feed',
-      'auth-gate',
-      'detail-view',
-      'settings-panel',
-      'list-bulk-actions',
-    ] as const;
-    for (const pattern of patterns) {
-      const result = SceneClassificationSchema.safeParse({ pattern });
-      expect(result.success).toBe(true);
-    }
-  });
-
-  it('should accept optional route', () => {
-    const result = SceneClassificationSchema.safeParse({
-      kind: 'page',
-      pattern: 'dashboard',
-      route: { type: 'dedicated', deepLinkable: true },
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.route?.type).toBe('dedicated');
-    }
-  });
-
-  it('should accept empty object (all fields optional)', () => {
-    const result = SceneClassificationSchema.safeParse({});
-    expect(result.success).toBe(true);
-  });
-
-  it('should reject invalid kind', () => {
-    const result = SceneClassificationSchema.safeParse({ kind: 'invalid' });
-    expect(result.success).toBe(false);
-  });
-
-  it('should reject invalid pattern', () => {
-    const result = SceneClassificationSchema.safeParse({ pattern: 'invalid' });
-    expect(result.success).toBe(false);
-  });
-});
-
-describe('SceneSchema scene field', () => {
-  it('should accept a narrative with optional scene classification', () => {
-    const result = SceneSchema.safeParse({
-      name: 'Create Todo',
-      moments: [],
-      scene: {
-        kind: 'page',
-        pattern: 'create-form',
-        route: { type: 'dedicated', deepLinkable: true },
-      },
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.scene?.kind).toBe('page');
-      expect(result.data.scene?.pattern).toBe('create-form');
-      expect(result.data.scene?.route?.type).toBe('dedicated');
-    }
-  });
-
-  it('should accept a narrative without scene', () => {
-    const result = SceneSchema.safeParse({
-      name: 'Create Todo',
-      moments: [],
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.scene).toBeUndefined();
-    }
-  });
-
+describe('SceneSchema', () => {
   it('should accept scene with requirements and assumptions', () => {
     const input = {
       name: 'Process Item',
@@ -570,22 +450,6 @@ describe('exported types', () => {
     const typed: Narrative = parsed;
 
     expect(typed).toEqual({ name: 'Onboarding', sceneIds: ['n-1'] });
-  });
-
-  it('SceneClassification type matches SceneClassificationSchema inference', () => {
-    const input = { kind: 'page' as const, pattern: 'dashboard' as const };
-    const parsed = SceneClassificationSchema.parse(input);
-    const typed: SceneClassification = parsed;
-
-    expect(typed).toEqual({ kind: 'page', pattern: 'dashboard' });
-  });
-
-  it('SceneRoute type matches SceneRouteSchema inference', () => {
-    const input = { type: 'dedicated' as const, deepLinkable: true };
-    const parsed = SceneRouteSchema.parse(input);
-    const typed: SceneRoute = parsed;
-
-    expect(typed).toEqual({ type: 'dedicated', deepLinkable: true });
   });
 
   it('NarrativePlanning type matches NarrativePlanningSchema inference', () => {
