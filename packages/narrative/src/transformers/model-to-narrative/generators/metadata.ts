@@ -42,7 +42,7 @@ function buildEntityCall(
   );
 }
 
-function buildOutcomeCall(f: tsNS.NodeFactory, value: string): tsNS.Statement {
+export function buildOutcomeCall(f: tsNS.NodeFactory, value: string): tsNS.Statement {
   return f.createExpressionStatement(
     f.createCallExpression(f.createIdentifier('outcome'), undefined, [f.createStringLiteral(value)]),
   );

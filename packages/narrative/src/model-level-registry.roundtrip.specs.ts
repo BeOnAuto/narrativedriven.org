@@ -28,8 +28,7 @@ describe('DSL → scenesToModel round-trip', () => {
     });
 
     startScene('Step', 'n-1');
-    assumptions('Input valid');
-    requirements('Validate first');
+    outcome('Entry submitted');
     command('Do').initiator('Operator');
     const sceneObj = getCurrentScene()!;
     registry.register(sceneObj);
@@ -57,8 +56,7 @@ describe('DSL → scenesToModel round-trip', () => {
         scenes: [
           expect.objectContaining({
             name: 'Step',
-            assumptions: ['Input valid'],
-            requirements: 'Validate first',
+            outcome: 'Entry submitted',
             moments: [expect.objectContaining({ initiator: 'Operator' })],
           }),
         ],

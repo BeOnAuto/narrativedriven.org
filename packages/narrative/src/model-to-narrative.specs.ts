@@ -3613,7 +3613,7 @@ describe('modelToNarrative', () => {
     expect(metadataPaths).toEqual([]);
   });
 
-  it('should emit assumptions() and requirements() inside scene callbacks', async () => {
+  it('should emit outcome() inside scene callbacks', async () => {
     const model: Model = {
       variant: 'specs',
       scenes: [
@@ -3621,8 +3621,7 @@ describe('modelToNarrative', () => {
           name: 'Process',
           id: 'n-1',
           moments: [],
-          assumptions: ['Input valid'],
-          requirements: 'Must validate first',
+          outcome: 'Entry processed',
         },
       ],
       messages: [],
@@ -3633,6 +3632,6 @@ describe('modelToNarrative', () => {
     const result = await modelToNarrative(model);
     const code = getCode(result);
 
-    expect(code).toMatch(/scene\([\s\S]*assumptions\([\s\S]*requirements\(/);
+    expect(code).toMatch(/scene\([\s\S]*outcome\(/);
   });
 });

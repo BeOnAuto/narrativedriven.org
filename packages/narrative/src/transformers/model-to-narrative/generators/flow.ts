@@ -19,7 +19,7 @@ import type {
 import { jsonToExpr } from '../ast/emit-helpers';
 import { integrationNameToPascalCase } from '../utils/strings';
 import { buildConsolidatedGwtSpecBlock, type GWTBlock } from './gwt';
-import { buildAssumptionsCall, buildRequirementsCall } from './metadata';
+import { buildOutcomeCall } from './metadata';
 
 type CommandMoment = CommandMomentType;
 type QueryMoment = QueryMomentType;
@@ -811,8 +811,7 @@ export function buildFlowStatements(
   const f = ts.factory;
 
   const sceneMetadata: tsNS.Statement[] = [];
-  if (flow.assumptions?.length) sceneMetadata.push(buildAssumptionsCall(ts, f, flow.assumptions));
-  if (flow.requirements) sceneMetadata.push(buildRequirementsCall(f, flow.requirements));
+  if (flow.outcome) sceneMetadata.push(buildOutcomeCall(f, flow.outcome));
   const momentStatements = (flow.moments ?? []).map((sl: Moment) => buildMoment(ts, f, sl, messages));
   const body = [...sceneMetadata, ...momentStatements];
 

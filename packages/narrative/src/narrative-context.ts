@@ -53,14 +53,19 @@ export function clearCurrentScene(): void {
   context = null;
 }
 
-export function addSceneAssumptions(items: string[]): void {
+export function setSceneOutcome(value: string): void {
   if (!context) throw new Error('No active scene');
-  context.scene.assumptions = [...(context.scene.assumptions ?? []), ...items];
+  context.scene.outcome = value;
 }
 
-export function setSceneRequirements(doc: string): void {
+export function setSceneActors(names: string[]): void {
   if (!context) throw new Error('No active scene');
-  context.scene.requirements = doc;
+  context.scene.actors = [...(context.scene.actors ?? []), ...names];
+}
+
+export function setSceneEntities(names: string[]): void {
+  if (!context) throw new Error('No active scene');
+  context.scene.entities = [...(context.scene.entities ?? []), ...names];
 }
 
 export function getCurrentMoment(): Moment | null {

@@ -3,7 +3,6 @@ import type { DataTargetItem } from './data-narrative-builders';
 import type { NarrativeDefinition } from './model-level-registry';
 import { modelLevelRegistry } from './model-level-registry';
 import {
-  addSceneAssumptions,
   clearCurrentScene,
   endClientBlock,
   endServerBlock,
@@ -18,7 +17,9 @@ import {
   recordRule,
   recordStep,
   setMomentData,
-  setSceneRequirements,
+  setSceneActors,
+  setSceneEntities,
+  setSceneOutcome,
   startClientBlock,
   startScene,
   startServerBlock,
@@ -302,22 +303,29 @@ export function narrative(name: string, idOrConfig: string | NarrativeConfig, co
 }
 
 export function assumptions(...items: string[]): void {
-  if (getCurrentScene()) {
-    addSceneAssumptions(items);
-  } else {
-    modelLevelRegistry.addAssumptions(items);
-  }
+  if (getCurrentScene()) throw new Error('assumptions() must be called at model level, not inside a scene');
+  modelLevelRegistry.addAssumptions(items);
 }
 
 export function outcome(value: string): void {
-  if (getCurrentScene()) throw new Error('outcome() must be called at model level, not inside a scene');
-  modelLevelRegistry.setOutcome(value);
+  if (getCurrentScene()) {
+    setSceneOutcome(value);
+  } else {
+    modelLevelRegistry.setOutcome(value);
+  }
 }
 
 export function requirements(doc: string): void {
-  if (getCurrentScene()) {
-    setSceneRequirements(doc);
-  } else {
-    modelLevelRegistry.setRequirements(doc);
-  }
+  if (getCurrentScene()) throw new Error('requirements() must be called at model level, not inside a scene');
+  modelLevelRegistry.setRequirements(doc);
+}
+
+export function sceneActors(...names: string[]): void {
+  if (!getCurrentScene()) throw new Error('sceneActors() must be called inside a scene');
+  setSceneActors(names);
+}
+
+export function sceneEntities(...names: string[]): void {
+  if (!getCurrentScene()) throw new Error('sceneEntities() must be called inside a scene');
+  setSceneEntities(names);
 }

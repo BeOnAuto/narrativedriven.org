@@ -137,12 +137,13 @@ describe('CommandMomentSchema client.ui', () => {
 });
 
 describe('SceneSchema', () => {
-  it('should accept scene with requirements and assumptions', () => {
+  it('should accept scene with outcome, actors, and entities', () => {
     const input = {
-      name: 'Process Item',
+      name: 'Submit Entry',
       moments: [],
-      requirements: 'Must validate input before processing',
-      assumptions: ['Input is well-formed JSON'],
+      outcome: 'Entry submitted',
+      actors: ['Submitter'],
+      entities: ['Entry'],
     };
     const result = SceneSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -151,7 +152,7 @@ describe('SceneSchema', () => {
     }
   });
 
-  it('should accept scene without requirements and assumptions (backward compat)', () => {
+  it('should accept minimal scene (name + moments)', () => {
     const result = SceneSchema.safeParse({ name: 'Simple', moments: [] });
     expect(result.success).toBe(true);
     if (result.success) {
@@ -274,7 +275,7 @@ describe('NarrativePlanningSchema', () => {
       ],
       scenes: [
         { name: 'Sign Up' },
-        { name: 'Verify Email', id: 'n-verify', description: 'Email verification' },
+        { name: 'Verify Email', id: 'n-verify', outcome: 'Email verified' },
         { name: 'Add to Cart' },
         { name: 'Payment' },
       ],
@@ -299,7 +300,7 @@ describe('NarrativePlanningSchema', () => {
         ],
         scenes: [
           { name: 'Sign Up' },
-          { name: 'Verify Email', id: 'n-verify', description: 'Email verification' },
+          { name: 'Verify Email', id: 'n-verify', outcome: 'Email verified' },
           { name: 'Add to Cart' },
           { name: 'Payment' },
         ],

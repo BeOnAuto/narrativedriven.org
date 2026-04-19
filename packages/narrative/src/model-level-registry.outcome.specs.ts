@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { modelLevelRegistry } from './model-level-registry';
 import { outcome } from './narrative';
-import { clearCurrentScene, startScene } from './narrative-context';
+import { clearCurrentScene, getCurrentScene, startScene } from './narrative-context';
 
 describe('outcome() DSL', () => {
   afterEach(() => {
@@ -29,8 +29,10 @@ describe('outcome() DSL', () => {
     expect(modelLevelRegistry.getAll().outcome).toBeUndefined();
   });
 
-  it('throws inside scene context', () => {
-    startScene('test');
-    expect(() => outcome('value')).toThrow('outcome() must be called at model level, not inside a scene');
+  it('sets scene-level outcome inside scene context', () => {
+    startScene('Submit Entry');
+    outcome('Entry submitted');
+
+    expect(getCurrentScene()?.outcome).toBe('Entry submitted');
   });
 });

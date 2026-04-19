@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { modelLevelRegistry } from './model-level-registry';
 import { assumptions, requirements } from './narrative';
-import { clearCurrentScene, getCurrentScene, startScene } from './narrative-context';
+import { clearCurrentScene, startScene } from './narrative-context';
 
 describe('assumptions() and requirements() 2-level dispatch', () => {
   afterEach(() => {
@@ -15,15 +15,9 @@ describe('assumptions() and requirements() 2-level dispatch', () => {
     expect(modelLevelRegistry.getAll().assumptions).toEqual(['System is online', 'Data is consistent']);
   });
 
-  it('assumptions() inside scene adds to scene object', () => {
+  it('assumptions() throws inside scene context', () => {
     startScene('Process');
-    assumptions('Input is valid');
-
-    expect(getCurrentScene()).toEqual({
-      name: 'Process',
-      moments: [],
-      assumptions: ['Input is valid'],
-    });
+    expect(() => assumptions('Input is valid')).toThrow(/model level/);
   });
 
   it('requirements() at model level sets on registry', () => {
@@ -32,15 +26,9 @@ describe('assumptions() and requirements() 2-level dispatch', () => {
     expect(modelLevelRegistry.getAll().requirements).toBe('Must support multi-tenancy');
   });
 
-  it('requirements() inside scene sets on scene object', () => {
+  it('requirements() throws inside scene context', () => {
     startScene('Process');
-    requirements('Must validate before processing');
-
-    expect(getCurrentScene()).toEqual({
-      name: 'Process',
-      moments: [],
-      requirements: 'Must validate before processing',
-    });
+    expect(() => requirements('Must validate before processing')).toThrow(/model level/);
   });
 
   it('requirements() replaces previous value at model level', () => {

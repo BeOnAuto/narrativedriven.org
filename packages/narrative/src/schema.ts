@@ -466,12 +466,12 @@ const SceneSchema = z
   .object({
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
-    description: z.string().optional(),
+    outcome: z.string().optional().describe('The single outcome this scene achieves'),
+    actors: z.array(z.string()).optional().describe('Actor names participating in this scene'),
+    entities: z.array(z.string()).optional().describe('Entity names this scene interacts with'),
     moments: z.array(MomentSchema),
     sourceFile: z.string().optional(),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
-    requirements: z.string().optional().describe('Markdown requirements document (scene level)'),
-    assumptions: z.array(z.string()).optional().describe('Flow-specific assumptions'),
   })
   .describe('Business scene containing related moments');
 
@@ -480,7 +480,9 @@ export const SceneNamesOnlySchema = z
   .object({
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
-    description: z.string().optional(),
+    outcome: z.string().optional().describe('The single outcome this scene achieves'),
+    actors: z.array(z.string()).optional().describe('Actor names participating in this scene'),
+    entities: z.array(z.string()).optional().describe('Entity names this scene interacts with'),
   })
   .describe('Scene with just name for initial planning');
 
