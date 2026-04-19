@@ -6,22 +6,51 @@ title: Glossary
 
 Reference for NDD terminology.
 
-## Core Constructs
+## The Structural Hierarchy
+
+NDD organises every system into four levels:
+
+```
+Domain (business capability)
+└── Narrative (goal thread)
+    └── Scene (single outcome)
+        └── Moment (single step toward that outcome)
+```
+
+### Domain
+A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. The top-level model in NDD. One workspace = one domain. Examples: Billing, Scheduling, Identity and Access, Concert Booking. Holds the actors, entities, and capability statement that all narratives within it share.
 
 ### Narrative
-The top-level unit. Describes how actors and entities interact through time, their attributes, behaviours, and the outcomes of those interactions. Can span multiple actors. Contains one or more scenes, starting with the happy path. Has a name, description, and storyboard image.
+A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Narratives sit between the domain and its individual outcomes. Examples within Concert Booking: "Listing a Show," "Getting Tickets," "Managing Your Booking." A narrative has a goal, the actors and entities it touches, and an ordered set of scene outcomes.
 
 ### Scene
-A path within a narrative. Scenes represent the different ways a story can unfold: the happy path and its alternatives. A scene branches from a specific moment when the actor's journey diverges (e.g., "show sold out" branches from the "Book Tickets" moment). Scenes are always entered from the beginning, keeping each one self-contained. Has a name, description, storyboard image, and a sequential list of moments. In the document view, each scene is its own document.
+A self-contained outcome achieved through one or more moments. Scenes are outcome-centred: each one names a single thing that becomes true. Examples: "Show published," "Tickets reserved," "Fan added to waitlist," "Booking cancelled." A scene has a name (the outcome), a description, the actors and entities involved, and a sequential list of moments.
 
 ### Moment
-A single point in time where something happens. The atomic unit of NDD. One of four types: command, query, react, or experience. Has a name, type, and specifications attached. Can also be an exit point that branches to the beginning of another scene.
+A single interaction or system step that moves a scene toward its outcome. The atomic unit of NDD. One of four types: command, query, react, or experience. Has a name, type, and specifications attached. A moment can also be the entry point that another scene transitions into.
 
-### Branching
-How scenes connect. A moment in one scene can branch to the beginning of another scene, in the same narrative or a different one. The exit is from a specific moment; the entry is always the start of the target scene. On the visual canvas, branches appear as connecting lines between moments and scenes.
+## Outcome Scopes
+
+Different levels of the hierarchy own different scopes of outcome. Don't conflate them.
+
+| Level | Scope |
+|-------|-------|
+| Domain | A family of related outcomes within one business capability |
+| Narrative | A broader goal achieved through multiple scene outcomes |
+| Scene | A single, self-contained outcome |
+| Moment | A single step toward that outcome |
+
+## Transitions
+
+How scenes connect. A moment can lead into the start of another scene whose outcome differs. The exit is from a specific moment; the entry is always the start of the target scene. The target scene can be in the same narrative or a different one. On the visual canvas, transitions appear as connecting lines between moments and scenes. Scenes are always entered from the beginning, never mid-way.
+
+## Actors and Entities
 
 ### Actor
-A named persona involved in the narrative. Can be a human ("Promoter," "Fan") or a system ("Payment Gateway," "Email Service"). Gives context to moments.
+A named person or system involved in the domain. Can be human ("Promoter," "Fan") or system ("Payment Gateway," "Email Service"). Declared on the domain and referenced by narratives, scenes, and moments.
+
+### Entity
+A domain noun — something actors interact with ("Show," "Booking," "Ticket"). Declared on the domain alongside actors.
 
 ## Moment Types
 
@@ -30,7 +59,7 @@ A named persona involved in the narrative. Can be a human ("Promoter," "Fan") or
 | **Command** | Actor triggers a state change | Yes | Yes |
 | **Query** | Actor receives/views data | Yes | Yes |
 | **React** | System reacts to an event automatically | No | Yes |
-| **Experience** | UI-only behavior (navigation, popups) | Yes | No |
+| **Experience** | UI-only behaviour (navigation, popups) | Yes | No |
 
 See [Moment Types](/reference/moment-types) for the full reference.
 
@@ -61,6 +90,5 @@ Every piece of state shown in a query must trace back through events to commands
 ### One Model, Three Views
 A single model powers visual (canvas), document (Notion-like editor), and code (TypeScript DSL) views. All views read from and write to the same model.
 
-### Collaborative Modeling
+### Collaborative Modelling
 Multiple people and AI agents contributing to the same model, synchronously or asynchronously.
-
