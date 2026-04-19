@@ -23,9 +23,7 @@ describe('assembleSpecs', () => {
     const model = assembleSpecs([], [], undefined, {
       actors: [{ name: 'Op', kind: 'person' as const, description: 'Runs it' }],
       entities: [{ name: 'Item', description: 'A thing' }],
-      assumptions: ['Always online'],
-      requirements: 'Must be fast',
-      outcome: 'Records managed efficiently',
+      capability: 'Team Timesheet Management',
     });
 
     expect(model).toEqual({
@@ -37,9 +35,7 @@ describe('assembleSpecs', () => {
       narratives: [{ name: 'Default', sceneIds: [] }],
       actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
       entities: [{ name: 'Item', description: 'A thing' }],
-      assumptions: ['Always online'],
-      requirements: 'Must be fast',
-      outcome: 'Records managed efficiently',
+      capability: 'Team Timesheet Management',
     });
   });
 

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { command } from './fluent-builder';
 import { modelLevelRegistry } from './model-level-registry';
-import { actor, assumptions, entity, narrative, outcome, requirements } from './narrative';
+import { actor, capability, entity, narrative, outcome } from './narrative';
 import { clearCurrentScene, getCurrentScene, startScene } from './narrative-context';
 import { registry } from './narrative-registry';
 import { scenesToModel } from './transformers/narrative-to-model';
@@ -16,9 +16,7 @@ describe('DSL → scenesToModel round-trip', () => {
   it('produces a Model with all metadata from DSL calls', () => {
     actor({ name: 'Operator', kind: 'person', description: 'Runs system' });
     entity({ name: 'Item', description: 'A thing' });
-    assumptions('System online');
-    requirements('Must be fast');
-    outcome('Records managed efficiently');
+    capability('Team Timesheet Management');
     narrative('Flow', {
       goal: 'Operator completes a run',
       actors: ['Operator'],
@@ -39,9 +37,7 @@ describe('DSL → scenesToModel round-trip', () => {
       expect.objectContaining({
         actors: [{ name: 'Operator', kind: 'person', description: 'Runs system' }],
         entities: [{ name: 'Item', description: 'A thing' }],
-        assumptions: ['System online'],
-        requirements: 'Must be fast',
-        outcome: 'Records managed efficiently',
+        capability: 'Team Timesheet Management',
         narratives: [
           {
             name: 'Flow',

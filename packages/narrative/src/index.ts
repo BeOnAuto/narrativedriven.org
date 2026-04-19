@@ -55,7 +55,7 @@ export { addAutoIds, hasAllIds } from './id';
 export type { ExampleBuilder, GivenBuilder, MomentTypeValueInterface, ThenBuilder, WhenBuilder } from './narrative';
 export {
   actor,
-  assumptions,
+  capability,
   client,
   data,
   describe,
@@ -66,9 +66,10 @@ export {
   narrative,
   outcome,
   request,
-  requirements,
   rule,
   scene,
+  sceneActors,
+  sceneEntities,
   server,
   should,
   specs,

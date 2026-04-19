@@ -2,23 +2,9 @@ import type tsNS from 'typescript';
 import type { Model, Narrative } from '../../../index';
 import { jsonToExpr } from '../ast/emit-helpers';
 
-export function buildAssumptionsCall(
-  ts: typeof import('typescript'),
-  f: tsNS.NodeFactory,
-  items: string[],
-): tsNS.Statement {
+export function buildCapabilityCall(f: tsNS.NodeFactory, value: string): tsNS.Statement {
   return f.createExpressionStatement(
-    f.createCallExpression(
-      f.createIdentifier('assumptions'),
-      undefined,
-      items.map((s) => f.createStringLiteral(s)),
-    ),
-  );
-}
-
-export function buildRequirementsCall(f: tsNS.NodeFactory, doc: string): tsNS.Statement {
-  return f.createExpressionStatement(
-    f.createCallExpression(f.createIdentifier('requirements'), undefined, [f.createStringLiteral(doc)]),
+    f.createCallExpression(f.createIdentifier('capability'), undefined, [f.createStringLiteral(value)]),
   );
 }
 
@@ -66,19 +52,9 @@ export function buildModelMetadataStatements(
     usedFunctions.add('entity');
   }
 
-  if (model.assumptions?.length) {
-    statements.push(buildAssumptionsCall(ts, f, model.assumptions));
-    usedFunctions.add('assumptions');
-  }
-
-  if (model.requirements) {
-    statements.push(buildRequirementsCall(f, model.requirements));
-    usedFunctions.add('requirements');
-  }
-
-  if (model.outcome) {
-    statements.push(buildOutcomeCall(f, model.outcome));
-    usedFunctions.add('outcome');
+  if (model.capability) {
+    statements.push(buildCapabilityCall(f, model.capability));
+    usedFunctions.add('capability');
   }
 
   return { statements, usedFunctions };
@@ -119,9 +95,7 @@ function modelHasMetadata(model: Model): boolean {
   return (
     (model.actors?.length ?? 0) > 0 ||
     (model.entities?.length ?? 0) > 0 ||
-    (model.assumptions?.length ?? 0) > 0 ||
-    model.requirements !== undefined ||
-    model.outcome !== undefined ||
+    model.capability !== undefined ||
     model.narratives?.some(hasNarrativeMetadata)
   );
 }

@@ -12,9 +12,7 @@ export type NarrativeDefinition = {
 class ModelLevelRegistry {
   private actors: Actor[] = [];
   private entities: Entity[] = [];
-  private assumptions: string[] = [];
-  private requirements: string | undefined = undefined;
-  private outcome: string | undefined = undefined;
+  private capability: string | undefined = undefined;
   private narrativeDefinitions: NarrativeDefinition[] = [];
 
   addActor(actorDef: Actor) {
@@ -25,16 +23,8 @@ class ModelLevelRegistry {
     this.entities.push(entityDef);
   }
 
-  addAssumptions(items: string[]) {
-    this.assumptions.push(...items);
-  }
-
-  setRequirements(doc: string) {
-    this.requirements = doc;
-  }
-
-  setOutcome(value: string) {
-    this.outcome = value;
+  setCapability(value: string) {
+    this.capability = value;
   }
 
   addNarrativeDefinition(def: NarrativeDefinition) {
@@ -45,9 +35,7 @@ class ModelLevelRegistry {
     return {
       actors: [...this.actors],
       entities: [...this.entities],
-      assumptions: [...this.assumptions],
-      requirements: this.requirements,
-      outcome: this.outcome,
+      capability: this.capability,
       narrativeDefinitions: [...this.narrativeDefinitions],
     };
   }
@@ -55,9 +43,7 @@ class ModelLevelRegistry {
   clearAll() {
     this.actors = [];
     this.entities = [];
-    this.assumptions = [];
-    this.requirements = undefined;
-    this.outcome = undefined;
+    this.capability = undefined;
     this.narrativeDefinitions = [];
   }
 }

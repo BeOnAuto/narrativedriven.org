@@ -9,30 +9,14 @@ describe('outcome() DSL', () => {
     clearCurrentScene();
   });
 
-  it('sets model-level outcome', () => {
-    outcome('Users can manage records efficiently');
-
-    expect(modelLevelRegistry.getAll().outcome).toBe('Users can manage records efficiently');
-  });
-
-  it('replaces previous value', () => {
-    outcome('First');
-    outcome('Second');
-
-    expect(modelLevelRegistry.getAll().outcome).toBe('Second');
-  });
-
-  it('clears on clearAll', () => {
-    outcome('Something');
-    modelLevelRegistry.clearAll();
-
-    expect(modelLevelRegistry.getAll().outcome).toBeUndefined();
-  });
-
   it('sets scene-level outcome inside scene context', () => {
     startScene('Submit Entry');
     outcome('Entry submitted');
 
     expect(getCurrentScene()?.outcome).toBe('Entry submitted');
+  });
+
+  it('throws outside scene context', () => {
+    expect(() => outcome('Nope')).toThrow(/inside a scene/);
   });
 });

@@ -11,13 +11,11 @@ function printStatements(statements: ts.Statement[]): string {
 }
 
 describe('buildModelMetadataStatements', () => {
-  it('generates actor, entity, assumptions, requirements, and outcome calls', () => {
+  it('generates actor, entity, and capability calls', () => {
     const model = {
       actors: [{ name: 'Operator', kind: 'person', description: 'Runs it' }],
       entities: [{ name: 'Item', description: 'A thing', attributes: ['status'] }],
-      assumptions: ['Always online'],
-      requirements: 'Must be fast',
-      outcome: 'Records managed efficiently',
+      capability: 'Team Timesheet Management',
     } as Model;
 
     const { statements, usedFunctions } = buildModelMetadataStatements(ts, model);
@@ -26,11 +24,9 @@ describe('buildModelMetadataStatements', () => {
     expect(code).toEqual(
       'actor({ name: "Operator", kind: "person", description: "Runs it" });\n' +
         'entity({ name: "Item", description: "A thing", attributes: ["status"] });\n' +
-        'assumptions("Always online");\n' +
-        'requirements("Must be fast");\n' +
-        'outcome("Records managed efficiently");\n',
+        'capability("Team Timesheet Management");\n',
     );
-    expect(usedFunctions).toEqual(new Set(['actor', 'entity', 'assumptions', 'requirements', 'outcome']));
+    expect(usedFunctions).toEqual(new Set(['actor', 'entity', 'capability']));
   });
 
   it('returns empty statements and usedFunctions when model has no metadata', () => {

@@ -396,16 +396,14 @@ describe('NarrativePlanningSchema', () => {
     }
   });
 
-  it('should accept planning schema with model-level actors, entities, assumptions, requirements', () => {
+  it('should accept planning schema with model-level actors, entities, capability', () => {
     const input = {
       variant: 'narrative-planning' as const,
       narratives: [{ name: 'Flow', sceneNames: ['Step'] }],
       scenes: [{ name: 'Step' }],
       actors: [{ name: 'Operator', kind: 'person' as const, description: 'Runs the system' }],
       entities: [{ name: 'Task', description: 'A unit of work' }],
-      assumptions: ['System is online'],
-      requirements: 'Must handle concurrent access',
-      outcome: 'Tasks are completed on time',
+      capability: 'Team Timesheet Management',
     };
     const result = NarrativePlanningSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -888,9 +886,7 @@ describe('modelSchema model-level metadata fields', () => {
         { name: 'Gateway', kind: 'system' as const, description: 'Routes requests' },
       ],
       entities: [{ name: 'Record', description: 'A data record', attributes: ['status', 'label'] }],
-      assumptions: ['All users are authenticated', 'System runs in UTC'],
-      requirements: '## Domain Requirements\n\nMust support multi-tenancy.',
-      outcome: 'Users can manage records efficiently',
+      capability: 'Team Timesheet Management',
     };
     const result = modelSchema.safeParse(input);
     expect(result.success).toBe(true);

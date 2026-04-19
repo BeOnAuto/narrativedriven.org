@@ -19,9 +19,7 @@ describe('actor() DSL', () => {
         { name: 'Gateway', kind: 'system', description: 'Routes traffic' },
       ],
       entities: [],
-      assumptions: [],
-      requirements: undefined,
-      outcome: undefined,
+      capability: undefined,
       narrativeDefinitions: [],
     });
   });
@@ -33,9 +31,7 @@ describe('actor() DSL', () => {
     expect(modelLevelRegistry.getAll()).toEqual({
       actors: [],
       entities: [],
-      assumptions: [],
-      requirements: undefined,
-      outcome: undefined,
+      capability: undefined,
       narrativeDefinitions: [],
     });
   });

@@ -551,9 +551,7 @@ export const NarrativePlanningSchema = z
     scenes: z.array(SceneNamesOnlySchema),
     actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
     entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
-    assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
-    requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
-    outcome: z.string().optional().describe('Domain-level outcome — what value this system delivers'),
+    capability: z.string().optional().describe('The business capability this system represents'),
   })
   .describe('Progressive disclosure variant for narrative-based planning');
 
@@ -593,9 +591,7 @@ export const modelSchema = z
     design: ModelDesignSchema.optional().describe('Design fields for visual representation'),
     actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
     entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
-    assumptions: z.array(z.string()).optional().describe('Domain-wide assumptions'),
-    requirements: z.string().optional().describe('Markdown requirements document (domain level)'),
-    outcome: z.string().optional().describe('Domain-level outcome — what value this system delivers'),
+    capability: z.string().optional().describe('The business capability this system represents'),
   })
   .describe('Complete system specification with all implementation details');
 

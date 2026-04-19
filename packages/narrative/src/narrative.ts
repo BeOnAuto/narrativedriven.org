@@ -302,22 +302,14 @@ export function narrative(name: string, idOrConfig: string | NarrativeConfig, co
   modelLevelRegistry.addNarrativeDefinition(def);
 }
 
-export function assumptions(...items: string[]): void {
-  if (getCurrentScene()) throw new Error('assumptions() must be called at model level, not inside a scene');
-  modelLevelRegistry.addAssumptions(items);
-}
-
 export function outcome(value: string): void {
-  if (getCurrentScene()) {
-    setSceneOutcome(value);
-  } else {
-    modelLevelRegistry.setOutcome(value);
-  }
+  if (!getCurrentScene()) throw new Error('outcome() must be called inside a scene');
+  setSceneOutcome(value);
 }
 
-export function requirements(doc: string): void {
-  if (getCurrentScene()) throw new Error('requirements() must be called at model level, not inside a scene');
-  modelLevelRegistry.setRequirements(doc);
+export function capability(value: string): void {
+  if (getCurrentScene()) throw new Error('capability() must be called at model level, not inside a scene');
+  modelLevelRegistry.setCapability(value);
 }
 
 export function sceneActors(...names: string[]): void {
