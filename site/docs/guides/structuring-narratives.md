@@ -1,78 +1,105 @@
 ---
-title: Structuring Narratives and Scenes
+title: Structuring Domains, Narratives, and Scenes
 ---
 
-# Structuring Narratives and Scenes
+# Structuring Domains, Narratives, and Scenes
 
-You know what narratives, scenes, and moments are. Now the hard part: deciding how to structure them. When is something a new narrative? When does an alternative path deserve its own scene? When is a detail just incidental, something that belongs inside a moment's business specs rather than as a separate scene?
+You know what domains, narratives, scenes, and moments are. Now the hard part: deciding how to structure them. When does an outcome deserve its own scene? When is a goal coherent enough to be its own narrative? When is a detail just incidental, something that belongs inside a moment's business specs rather than as a separate scene?
 
-## Narratives: The Big Stories
+NDD is outcome-centred at every level. Reasoning top-down keeps you out of trouble.
 
-A narrative describes how actors and entities interact through time. Start by identifying the distinct stories your application tells. Not features. Stories.
+## Start with the Domain
 
-Ask: **"Who is involved, and what outcome are they trying to achieve?"**
+The domain is the business capability area you're modelling. Pick a coherent business name, not a screen group, not a technical module. "Concert Booking," "Team Timesheet Management," "Identity and Access." One workspace = one domain.
 
-In the concert booking example, there are three distinct stories: "Listing a Show" (the promoter's journey from blank form to live listing), "Getting Tickets" (the fan's journey from browsing to booking), and "Managing Your Booking" (what happens after the ticket is booked).
+Capture at the domain level:
+- The capability statement — one sentence about what this business area does
+- The actors — humans and systems involved
+- The entities — the nouns those actors interact with
 
-Each narrative introduces new entities, new actors, or a new phase of the lifecycle. "Listing a Show" introduces the Show entity and its draft/published states. "Getting Tickets" introduces the Booking entity and ticket capacity. They're distinct stories even though they share the Show entity.
+Everything below the domain reuses these. If you find yourself adding new actors and entities mid-way down, ask whether you've crossed into a different domain.
 
-A narrative can span multiple actors. A narrative can also have a single scene. Not every story has alternative paths. "Listing a Show" has one scene (the happy path). That's fine. Don't force branching where it doesn't exist.
+## Narratives: Goal Threads
 
-## Scenes: The Paths Within
+A narrative is a cohesive thread of related scene outcomes that together fulfil a broader user or business goal within the domain. Think of it as a job to be done, not a feature.
 
-Every narrative starts with a happy-path scene, the straight line from start to finish where everything goes right. Alternative scenes branch off when the actor's journey goes in a genuinely different direction.
+Ask: **"Whose broader goal does this thread serve, and what does success look like?"**
 
-The key word is **genuinely**. Not every edge case deserves its own scene. Use this rubric:
+In Concert Booking, three narratives stand out: "Listing a Show" (the promoter's goal — a published, bookable show exists), "Getting Tickets" (the fan's goal — tickets are reserved or the fan is on the waitlist), and "Managing Your Booking" (the fan's goal — booking state stays correct after the fact).
+
+Each narrative groups related outcomes. They share actors and entities at the domain level but each has its own arc and its own broader goal.
+
+A narrative should not mix unrelated concerns. If the scenes you're listing under a narrative don't all serve the same broader goal, split them.
+
+## Scenes: Outcomes
+
+A scene is a self-contained outcome. One thing becomes true. Use outcome-complete phrasing in the name.
+
+Good: "Tickets reserved." "Fan added to waitlist." "Booking cancelled." "Timesheet submitted."
+Bad: "Booking screen." "Ticket flow." "Submitted and validated."
+
+Every scene should be:
+- Outcome-centred — names a single thing that becomes true
+- Concrete — could be drawn, demoed, or described unambiguously
+- Independently understandable — readable on its own without context from another scene
+- Verifiable — you could write a test that asserts the outcome
 
 ### The Scene-Worthiness Rubric
 
-**1. The Storyboard Test**
+When you're sitting on a candidate that *might* be a scene, apply these three tests.
 
-Would you draw this as a separate panel in a storyboard? If someone were sketching the user journey on a whiteboard, would this branch get its own sequence of drawings, or would it be a footnote on an existing panel?
+**1. The Outcome Test**
 
-"Fan tries to book but the show is sold out" -- yes, that's a different panel. The fan sees a waitlist button instead of a book button. Different screen, different experience, different outcome.
+Is this a distinct outcome that can be observed or verified independently? Something *becomes true* here that you could check.
 
-"Fan enters an invalid email address" -- no. That's a validation message on the same screen. Same panel, small annotation.
+"Fan added to waitlist" — yes. There's a fact (a waitlist entry exists, with a position) that you could query and assert.
+
+"Email field validated" — no. Nothing meaningful has *become true* in the actor's world. The form is still being filled out.
 
 **2. The Discussion Test**
 
-Would this branch warrant its own conversation in a collaborative modeling session? If you gathered your team to discuss this path, would multiple people have opinions about what should happen? Would there be business rules to discover?
+Would this outcome warrant its own conversation in a collaborative session? Would multiple stakeholders have opinions, business rules to discover, edge cases to negotiate?
 
-"What happens when a booking is cancelled and someone is on the waitlist?" -- yes. That involves notification logic, promotion order, timing, email content. Multiple people care.
+"Waitlist promotion confirmed" — yes. Notification logic, promotion order, timing, email content. Product, support, and engineering all have opinions.
 
-"What happens when the date field is empty?" -- no. A developer handles that solo. It's a component-level validation.
+"Date field is empty" — no. A developer handles that solo.
 
 **3. The Actor Impact Test**
 
-Does the actor's journey actually change? After this branch point, is the actor in a different situation, seeing different screens, having different options, expecting different outcomes?
+After this outcome, is the actor in a meaningfully different state? Different status, different options, different expectations going forward?
 
-"Fan is waitlisted instead of confirmed" -- yes. Their status is different, their expectations are different, and the system treats them differently going forward.
+"Fan added to waitlist" vs "Tickets reserved" — yes. Different status, different next moves, different system treatment.
 
-"Fan's credit card is declined" -- maybe. This gets tricky. If there's a retry flow with different options, it could be a scene. If it's just "try again," it's incidental.
+"Credit card declined, retry on same screen" — usually no. The actor is still on the same screen with the same options.
 
-### When in Doubt
+### How to score
 
-If you're unsure, start with it as a business spec within the moment. You can always promote it to a scene later. Scenes are portable. You can refactor and move them, just like you refactor code. It's never perfect the first time.
+Three yeses → definitely a scene. None → incidental detail (stays in business specs). Mixed → lean toward incidental and promote to a scene later if needed. Scenes are portable; you can refactor and move them, just like code.
 
-## Branching: How Scenes Connect
+## Transitions: How Scenes Connect
 
-A scene branches from a specific moment. At that moment, the actor's journey could go one of two ways. Think of it like a "choose your own adventure" book: at a decision point, the story forks.
+Scenes don't exist in isolation. A moment in one scene can lead into the start of another scene whose outcome is different. Think of it as the moment that triggers the next outcome.
 
-The rules are simple. A moment can have an exit point that leads to another scene. The exit always leads to the beginning of the target scene, never mid-way. The target scene can be in the same narrative or a different one. And each scene is self-contained: it establishes its own context and tells a complete story.
+The rules are simple. A moment can have an exit point that leads to another scene. The exit always leads to the *beginning* of the target scene, never mid-way. The target scene can be in the same narrative or a different one. Each scene establishes its own context and tells a complete story.
 
-In the concert booking example, "Getting Tickets" Scene 1 (happy path) has the Book Tickets moment. That moment is the exit point: if the show has capacity, the story continues in Scene 1 (confirmed). If sold out, it branches to Scene 2 (waitlisted). Scene 2 starts fresh. It establishes the context (sold-out show, fan attempting to book) and tells its own story.
+In Concert Booking, the "Book Tickets" moment in the Getting Tickets narrative is an exit point. If the show has capacity, that moment leads into "Tickets reserved." If sold out, the same moment leads into "Fan added to waitlist." Both targets are scenes — both have their own outcomes — and the model captures both as first-class.
 
-Data completeness maintains the thread between scenes. Scene 2's first moment references events from Scene 1 (or from other narratives) in its Given steps. The connection is through the data, not through structural entry points.
+Data completeness maintains the thread between scenes. The next scene's first moment references events from the previous scene (or from other narratives) in its Given steps. The connection is through the data, not through structural entry points.
 
 ## Incidental Detail: What Stays Inside a Moment
 
-Not everything is a scene. Business specs within a moment handle the variations that don't change the actor's trajectory: validation rules (invalid email, missing required fields), edge cases within a single interaction (already published, duplicate submission), error states that return the actor to the same screen (network timeout, retry). These belong as additional Given/When/Then examples within the moment's business specs. They capture the rules at that point without creating a new path through the narrative.
+Not everything is a scene. Business specs within a moment handle the variations that don't change the actor's trajectory: validation rules (invalid email, missing required fields), edge cases within a single interaction (already published, duplicate submission), error states that return the actor to the same screen (network timeout, retry). These belong as additional Given/When/Then examples within the moment's business specs. They capture the rules at that point without inventing new outcomes.
 
-The "already published" rejection in the Publish Show moment is a good example. It's a business rule, not a journey. The promoter sees an error and stays on the same screen. That's an additional example in the moment, not a new scene.
+The "already published" rejection in the Publish Show moment is a good example. It's a business rule, not a new outcome. The promoter sees an error and stays on the same screen. That's an additional example in the moment, not a new scene.
 
 ## Putting It Together
 
-Start with narratives: identify the big stories and who's in them. Then sketch the happy path for each as a single scene. Walk through it moment by moment. When you feel a fork, when the actor's experience could go in a genuinely different direction, that's a candidate for a new scene. Apply the rubric. If it passes, create the scene. If not, capture it as a business spec within the moment.
+1. Name the domain. Capture the capability, actors, and entities.
+2. Identify the narratives — the broader goal threads within the domain.
+3. For each narrative, list the scene outcomes that fulfil it. Outcomes, not paths.
+4. For each scene, list the moments that move it to its outcome. Each moment has a type and specs.
+5. Identify transitions — moments that lead into the start of another scene.
+6. Check data completeness across all narratives.
+7. Push validation rules and incidental edge cases into the moment's business specs, not new scenes.
 
-Don't expect to get it right the first time. Move scenes between narratives if they fit better elsewhere. Promote business specs to scenes when they turn out to be more complex than you thought. The model is fluid, and that's the point.
-
+Don't expect to get it right the first time. Move scenes between narratives if they fit better elsewhere. Promote business specs to scenes when an edge case turns out to be its own outcome. The model is fluid, and that's the point.
