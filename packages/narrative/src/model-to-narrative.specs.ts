@@ -3633,4 +3633,62 @@ describe('modelToNarrative', () => {
 
     expect(code).toMatch(/scene\([\s\S]*outcome\(/);
   });
+
+  it('round-trips capability + narrative metadata + .initiator() + .noun() end-to-end', async () => {
+    const model: Model = {
+      variant: 'specs',
+      scenes: [
+        {
+          name: 'Submit Order',
+          id: 's-submit',
+          outcome: 'Order accepted',
+          moments: [
+            {
+              type: 'command',
+              name: 'Submit',
+              initiator: 'Buyer',
+              noun: 'Cart',
+              client: { specs: [] },
+              server: { description: 'Submits', specs: [] },
+            },
+          ],
+        },
+      ],
+      messages: [],
+      modules: [],
+      narratives: [
+        {
+          name: 'Checkout',
+          sceneIds: ['s-submit'],
+          goal: 'Buyer completes a purchase',
+          actors: [{ name: 'Buyer', kind: 'person', description: 'Shopper paying' }],
+          entities: [{ name: 'Cart', description: 'Buyer’s current selections' }],
+          assumptions: ['Buyer is authenticated'],
+        },
+      ],
+      capability: 'Sales',
+    };
+
+    const result = await modelToNarrative(model);
+    const code = getCode(result);
+
+    // metadata file pieces
+    expect(code).toMatch(/import \{[^}]*\bcapability\b[^}]*\} from '@onauto\/narrative'/);
+    expect(code).toMatch(/import \{[^}]*\bnarrative\b[^}]*\} from '@onauto\/narrative'/);
+    expect(code).toContain(`capability('Sales');`);
+    expect(code).toContain(`narrative('Checkout'`);
+    expect(code).toContain(`name: 'Buyer'`);
+    expect(code).toContain(`name: 'Cart'`);
+    expect(code).toContain(`assumptions: ['Buyer is authenticated']`);
+    expect(code).toContain(`scenes: ['Submit Order']`);
+
+    // moment-chain pieces
+    expect(code).toContain(`.initiator('Buyer')`);
+    expect(code).toContain(`.noun('Cart')`);
+    // ordering: initiator appears before noun on the same moment chain
+    const initIdx = code.indexOf(`.initiator('Buyer')`);
+    const nounIdx = code.indexOf(`.noun('Cart')`);
+    expect(initIdx).toBeGreaterThan(-1);
+    expect(nounIdx).toBeGreaterThan(initIdx);
+  });
 });
