@@ -751,13 +751,18 @@ function addStreamToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Mo
   return chain;
 }
 
-function addInitiatorToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Moment): tsNS.Expression {
-  if (slice.initiator !== undefined) {
-    return f.createCallExpression(f.createPropertyAccessExpression(chain, f.createIdentifier('initiator')), undefined, [
-      f.createStringLiteral(slice.initiator),
-    ]);
-  }
-  return chain;
+function addStringMethodToChain(
+  f: tsNS.NodeFactory,
+  chain: tsNS.Expression,
+  methodName: string,
+  value: string | undefined,
+): tsNS.Expression {
+  if (value === undefined) return chain;
+  return f.createCallExpression(
+    f.createPropertyAccessExpression(chain, f.createIdentifier(methodName)),
+    undefined,
+    [f.createStringLiteral(value)],
+  );
 }
 
 function addViaToChain(f: tsNS.NodeFactory, chain: tsNS.Expression, slice: Moment): tsNS.Expression {
@@ -792,7 +797,8 @@ function buildMoment(
   let chain: tsNS.Expression = f.createCallExpression(f.createIdentifier(sliceCtor), undefined, args);
 
   chain = addStreamToChain(f, chain, slice);
-  chain = addInitiatorToChain(f, chain, slice);
+  chain = addStringMethodToChain(f, chain, 'initiator', slice.initiator);
+  chain = addStringMethodToChain(f, chain, 'noun', slice.noun);
   chain = addViaToChain(f, chain, slice);
   chain = addClientToChain(ts, f, chain, slice);
   chain = addUiToChain(ts, f, chain, slice);

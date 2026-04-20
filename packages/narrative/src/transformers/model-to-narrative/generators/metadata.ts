@@ -8,26 +8,6 @@ export function buildCapabilityCall(f: tsNS.NodeFactory, value: string): tsNS.St
   );
 }
 
-function buildActorCall(
-  ts: typeof import('typescript'),
-  f: tsNS.NodeFactory,
-  actorDef: Model['actors'] extends (infer T)[] | undefined ? T : never,
-): tsNS.Statement {
-  return f.createExpressionStatement(
-    f.createCallExpression(f.createIdentifier('actor'), undefined, [jsonToExpr(ts, f, actorDef)]),
-  );
-}
-
-function buildEntityCall(
-  ts: typeof import('typescript'),
-  f: tsNS.NodeFactory,
-  entityDef: Model['entities'] extends (infer T)[] | undefined ? T : never,
-): tsNS.Statement {
-  return f.createExpressionStatement(
-    f.createCallExpression(f.createIdentifier('entity'), undefined, [jsonToExpr(ts, f, entityDef)]),
-  );
-}
-
 export function buildOutcomeCall(f: tsNS.NodeFactory, value: string): tsNS.Statement {
   return f.createExpressionStatement(
     f.createCallExpression(f.createIdentifier('outcome'), undefined, [f.createStringLiteral(value)]),
@@ -41,16 +21,6 @@ export function buildModelMetadataStatements(
   const f = ts.factory;
   const statements: tsNS.Statement[] = [];
   const usedFunctions = new Set<string>();
-
-  if (model.actors?.length) {
-    for (const a of model.actors) statements.push(buildActorCall(ts, f, a));
-    usedFunctions.add('actor');
-  }
-
-  if (model.entities?.length) {
-    for (const e of model.entities) statements.push(buildEntityCall(ts, f, e));
-    usedFunctions.add('entity');
-  }
 
   if (model.capability) {
     statements.push(buildCapabilityCall(f, model.capability));
@@ -95,12 +65,7 @@ function hasNarrativeMetadata(nar: Narrative): boolean {
 }
 
 function modelHasMetadata(model: Model): boolean {
-  return (
-    (model.actors?.length ?? 0) > 0 ||
-    (model.entities?.length ?? 0) > 0 ||
-    model.capability !== undefined ||
-    model.narratives?.some(hasNarrativeMetadata)
-  );
+  return model.capability !== undefined || (model.narratives?.some(hasNarrativeMetadata) ?? false);
 }
 
 export function buildAllMetadataStatements(

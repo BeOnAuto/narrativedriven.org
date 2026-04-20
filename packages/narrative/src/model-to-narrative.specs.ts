@@ -3569,7 +3569,7 @@ describe('modelToNarrative', () => {
     expect(code).toContain('.via(Notifier)');
   });
 
-  it('should generate metadata file with actors, entities, capability, and narratives', async () => {
+  it('should generate metadata file with capability and narrative (actors/entities now live on the narrative)', async () => {
     const model: Model = {
       variant: 'specs',
       scenes: [{ name: 'Step A', id: 'n-1', moments: [] }],
@@ -3580,11 +3580,11 @@ describe('modelToNarrative', () => {
           name: 'Flow',
           sceneIds: ['n-1'],
           goal: 'Operator completes a run',
-          actors: ['Op'],
+          actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
+          entities: [{ name: 'Item', description: 'A thing' }],
+          assumptions: ['Operator is authenticated'],
         },
       ],
-      actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
-      entities: [{ name: 'Item', description: 'A thing' }],
       capability: 'Team Timesheet Management',
     };
 
@@ -3593,7 +3593,7 @@ describe('modelToNarrative', () => {
 
     expect(metadataFile).toEqual({
       path: 'model.narrative.ts',
-      code: expect.stringMatching(/actor\([\s\S]*entity\([\s\S]*capability\([\s\S]*narrative\(/),
+      code: expect.stringMatching(/capability\([\s\S]*narrative\([\s\S]*actors:[\s\S]*entities:[\s\S]*assumptions:/),
     });
   });
 
