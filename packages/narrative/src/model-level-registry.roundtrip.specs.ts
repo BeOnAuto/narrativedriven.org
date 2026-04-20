@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { command } from './fluent-builder';
 import { modelLevelRegistry } from './model-level-registry';
-import { actor, capability, entity, narrative, outcome } from './narrative';
+import { capability, narrative, outcome } from './narrative';
 import { clearCurrentScene, getCurrentScene, startScene } from './narrative-context';
 import { registry } from './narrative-registry';
 import { scenesToModel } from './transformers/narrative-to-model';
@@ -14,20 +14,21 @@ describe('DSL → scenesToModel round-trip', () => {
   });
 
   it('produces a Model with all metadata from DSL calls', () => {
-    actor({ name: 'Operator', kind: 'person', description: 'Runs system' });
-    entity({ name: 'Item', description: 'A thing' });
+    const operator = { name: 'Operator', kind: 'person' as const, description: 'Runs system' };
+    const item = { name: 'Item', description: 'A thing' };
+
     capability('Team Timesheet Management');
     narrative('Flow', {
       goal: 'Operator completes a run',
-      actors: ['Operator'],
-      entities: ['Item'],
+      actors: [operator],
+      entities: [item],
       assumptions: ['Operator is authenticated', 'Inventory is live'],
       scenes: ['Step'],
     });
 
     startScene('Step', 'n-1');
     outcome('Entry submitted');
-    command('Do').initiator('Operator');
+    command('Do').initiator('Operator').noun('Item');
     const sceneObj = getCurrentScene()!;
     registry.register(sceneObj);
     clearCurrentScene();
@@ -36,16 +37,14 @@ describe('DSL → scenesToModel round-trip', () => {
 
     expect(model).toEqual(
       expect.objectContaining({
-        actors: [{ name: 'Operator', kind: 'person', description: 'Runs system' }],
-        entities: [{ name: 'Item', description: 'A thing' }],
         capability: 'Team Timesheet Management',
         narratives: [
           {
             name: 'Flow',
             sceneIds: ['n-1'],
             goal: 'Operator completes a run',
-            actors: ['Operator'],
-            entities: ['Item'],
+            actors: [operator],
+            entities: [item],
             assumptions: ['Operator is authenticated', 'Inventory is live'],
           },
         ],
@@ -53,7 +52,7 @@ describe('DSL → scenesToModel round-trip', () => {
           expect.objectContaining({
             name: 'Step',
             outcome: 'Entry submitted',
-            moments: [expect.objectContaining({ initiator: 'Operator' })],
+            moments: [expect.objectContaining({ initiator: 'Operator', noun: 'Item' })],
           }),
         ],
       }),

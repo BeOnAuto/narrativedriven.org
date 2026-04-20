@@ -19,10 +19,8 @@ describe('assembleSpecs', () => {
     });
   });
 
-  it('passes through model-level metadata', () => {
+  it('passes through capability (model-level metadata)', () => {
     const model = assembleSpecs([], [], undefined, {
-      actors: [{ name: 'Op', kind: 'person' as const, description: 'Runs it' }],
-      entities: [{ name: 'Item', description: 'A thing' }],
       capability: 'Team Timesheet Management',
     });
 
@@ -33,23 +31,23 @@ describe('assembleSpecs', () => {
       integrations: undefined,
       modules: expect.any(Array),
       narratives: [{ name: 'Default', sceneIds: [] }],
-      actors: [{ name: 'Op', kind: 'person', description: 'Runs it' }],
-      entities: [{ name: 'Item', description: 'A thing' }],
       capability: 'Team Timesheet Management',
     });
   });
 
-  it('resolves narrative sceneNames to sceneIds', () => {
+  it('resolves narrative sceneNames to sceneIds and keeps full actor/entity objects', () => {
     const scenes = [
       { name: 'Add to Cart', id: 'n-1', moments: [] },
       { name: 'Payment', id: 'n-2', moments: [] },
     ];
+    const buyer = { name: 'Buyer', kind: 'person' as const, description: 'Shopper' };
+    const order = { name: 'Order', description: 'A purchase record' };
     const defs: NarrativeDefinition[] = [
       {
         name: 'Checkout',
         goal: 'Customer completes a purchase',
-        actors: ['Buyer'],
-        entities: ['Order'],
+        actors: [buyer],
+        entities: [order],
         scenes: ['Add to Cart', 'Payment'],
       },
     ];
@@ -61,8 +59,8 @@ describe('assembleSpecs', () => {
         name: 'Checkout',
         sceneIds: ['n-1', 'n-2'],
         goal: 'Customer completes a purchase',
-        actors: ['Buyer'],
-        entities: ['Order'],
+        actors: [buyer],
+        entities: [order],
       },
     ]);
   });
