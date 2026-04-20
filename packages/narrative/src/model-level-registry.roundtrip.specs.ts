@@ -21,6 +21,7 @@ describe('DSL → scenesToModel round-trip', () => {
       goal: 'Operator completes a run',
       actors: ['Operator'],
       entities: ['Item'],
+      assumptions: ['Operator is authenticated', 'Inventory is live'],
       scenes: ['Step'],
     });
 
@@ -45,6 +46,7 @@ describe('DSL → scenesToModel round-trip', () => {
             goal: 'Operator completes a run',
             actors: ['Operator'],
             entities: ['Item'],
+            assumptions: ['Operator is authenticated', 'Inventory is live'],
           },
         ],
         scenes: [

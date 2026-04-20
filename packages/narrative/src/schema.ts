@@ -455,6 +455,7 @@ export const NarrativeSchema = z
     goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
     actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
     entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
+    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
     sceneIds: z.array(z.string()).describe('Ordered scene IDs composing this narrative'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
   })
@@ -540,6 +541,7 @@ const NarrativePlanningNarrativeSchema = z
     goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
     actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
     entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
+    assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
     sceneNames: z.array(z.string()).describe('Ordered scene names'),
   })
   .describe('Narrative with scene names for planning');

@@ -52,6 +52,7 @@ function buildNarratives(scenes: Scene[], definitions?: NarrativeDefinition[]): 
     if (def.goal) nar.goal = def.goal;
     if (def.actors?.length) nar.actors = def.actors;
     if (def.entities?.length) nar.entities = def.entities;
+    if (def.assumptions?.length) nar.assumptions = def.assumptions;
     return nar;
   });
 

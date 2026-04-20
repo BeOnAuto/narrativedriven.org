@@ -71,6 +71,8 @@ function buildNarrativeCall(
   if (nar.goal) configProps.push(f.createPropertyAssignment('goal', f.createStringLiteral(nar.goal)));
   if (nar.actors?.length) configProps.push(f.createPropertyAssignment('actors', jsonToExpr(ts, f, nar.actors)));
   if (nar.entities?.length) configProps.push(f.createPropertyAssignment('entities', jsonToExpr(ts, f, nar.entities)));
+  if (nar.assumptions?.length)
+    configProps.push(f.createPropertyAssignment('assumptions', jsonToExpr(ts, f, nar.assumptions)));
   if (nar.sceneIds.length > 0) {
     const sceneNames = nar.sceneIds.map((id) => sceneIdToName.get(id) ?? id);
     configProps.push(f.createPropertyAssignment('scenes', jsonToExpr(ts, f, sceneNames)));
@@ -87,7 +89,8 @@ function hasNarrativeMetadata(nar: Narrative): boolean {
   return (
     nar.goal !== undefined ||
     (nar.actors?.length ?? 0) > 0 ||
-    (nar.entities?.length ?? 0) > 0
+    (nar.entities?.length ?? 0) > 0 ||
+    (nar.assumptions?.length ?? 0) > 0
   );
 }
 
