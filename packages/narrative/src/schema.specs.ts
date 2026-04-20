@@ -103,6 +103,53 @@ describe('BaseMomentSchema initiator field', () => {
   });
 });
 
+describe('BaseMomentSchema noun field', () => {
+  it('should accept command moment with optional noun', () => {
+    const input = {
+      type: 'command' as const,
+      name: 'Submit Order',
+      initiator: 'Buyer',
+      noun: 'Cart',
+      client: { specs: [] },
+      server: { description: 'Submits', specs: [] },
+    };
+    const result = CommandMomentSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.noun).toBe('Cart');
+    }
+  });
+
+  it('should accept query moment with optional noun', () => {
+    const input = {
+      type: 'query' as const,
+      name: 'Fetch Cart',
+      noun: 'Cart',
+      client: { specs: [] },
+      server: { description: 'Reads', specs: [] },
+    };
+    const result = QueryMomentSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.noun).toBe('Cart');
+    }
+  });
+
+  it('should accept react moment with optional noun', () => {
+    const input = {
+      type: 'react' as const,
+      name: 'Process Cart',
+      noun: 'Cart',
+      server: { specs: [] },
+    };
+    const result = ReactMomentSchema.safeParse(input);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.noun).toBe('Cart');
+    }
+  });
+});
+
 describe('CommandMomentSchema client.ui', () => {
   it('accepts ui block in client alongside specs', () => {
     const moment = {
@@ -137,13 +184,11 @@ describe('CommandMomentSchema client.ui', () => {
 });
 
 describe('SceneSchema', () => {
-  it('should accept scene with outcome, actors, and entities', () => {
+  it('should accept scene with outcome', () => {
     const input = {
       name: 'Submit Entry',
       moments: [],
       outcome: 'Entry submitted',
-      actors: ['Submitter'],
-      entities: ['Entry'],
     };
     const result = SceneSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -175,20 +220,25 @@ describe('NarrativeSchema', () => {
   });
 
   it('should accept all optional fields', () => {
+    const buyer = { name: 'buyer', kind: 'person' as const, description: 'Pays for order' };
+    const seller = { name: 'seller', kind: 'system' as const, description: 'Fulfils order' };
+    const order = { name: 'Order', description: 'A purchase record' };
     const result = NarrativeSchema.safeParse({
       id: 'j-1',
       name: 'Checkout',
       goal: 'Customer completes a purchase',
-      actors: ['buyer', 'seller'],
-      entities: ['Order'],
+      actors: [buyer, seller],
+      entities: [order],
+      assumptions: ['Buyer is authenticated'],
       sceneIds: ['n-cart', 'n-pay'],
     });
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.id).toBe('j-1');
       expect(result.data.goal).toBe('Customer completes a purchase');
-      expect(result.data.actors).toEqual(['buyer', 'seller']);
-      expect(result.data.entities).toEqual(['Order']);
+      expect(result.data.actors).toEqual([buyer, seller]);
+      expect(result.data.entities).toEqual([order]);
+      expect(result.data.assumptions).toEqual(['Buyer is authenticated']);
     }
   });
 
@@ -207,8 +257,8 @@ describe('NarrativeSchema', () => {
       name: 'Registration',
       sceneIds: ['n-1'],
       goal: 'User gains access to the system',
-      actors: ['Visitor'],
-      entities: ['Account'],
+      actors: [{ name: 'Visitor', kind: 'person' as const, description: 'New user signing up' }],
+      entities: [{ name: 'Account', description: 'Authenticated identity' }],
     };
     const result = NarrativeSchema.safeParse(input);
     expect(result.success).toBe(true);
@@ -348,12 +398,16 @@ describe('NarrativePlanningSchema', () => {
   });
 
   it('should accept narrative with actors', () => {
+    const actors = [
+      { name: 'new-user', kind: 'person' as const, description: 'A fresh signup' },
+      { name: 'admin', kind: 'person' as const, description: 'Approves signups' },
+    ];
     const result = NarrativePlanningSchema.safeParse({
       variant: 'narrative-planning',
       narratives: [
         {
           name: 'Onboarding',
-          actors: ['new-user', 'admin'],
+          actors,
           sceneNames: ['Sign Up'],
         },
       ],
@@ -361,7 +415,7 @@ describe('NarrativePlanningSchema', () => {
     });
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.narratives[0].actors).toEqual(['new-user', 'admin']);
+      expect(result.data.narratives[0].actors).toEqual(actors);
     }
   });
 
@@ -383,8 +437,9 @@ describe('NarrativePlanningSchema', () => {
           name: 'Setup',
           sceneNames: ['Configure'],
           goal: 'Admin configures the system',
-          actors: ['Admin'],
-          entities: ['Configuration'],
+          actors: [{ name: 'Admin', kind: 'person' as const, description: 'System operator' }],
+          entities: [{ name: 'Configuration', description: 'System settings' }],
+          assumptions: ['Admin is authorized'],
         },
       ],
       scenes: [{ name: 'Configure' }],
@@ -396,13 +451,11 @@ describe('NarrativePlanningSchema', () => {
     }
   });
 
-  it('should accept planning schema with model-level actors, entities, capability', () => {
+  it('should accept planning schema with capability (model-level metadata)', () => {
     const input = {
       variant: 'narrative-planning' as const,
       narratives: [{ name: 'Flow', sceneNames: ['Step'] }],
       scenes: [{ name: 'Step' }],
-      actors: [{ name: 'Operator', kind: 'person' as const, description: 'Runs the system' }],
-      entities: [{ name: 'Task', description: 'A unit of work' }],
       capability: 'Team Timesheet Management',
     };
     const result = NarrativePlanningSchema.safeParse(input);
@@ -878,14 +931,9 @@ describe('modelSchema model-level metadata fields', () => {
     }
   });
 
-  it('should accept model with all metadata fields', () => {
+  it('should accept model with capability (the only model-level metadata)', () => {
     const input = {
       ...minimalModel,
-      actors: [
-        { name: 'Operator', kind: 'person' as const, description: 'Manages system' },
-        { name: 'Gateway', kind: 'system' as const, description: 'Routes requests' },
-      ],
-      entities: [{ name: 'Record', description: 'A data record', attributes: ['status', 'label'] }],
       capability: 'Team Timesheet Management',
     };
     const result = modelSchema.safeParse(input);

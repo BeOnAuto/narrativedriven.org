@@ -303,6 +303,7 @@ const BaseMomentSchema = z
     design: DesignSchema.optional().describe('Design fields for visual representation'),
     exits: z.array(ExitSchema).optional().describe('Conditional exits from this moment to other scenes'),
     initiator: z.string().optional().describe('Which actor initiates this moment — references actor by name'),
+    noun: z.string().optional().describe('Which entity this moment concerns — references entity by name'),
   })
   .describe('Base properties shared by all moment types');
 
@@ -453,8 +454,8 @@ export const NarrativeSchema = z
     id: z.string().optional().describe('Unique identifier for the narrative'),
     name: z.string().describe('Narrative name'),
     goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
-    actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
-    entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
+    actors: z.array(ActorSchema).optional().describe('Actor definitions this narrative introduces or references'),
+    entities: z.array(EntitySchema).optional().describe('Entity definitions this narrative introduces or references'),
     assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
     sceneIds: z.array(z.string()).describe('Ordered scene IDs composing this narrative'),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
@@ -466,8 +467,6 @@ const SceneSchema = z
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
     outcome: z.string().optional().describe('The single outcome this scene achieves'),
-    actors: z.array(z.string()).optional().describe('Actor names participating in this scene'),
-    entities: z.array(z.string()).optional().describe('Entity names this scene interacts with'),
     moments: z.array(MomentSchema),
     sourceFile: z.string().optional(),
     design: DesignSchema.optional().describe('Design fields for visual representation'),
@@ -480,8 +479,6 @@ export const SceneNamesOnlySchema = z
     name: z.string(),
     id: z.string().optional().describe('Optional unique identifier for the scene'),
     outcome: z.string().optional().describe('The single outcome this scene achieves'),
-    actors: z.array(z.string()).optional().describe('Actor names participating in this scene'),
-    entities: z.array(z.string()).optional().describe('Entity names this scene interacts with'),
   })
   .describe('Scene with just name for initial planning');
 
@@ -539,8 +536,8 @@ const NarrativePlanningNarrativeSchema = z
   .object({
     name: z.string(),
     goal: z.string().optional().describe('The broader user/business goal this narrative fulfils'),
-    actors: z.array(z.string()).optional().describe('Actor names participating in this narrative'),
-    entities: z.array(z.string()).optional().describe('Entity names this narrative interacts with'),
+    actors: z.array(ActorSchema).optional().describe('Actor definitions this narrative introduces or references'),
+    entities: z.array(EntitySchema).optional().describe('Entity definitions this narrative introduces or references'),
     assumptions: z.array(z.string()).optional().describe('Journey-specific assumptions'),
     sceneNames: z.array(z.string()).describe('Ordered scene names'),
   })
@@ -551,8 +548,6 @@ export const NarrativePlanningSchema = z
     variant: z.literal('narrative-planning').describe('Narrative-based planning with scene names'),
     narratives: z.array(NarrativePlanningNarrativeSchema),
     scenes: z.array(SceneNamesOnlySchema),
-    actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
-    entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
     capability: z.string().optional().describe('The business capability this system represents'),
   })
   .describe('Progressive disclosure variant for narrative-based planning');
@@ -591,8 +586,6 @@ export const modelSchema = z
     modules: z.array(ModuleSchema).describe('Modules for type ownership and file grouping'),
     narratives: z.array(NarrativeSchema),
     design: ModelDesignSchema.optional().describe('Design fields for visual representation'),
-    actors: z.array(ActorSchema).optional().describe('People and systems involved in the domain'),
-    entities: z.array(EntitySchema).optional().describe('Domain nouns — things actors interact with'),
     capability: z.string().optional().describe('The business capability this system represents'),
   })
   .describe('Complete system specification with all implementation details');
