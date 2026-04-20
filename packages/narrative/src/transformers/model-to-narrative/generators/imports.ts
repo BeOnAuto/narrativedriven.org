@@ -1,8 +1,7 @@
 type BuildImportsOpts = { flowImport: string; integrationImport: string };
 
 export const ALL_FLOW_FUNCTION_NAMES = [
-  'actor',
-  'assumptions',
+  'capability',
   'command',
   'data',
   'defineCommand',
@@ -10,7 +9,6 @@ export const ALL_FLOW_FUNCTION_NAMES = [
   'defineQuery',
   'defineState',
   'describe',
-  'entity',
   'example',
   'experience',
   'gql',
@@ -19,13 +17,13 @@ export const ALL_FLOW_FUNCTION_NAMES = [
   'outcome',
   'query',
   'react',
-  'requirements',
   'rule',
   'scene',
   'sink',
   'source',
   'specs',
   'target',
+  'thenError',
 ] as const;
 
 export function buildImports(
