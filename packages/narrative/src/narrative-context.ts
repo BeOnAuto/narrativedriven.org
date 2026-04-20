@@ -58,16 +58,6 @@ export function setSceneOutcome(value: string): void {
   context.scene.outcome = value;
 }
 
-export function setSceneActors(names: string[]): void {
-  if (!context) throw new Error('No active scene');
-  context.scene.actors = [...(context.scene.actors ?? []), ...names];
-}
-
-export function setSceneEntities(names: string[]): void {
-  if (!context) throw new Error('No active scene');
-  context.scene.entities = [...(context.scene.entities ?? []), ...names];
-}
-
 export function getCurrentMoment(): Moment | null {
   if (!context || context.currentMomentIndex === null) return null;
   return context.scene.moments[context.currentMomentIndex] ?? null;

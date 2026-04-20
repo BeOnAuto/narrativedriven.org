@@ -17,15 +17,12 @@ import {
   recordRule,
   recordStep,
   setMomentData,
-  setSceneActors,
-  setSceneEntities,
   setSceneOutcome,
   startClientBlock,
   startScene,
   startServerBlock,
 } from './narrative-context';
 import { registry } from './narrative-registry';
-import { ActorSchema, EntitySchema } from './schema';
 import type { AnyTypedRef, Data, DataItem, DataOf } from './types';
 
 const debug = createDebug('auto:narrative:narrative');
@@ -278,16 +275,6 @@ export function data(config: Data | (DataItem | DataTargetItem)[]): void {
   setMomentData(dataConfig);
 }
 
-export function actor(config: { name: string; kind: 'person' | 'system'; description: string }): void {
-  if (getCurrentScene()) throw new Error('actor() must be called at model level, not inside a scene');
-  modelLevelRegistry.addActor(ActorSchema.parse(config));
-}
-
-export function entity(config: { name: string; description: string; attributes?: string[] }): void {
-  if (getCurrentScene()) throw new Error('entity() must be called at model level, not inside a scene');
-  modelLevelRegistry.addEntity(EntitySchema.parse(config));
-}
-
 type NarrativeConfig = Omit<NarrativeDefinition, 'name' | 'id'>;
 
 export function narrative(name: string, config: NarrativeConfig): void;
@@ -310,14 +297,4 @@ export function outcome(value: string): void {
 export function capability(value: string): void {
   if (getCurrentScene()) throw new Error('capability() must be called at model level, not inside a scene');
   modelLevelRegistry.setCapability(value);
-}
-
-export function sceneActors(...names: string[]): void {
-  if (!getCurrentScene()) throw new Error('sceneActors() must be called inside a scene');
-  setSceneActors(names);
-}
-
-export function sceneEntities(...names: string[]): void {
-  if (!getCurrentScene()) throw new Error('sceneEntities() must be called inside a scene');
-  setSceneEntities(names);
 }

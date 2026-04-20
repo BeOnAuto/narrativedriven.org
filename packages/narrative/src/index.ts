@@ -54,12 +54,10 @@ export { getScenes } from './getScenes';
 export { addAutoIds, hasAllIds } from './id';
 export type { ExampleBuilder, GivenBuilder, MomentTypeValueInterface, ThenBuilder, WhenBuilder } from './narrative';
 export {
-  actor,
   capability,
   client,
   data,
   describe,
-  entity,
   example,
   it,
   MomentType,
@@ -68,8 +66,6 @@ export {
   request,
   rule,
   scene,
-  sceneActors,
-  sceneEntities,
   server,
   should,
   specs,
