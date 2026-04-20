@@ -44,6 +44,7 @@ export interface FluentCommandMomentBuilder {
   request(mutation: unknown): FluentCommandMomentBuilder;
   exits(exits: Exit[]): FluentCommandMomentBuilder;
   initiator(name: string): FluentCommandMomentBuilder;
+  noun(name: string): FluentCommandMomentBuilder;
 }
 
 export interface FluentQueryMomentBuilder {
@@ -55,6 +56,7 @@ export interface FluentQueryMomentBuilder {
   request(query: unknown): FluentQueryMomentBuilder;
   exits(exits: Exit[]): FluentQueryMomentBuilder;
   initiator(name: string): FluentQueryMomentBuilder;
+  noun(name: string): FluentQueryMomentBuilder;
 }
 
 export interface FluentReactionMomentBuilder {
@@ -64,6 +66,7 @@ export interface FluentReactionMomentBuilder {
   retries(count: number): FluentReactionMomentBuilder;
   exits(exits: Exit[]): FluentReactionMomentBuilder;
   initiator(name: string): FluentReactionMomentBuilder;
+  noun(name: string): FluentReactionMomentBuilder;
 }
 
 export interface FluentExperienceMomentBuilder {
@@ -72,6 +75,7 @@ export interface FluentExperienceMomentBuilder {
   ui(spec: UiBlock): FluentExperienceMomentBuilder;
   exits(exits: Exit[]): FluentExperienceMomentBuilder;
   initiator(name: string): FluentExperienceMomentBuilder;
+  noun(name: string): FluentExperienceMomentBuilder;
 }
 
 class CommandMomentBuilderImpl implements FluentCommandMomentBuilder {
@@ -195,6 +199,11 @@ class CommandMomentBuilderImpl implements FluentCommandMomentBuilder {
     this.moment.initiator = name;
     return this;
   }
+
+  noun(name: string): FluentCommandMomentBuilder {
+    this.moment.noun = name;
+    return this;
+  }
 }
 
 class QueryMomentBuilderImpl implements FluentQueryMomentBuilder {
@@ -298,6 +307,11 @@ class QueryMomentBuilderImpl implements FluentQueryMomentBuilder {
     this.moment.initiator = name;
     return this;
   }
+
+  noun(name: string): FluentQueryMomentBuilder {
+    this.moment.noun = name;
+    return this;
+  }
 }
 
 class ReactionMomentBuilderImpl implements FluentReactionMomentBuilder {
@@ -363,6 +377,11 @@ class ReactionMomentBuilderImpl implements FluentReactionMomentBuilder {
     this.moment.initiator = name;
     return this;
   }
+
+  noun(name: string): FluentReactionMomentBuilder {
+    this.moment.noun = name;
+    return this;
+  }
 }
 
 class ExperienceMomentBuilderImpl implements FluentExperienceMomentBuilder {
@@ -417,6 +436,11 @@ class ExperienceMomentBuilderImpl implements FluentExperienceMomentBuilder {
 
   initiator(name: string): FluentExperienceMomentBuilder {
     this.moment.initiator = name;
+    return this;
+  }
+
+  noun(name: string): FluentExperienceMomentBuilder {
+    this.moment.noun = name;
     return this;
   }
 }

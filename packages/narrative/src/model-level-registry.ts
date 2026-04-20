@@ -5,8 +5,8 @@ export type NarrativeDefinition = {
   id?: string;
   scenes?: string[];
   goal?: string;
-  actors?: string[];
-  entities?: string[];
+  actors?: Array<Actor | string>;
+  entities?: Array<Entity | string>;
   assumptions?: string[];
 };
 
