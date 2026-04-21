@@ -1,0 +1,33 @@
+{
+  "name": "@onauto/runtime",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "In-memory runtime that serves a narrative model as a GraphQL endpoint on Cloudflare Workers (Emmett-backed).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "test": "vitest run --reporter=dot",
+    "test:watch": "vitest",
+    "dev:orders": "wrangler dev --config examples/orders/wrangler.toml"
+  },
+  "dependencies": {
+    "@event-driven-io/emmett": "0.43.0-beta.13",
+    "graphql": "^16.11.0",
+    "hono": "^4.12.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "on.auto",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter \"./packages/*\" run build",
+    "test": "pnpm --filter \"./packages/*\" run test",
+    "type-check": "pnpm --filter \"./packages/*\" run type-check"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
