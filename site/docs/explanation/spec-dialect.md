@@ -34,6 +34,14 @@ Most tools in the current spec-driven wave (Kiro, Spec Kit, OpenSpec, BMAD) use 
 
 NDD carries forward that tradition. When a business spec passes, it's verified truth, not documentation that might have drifted.
 
+## The Disclosure Gap
+
+There's a second gap, and it's the one the next era of agentic coding will judge dialects on. Prose specs cannot disclose progressively. They load whole or not at all, and as the system grows, the document grows with it until the agent's context window can no longer hold the relevant slice without drowning in everything else. That isn't a stylistic problem. It's structural.
+
+NDD's hierarchy (Domain → Narrative → Scene → Moment) is a disclosure mechanism. An agent loads the domain's vocabulary once, then pulls just the scene under work, with the moments and business specs that scene needs, and follows the data-completeness chain only as far as the task requires. The schema makes the slice addressable. The model makes the slice coherent.
+
+[Progressive disclosure for specs →](/explanation/progressive-disclosure)
+
 For detailed capability comparisons, see the [NDD profile](https://specdriven.com/landscape/auto) and [evaluation framework](https://specdriven.com/landscape/evaluation) on specdriven.com.
 
 ## Beyond Line-of-Business

@@ -15,6 +15,9 @@ Every piece of state traces back through events to commands. Nothing appears fro
 **[One Model, Three Views](/explanation/one-model-three-views)**
 A single model powers visual storyboards, Notion-like documents, and a TypeScript DSL. All three read and write the same data.
 
+**[Progressive Disclosure for Specs](/explanation/progressive-disclosure)**
+Why prose specs blow the context window and structured hierarchies don't. The disclosure pattern that makes NDD agent-native.
+
 **[Standing on Shoulders](/explanation/standing-on-shoulders)**
 NDD synthesizes patterns from BDD, EventStorming, Specification by Example, DDD, and User Story Mapping. Where it draws from. Where it diverges.
 

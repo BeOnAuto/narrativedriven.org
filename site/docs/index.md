@@ -15,18 +15,28 @@ features:
   - icon:
       src: /images/features/feat-three-views.png
     title: One Shared Model
-    details: "Storyboard, docs, and code stay aligned because they all come from the same source."
+    details: "Storyboard, docs, and code never drift. They're all views of the same model."
     link: /explanation/one-model-three-views
   - icon:
-      src: /images/features/feat-running-code.png
-    title: From Model to Software
-    details: "Your coding agent builds from the model — guided by structure, not guessing from a prompt. Auto validates every step."
-    link: /guides/narratives-to-code
+      src: /images/features/feat-ai-collaborator.png
+    title: Agent-Native
+    details: "AI is a first-class reader, not an afterthought. The structure, vocabulary, and validation rules are built for agents to reason from."
+    link: /explanation/progressive-disclosure
+  - icon:
+      src: /images/features/feat-spec-dialect.png
+    title: Progressive Context Disclosure
+    details: "Domain → Narrative → Scene → Moment. Each level loads on its own, so agents pull exactly the slice the task needs without blowing the context window."
+    link: /explanation/progressive-disclosure
   - icon:
       src: /images/features/feat-stories.png
     title: Reviewable by Design
     details: "Prompts hide decisions. Narratives make behavior explicit, inspectable, and testable."
     link: /what-is-ndd
+  - icon:
+      src: /images/features/feat-running-code.png
+    title: From Model to Software
+    details: "Your coding agent builds from structure, not from prompts. Auto validates every step."
+    link: /guides/narratives-to-code
   - icon:
       src: /images/features/feat-data-completeness.png
     title: Gaps Surface Early
@@ -38,7 +48,7 @@ features:
 
 ## Why This Matters Now
 
-AI sped up output. It also sped up drift. Specs, prompts, tickets, and code split apart. NDD gives people and AI one model to build from.
+AI sped up output. It also sped up drift. Prose specs blow the context window; the agent either drowns in detail or invents what's missing. NDD's structured hierarchy discloses only the slice the agent needs, when it needs it, so people and AI build from one coherent model. [Progressive disclosure for specs →](/explanation/progressive-disclosure)
 
 </div>
 

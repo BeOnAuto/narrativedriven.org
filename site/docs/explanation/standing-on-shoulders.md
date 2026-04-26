@@ -1,8 +1,8 @@
 ---
 title: Standing on Shoulders
 prev:
-  text: One Model, Three Views
-  link: /explanation/one-model-three-views
+  text: Progressive Disclosure for Specs
+  link: /explanation/progressive-disclosure
 next:
   text: NDD as a Spec Dialect
   link: /explanation/spec-dialect

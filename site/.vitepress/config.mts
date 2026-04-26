@@ -206,6 +206,10 @@ export default defineConfig({
 							link: "/explanation/one-model-three-views",
 						},
 						{
+							text: "Progressive Disclosure for Specs",
+							link: "/explanation/progressive-disclosure",
+						},
+						{
 							text: "Standing on Shoulders",
 							link: "/explanation/standing-on-shoulders",
 						},

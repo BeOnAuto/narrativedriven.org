@@ -4,8 +4,8 @@ prev:
   text: Data Completeness
   link: /explanation/data-completeness
 next:
-  text: Standing on Shoulders
-  link: /explanation/standing-on-shoulders
+  text: Progressive Disclosure for Specs
+  link: /explanation/progressive-disclosure
 ---
 
 # One Model, Three Views

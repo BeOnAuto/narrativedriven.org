@@ -8,13 +8,13 @@ AI is a collaborator in NDD. You can use it to generate an initial model, expand
 
 ## Hand the AI the canonical structure
 
-The site serves three resources designed for AI consumption. Pick the one that matches the AI's needs:
+The site serves three resources designed for AI consumption, deliberately laid out as three disclosure levels so you load only what the task needs. Pick the one that matches the AI's needs:
 
-- **[/llms.txt](https://www.narrativedriven.org/llms.txt)** — short index of canonical docs with the four-level hierarchy in one paragraph. Good for agents that follow the [llms.txt convention](https://llmstxt.org).
-- **[/llms-full.txt](https://www.narrativedriven.org/llms-full.txt)** — the full LLM-facing structural reference: definitions, generation procedure, validation rules, naming, anti-patterns. Drop this into context when you want the AI to reason rigorously about structure.
-- **[NDD Skill](https://www.narrativedriven.org/ndd-skill.md)** — a concise, paste-ready system prompt that teaches NDD methodology, the moment types, the outcome-based scene-worthiness rubric, and the modelling workflow.
+- **[/llms.txt](https://www.narrativedriven.org/llms.txt)** — the index. Short. The four-level hierarchy in one paragraph and pointers to the rest. Good for agents that follow the [llms.txt convention](https://llmstxt.org).
+- **[/llms-full.txt](https://www.narrativedriven.org/llms-full.txt)** — the body. Full structural reference: definitions, generation procedure, validation rules, naming, anti-patterns. Drop this into context when you want the AI to reason rigorously about structure.
+- **[NDD Skill](https://www.narrativedriven.org/ndd-skill.md)** — the system-prompt-ready instruction set. Methodology, moment types, outcome-based scene-worthiness rubric, modelling workflow.
 
-Any of these gives the AI the same canonical definitions: Domain → Narrative → Scene → Moment.
+Any of these gives the AI the same canonical definitions: Domain → Narrative → Scene → Moment. Choosing among them is itself an act of [progressive context disclosure](/explanation/progressive-disclosure): give the agent the smallest level that lets it do the work, and let it reach for more only if it needs to.
 
 ## How to Use the Skill
 
