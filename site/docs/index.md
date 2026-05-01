@@ -44,6 +44,64 @@ features:
     link: /explanation/data-completeness
 ---
 
+<div class="artifact-strip">
+
+## See it in 30 seconds
+
+A plain prompt becomes an executable model becomes a passing test. No magic. No prose-only specs. Watch the model take shape.
+
+<!--
+  Phase 3 follow-up: replace Unsplash placeholder images with real Auto UI screenshots.
+  Then add an HTML5 <video> element below the figure grid:
+
+  <video class="ndd-artifact-video" autoplay muted loop playsinline poster="/artifact-poster.jpg">
+    <source src="/artifact-30sec.mp4" type="video/mp4" />
+    <source src="/artifact-30sec.webm" type="video/webm" />
+  </video>
+
+  See the linked tutorial fallback for the no-video case.
+-->
+
+<div class="ndd-artifact-frames">
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80&placeholder=true" alt="Frame 1 of 6: a plain prompt input box with the text 'Build a concert booking app'" />
+  <figcaption><strong>Step 1 of 6.</strong> A plain prompt: <em>"Build a concert booking app."</em></figcaption>
+</figure>
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80&placeholder=true" alt="Frame 2 of 6: REQUIREMENTS page showing the Concert Booking domain with capability prose, a list of goals (Listing a Show, Getting Tickets, Managing Booking), actors, and entities" />
+  <figcaption><strong>Step 2 of 6.</strong> Auto extracts the domain. <em>Concert Booking</em> becomes the capability. Goals, actors, and entities surface together.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&placeholder=true" alt="Frame 3 of 6: NARRATIVE page for Listing a Show showing the goal prose and a list of outcomes" />
+  <figcaption><strong>Step 3 of 6.</strong> One narrative opens. <em>Listing a Show</em> breaks into outcomes the promoter cares about.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80&placeholder=true" alt="Frame 4 of 6: SCENE page for Show published showing the outcome prose and an Experience Moment block with a small wireframe preview inside" />
+  <figcaption><strong>Step 4 of 6.</strong> One scene opens. <em>Show published</em> contains the moments that move it forward.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?w=800&q=80&placeholder=true" alt="Frame 5 of 6: MOMENT page for Schedule the show with a full wireframe of the show scheduling form, plus interface rules listed beneath" />
+  <figcaption><strong>Step 5 of 6.</strong> One moment opens. <em>Schedule the show</em> shows the wireframe and the interface rules in one place.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80&placeholder=true" alt="Frame 6 of 6: TypeScript code editor showing the canonical fluent DSL for the Schedule Show command, with a green checkmark and the test name 'promoter schedules Neon Drift Live' beneath it" />
+  <figcaption><strong>Step 6 of 6.</strong> The model becomes code. <em>✓ promoter schedules Neon Drift Live</em>. The spec is the test.</figcaption>
+</figure>
+
+</div>
+
+<p class="ndd-artifact-cta">
+  Want to see the running app? <a href="#"><!-- Phase 3 follow-up: replace # with live demo URL once concert.demo.on.auto (or wherever) is deployed. -->Live demo coming soon</a>. For the full walkthrough, read <a href="/guides/build-concert-platform">Build a Concert Platform</a>.
+</p>
+
+</div>
+
 <div class="why-now-strip">
 
 ## Why This Matters Now

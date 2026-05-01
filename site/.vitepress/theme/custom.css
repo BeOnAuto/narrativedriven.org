@@ -374,6 +374,62 @@ body {
    ============================================================ */
 .vp-doc.vp-doc :is(h2) { border-top: none; }
 
+/* --- "See it in 30 seconds" artifact strip --- */
+.artifact-strip {
+  max-width: 1080px;
+  margin: 0 auto 2.5rem;
+  padding: 2.25rem 2rem;
+}
+
+.artifact-strip h2 {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.artifact-strip > p {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
+  color: var(--vp-c-text-2);
+}
+
+.ndd-artifact-frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.ndd-artifact-frames figure {
+  margin: 0;
+  padding: 0;
+}
+
+.ndd-artifact-frames img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  display: block;
+}
+
+.ndd-artifact-frames figcaption {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  color: var(--vp-c-text-2);
+}
+
+.ndd-artifact-frames figcaption strong {
+  color: var(--vp-c-text-1);
+}
+
+.ndd-artifact-cta {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--vp-c-text-2);
+}
+
 /* --- "Why This Matters Now" strip --- */
 .why-now-strip {
   max-width: 760px;
