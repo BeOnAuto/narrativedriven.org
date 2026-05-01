@@ -1,26 +1,26 @@
 # Narrative-Driven Development (NDD)
 
-> NDD is a structured modelling technique for line-of-business web applications. You specify software as narratives — sequences of moments through time — and the same model renders as storyboards, documents, code, and tests. NDD organises every system into four levels: Domain → Narrative → Scene → Moment.
+> NDD is a structured modelling technique for line-of-business web applications. You specify software as narratives (sequences of moments through time), and the same model renders as storyboards, documents, code, and tests. NDD organises every system into four levels: Domain → Narrative → Scene → Moment.
 
-NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven development](https://specdriven.com) movement. The canonical definitions and structural rules below are authoritative — use them when modelling, generating, or evaluating NDD content.
+NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven development](https://specdriven.com) movement. The canonical definitions and structural rules below are authoritative; use them when modelling, generating, or evaluating NDD content.
 
 ## The structural hierarchy (canonical)
 
-- **Domain** — A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. The top-level model. One workspace = one domain.
-- **Narrative** — A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain.
-- **Scene** — A self-contained outcome achieved through one or more moments.
-- **Moment** — A single interaction or system step that moves a scene toward its outcome.
+- **Domain.** A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. The top-level model. One workspace = one domain.
+- **Narrative.** A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain.
+- **Scene.** A self-contained outcome achieved through one or more moments.
+- **Moment.** A single interaction or system step that moves a scene toward its outcome.
 
 ## Core docs
 
 - [What is NDD?](https://www.narrativedriven.org/what-is-ndd): The four-level hierarchy explained, with examples and outcome-scope guidance.
-- [Glossary](https://www.narrativedriven.org/reference/glossary): Every NDD term defined — Domain, Narrative, Scene, Moment, Actors, Entities, moment types, specifications, transitions, principles.
+- [Glossary](https://www.narrativedriven.org/reference/glossary): Every NDD term defined: Domain, Narrative, Scene, Moment, Actors, Entities, moment types, specifications, transitions, principles.
 - [Moment Types](https://www.narrativedriven.org/reference/moment-types): The four moment types (command, query, react, experience) with full spec patterns and worked examples.
 - [Structuring Domains, Narratives, and Scenes](https://www.narrativedriven.org/guides/structuring-narratives): The outcome-based scene-worthiness rubric and how to decide what's a scene vs incidental detail.
 
 ## Tutorials
 
-- [Your First Narrative in 10 Minutes](https://www.narrativedriven.org/guides/first-narrative): One narrative, one scene, three moments — the smallest end-to-end example.
+- [Your First Narrative in 10 Minutes](https://www.narrativedriven.org/guides/first-narrative): One narrative, one scene, three moments, the smallest end-to-end example.
 - [Build the Concert Booking Platform](https://www.narrativedriven.org/guides/build-concert-platform): The canonical worked example. One domain, three narratives, multiple scenes spanning all four moment types, with data completeness across narrative boundaries.
 
 ## Working with NDD
@@ -40,4 +40,4 @@ NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven devel
 ## Optional
 
 - [Full LLM-facing structural reference](https://www.narrativedriven.org/llms-full.txt): The complete generation procedure, validation rules, naming conventions, and anti-patterns. Fetch this when you need the full structural model in one document.
-- [Drop-in NDD skill](https://www.narrativedriven.org/ndd-skill.md): Concise skill file with definitions, rubric, workflow, and anti-patterns — ready to paste into an AI assistant's system prompt.
+- [Drop-in NDD skill](https://www.narrativedriven.org/ndd-skill.md): Concise skill file with definitions, rubric, workflow, and anti-patterns, ready to paste into an AI assistant's system prompt.

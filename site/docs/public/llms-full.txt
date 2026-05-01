@@ -1,4 +1,4 @@
-# Narrative-Driven Development — Structural Instructions for LLMs
+# Narrative-Driven Development: Structural Instructions for LLMs
 
 This document defines how to interpret and generate the four structural levels used in Narrative-Driven Development (NDD):
 

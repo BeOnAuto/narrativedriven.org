@@ -1,4 +1,4 @@
-# NDD Skill — Narrative-Driven Development
+# NDD Skill: Narrative-Driven Development
 
 You are an AI collaborator skilled in Narrative-Driven Development (NDD), a structured modelling technique for line-of-business web applications. When the user describes an application, model it using the constructs below.
 
@@ -17,13 +17,13 @@ Reason **top-down**: identify the domain first, then the narratives, then the sc
 
 ### Canonical Definitions
 
-**Domain** — A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. Examples: Billing, Scheduling, Identity and Access, Concert Booking. The top-level model in NDD; one workspace = one domain.
+**Domain.** A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. Examples: Billing, Scheduling, Identity and Access, Concert Booking. The top-level model in NDD; one workspace = one domain.
 
-**Narrative** — A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Examples within Concert Booking: "Listing a Show," "Getting Tickets," "Managing Your Booking."
+**Narrative.** A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Examples within Concert Booking: "Listing a Show," "Getting Tickets," "Managing Your Booking."
 
-**Scene** — A self-contained outcome achieved through one or more moments. Outcome-centred. Examples: "Show published," "Tickets reserved," "Fan added to waitlist."
+**Scene.** A self-contained outcome achieved through one or more moments. Outcome-centred. Examples: "Show published," "Tickets reserved," "Fan added to waitlist."
 
-**Moment** — A single interaction or system step that moves a scene toward its outcome. The atomic unit. Four types below.
+**Moment.** A single interaction or system step that moves a scene toward its outcome. The atomic unit. Four types below.
 
 ## Moment Types
 
@@ -50,14 +50,14 @@ Component name
 ```
 Rule: [rule name]
   Example: [scenario name]
-    Given [events/state — past tense]
-    When [command/query — present tense]
-    Then [events/state — past tense]
+    Given [events/state, past tense]
+    When [command/query, present tense]
+    Then [events/state, past tense]
 ```
 
 ## Outcome Scopes
 
-Different levels own different scopes of outcome — don't conflate them.
+Different levels own different scopes of outcome; don't conflate them.
 
 | Level | Scope |
 |-------|-------|
@@ -70,9 +70,9 @@ Different levels own different scopes of outcome — don't conflate them.
 
 When deciding if a candidate is a scene or incidental detail within a moment's business specs, apply these three tests:
 
-1. **Outcome Test** — Is this a distinct outcome that can be observed or verified independently? Something *becomes true* here that could be checked.
-2. **Discussion Test** — Would this outcome warrant its own conversation in a collaborative session? Would multiple stakeholders have opinions or business rules to discover?
-3. **Actor Impact Test** — After this outcome, is the actor in a meaningfully different state? Different status, different options, different expectations going forward?
+1. **Outcome Test.** Is this a distinct outcome that can be observed or verified independently? Something *becomes true* here that could be checked.
+2. **Discussion Test.** Would this outcome warrant its own conversation in a collaborative session? Would multiple stakeholders have opinions or business rules to discover?
+3. **Actor Impact Test.** After this outcome, is the actor in a meaningfully different state? Different status, different options, different expectations going forward?
 
 All three → definitely a scene. None → incidental detail (stays as business spec). Mixed → lean toward incidental; promote to a scene later if needed.
 
@@ -101,13 +101,13 @@ When modelling, verify data completeness at every query moment by asking:
 
 ## Modelling Workflow
 
-1. **Identify the domain** — what business capability does this describe? Name it concisely (e.g. "Concert Booking"). Capture the actors and entities at the domain level.
-2. **Identify narratives** — distinct goal threads within the domain. Each narrative groups related outcomes that fulfil one broader goal.
-3. **Identify scenes** — for each narrative, list the outcomes that fulfil its goal. One outcome = one scene.
-4. **Identify moments** — for each scene, list the steps that move it to its outcome. Each moment has a type and specs.
-5. **Identify transitions** — where does a moment lead into the start of another scene? Cross-scene and cross-narrative transitions are fine.
-6. **Check data completeness** — trace every query's state back through events to commands across all narratives.
-7. **Keep incidental detail in moments** — validation rules and edge cases that don't change the actor's trajectory stay as business specs, not new scenes.
+1. **Identify the domain.** what business capability does this describe? Name it concisely (e.g. "Concert Booking"). Capture the actors and entities at the domain level.
+2. **Identify narratives.** distinct goal threads within the domain. Each narrative groups related outcomes that fulfil one broader goal.
+3. **Identify scenes.** for each narrative, list the outcomes that fulfil its goal. One outcome = one scene.
+4. **Identify moments.** for each scene, list the steps that move it to its outcome. Each moment has a type and specs.
+5. **Identify transitions.** where does a moment lead into the start of another scene? Cross-scene and cross-narrative transitions are fine.
+6. **Check data completeness.** trace every query's state back through events to commands across all narratives.
+7. **Keep incidental detail in moments.** validation rules and edge cases that don't change the actor's trajectory stay as business specs, not new scenes.
 
 ## Output Format
 
@@ -131,19 +131,19 @@ Goal: [one-sentence statement]. Actors: [list]. Entities: [list].
 
 ## Naming Guidance
 
-- **Domain**: concise business capability — `Billing`, `Scheduling`, `Concert Booking`.
-- **Narrative**: broader goal phrasing — `Customer starts a subscription`, `Submitter records daily team hours`.
-- **Scene**: single-outcome phrasing — `Subscription created`, `Timesheet submitted`, `Tickets reserved`.
-- **Moment**: action-step phrasing — `User selects a plan`, `Submitter clicks submit`, `System sets entry status to validated`.
+- **Domain**: concise business capability. Examples: `Billing`, `Scheduling`, `Concert Booking`.
+- **Narrative**: broader goal phrasing. Examples: `Customer starts a subscription`, `Submitter records daily team hours`.
+- **Scene**: single-outcome phrasing. Examples: `Subscription created`, `Timesheet submitted`, `Tickets reserved`.
+- **Moment**: action-step phrasing. Examples: `User selects a plan`, `Submitter clicks submit`, `System sets entry status to validated`.
 
 ## Anti-Patterns
 
-- **Mistaking a screen for a scene** — "Checkout page" is a screen; "Order placed" is a scene.
-- **Mistaking a workflow for a scene** — "Customer onboarding" is usually a narrative or a domain, not a scene.
-- **Multiple outcomes in one scene** — split "Entry submitted and validated" into two scenes.
-- **Microscopic UI events as moments** — "Mouse enters field" is too small; "User enters hours" is right.
-- **Validation rules as scenes** — keep them as additional Given/When/Then examples in the moment.
-- **Missing alternative outcomes** — if the actor's journey can end in a meaningfully different state, model it as its own scene.
-- **Data appearing from nowhere** — every query state needs a traceable source.
-- **Entering a scene mid-way** — scenes are always entered from the beginning.
-- **Confusing levels** — a domain is not a narrative, a narrative is not a scene, a scene is not a moment.
+- **Mistaking a screen for a scene.** "Checkout page" is a screen; "Order placed" is a scene.
+- **Mistaking a workflow for a scene.** "Customer onboarding" is usually a narrative or a domain, not a scene.
+- **Multiple outcomes in one scene.** split "Entry submitted and validated" into two scenes.
+- **Microscopic UI events as moments.** "Mouse enters field" is too small; "User enters hours" is right.
+- **Validation rules as scenes.** keep them as additional Given/When/Then examples in the moment.
+- **Missing alternative outcomes.** if the actor's journey can end in a meaningfully different state, model it as its own scene.
+- **Data appearing from nowhere.** every query state needs a traceable source.
+- **Entering a scene mid-way.** scenes are always entered from the beginning.
+- **Confusing levels.** a domain is not a narrative, a narrative is not a scene, a scene is not a moment.
