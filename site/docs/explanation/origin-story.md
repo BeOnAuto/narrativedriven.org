@@ -7,7 +7,7 @@ prev:
 
 # The Origin Story
 
-NDD was born at [Xolvio](https://xolvio.com), a US-based software consultancy founded by Sam Hatoum. The goal was simple and ambitious: deliver better quality software, faster.
+NDD was born at [Xolvio](https://xolvio.com), a US-based software consultancy founded by [Sam Hatoum](https://specdriven.com/people#sam-hatoum). The goal was simple and ambitious: deliver better quality software, faster.
 
 ## The Problem Nobody Could Solve
 
@@ -46,4 +46,6 @@ NDD is the specification dialect at the heart of [Auto](https://on.auto). The mo
 The community is growing. The SDLC keeps compressing. The need for coherent, collaborative specifications keeps growing with it.
 
 The story isn't finished. But the narrative is clear.
+
+NDD's place in the wider movement is documented on the [spec-driven timeline](https://specdriven.com/timeline).
 

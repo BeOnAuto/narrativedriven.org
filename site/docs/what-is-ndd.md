@@ -111,4 +111,6 @@ NDD draws on BDD (Given/When/Then), EventStorming (collaborative domain discover
 
 NDD is a **spec dialect**: a structured, schema-backed specification language built for applications with real users and real stakes. It's part of the [spec-driven development](https://specdriven.com) movement and the first dialect with a model-based architecture, multimodal views, and executable specifications.
 
+NDD is one of the few dialects in the current wave to keep specs executable rather than regressing to prose. The wider [executability gap on the spec-driven landscape](https://specdriven.com/landscape/#the-executability-gap) tracks this directly.
+
 [NDD as a spec dialect →](/explanation/spec-dialect) | [NDD on specdriven.com →](https://specdriven.com/dialects/narrative-driven)

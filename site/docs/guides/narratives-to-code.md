@@ -24,6 +24,8 @@ The input to this pipeline is your domain. Each stage validates against your spe
 
 **AI agents** then implement the business logic and UI components, constrained by your specifications. Quality checks enforce 100% test coverage, type safety, and linting on every run.
 
+For the empirical case for spec-first development with AI, see the [evidence pack on specdriven.com](https://specdriven.com/guides/roi).
+
 ## The Auto Engineer
 
 The open-source engine that powers this pipeline is [Auto Engineer](https://github.com/BeOnAuto/auto-engineer). You can run it as a cloud worker on the Auto platform or locally on your machine. The architecture is modular: pluggable builders allow targeting different tech stacks.
