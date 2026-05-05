@@ -3,9 +3,11 @@ import { h, onMounted, watch } from 'vue'
 import { useRoute } from 'vitepress'
 import posthog from 'posthog-js'
 import HeroIllustrations from './HeroIllustrations.vue'
+import HierarchySection from './HierarchySection.vue'
 import WaveBackground from './WaveBackground.vue'
 import LottieLogo from './LottieLogo.vue'
 import CopyMarkdownButton from './CopyMarkdownButton.vue'
+import NDDTryPrompt from './NDDTryPrompt.vue'
 import './custom.css'
 
 function initViewTabs() {
@@ -33,15 +35,14 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'home-hero-image': () => h(HeroIllustrations),
-      'home-hero-before': () => [
-        h(WaveBackground),
-        h(CopyMarkdownButton, { placement: 'home' }),
-      ],
+      'home-hero-before': () => h(WaveBackground),
+      'home-features-before': () => h(HierarchySection),
       'nav-bar-title-after': () => h(LottieLogo),
       'doc-before': () => h(CopyMarkdownButton),
     })
   },
-  enhanceApp({ router }) {
+  enhanceApp({ app, router }) {
+    app.component('NDDTryPrompt', NDDTryPrompt)
     if (typeof window !== 'undefined') {
       const isLocal = window.location.hostname === 'localhost'
 

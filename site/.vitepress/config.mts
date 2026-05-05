@@ -13,6 +13,7 @@ export default defineConfig({
 		server: {
 			port: Number(process.env.PORT) || undefined,
 			host: process.env.HOST || undefined,
+			allowedHosts: [".ngrok.pizza"],
 		},
 	},
 	lang: "en-US",
@@ -118,11 +119,6 @@ export default defineConfig({
 					{ text: "Explanation", link: "/explanation/" },
 					{ text: "Community", link: "/community" },
 				],
-			},
-			{
-				text: "Try on Auto",
-				link: "https://on.auto",
-				target: "_blank",
 			},
 		],
 

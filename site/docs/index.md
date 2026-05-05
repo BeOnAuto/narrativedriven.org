@@ -3,233 +3,203 @@ layout: home
 hero:
   name: Narrative-Driven Development
   text: "Specify software as narratives."
-  tagline: "One model for storyboard, docs, code, and tests. Auto turns it into working software."
+  tagline: "One model for intent, behavior, tests, and code. Review it with people. Execute it with agents."
   actions:
     - theme: brand
-      text: Try it on Auto
-      link: https://on.auto
-    - theme: alt
       text: What is NDD?
-      link: /what-is-ndd
+      link: "#what-ndd-is"
+    - theme: alt
+      text: Try it on Auto
+      link: "#try-ndd-in-auto"
 features:
   - icon:
       src: /images/features/feat-three-views.png
     title: One Shared Model
-    details: "Storyboard, docs, and code never drift. They're all views of the same model."
+    details: "Requirements, specs, tests, and code stay aligned as views of one underlying model."
     link: /explanation/one-model-three-views
   - icon:
       src: /images/features/feat-ai-collaborator.png
-    title: Agent-Native
-    details: "AI is a first-class reader, not an afterthought. The structure, vocabulary, and validation rules are built for agents to reason from."
+    title: Structured for Agents
+    details: "Structure, rules, and examples give agents something precise to reason from."
     link: /explanation/progressive-disclosure
   - icon:
       src: /images/features/feat-spec-dialect.png
     title: Progressive Context Disclosure
-    details: "Domain → Narrative → Scene → Moment. Each level loads on its own, so agents pull exactly the slice the task needs without blowing the context window."
+    details: "Each task gets the context it needs, not the whole specification."
     link: /explanation/progressive-disclosure
   - icon:
       src: /images/features/feat-stories.png
-    title: Reviewable by Design
-    details: "Prompts hide decisions. Narratives make behavior explicit, inspectable, and testable."
+    title: Human-Reviewable
+    details: "Narratives make behavior explicit, inspectable, and testable before code is written."
     link: /what-is-ndd
   - icon:
       src: /images/features/feat-running-code.png
-    title: From Model to Software
-    details: "Your coding agent builds from structure, not from prompts. Auto validates every step."
+    title: From Spec to Software
+    details: "Auto turns the narrative model into tasks your coding agent can execute and verify."
     link: /guides/narratives-to-code
   - icon:
       src: /images/features/feat-data-completeness.png
     title: Gaps Surface Early
-    details: "Every visible state traces back to commands and events, so missing logic shows up before code exists."
+    details: "Missing behavior, invalid states, and broken flows surface while the spec is still cheap to change."
     link: /explanation/data-completeness
 ---
-
-<div class="artifact-strip">
-
-## See it in 30 seconds
-
-A plain prompt becomes an executable model becomes a passing test. No magic. No prose-only specs. Watch the model take shape.
-
-<!--
-  Phase 3 follow-up: replace Unsplash placeholder images with real Auto UI screenshots.
-  Then add an HTML5 <video> element below the figure grid:
-
-  <video class="ndd-artifact-video" autoplay muted loop playsinline poster="/artifact-poster.jpg">
-    <source src="/artifact-30sec.mp4" type="video/mp4" />
-    <source src="/artifact-30sec.webm" type="video/webm" />
-  </video>
-
-  See the linked tutorial fallback for the no-video case.
--->
-
-<div class="ndd-artifact-frames">
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80&placeholder=true" alt="Frame 1 of 6: a plain prompt input box with the text 'Build a concert booking app'" />
-  <figcaption><strong>Step 1 of 6.</strong> A plain prompt: <em>"Build a concert booking app."</em></figcaption>
-</figure>
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80&placeholder=true" alt="Frame 2 of 6: REQUIREMENTS page showing the Concert Booking domain with capability prose, a list of goals (Listing a Show, Getting Tickets, Managing Booking), actors, and entities" />
-  <figcaption><strong>Step 2 of 6.</strong> Auto extracts the domain. <em>Concert Booking</em> becomes the capability. Goals, actors, and entities surface together.</figcaption>
-</figure>
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&placeholder=true" alt="Frame 3 of 6: NARRATIVE page for Listing a Show showing the goal prose and a list of outcomes" />
-  <figcaption><strong>Step 3 of 6.</strong> One narrative opens. <em>Listing a Show</em> breaks into outcomes the promoter cares about.</figcaption>
-</figure>
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80&placeholder=true" alt="Frame 4 of 6: SCENE page for Show published showing the outcome prose and an Experience Moment block with a small wireframe preview inside" />
-  <figcaption><strong>Step 4 of 6.</strong> One scene opens. <em>Show published</em> contains the moments that move it forward.</figcaption>
-</figure>
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?w=800&q=80&placeholder=true" alt="Frame 5 of 6: MOMENT page for Schedule the show with a full wireframe of the show scheduling form, plus interface rules listed beneath" />
-  <figcaption><strong>Step 5 of 6.</strong> One moment opens. <em>Schedule the show</em> shows the wireframe and the interface rules in one place.</figcaption>
-</figure>
-
-<figure>
-  <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80&placeholder=true" alt="Frame 6 of 6: TypeScript code editor showing the canonical fluent DSL for the Schedule Show command, with a green checkmark and the test name 'promoter schedules Neon Drift Live' beneath it" />
-  <figcaption><strong>Step 6 of 6.</strong> The model becomes code. <em>✓ promoter schedules Neon Drift Live</em>. The spec is the test.</figcaption>
-</figure>
-
-</div>
-
-<p class="ndd-artifact-cta">
-  Want to see the running app? <a href="#"><!-- Phase 3 follow-up: replace # with live demo URL once concert.demo.on.auto (or wherever) is deployed. -->Live demo coming soon</a>. For the full walkthrough, read <a href="/guides/build-concert-platform">Build a Concert Platform</a>.
-</p>
-
-</div>
 
 <div class="why-now-strip">
 
 ## Why This Matters Now
 
-AI sped up output. It also sped up drift. Prose specs blow the context window; the agent either drowns in detail or invents what's missing. NDD's structured hierarchy discloses only the slice the agent needs, when it needs it, so people and AI build from one coherent model. [Progressive disclosure for specs →](/explanation/progressive-disclosure)
+AI made software output cheap. It also made drift cheap. Prompts and prose specs do not hold enough structure for teams or agents. NDD gives intent, behavior, rules, and examples a hierarchy that can be reviewed by people and executed by agents.
+
+[Progressive disclosure for specs →](/explanation/progressive-disclosure)
 
 </div>
 
-<div class="example-strip">
+<div class="artifact-strip">
 
-## One Model, Three Views
+## From idea to model
 
-The same narrative model renders as a visual storyboard, a structured document, and executable code. Edit in any view — the others stay in sync.
+A plain prompt becomes a structured hierarchy in Auto. Domain, narrative, scene, moment, and canvas are different views of the same model.
 
-<div class="product-views">
+<div class="ndd-progression">
 
-<div class="product-view">
-
-### The Visual View
-
-Your app as a storyboard on a shared canvas. Each narrative is a card, each scene is a filmstrip, each moment is a step in the journey. Drag, connect, and chat with individual moments to refine them.
-
-<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08);">
-<img class="only-dark" src="/images/product/visual-canvas.png" alt="Visual narratives on the shared canvas" style="width: 100%; display: block;" />
-<img class="only-light" src="/images/product/visual-canvas-light.png" alt="Visual narratives on the shared canvas" style="width: 100%; display: block;" />
-</div>
-
-</div>
-
-<div class="product-view">
-
-### The Document View
-
-The same model as a structured, readable document. Each scene becomes a page. Each moment shows its specs — interaction behavior on the client side, business rules with Given/When/Then on the server side. For the people on your team who think in text, not pictures.
-
-<div style="margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08);">
-<img class="only-dark" src="/images/product/document-view.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
-<img class="only-light" src="/images/product/document-view-light.png" alt="Document view showing structured moments with business rules and interaction specs" style="width: 100%; display: block;" />
-</div>
-
-</div>
-
-<div class="product-view">
-
-### The Code View
-
-The same model as a TypeScript DSL. Full type safety and IntelliSense. For developers who prefer working directly in code. The whole file lives inside a domain (your workspace); narratives, scenes, and moments compose down from there.
-
-```typescript
-narrative("Listing a Show", () => {
-  scene("Show published", () => {
-    moment("Navigate to Create Show", Experience)
-    moment("Submit show details", Command, {
-      command: "ScheduleShow",
-      event: "ShowScheduled",
-    })
-    moment("Preview draft listing", Query, {
-      query: "DraftShowView",
-      derivedFrom: ["ShowScheduled"],
-    })
-    moment("Publish the show", Command, {
-      command: "PublishShow",
-      event: "ShowPublished",
-    })
-  })
-})
-```
-
-</div>
-
-</div>
-
-This is one model, not three tools. A change in any view is reflected everywhere else. That's how your whole team — product, design, engineering, AI — stays aligned.
-
-<p style="margin-top: 24px;"><a class="VPButton brand" href="https://on.auto">Try it on Auto</a></p>
-
-</div>
-
-<div class="pipeline-strip">
-
-## Auto Makes It Real
-
-<div class="pipeline-grid">
-  <div class="pipeline-step">
-    <strong>Model on Auto</strong>
-    <span>describe your app and Auto generates a structured narrative with scenes, moments, and specs</span>
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-shot-prompt" aria-hidden="true">
+    <div class="ndd-mock-input">
+      <span class="ndd-mock-input-text"></span>
+      <span class="ndd-mock-caret"></span>
+    </div>
   </div>
-  <div class="pipeline-step">
-    <strong>Validate before code</strong>
-    <span>50+ structural rules catch missing flows, incomplete specs, and broken references automatically</span>
+  <div class="ndd-step-num">Step 1 · Prompt</div>
+  <div class="ndd-step-card-title">Plain-language idea</div>
+  <div class="ndd-step-card-sub">Start with a short description of the product you want to build.</div>
+</div>
+
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-shot-domain" aria-hidden="true">
+    <div class="ndd-mock-doc">
+      <div class="ndd-mock-doc-tag">DOMAIN</div>
+      <div class="ndd-mock-doc-title"></div>
+      <div class="ndd-mock-doc-line"></div>
+      <div class="ndd-mock-doc-line ndd-mock-doc-line--short"></div>
+      <div class="ndd-mock-doc-line"></div>
+    </div>
   </div>
-  <div class="pipeline-step">
-    <strong>Connect your agent</strong>
-    <span>your coding agent receives the validated model and builds the application on your machine</span>
+  <div class="ndd-step-num">Step 2 · Domain</div>
+  <div class="ndd-step-card-title">Capability model</div>
+  <div class="ndd-step-card-sub">Auto identifies the domain, goals, actors, and entities.</div>
+</div>
+
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-shot-narrative" aria-hidden="true">
+    <div class="ndd-mock-doc ndd-mock-doc--narrative">
+      <div class="ndd-mock-doc-tag">NARRATIVE</div>
+      <div class="ndd-mock-outcome"><span class="ndd-mock-bullet"></span><span class="ndd-mock-line"></span></div>
+      <div class="ndd-mock-outcome"><span class="ndd-mock-bullet"></span><span class="ndd-mock-line ndd-mock-line--mid"></span></div>
+      <div class="ndd-mock-outcome"><span class="ndd-mock-bullet"></span><span class="ndd-mock-line ndd-mock-line--short"></span></div>
+    </div>
   </div>
-  <div class="pipeline-step">
-    <strong>Close the loop</strong>
-    <span>if the agent changes the model, Auto validates it back and keeps the spec as the source of truth</span>
+  <div class="ndd-step-num">Step 3 · Narrative</div>
+  <div class="ndd-step-card-title">Goal-level specification</div>
+  <div class="ndd-step-card-sub">A goal becomes a narrative with outcomes and actors.</div>
+</div>
+
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-shot-scene" aria-hidden="true">
+    <div class="ndd-mock-doc ndd-mock-doc--scene">
+      <div class="ndd-mock-doc-tag">SCENE</div>
+      <div class="ndd-mock-moment"><span class="ndd-mock-step">1</span><span class="ndd-mock-line ndd-mock-line--mid"></span></div>
+      <div class="ndd-mock-moment"><span class="ndd-mock-step">2</span><span class="ndd-mock-line ndd-mock-line--short"></span></div>
+      <div class="ndd-mock-moment"><span class="ndd-mock-step">3</span><span class="ndd-mock-line"></span></div>
+    </div>
   </div>
+  <div class="ndd-step-num">Step 4 · Scene</div>
+  <div class="ndd-step-card-title">Outcome-level specification</div>
+  <div class="ndd-step-card-sub">One outcome opens into the moments that achieve it.</div>
 </div>
 
-NDD is the modeling language. Auto is the platform that makes it operational. Your coding agent is the builder.
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-shot-moment" aria-hidden="true">
+    <div class="ndd-mock-wire">
+      <div class="ndd-mock-wire-frame">
+        <div class="ndd-mock-wire-bar"></div>
+        <div class="ndd-mock-wire-block"></div>
+      </div>
+      <div class="ndd-mock-rules">
+        <div class="ndd-mock-rule-row">
+          <span class="ndd-mock-tick" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+          </span>
+          <div class="ndd-mock-rule"></div>
+        </div>
+        <div class="ndd-mock-rule-row">
+          <span class="ndd-mock-tick" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+          </span>
+          <div class="ndd-mock-rule ndd-mock-rule--short"></div>
+        </div>
+        <div class="ndd-mock-rule-row">
+          <span class="ndd-mock-tick" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+          </span>
+          <div class="ndd-mock-rule"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ndd-step-num">Step 5 · Moment</div>
+  <div class="ndd-step-card-title">Low-level specification</div>
+  <div class="ndd-step-card-sub">A moment captures one low-level step, including behavior, rules, and examples.</div>
+</div>
+
+<div class="ndd-step-card">
+  <div class="ndd-step-shot ndd-step-shot-canvas" aria-hidden="true">
+    <div class="ndd-shot-node ndd-shot-node-1">
+      <span class="ndd-shot-tag">NARRATIVE</span>
+      <span class="ndd-shot-glyph">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.586 5.414-5.172 5.172"/><path d="m18.586 13.414-5.172 5.172"/><path d="M6 12h12"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="4" cy="12" r="2"/></svg>
+      </span>
+    </div>
+    <div class="ndd-shot-node ndd-shot-node-2">
+      <span class="ndd-shot-tag">SCENE</span>
+      <span class="ndd-shot-glyph">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+          <circle cx="200" cy="200" r="24"/>
+          <path d="M72,56h96a32,32,0,0,1,0,64H72a40,40,0,0,0,0,80H176"/>
+        </svg>
+      </span>
+    </div>
+    <div class="ndd-shot-node ndd-shot-node-3">
+      <span class="ndd-shot-tag ndd-shot-tag--accent">MOMENT</span>
+      <span class="ndd-shot-glyph">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+          <polyline points="160 80 192 80 192 112"/>
+          <polyline points="96 176 64 176 64 144"/>
+          <rect x="32" y="48" width="192" height="160" rx="8"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+  <div class="ndd-step-num">Step 6 · Canvas</div>
+  <div class="ndd-step-card-title">Shared visual model</div>
+  <div class="ndd-step-card-sub">The same model, viewed visually across all levels.</div>
+</div>
 
 </div>
 
-<div class="positioning-strip">
-
-## Not a Doc. Not a Prompt.
-
-Not a methodology workshop. Not static documentation. Not prompt improvisation.
-
-NDD gives software teams a structured, shared model of behavior that can actually drive implementation.
-
-It draws from BDD, EventStorming, DDD, story mapping, and storyboarding, then turns those ideas into one executable system.
+<p class="ndd-artifact-cta">
+  See the full example: <a href="/guides/build-concert-platform">Build a Concert Platform</a>.
+</p>
 
 </div>
 
----
+<div class="try-strip" id="try-ndd-in-auto">
 
-<div class="bottom-cta">
+## Try NDD in Auto
 
-## Your First Narrative
+Describe a product in plain language. Auto turns it into a narrative model you can inspect, refine, and execute with your coding agent.
 
-Write one narrative. See it render as storyboard, docs, and code. Then run it on Auto.
-
-<div class="bottom-cta-actions">
-  <a class="VPButton brand" href="https://on.auto">Try it on Auto</a>
-  <a class="VPButton alt" href="/what-is-ndd">What is NDD?</a>
-</div>
+<NDDTryPrompt />
+<br/>
+<p class="ndd-try-hint-line">Auto turns your idea into a narrative model your coding agent can build from.</p>
 
 </div>
