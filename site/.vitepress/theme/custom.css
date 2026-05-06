@@ -1305,6 +1305,11 @@ body {
 .dark .VPFeature .VPImage[src*="feat-spec-dialect.png"] { content: url("/images/features/feat-spec-dialect-dark.png"); }
 .dark .VPFeature .VPImage[src*="feat-running-code.png"] { content: url("/images/features/feat-running-code-dark.png"); }
 
+/* Swap what-is-ndd page illustrations to dark variants */
+.dark img[src*="/images/what-is-ndd/prompt-vs-narrative.png"] { content: url("/images/what-is-ndd/prompt-vs-narrative-dark.png"); }
+.dark img[src*="/images/what-is-ndd/hierarchy-diagram.png"] { content: url("/images/what-is-ndd/hierarchy-diagram-dark.png"); }
+.dark img[src*="/images/what-is-ndd/moment-expanded.png"] { content: url("/images/what-is-ndd/moment-expanded-dark.png"); }
+
 /* Light mode: transparent bg so wave shows through */
 :root:not(.dark) .VPHero { background: transparent !important; }
 :root:not(.dark) .VPHome .VPContent { background: transparent !important; }
