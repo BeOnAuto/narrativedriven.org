@@ -6,9 +6,6 @@ title: Explanation
 
 Understand the ideas and principles behind Narrative-Driven Development. These pages explain the *why*, not the *how*. NDD organises every system into four levels — Domain → Narrative → Scene → Moment — and the explanations below unpack the reasoning behind that structure.
 
-**[Why Storytelling Works for Software](/explanation/why-storytelling)**
-Your brain is wired for narrative coherence. NDD exploits this to catch gaps that other specification approaches miss.
-
 **[Data Completeness](/explanation/data-completeness)**
 Every piece of state traces back through events to commands. Nothing appears from nowhere. An entire class of bugs eliminated before code exists.
 
@@ -18,6 +15,9 @@ A single model powers visual storyboards, Notion-like documents, and a TypeScrip
 **[Progressive Disclosure for Specs](/explanation/progressive-disclosure)**
 Why prose specs blow the context window and structured hierarchies don't. The disclosure pattern that makes NDD agent-native.
 
+**[Progressive Control](/explanation/progressive-control)**
+Auto mode and manual controls. How NDD reveals depth as the app gets serious instead of forcing every user through the same level of detail.
+
 **[Standing on Shoulders](/explanation/standing-on-shoulders)**
 NDD synthesizes patterns from BDD, EventStorming, Specification by Example, DDD, and User Story Mapping. Where it draws from. Where it diverges.
 
@@ -26,4 +26,3 @@ How NDD fits into the broader spec-driven development movement as the first full
 
 **[The Origin Story](/explanation/origin-story)**
 From Xolvio consulting to facilitation workshops to a unified model. How NDD evolved over a decade of enterprise engagements.
-

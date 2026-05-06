@@ -4,29 +4,79 @@ title: Guides
 
 # Guides
 
-Your on-ramp to Narrative-Driven Development. Whether you're modelling your first domain or building a full collaborative workflow, these guides walk you through it.
+NDD is designed to start simple and reveal control as you need it.
 
-## Getting Started
+Use these guides in order if you are new.
 
-**[Your First Narrative in 10 Minutes](/guides/first-narrative)**
-One domain, one narrative, one scene with three moments — enough to feel the shape of NDD.
+## 1. Auto mode
 
-**[Build the Concert Booking Platform](/guides/build-concert-platform)**
-The complete walkthrough. One domain, three narratives, multiple scene outcomes with transitions, all four moment types, data completeness across narratives, and all three views. This is the canonical NDD example.
+Start with a prompt and get a buildable narrative.
 
-**[Structuring Domains, Narratives, and Scenes](/guides/structuring-narratives)**
-How to decide what's a narrative, what's a scene, and what's incidental detail. Includes the outcome-based scene-worthiness rubric.
+Read:
+
+- [Your First Narrative](/guides/first-narrative)
+- [Prompting AI for NDD](/guides/prompting-ai)
+
+Goal:
+
+> Understand how a rough app idea becomes goals, outcomes, steps, rules, and data.
+
+## 2. Review mode
+
+Review the narrative without going deep into implementation.
+
+Read:
+
+- [Review a Narrative](/guides/review-a-narrative)
+- [What Makes a Narrative Buildable?](/what-makes-a-narrative-buildable)
+
+Goal:
+
+> Catch missing outcomes, unclear steps, vague rules, and broken flows before code.
+
+## 3. Design mode
+
+Work with scenes, moments, and wireframes.
+
+Read:
+
+- [Structuring Domains, Narratives, and Scenes](/guides/structuring-narratives)
+- [Build the Concert Booking Platform](/guides/build-concert-platform)
+
+Goal:
+
+> Understand how goals become outcomes and outcomes become steps.
+
+## 4. Spec mode
+
+Inspect rules, examples, client specs, and service specs.
+
+Read:
+
+- [Build the Concert Booking Platform](/guides/build-concert-platform)
+- [Moment Types](/reference/moment-types)
+- [Data Completeness](/explanation/data-completeness)
+
+Goal:
+
+> Make behavior testable and useful to coding agents.
+
+## 5. System mode
+
+Drill into commands, queries, events, state, integrations, auth, and data flows.
+
+Read:
+
+- [For Practitioners](/for-practitioners)
+- [Progressive Control](/explanation/progressive-control)
+
+Goal:
+
+> Control the app as it becomes serious.
 
 ## Working with NDD
 
-**[Running a Collaborative Session](/guides/collaborative-sessions)**
-How to get your team (humans and AI) working together on a shared model. Updated for the age of remote work and AI collaboration.
+Once you have the basics, these guides cover team and tooling work:
 
-**[Prompting AI for NDD](/guides/prompting-ai)**
-How to prompt AI to produce well-structured NDD. Includes pointers to the on-site `/llms.txt`, `/llms-full.txt`, and the drop-in NDD skill file.
-
-**Checking for Data Completeness** *(coming soon)*
-How to verify that every piece of state traces back through events to commands. The practical how-to companion to the [conceptual explanation](/explanation/data-completeness).
-
-**[From Narratives to Running Code](/guides/narratives-to-code)**
-How the Auto platform and Auto Engineer take your narratives through the pipeline to production-ready, fully-tested code.
+- [Running a Collaborative Session](/guides/collaborative-sessions): how to get your team (humans and AI) working together on a shared model.
+- [From Narratives to Running Code](/guides/narratives-to-code): how the Auto platform and Auto Engineer take your narratives through the pipeline to production-ready, fully-tested code.

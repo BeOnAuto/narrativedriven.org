@@ -420,6 +420,54 @@ narrative('Getting Tickets', () => {
 
 All three views show the same model. Edit one, the others update.
 
+## The Slice the Coding Agent Receives
+
+When the agent gets to work on a scene, it does not receive the whole app.
+
+It receives the slice. For "Tickets reserved" inside the Getting Tickets narrative, that slice looks like this:
+
+```text
+Domain: Concert Booking
+  Actors: Promoter, Fan
+  Entities: Show, Ticket, Booking, Waitlist Entry
+  Statuses: Show (Draft, Published, Sold Out, Cancelled),
+            Booking (Reserved, Cancelled),
+            Waitlist Entry (Active, Promoted, Released)
+
+Narrative: Getting Tickets
+
+Scene: Tickets reserved
+
+Moments:
+  - Browse Available Shows [Query]
+  - Book Tickets [Command]
+  - Booking Confirmed [Query]
+
+Rules and examples:
+  - Tickets cannot be reserved beyond capacity (with example)
+  - A show transitions to Sold Out when capacity reaches zero (with example)
+  - A fan cannot reserve tickets for a Cancelled show (with example)
+
+Data dependencies:
+  - Show entity (created by ScheduleShow, transitions on PublishShow)
+  - Booking entity (created by BookTickets)
+  - Status fields and their transitions
+  - Booking reference generation
+
+UI expectations:
+  - Browse list with show title, date, venue, capacity remaining
+  - Show detail with reserve action
+  - Confirmation screen with reference and status
+```
+
+That is structured intent.
+
+The agent does not have to read chat history to figure out what "sold out" means. It does not have to guess whether the booking reference is generated, supplied, or read from somewhere. The narrative is explicit about all of it.
+
+The same slicing applies to every other scene in the domain. The waitlist scene leans on the React moment type. The cancellation scene reaches into data tracing harder, because cancelling a Reserved booking has to trigger waitlist promotion as a system reaction. Each scene is its own walk through the same structure.
+
+That is how an app gets built one buildable narrative at a time.
+
 ## Try It Yourself
 
 - [Join the Auto waitlist](https://on.auto) to build this on the platform

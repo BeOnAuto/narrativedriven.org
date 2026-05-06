@@ -1,8 +1,5 @@
 ---
 title: Data Completeness
-prev:
-  text: Why Storytelling Works
-  link: /explanation/why-storytelling
 next:
   text: One Model, Three Views
   link: /explanation/one-model-three-views

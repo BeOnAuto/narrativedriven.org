@@ -1,116 +1,225 @@
 ---
 title: What Is NDD?
 next:
-  text: Your First Narrative
-  link: /guides/first-narrative
+  text: What Makes a Narrative Buildable?
+  link: /what-makes-a-narrative-buildable
 ---
 
 # What Is Narrative-Driven Development?
 
-Narrative-Driven Development (NDD) is a collaborative modelling technique where humans and AI describe software through storytelling. You model your application as a sequence of moments through time, told from the perspective of the people who use it.
+Narrative-Driven Development turns an app idea into a buildable narrative.
 
-That narrative isn't a document. It's a structured model. It renders as storyboards, rich documents, and code, all projections of the same underlying model. Change one, the others update.
+Instead of asking an AI to guess its way from prompt to code, NDD pulls the design into the open first: who uses the app, what they are trying to achieve, what outcomes matter, what steps happen, what rules apply, and what data the app depends on.
 
-When used with the [Auto](https://on.auto) platform, your narratives compile into executable specifications that drive code generation, testing, and verification. The specification IS the test.
+Under the hood, that narrative is a structured model. To the builder, it is the app story the coding agent can follow.
 
-## Why Storytelling?
+## The problem NDD solves
 
-Your brain is wired for stories. You can detect when a story has a gap, when the sequence doesn't make sense, when something's missing. That's not a metaphor. It's a cognitive fact.
+Prompting alone leaves too many decisions hidden.
 
-Traditional specification approaches fight this wiring. They scatter information across user stories, Jira tickets, architecture diagrams, and Slack threads. Each fragment makes sense in isolation. Together, they're incoherent.
+The AI decides:
 
-NDD works with your wiring instead of against it. You tell the story of how a user interacts with your system, moment by moment. When the story has a gap, you feel it. When it's complete, you know it.
+- what screens should exist
+- what rules should apply
+- what data should be stored
+- what happens when something fails
+- what edge cases matter
+- how one part of the app connects to another
 
-[Why storytelling works in depth →](/explanation/why-storytelling)
+Those decisions become code before anyone reviews them.
 
-## The Structure: Domain, Narrative, Scene, Moment
+That is how a promising prototype turns into prompt soup.
 
-NDD organises every system into four levels. Each level has one job:
+NDD changes the order. First, make the important decisions visible. Then let the agent build.
 
+## The beginner translation
+
+NDD has canonical terms, but the idea is simple.
+
+| Plain language | NDD term | Meaning |
+|---|---|---|
+| Capability | Domain | The app or business area |
+| Goal | Narrative | The larger thing someone is trying to achieve |
+| Outcome | Scene | Something that becomes true |
+| Step | Moment | A low-level slice of behavior, UI, rule, or system response |
+
+So the structure is:
+
+```text
+Capability
+└── Goal
+    └── Outcome
+        └── Step
 ```
-Domain (business capability)
-└── Narrative (goal thread)
-    └── Scene (single outcome)
-        └── Moment (single step toward that outcome)
+
+In NDD language:
+
+```text
+Domain
+└── Narrative
+    └── Scene
+        └── Moment
 ```
 
-### Domain
+Use the plain-language terms first. Learn the canonical terms as you need more control.
 
-The top-level model. A coherent business capability area that groups related narratives sharing the same core concepts, rules, and outcomes. One workspace = one domain. Examples: Billing, Scheduling, Identity and Access, Concert Booking. The domain holds the actors, entities, and capability statement that every narrative within it shares.
+## Domain
 
-A domain answers: *what business area are we in?*
+A domain is the capability area.
 
-### Narrative
+Examples:
 
-A cohesive thread of related scenes that together fulfil a broader user or business goal within a domain. Narratives are larger than a single outcome but smaller than the whole business area. Within Concert Booking, three narratives might be "Listing a Show," "Getting Tickets," and "Managing Your Booking." Each is a goal thread with its own arc, actors, and chain of outcomes.
+- Concert Booking
+- Timesheet Management
+- Identity and Access
+- Scheduling
+- Billing
 
-A narrative answers: *what broader goal is being fulfilled?*
+The domain holds the shared language: actors, entities, rules, and data concepts that everything else uses.
 
-### Scene
+A domain answers:
 
-A self-contained outcome achieved through one or more moments. This is the structural unit you'll spend most of your time in. A scene names a single thing that becomes true: "Show published," "Tickets reserved," "Fan added to waitlist," "Booking cancelled." Each scene is independently understandable and independently verifiable.
+> What world does this app live in?
 
-A scene answers: *what single outcome is being achieved?*
+## Narrative
 
-### Moment
+A narrative is a goal inside the domain.
 
-A single interaction or system step that moves a scene toward its outcome. Each moment has a type (command, query, react, or experience) and carries the specifications that make the outcome verifiable.
+Examples:
 
-| Moment type    | What happens                               | Example                 |
-| -------------- | ------------------------------------------ | ----------------------- |
-| **Command**    | Actor triggers a state change              | "Book Tickets"          |
-| **Query**      | Actor receives data                        | "Browse available shows"|
-| **React**      | System responds automatically              | "Promote from waitlist" |
-| **Experience** | UI interaction (navigation, notifications) | "Navigate to dashboard" |
+- A fan gets tickets
+- A controller validates timesheets
+- A promoter publishes a show
+- A user resets access
 
-Each moment carries specifications. Interaction specs describe what the user sees and does. Business specs describe the domain rules with concrete examples. Command and query moments have both. Experience moments only have interaction specs. React moments only have business specs.
+A narrative is bigger than one screen and smaller than the whole app. It is the thread that gives the work direction.
 
-A moment answers: *what step happens here?*
+A narrative answers:
 
-[Full glossary →](/reference/glossary) | [Moment types reference →](/reference/moment-types)
+> What is someone trying to achieve?
 
-## Outcomes All the Way Down
+## Scene
 
-NDD is outcome-centred. Different levels own different scopes of outcome:
+A scene is an outcome.
 
-- **Scene outcome** — the direct, immediate result ("Tickets reserved")
-- **Narrative outcome** — the broader goal achieved through multiple scene outcomes ("Fan successfully books and manages a show")
-- **Domain outcome space** — the family of related outcomes the business capability enables ("Concert booking works end to end")
+Examples:
 
-Don't conflate them. Scenes don't try to do the work of narratives. Moments aren't mistaken for outcomes.
+- Tickets reserved
+- Fan added to waitlist
+- Timesheet submitted
+- Booking cancelled
+- Access restored
 
-## Data Completeness
+A scene is something that becomes true. It is independently understandable and independently verifiable.
 
-Every piece of state visible in your system must trace back through events to the commands that caused it. Nothing appears from nowhere.
+A scene answers:
 
-If a screen shows "Fan booking status," the state it renders must come from events (`TicketsReserved`, `AddedToWaitlist`), and those events must come from a prior command moment (`Book Tickets`). That's an entire class of bugs eliminated before code exists.
+> What outcome are we trying to make true?
 
-[Data completeness in depth →](/explanation/data-completeness)
+## Moment
 
-## One Model, Three Views
+A moment is a step toward the outcome.
 
-NDD is model-based. At its core is a Zod schema, JSON under the hood. Everything else is an interface into it.
+A moment can be a user action, a screen interaction, a system reaction, or a data retrieval step.
 
-The visual view is a canvas with narrative cards, scene filmstrips, and wireframe thumbnails. The document view is a Notion-like block editor, one page per scene, with rich text and structured moment blocks containing specs. The code view is a Monaco editor with the TypeScript DSL, full type safety and IntelliSense.
+The four moment types are:
 
-Edit in any view. The model updates. The other views reflect the change.
+| Moment type | Meaning | Example |
+|---|---|---|
+| Command | Something changes | Book tickets |
+| Query | Something is read | Browse shows |
+| React | The system responds automatically | Promote from waitlist |
+| Experience | The user moves through the interface | Navigate to dashboard |
 
-[One model, three views in depth →](/explanation/one-model-three-views)
+A moment answers:
 
-## Where NDD Comes From
+> What happens at this step?
 
-NDD originated at [Xolvio](https://xolvio.com) through years of enterprise client engagements. The team tried every agile methodology. None solved scattered requirements. So they framed requirements as stories. Delivery got faster. Quality went up. What took years started taking months.
+## A moment is more than a screen
 
-It evolved from a facilitation technique into a model-based approach as the world shifted to remote work and AI. The workshop didn't disappear. The model absorbed it.
+Screens matter. They make the narrative reviewable.
 
-NDD draws on BDD (Given/When/Then), EventStorming (collaborative domain discovery), Specification by Example (concrete examples), Domain-Driven Design (the domain itself, ubiquitous language), and User Story Mapping (journey-based organisation).
+But a moment is not only a screen.
 
-[Origin story →](/explanation/origin-story) | [Standing on shoulders →](/explanation/standing-on-shoulders)
+A moment can include:
+
+- desktop and mobile wireframes
+- client specs
+- service specs
+- rules
+- examples
+- commands
+- queries
+- events
+- state
+- data sources
+- integrations
+- syncs
+- auth behavior
+
+Beginners do not need to see all of this at once. NDD starts with the story and reveals the controls when the app needs them.
+
+## Rules come with examples
+
+NDD inherits a core idea from BDD and Specification by Example:
+
+> Behavior is not really specified until it has examples.
+
+A rule should not sit alone as vague prose.
+
+A rule should have concrete examples that show:
+
+- given this situation
+- when this action happens
+- then this outcome should occur
+
+That is what makes the narrative testable.
+
+## What NDD gives your coding agent
+
+A coding agent should not build from a vague prompt and a long chat history.
+
+It should build from explicit intent:
+
+- the goal
+- the outcome
+- the steps
+- the rules
+- the examples
+- the data
+- the UI expectations
+- the system behavior
+
+That is what a buildable narrative provides.
+
+## What NDD is not
+
+NDD is not a static requirements document.
+
+NDD is not a prompt template.
+
+NDD is not a design workshop artifact that gets thrown away.
+
+NDD is not a film metaphor pasted onto software.
+
+NDD is a structured way to make software intent visible, reviewable, testable, and useful to coding agents.
 
 ## A Spec Dialect by Auto
 
-NDD is a **spec dialect**: a structured, schema-backed specification language built for applications with real users and real stakes. It's part of the [spec-driven development](https://specdriven.com) movement and the first dialect with a model-based architecture, multimodal views, and executable specifications.
+NDD is a **spec dialect**: a structured, schema-backed specification language built for applications with real users and real stakes. It is part of the [spec-driven development](https://specdriven.com) movement and the first dialect with a model-based architecture, multimodal views, and executable specifications.
 
 NDD is one of the few dialects in the current wave to keep specs executable rather than regressing to prose. The wider [executability gap on the spec-driven landscape](https://specdriven.com/landscape/#the-executability-gap) tracks this directly.
 
-[NDD as a spec dialect →](/explanation/spec-dialect) | [NDD on specdriven.com →](https://specdriven.com/dialects/narrative-driven)
+[NDD as a spec dialect →](/explanation/spec-dialect) | [Standing on shoulders →](/explanation/standing-on-shoulders) | [NDD on specdriven.com →](https://specdriven.com/dialects/narrative-driven)
+
+## Where Auto fits
+
+NDD is the method.
+
+Auto is how NDD ships as a product.
+
+Auto applies NDD to your prompt, turns it into a buildable narrative, and helps your coding agent build from structured intent instead of prompt soup.
+
+You can apply NDD by hand. Auto does the structural work for you.
+
+[Try NDD in Auto →](https://on.auto)

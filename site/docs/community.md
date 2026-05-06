@@ -4,21 +4,46 @@ title: Community
 
 # Community
 
-Narrative-Driven Development is built by the Auto team and is part of the broader spec-driven development movement.
+NDD is usable today and still evolving.
 
-## Get Started
+The core method is working:
 
-**[Auto Platform](https://on.auto)**: The full spec-driven development platform with visual canvas, document editor, code view, and build pipeline.
+- domains
+- narratives
+- scenes
+- moments
+- command, query, react, and experience moments
+- rules and examples
+- client and service specs
+- data completeness
+- visual, document, and code views
 
-**[Auto Engineer](https://github.com/BeOnAuto/auto-engineer)**: The open-source engine that powers the Auto pipeline. Clone it, configure it, build with it.
+The dialect is still gaining fidelity around deeper auth, integrations, architecture, deployment, complex system boundaries, and richer enterprise-grade constraints.
 
-## Connect
+That is the honest state.
 
-**[Discord](https://discord.com/invite/B8BKcKMRm8)**: Join the community. Ask questions, share your experience, discuss ideas.
+## Join early
 
-## The Spec-Driven Movement
+Join if you want to:
 
-NDD is one dialect within the broader spec-driven development movement. To learn about other dialects, tools, discovery techniques, and the movement's history:
+- use NDD on real app ideas
+- challenge the language
+- help shape the dialect
+- discuss AI-assisted development beyond prompt soup
+- compare NDD with BDD, DDD, EventStorming, and spec-driven development
 
-**[specdriven.com](https://specdriven.com)**: The community-maintained knowledge base for spec-driven development.
+[Join the Discord →](https://discord.com/invite/B8BKcKMRm8)
 
+## Build with Auto
+
+Auto is how NDD ships as a product. It applies NDD to your prompt, turns it into a buildable narrative, and helps your coding agent build from structured intent.
+
+**[Auto Platform](https://on.auto)**: the full spec-driven development surface, with visual canvas, document editor, code view, and build pipeline.
+
+**[Auto Engineer](https://github.com/BeOnAuto/auto-engineer)**: the open-source engine that powers the Auto pipeline. Clone it, configure it, build with it.
+
+## Learn the broader movement
+
+NDD is part of the broader spec-driven development movement.
+
+[Visit specdriven.com →](https://specdriven.com)

@@ -6,6 +6,34 @@ import { cleanMarkdown } from "./clean-markdown";
 const base = "/";
 const siteUrl = "https://www.narrativedriven.org";
 
+function methodSidebar() {
+	return [
+		{
+			text: "The Method",
+			items: [
+				{ text: "What is NDD?", link: "/what-is-ndd" },
+				{
+					text: "What Makes a Narrative Buildable?",
+					link: "/what-makes-a-narrative-buildable",
+				},
+				{ text: "How it Works", link: "/how-it-works" },
+				{ text: "For Practitioners", link: "/for-practitioners" },
+			],
+		},
+		{
+			text: "Next Steps",
+			items: [
+				{ text: "Your First Narrative", link: "/guides/first-narrative" },
+				{
+					text: "Build the Concert Booking Platform",
+					link: "/guides/build-concert-platform",
+				},
+				{ text: "Community", link: "/community" },
+			],
+		},
+	];
+}
+
 export default defineConfig({
 	base,
 	srcDir: "docs",
@@ -109,11 +137,13 @@ export default defineConfig({
 
 		nav: [
 			{ text: "What is NDD?", link: "/what-is-ndd" },
-			{ text: "How it Works", link: "/guides/narratives-to-code" },
-			{ text: "Example", link: "/guides/first-narrative" },
+			{ text: "Buildable Narrative", link: "/what-makes-a-narrative-buildable" },
+			{ text: "How it Works", link: "/how-it-works" },
+			{ text: "Practitioners", link: "/for-practitioners" },
 			{
 				text: "Learn",
 				items: [
+					{ text: "Example", link: "/guides/first-narrative" },
 					{ text: "Guides", link: "/guides/" },
 					{ text: "Reference", link: "/reference/" },
 					{ text: "Explanation", link: "/explanation/" },
@@ -123,15 +153,10 @@ export default defineConfig({
 		],
 
 		sidebar: {
-			"/what-is-ndd": [
-				{
-					text: "Getting Started",
-					items: [
-						{ text: "What is NDD?", link: "/what-is-ndd" },
-						{ text: "Your First Narrative", link: "/guides/first-narrative" },
-					],
-				},
-			],
+			"/what-is-ndd": methodSidebar(),
+			"/what-makes-a-narrative-buildable": methodSidebar(),
+			"/how-it-works": methodSidebar(),
+			"/for-practitioners": methodSidebar(),
 
 			"/guides/": [
 				{
@@ -148,6 +173,10 @@ export default defineConfig({
 								{
 									text: "Build the Concert Booking Platform",
 									link: "/guides/build-concert-platform",
+								},
+								{
+									text: "Review a Narrative",
+									link: "/guides/review-a-narrative",
 								},
 								{
 									text: "Structuring Domains, Narratives, and Scenes",
@@ -190,10 +219,6 @@ export default defineConfig({
 					items: [
 						{ text: "Overview", link: "/explanation/" },
 						{
-							text: "Why Storytelling Works",
-							link: "/explanation/why-storytelling",
-						},
-						{
 							text: "Data Completeness",
 							link: "/explanation/data-completeness",
 						},
@@ -204,6 +229,10 @@ export default defineConfig({
 						{
 							text: "Progressive Disclosure for Specs",
 							link: "/explanation/progressive-disclosure",
+						},
+						{
+							text: "Progressive Control",
+							link: "/explanation/progressive-control",
 						},
 						{
 							text: "Standing on Shoulders",

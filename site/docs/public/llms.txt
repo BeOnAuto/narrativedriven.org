@@ -31,7 +31,7 @@ NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven devel
 
 ## Why NDD
 
-- [Why Storytelling Works](https://www.narrativedriven.org/explanation/why-storytelling): The cognitive case for narrative-structured specs.
+- [What Makes a Narrative Buildable?](https://www.narrativedriven.org/what-makes-a-narrative-buildable): What separates a buildable narrative from a vague prompt: goal, outcomes, steps, rules with examples, data tracing.
 - [Data Completeness](https://www.narrativedriven.org/explanation/data-completeness): Every visible state traces back through events to commands. Nothing appears from nowhere.
 - [One Model, Three Views](https://www.narrativedriven.org/explanation/one-model-three-views): How visual, document, and code views all read and write the same model.
 - [NDD as a Spec Dialect](https://www.narrativedriven.org/explanation/spec-dialect): How NDD fits into the spec-driven development landscape.
