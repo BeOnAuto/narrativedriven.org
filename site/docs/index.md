@@ -21,7 +21,7 @@ features:
       src: /images/features/feat-ai-collaborator.png
     title: Structured for Agents
     details: "Structure, rules, and examples give agents something precise to reason from."
-    link: /explanation/progressive-disclosure
+    link: /guides/prompting-ai
   - icon:
       src: /images/features/feat-spec-dialect.png
     title: Progressive Context Disclosure
@@ -50,7 +50,7 @@ features:
 
 AI made software output cheap. It also made drift cheap. Prompts and prose specs do not hold enough structure for teams or agents. NDD gives intent, behavior, rules, and examples a hierarchy that can be reviewed by people and executed by agents.
 
-[Progressive disclosure for specs →](/explanation/progressive-disclosure)
+[What makes a narrative buildable →](/what-makes-a-narrative-buildable)
 
 </div>
 
@@ -125,63 +125,26 @@ A plain prompt becomes a structured hierarchy in Auto. Domain, narrative, scene,
         <div class="ndd-mock-wire-block"></div>
       </div>
       <div class="ndd-mock-rules">
-        <div class="ndd-mock-rule-row">
-          <span class="ndd-mock-tick" aria-hidden="true">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
-          </span>
-          <div class="ndd-mock-rule"></div>
-        </div>
-        <div class="ndd-mock-rule-row">
-          <span class="ndd-mock-tick" aria-hidden="true">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
-          </span>
-          <div class="ndd-mock-rule ndd-mock-rule--short"></div>
-        </div>
-        <div class="ndd-mock-rule-row">
-          <span class="ndd-mock-tick" aria-hidden="true">
-            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
-          </span>
-          <div class="ndd-mock-rule"></div>
-        </div>
+        <div class="ndd-mock-rule"></div>
+        <div class="ndd-mock-rule ndd-mock-rule--short"></div>
+        <div class="ndd-mock-rule"></div>
       </div>
     </div>
   </div>
   <div class="ndd-step-num">Step 5 · Moment</div>
   <div class="ndd-step-card-title">Low-level specification</div>
-  <div class="ndd-step-card-sub">A moment captures one low-level step, including behavior, rules, and examples.</div>
+  <div class="ndd-step-card-sub">Captures one step's interface behavior, rules, and examples.</div>
 </div>
 
 <div class="ndd-step-card">
   <div class="ndd-step-shot ndd-step-shot-canvas" aria-hidden="true">
-    <div class="ndd-shot-node ndd-shot-node-1">
-      <span class="ndd-shot-tag">NARRATIVE</span>
-      <span class="ndd-shot-glyph">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.586 5.414-5.172 5.172"/><path d="m18.586 13.414-5.172 5.172"/><path d="M6 12h12"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="4" cy="12" r="2"/></svg>
-      </span>
-    </div>
-    <div class="ndd-shot-node ndd-shot-node-2">
-      <span class="ndd-shot-tag">SCENE</span>
-      <span class="ndd-shot-glyph">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
-          <circle cx="200" cy="200" r="24"/>
-          <path d="M72,56h96a32,32,0,0,1,0,64H72a40,40,0,0,0,0,80H176"/>
-        </svg>
-      </span>
-    </div>
-    <div class="ndd-shot-node ndd-shot-node-3">
-      <span class="ndd-shot-tag ndd-shot-tag--accent">MOMENT</span>
-      <span class="ndd-shot-glyph">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
-          <polyline points="160 80 192 80 192 112"/>
-          <polyline points="96 176 64 176 64 144"/>
-          <rect x="32" y="48" width="192" height="160" rx="8"/>
-        </svg>
-      </span>
-    </div>
+    <div class="ndd-shot-node ndd-shot-node-1"></div>
+    <div class="ndd-shot-node ndd-shot-node-2"></div>
+    <div class="ndd-shot-node ndd-shot-node-3"></div>
   </div>
   <div class="ndd-step-num">Step 6 · Canvas</div>
   <div class="ndd-step-card-title">Shared visual model</div>
-  <div class="ndd-step-card-sub">The same model, viewed visually across all levels.</div>
+  <div class="ndd-step-card-sub">Explore the same model visually across narratives, scenes, and moments.</div>
 </div>
 
 </div>
