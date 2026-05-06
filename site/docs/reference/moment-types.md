@@ -5,107 +5,105 @@ next:
   link: /reference/glossary
 ---
 
-# The Four Moment Types
+# Moment Types
 
-A moment is a single step that moves a scene toward its outcome. Every moment in NDD has one of four types. The type determines what specifications it carries and what role it plays in the scene.
+A moment is a step toward an outcome.
+
+NDD has four moment types:
+
+- Command
+- Query
+- React
+- Experience
+
+Every moment can hold both kinds of specification: business rules (Given/When/Then) and component specs (describe/it/should). Beyond those, the contents differ by type.
 
 ## Command
 
-The actor does something that changes state. Use it whenever a user submits data, triggers an action, or causes the system to do something.
+Use Command when something changes.
 
-Carries both interaction specs (UI behavior) and business specs (Given/When/Then rules).
+Examples:
 
-Pattern: Given [events/state] + When [Command] → Then [Event(s)]
+- Submit timesheet
+- Book tickets
+- Cancel booking
+- Publish show
+- Validate entry
 
-Example (Concert Booking Platform):
+A command usually has:
 
-```
-Interaction specs:
-  Ticket booking form
-    it should show booking confirmation dialog
-    it should enable book button
-    it should show loading during submission
-
-Business specs:
-  Rule: Booking capacity processing
-    Example: Show has tickets available
-      Given Show { status: "published" }
-      When BookTickets { showId: "shw_123", fanId: "fan_456" }
-      Then TicketsReserved { bookingId: "bkng_789" }
-
-    Example: Show is sold out
-      Given Show { status: "sold_out" }
-      When BookTickets { showId: "shw_123", fanId: "fan_999" }
-      Then AddedToWaitlist { bookingId: "bkng_888" }
-```
+- user or system actor
+- request shape
+- business rules with examples
+- component specs for the UI controls and the service endpoint
+- resulting event or state change
+- references to react moments that consume the resulting event
 
 ## Query
 
-The actor receives or views data. Use it whenever a user loads a page, views a list, checks a status, or reads information.
+Use Query when something is read.
 
-Carries interaction specs and business specs.
+Examples:
 
-Pattern: Given [events] + When [Query] → Then [State]
+- View available shows
+- Browse timesheets
+- See booking status
+- Load dashboard
 
-Example (Concert Booking Platform):
+A query usually has:
 
-```
-Interaction specs:
-  Shows grid display
-    it should display shows with title, date, remaining tickets
-    it should show book button for shows with tickets available
-    it should show waitlist button for sold-out shows
-
-Business specs:
-  Rule: Available shows projection
-    Example: Published show appears in listing
-      Given ShowPublished { showId: "shw_123" }
-      And ShowScheduled { showId: "shw_123", title: "Neon Drift Live", tickets: 500 }
-      Then AvailableShowsView {
-        shows: [{ showId: "shw_123", remainingTickets: 500 }]
-      }
-```
-
-Notice the data completeness: the state (AvailableShowsView) is built entirely from prior events.
+- data source
+- visible state
+- filtering and sorting rules
+- empty states
+- component specs for the list, the loading state, and the empty state
+- examples
+- data completeness chain back to the producing command
 
 ## React
 
-The system responds to an event automatically, with no actor involved. Use it for automated workflows: sending notifications, promoting from waitlists, triggering downstream processes.
+Use React when the system responds automatically.
 
-Carries business specs only. No interaction specs (there's no UI).
+Examples:
 
-Pattern: Given [state] + When [Event] → Then [Event(s)]
+- Promote from waitlist after cancellation
+- Send notification after approval
+- Sync data after external update
+- Recalculate status after event
 
-Example (Concert Booking Platform):
+A react moment usually has:
 
-```
-Business specs:
-  Rule: Waitlist promotion process
-    Example: Next waitlisted fan is promoted
-      Given WaitlistPosition { fanId: "fan_999", position: 1 }
-      When BookingCancelled { bookingId: "bkng_789", showId: "shw_123" }
-      Then ConfirmationEmailSent { fanId: "fan_999" }
-```
+- triggering event (and its source moment)
+- system rule
+- resulting command or event
+- component specs for any service work the react performs
+- failure handling
+- examples
 
 ## Experience
 
-The actor interacts with the UI without involving the server. Use it for navigation, modals, popups, tooltips, loading states, and any client-side-only behavior.
+Use Experience when modeling user movement or interface behavior that does not directly change business state.
 
-Carries interaction specs only. No business specs.
+Examples:
 
-Example:
+- Navigate to dashboard
+- Open detail panel
+- Move through onboarding
+- Switch between desktop and mobile layouts
 
-```
-Interaction specs:
-  Homepage
-    it should show a hero section with a welcome message
-    it should allow user to start the questionnaire
-```
+An experience moment usually has:
 
-## Choosing the Right Type
+- UI behavior
+- user expectation
+- component specs for navigation, focus, and layout behavior
+- wireframes
+- accessibility or interaction notes
 
-1. **Does it change state?** → Command
-2. **Does it read state?** → Query
-3. **Does the system react automatically to an event?** → React
-4. **Is it UI-only behavior?** → Experience
+## Choosing the right type
 
+Ask:
+
+- Does something change? Use Command.
+- Is data being read? Use Query.
+- Is the system responding automatically? Use React.
+- Is the user moving through the interface? Use Experience.

@@ -9,6 +9,9 @@ Understand the ideas and principles behind Narrative-Driven Development. These p
 **[Data Completeness](/explanation/data-completeness)**
 Every piece of state traces back through events to commands. Nothing appears from nowhere. An entire class of bugs eliminated before code exists.
 
+**[Cohesion](/explanation/cohesion)**
+The graph beneath the hierarchy. Event cohesion, data cohesion, and reference cohesion: what keeps a multi-scene narrative coherent and lets a coding agent reason across boundaries.
+
 **[One Model, Three Views](/explanation/one-model-three-views)**
 A single model powers visual storyboards, Notion-like documents, and a TypeScript DSL. All three read and write the same data.
 

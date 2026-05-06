@@ -31,24 +31,23 @@ Start with the app idea in plain language.
 Example:
 
 ```text
-I need a timesheet app where submitters enter hours for teams,
-controllers validate entries, and closed periods cannot be edited.
+A concert booking app where promoters publish shows
+and fans reserve tickets. If a show sells out, fans can
+join a waitlist. If someone cancels, the next fan is promoted.
 ```
 
-The prompt is not the spec.
+The prompt is not the spec. The prompt is the seed.
 
-The prompt is the seed.
-
-## 2. Extract the goal
+## 2. Extract the goals
 
 NDD identifies what people are trying to achieve.
 
-For the timesheet app, goals might be:
+For the concert booking app, goals might be:
 
-- Submit team timesheets
-- Validate submitted entries
-- Close a reporting period
-- Reopen incorrect submissions
+- A promoter publishes a show
+- A fan gets tickets
+- A fan waits for a sold-out show
+- A promoter cancels a show
 
 These become narratives.
 
@@ -56,12 +55,12 @@ These become narratives.
 
 Each goal breaks into outcomes.
 
-For "Submit team timesheets," outcomes might be:
+For "A fan gets tickets," outcomes might be:
 
-- Timesheet drafted
-- Daily entries completed
-- Timesheet submitted
-- Submission rejected for missing hours
+- Tickets reserved
+- Booking blocked because show is sold out
+- Booking cancelled
+- Fan added to waitlist
 
 These become scenes.
 
@@ -71,13 +70,13 @@ Outcomes matter because they create clean build boundaries.
 
 Each outcome breaks into steps.
 
-For "Timesheet submitted," steps might be:
+For "Tickets reserved," steps might be:
 
-- Submitter selects a team
-- Submitter enters daily hours
-- System validates required entries
-- Submitter submits the timesheet
-- System records the submission
+- Browse published shows [Query]
+- View show details [Query]
+- Reserve tickets [Command]
+- Confirm reservation [Experience]
+- System reduces capacity [React]
 
 These become moments.
 
@@ -85,73 +84,72 @@ Moments are where the narrative becomes concrete.
 
 ## 5. Add rules and examples
 
-Rules describe what must be true.
-
-Examples prove those rules.
+Rules describe what must be true. Examples prove those rules.
 
 ```text
-Rule: Submitted entries cannot be edited.
+Rule: Tickets cannot be reserved beyond capacity.
 
-Given an entry has status Submitted
-When the submitter tries to change the hours
-Then the edit is rejected
-And the entry remains Submitted
+Given a show has 1 ticket remaining
+When a fan books 2 tickets
+Then the booking is rejected
+And no tickets are reserved
 ```
 
 This is where the narrative stops being a story and starts becoming executable specification.
 
-## 6. Add data
+## 6. Add component specs
 
-The narrative tracks the data the app depends on.
+Business rules describe system behavior. Component specs describe how the parts behave.
 
-For example:
+```text
+describe ReserveTickets button
+  it should be disabled when capacity is zero
+  it should show remaining-ticket count next to the action
+  it should not allow a quantity above capacity
 
-- Team
-- Submitter
-- Timesheet
-- Daily Entry
+describe AvailableShows query
+  it should return only Published shows
+  it should exclude shows that have started
+  it should order by show date ascending
+```
+
+Both kinds of spec live inside moments.
+
+## 7. Add data and connect the moments
+
+The narrative tracks the data the app depends on. For concert booking:
+
+- Show
+- Booking
+- Waitlist Entry
+- Capacity
 - Status
-- Reporting Period
-- Validation Decision
 
-It also tracks where data comes from and what changes it.
+It also tracks where data comes from and what changes it. The booking status field is set by the ReserveTickets command. The capacity decrement happens through the React moment that fires after reservation.
 
-If the app displays a status, the narrative should specify what event or action produced that status.
+This is also where moments connect across scenes. The CancelBooking command in the "Booking cancelled" scene produces an event the React moment in the "Fan added to waitlist" scene consumes. The link is explicit, not implied.
 
-## 7. Review through screens and wireframes
+These cross-references are the cohesion that makes the narrative coherent. (See [Cohesion](/explanation/cohesion).)
+
+## 8. Review through screens and wireframes
 
 Screens make the narrative visible.
 
 A moment can include desktop and mobile wireframes so humans can see how the step feels.
 
-But the screen is not the whole spec. Behind the screen are the rules, examples, requests, responses, state, and system behavior.
+But the screen is not the whole spec. Behind the screen are the rules, examples, component specs, requests, responses, state, and system behavior.
 
-## 8. Drill down only when needed
+## 9. Drill down only when needed
 
 NDD does not force every user into full manual control.
 
-Start with:
+Start with goals, outcomes, and steps.
 
-- goals
-- outcomes
-- steps
-
-Drill into:
-
-- wireframes
-- client specs
-- service specs
-- commands
-- queries
-- events
-- state
-- integrations
-- auth
-- data syncs
+Drill into wireframes, component specs, business rules, commands, queries, events, state, integrations, auth, and data syncs only when the app demands the precision.
 
 The method reveals complexity as the app requires it.
 
-## 9. Give the narrative to a coding agent
+## 10. Give the narrative to a coding agent
 
 The coding agent should not build from a vague prompt.
 
@@ -160,14 +158,15 @@ It should build from the narrative slice that matters:
 - the domain context
 - the current goal
 - the outcome under work
-- the steps involved
+- the moments involved
 - the rules and examples
+- the component specs
 - the data dependencies
-- the UI expectations
+- the cross-references to other scenes
 
 That gives the agent a coherent build target.
 
-## 10. Keep the narrative alive
+## 11. Keep the narrative alive
 
 The narrative should not disappear after the first generation.
 
@@ -175,18 +174,10 @@ When the app changes, the narrative changes with it.
 
 Today, the narrative gives your coding agent a coherent starting point.
 
-The direction NDD points toward is a closed loop where narrative, code, and tests evolve together.
-
-That is the long-term shape: not prompts creating code, but narratives guiding software as it changes.
+The direction NDD points toward is a closed loop where narrative, code, and tests evolve together. That is the long-term shape: not prompts creating code, but narratives guiding software as it changes.
 
 ## How Auto fits
 
-Auto applies NDD to your prompt.
-
-It helps turn the rough idea into a buildable narrative, lets you inspect the structure, and gives your coding agent something explicit to build from.
-
-You can practice NDD by hand.
-
-Auto does the structural work for you.
+Auto applies NDD to your prompt and produces the buildable narrative for you. You can practice NDD by hand. Auto does the structural work.
 
 [Try NDD in Auto →](https://on.auto)

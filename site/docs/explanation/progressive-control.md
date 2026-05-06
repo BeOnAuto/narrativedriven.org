@@ -25,17 +25,17 @@ NDD supports both.
 At the first layer, the structure is simple:
 
 ```text
-Capability → Goal → Outcome → Step
+Domain → Narrative → Scene → Moment
 ```
 
 A beginner can review this without learning the full dialect.
 
 They can ask:
 
-- Is this the right app capability?
-- Are these the right goals?
-- Are these the outcomes that matter?
-- Do these steps make sense?
+- Is this the right domain?
+- Are these the right narratives?
+- Are these the scenes that matter?
+- Do these moments make sense?
 
 This is enough to catch many missing pieces before code exists.
 

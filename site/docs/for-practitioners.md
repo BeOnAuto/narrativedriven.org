@@ -4,20 +4,20 @@ prev:
   text: How it Works
   link: /how-it-works
 next:
-  text: Progressive Control
-  link: /explanation/progressive-control
+  text: Build the Concert Booking Platform
+  link: /guides/build-concert-platform
 ---
 
 # For Practitioners
 
-NDD is what happens when BDD, DDD, EventStorming, Specification by Example, and story mapping are rebuilt around AI agents instead of human handoffs.
+NDD is what happens when BDD, DDD, EventStorming, and story mapping are rebuilt around AI agents instead of human handoffs.
 
 Those methods each solved part of the problem:
 
-- BDD captured behavior.
-- DDD captured domain language.
-- EventStorming captured flow.
-- Specification by Example captured concrete proof.
+- BDD and Specification by Example captured behavior through concrete examples.
+- TDD captured component-level behavior through describe/it/should specs.
+- DDD captured domain language and boundaries.
+- EventStorming captured commands, events, and flow.
 - Story mapping captured journeys.
 
 NDD unifies those parts into one buildable narrative.
@@ -39,7 +39,7 @@ That world still exists.
 
 But AI changes the pressure.
 
-A coding agent needs structured intent, not a pile of documents. It needs the right slice of context, concrete examples, data dependencies, and clear boundaries.
+A coding agent needs structured intent, not a pile of documents. It needs the right slice of context, concrete examples, component specs, data dependencies, and clear cross-references to the rest of the model.
 
 NDD is built for that reader.
 
@@ -51,16 +51,14 @@ It composes them.
 
 | Prior practice | What it contributes | How NDD uses it |
 |---|---|---|
-| BDD | Behavior and executable examples | Rules and examples inside moments |
-| Specification by Example | Concrete examples as shared truth | Examples prove behavior before code |
+| BDD and Specification by Example | Behavior captured through concrete examples | Business rules with Given/When/Then examples inside moments |
+| TDD and component-level specs | What components, services, and modules do and do not do | describe/it/should specs alongside business rules |
 | DDD | Domain language and boundaries | Domain as the top-level capability model |
 | EventStorming | Commands, events, flow | Data completeness and system behavior |
 | CQRS and Event Sourcing | Commands, events, state | Specification-level data tracing |
 | Story Mapping | Journey structure | Goals, outcomes, and steps |
 
-The difference is not the ingredients.
-
-The difference is the unification.
+The difference is not the ingredients. The difference is the unification.
 
 For the deeper lineage, see [Standing on Shoulders](/explanation/standing-on-shoulders).
 
@@ -80,16 +78,26 @@ The same shift matters for the team. When the artifact is unified, the review su
 
 You can compose the methods yourself. You can keep doing that. NDD is what it looks like when the composition becomes the artifact.
 
+## Cohesion is the spine
+
+The hierarchy (Domain → Narrative → Scene → Moment) is the visible structure. The graph beneath it is what makes the model coherent.
+
+Moments cross-reference moments. Scenes connect through events. Data flows from commands through state to queries to screens. A change in one part of the narrative propagates through the references that depend on it.
+
+This is what most spec methods do not capture. EventStorming gets the events. DDD gets the domain. BDD gets the behavior. None of them encode the cross-references between scenes as first-class structure that an agent can reason about.
+
+NDD does. (See [Cohesion](/explanation/cohesion) for the longer treatment.)
+
 ## One artifact, not a handoff chain
 
-NDD aims to hold intent, UI, behavior, examples, and data together.
+NDD aims to hold intent, UI, behavior, examples, component specs, and data together.
 
 That means the same narrative can serve multiple readers:
 
 - product reviews the goal and outcome
 - design reviews the screen and interaction
-- QA reviews the examples
-- engineering reviews the commands, events, state, and specs
+- QA reviews the examples and component specs
+- engineering reviews the commands, events, state, and connections
 - the coding agent builds from the relevant slice
 
 The narrative becomes the coordination surface.
@@ -108,6 +116,25 @@ And the entry remains Submitted
 ```
 
 This lets behavior become inspectable, testable, and useful to agents.
+
+## Component-level specifications
+
+Behavior at the system level is not enough.
+
+NDD captures what the parts do too:
+
+```text
+describe TimesheetSubmit endpoint
+  it should reject submission when required days are missing
+  it should respond with 400 and a field-level error map
+  it should not change entry status on rejection
+
+describe TimesheetForm
+  it should disable submit while validation is pending
+  it should show inline feedback for missing fields
+```
+
+Component specs sit inside the same moment as the business rules. The agent gets both layers in one place.
 
 ## Data completeness
 
@@ -132,7 +159,9 @@ It should receive:
 - the outcome under work
 - the moments involved
 - the rules and examples
+- the component specs
 - the relevant data chain
+- the cross-references to other scenes
 
 That is progressive disclosure applied to specifications.
 
@@ -150,9 +179,8 @@ Then drill into:
 
 ```text
 Moment type
-Client specs
-Service specs
-Rules
+Component specs
+Business rules
 Examples
 Commands
 Queries
@@ -161,20 +189,13 @@ State
 Integrations
 Auth
 Data flows
+Cross-references
 ```
 
-The method is not lightweight because it lacks depth.
-
-It is lightweight because depth is optional until it matters.
+The method is not lightweight because it lacks depth. It is lightweight because depth is optional until it matters.
 
 ## NDD and Auto
 
-NDD can be practiced by hand.
+NDD can be practiced by hand. Auto applies the method as a product, generating a buildable narrative from a prompt and giving your coding agent structured intent to build from. The long-term direction is a closed loop where narrative, implementation, and tests evolve together.
 
-Auto applies the method as a product.
-
-It takes a prompt, generates a buildable narrative, and gives the coding agent structured intent to build from.
-
-The long-term direction is a closed loop where narrative, implementation, and tests evolve together.
-
-If you want to see the method on a real app, walk through [Build the Concert Booking Platform](/guides/build-concert-platform).
+To see the method on a real app, walk through [Build the Concert Booking Platform](/guides/build-concert-platform).

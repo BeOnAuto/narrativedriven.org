@@ -1,8 +1,8 @@
 ---
 title: One Narrative, Multiple Views
 prev:
-  text: Data Completeness
-  link: /explanation/data-completeness
+  text: Cohesion
+  link: /explanation/cohesion
 next:
   text: Progressive Disclosure for Specs
   link: /explanation/progressive-disclosure

@@ -223,6 +223,10 @@ export default defineConfig({
 							link: "/explanation/data-completeness",
 						},
 						{
+							text: "Cohesion",
+							link: "/explanation/cohesion",
+						},
+						{
 							text: "One Model, Three Views",
 							link: "/explanation/one-model-three-views",
 						},

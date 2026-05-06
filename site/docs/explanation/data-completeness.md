@@ -1,8 +1,8 @@
 ---
 title: Data Completeness
 next:
-  text: One Model, Three Views
-  link: /explanation/one-model-three-views
+  text: Cohesion
+  link: /explanation/cohesion
 ---
 
 # Data Completeness
