@@ -9,8 +9,8 @@ hero:
       text: What is NDD?
       link: "#what-ndd-is"
     - theme: alt
-      text: Try it on Auto
-      link: "#try-ndd-in-auto"
+      text: Try NDD on.Auto
+      link: "#try-ndd-on-auto"
 features:
   - icon:
       src: /images/features/feat-three-views.png
@@ -155,9 +155,9 @@ A plain prompt becomes a structured hierarchy in Auto. Domain, narrative, scene,
 
 </div>
 
-<div class="try-strip" id="try-ndd-in-auto">
+<div class="try-strip" id="try-ndd-on-auto">
 
-## Try NDD in Auto
+## Try NDD on.Auto
 
 Describe a product in plain language. Auto turns it into a narrative model you can inspect, refine, and execute with your coding agent.
 

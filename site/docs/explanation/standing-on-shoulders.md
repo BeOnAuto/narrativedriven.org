@@ -40,7 +40,7 @@ Key figures: Greg Young.
 
 ## Domain-Driven Design
 
-NDD takes Ubiquitous Language, Bounded Contexts, the insistence on deep domain understanding before code, and the idea that the *domain* is a first-class structural element. The top level of every NDD model is the domain — a coherent business capability with its actors, entities, and capability statement.
+NDD takes Ubiquitous Language, Bounded Contexts, the insistence on deep domain understanding before code, and the idea that the _domain_ is a first-class structural element. The top level of every NDD model is the domain — a coherent business capability with its actors, entities, and capability statement.
 
 Where it diverges: DDD focuses on domain models and strategic patterns. NDD focuses on the narrative structure connecting domain concepts through time, with explicit goal threads, outcomes, and slices below the domain. They're complementary, and you'll often want both.
 
@@ -70,9 +70,8 @@ Where it diverges: Disney and Airbnb used storyboards as planning artifacts, pos
 
 ## The Synthesis
 
-What NDD adds is the combination: a single model that pulls together Disney/Airbnb's storyboard-based experience design, BDD's executable specs, EventStorming's collaborative discovery, event sourcing's data integrity, DDD's domain as a first-class structural element, Specification by Example's concrete examples, and Story Mapping's journey-based organisation — all stacked into one four-level hierarchy (Domain → Narrative → Scene → Moment). None of these ideas are new on their own. Wiring them into one coherent model is.
+What NDD adds is the combination: a single model that pulls together Disney/Airbnb's storyboard-based experience design, BDD's executable specs, EventStorming's collaborative discovery, event sourcing's data integrity, DDD's domain as a first-class structural element, Specification by Example's concrete examples, and Story Mapping's journey-based organisation, all stacked into one four-level hierarchy (Domain → Narrative → Scene → Moment). None of these ideas are new on their own. Wiring them into one coherent model is.
 
 The result is the first full [spec dialect](https://specdriven.com/dialects/): a specification language with a schema, machine-parseability, and a direct path to executable output. For the typed form on this site, see the [DSL reference](/reference/dsl).
 
 For the complete landscape, see [specdriven.com](https://specdriven.com).
-

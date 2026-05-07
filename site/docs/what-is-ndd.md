@@ -40,22 +40,22 @@ NDD changes the order. First, make the important decisions visible. Then let the
 
 NDD organises every system into four levels. Each one names a different scope of meaning.
 
-| Level | What it is | Example | Answers |
-|---|---|---|---|
-| **Domain** | The capability area | Concert Booking | What world does this app live in? |
-| **Narrative** | A goal inside the domain | A fan gets tickets | What is someone trying to achieve? |
-| **Scene** | An outcome (something becomes true) | Tickets reserved | What outcome are we trying to make true? |
-| **Moment** | A slice of the outcome | Reserve tickets [Command] | What happens in this slice? |
+| Level         | What it is                          | Example                   | Answers                                  |
+| ------------- | ----------------------------------- | ------------------------- | ---------------------------------------- |
+| **Domain**    | The capability area                 | Concert Booking           | What world does this app live in?        |
+| **Narrative** | A goal inside the domain            | A fan gets tickets        | What is someone trying to achieve?       |
+| **Scene**     | An outcome (something becomes true) | Tickets reserved          | What outcome are we trying to make true? |
+| **Moment**    | A slice of the outcome              | Reserve tickets [Command] | What happens in this slice?              |
 
 The hierarchy is the visible structure. The cross-references between moments (events one scene produces and another consumes, data flowing from commands through state to screens) are the cohesion underneath. Both matter.
 
 A moment carries a type. The four moment types are:
 
-| Moment type | Meaning | Example |
-|---|---|---|
-| **Command** | Something changes | Book tickets |
-| **Query** | Something is read | Browse shows |
-| **React** | The system responds automatically | Promote from waitlist |
+| Moment type    | Meaning                              | Example               |
+| -------------- | ------------------------------------ | --------------------- |
+| **Command**    | Something changes                    | Book tickets          |
+| **Query**      | Something is read                    | Browse shows          |
+| **React**      | The system responds automatically    | Promote from waitlist |
 | **Experience** | The user moves through the interface | Navigate to dashboard |
 
 ## A moment is more than a screen
@@ -72,7 +72,7 @@ A moment can include:
 - business rules with examples (Given/When/Then)
 - component specs (describe/it/should for UI elements, services, and modules)
 - commands, queries, events, and state
-- data sources, syncs, and integrations
+- data sources, sinks, and integrations
 - auth behavior
 - references to other moments and scenes
 
@@ -98,6 +98,6 @@ NDD is a spec dialect: a structured, schema-backed specification language built 
 
 You can practice NDD by hand. Auto applies the method as a product, turning a prompt into a buildable narrative and giving your coding agent structured intent to build from.
 
-[Try NDD in Auto →](https://on.auto)
+[Try NDD on.Auto →](https://on.auto)
 
 Related: [Standing on Shoulders](/explanation/standing-on-shoulders) | [NDD on specdriven.com](https://specdriven.com/dialects/narrative-driven)

@@ -246,6 +246,4 @@ A narrative is buildable when you can answer these questions:
 9. What should the coding agent build first?
 10. What can be safely ignored until later?
 
-If you cannot answer those questions, you do not have a buildable narrative yet.
-
-You have a prompt.
+Once you can answer those questions (often with the help of AI), you have a buildable narrative.

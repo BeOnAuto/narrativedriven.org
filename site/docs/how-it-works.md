@@ -42,7 +42,7 @@ The prompt is not the spec. The prompt is the seed.
 
 ## 2. Extract the goals
 
-NDD identifies what people are trying to achieve.
+NDD's guided process helps you identify what people are trying to achieve.
 
 For the concert booking app, goals might be:
 
@@ -186,4 +186,4 @@ The direction NDD points toward is a closed loop where narrative, code, and test
 
 Auto applies NDD to your prompt and produces the buildable narrative for you. You can practice NDD by hand. Auto does the structural work.
 
-[Try NDD in Auto →](https://on.auto)
+[Try NDD on.Auto →](https://on.auto)

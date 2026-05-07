@@ -60,7 +60,7 @@ export default defineConfig({
 				copyMarkdown: cleanMarkdown(raw),
 			};
 		} catch {
-			// Non-file pages (e.g. dynamic routes) — silently skip.
+			// Non-file pages (e.g. dynamic routes)— silently skip.
 		}
 	},
 
@@ -85,7 +85,7 @@ export default defineConfig({
 			"meta",
 			{
 				property: "og:title",
-				content: "Narrative-Driven Development — Specify Software as Stories",
+				content: "Narrative-Driven Development. Specify Software as Stories",
 			},
 		],
 		["meta", { property: "og:type", content: "website" }],
@@ -94,7 +94,7 @@ export default defineConfig({
 			{
 				property: "og:description",
 				content:
-					"One model for storyboard, docs, code, and tests. Specify software as structured narratives — reviewable, testable, and executable.",
+					"One model for storyboard, docs, code, and tests. Specify software as structured narratives, reviewable, testable, and executable.",
 			},
 		],
 		["meta", { property: "og:url", content: siteUrl }],
@@ -110,7 +110,7 @@ export default defineConfig({
 			{
 				property: "og:image:alt",
 				content:
-					"Narrative-Driven Development — Tell the story. Build the software.",
+					"Narrative-Driven Development. Tell the story. Build the software.",
 			},
 		],
 		["meta", { name: "twitter:card", content: "summary_large_image" }],
@@ -118,7 +118,7 @@ export default defineConfig({
 			"meta",
 			{
 				name: "twitter:title",
-				content: "Narrative-Driven Development — Specify Software as Stories",
+				content: "Narrative-Driven Development. Specify Software as Stories",
 			},
 		],
 		[
@@ -126,7 +126,7 @@ export default defineConfig({
 			{
 				name: "twitter:description",
 				content:
-					"One model for storyboard, docs, code, and tests. Specify software as structured narratives — reviewable, testable, and executable.",
+					"One model for storyboard, docs, code, and tests. Specify software as structured narratives, reviewable, testable, and executable.",
 			},
 		],
 		["meta", { name: "twitter:image", content: `${siteUrl}/og-image.png` }],
@@ -137,7 +137,10 @@ export default defineConfig({
 
 		nav: [
 			{ text: "What is NDD?", link: "/what-is-ndd" },
-			{ text: "Buildable Narrative", link: "/what-makes-a-narrative-buildable" },
+			{
+				text: "Buildable Narrative",
+				link: "/what-makes-a-narrative-buildable",
+			},
 			{ text: "How it Works", link: "/how-it-works" },
 			{ text: "Practitioners", link: "/for-practitioners" },
 			{

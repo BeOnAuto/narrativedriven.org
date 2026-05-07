@@ -14,24 +14,7 @@ The TypeScript DSL is one view of the narrative model. The JSON model is another
 ## A Complete Example
 
 ```typescript
-import {
-  narrative,
-  scene,
-  command,
-  query,
-  data,
-  source,
-  sink,
-  gql,
-  describe,
-  it,
-  specs,
-  rule,
-  example,
-  defineCommand,
-  defineEvent,
-  defineState,
-} from "@on.auto/narrative";
+import { narrative, scene, command, query, data, source, sink, gql, describe, it, specs, rule, example, defineCommand, defineEvent, defineState } from "@on.auto/narrative";
 import { ProductCatalog } from "./integrations";
 
 const PlaceOrder = defineCommand<{ orderId: string; itemId: string; quantity: number }>("PlaceOrder");

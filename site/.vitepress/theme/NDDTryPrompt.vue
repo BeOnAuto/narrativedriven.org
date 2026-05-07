@@ -62,17 +62,17 @@ function focusSoon(delay = 600) {
 }
 
 function focusTextareaIfTargeted() {
-  if (window.location.hash === '#try-ndd-in-auto') focusSoon(450)
+  if (window.location.hash === '#try-ndd-on-auto') focusSoon(450)
 }
 
 function handleAnyClickToTarget(e: MouseEvent) {
-  const a = (e.target as HTMLElement)?.closest?.('a[href="#try-ndd-in-auto"]')
+  const a = (e.target as HTMLElement)?.closest?.('a[href="#try-ndd-on-auto"]')
   if (a) focusSoon(550)
 }
 
 onMounted(() => {
   animationTimer = setTimeout(animatePlaceholder, 800)
-  if (window.location.hash === '#try-ndd-in-auto') focusSoon(400)
+  if (window.location.hash === '#try-ndd-on-auto') focusSoon(400)
   window.addEventListener('hashchange', focusTextareaIfTargeted)
   document.addEventListener('click', handleAnyClickToTarget)
 })
