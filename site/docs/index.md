@@ -133,7 +133,7 @@ A plain prompt becomes a structured hierarchy in Auto. Domain, narrative, scene,
   </div>
   <div class="ndd-step-num">Step 5 · Moment</div>
   <div class="ndd-step-card-title">Low-level specification</div>
-  <div class="ndd-step-card-sub">Captures one step's interface behavior, rules, and examples.</div>
+  <div class="ndd-step-card-sub">Captures one slice's interface behavior, rules, and examples.</div>
 </div>
 
 <div class="ndd-step-card">

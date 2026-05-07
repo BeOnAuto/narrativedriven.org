@@ -7,7 +7,9 @@ next:
 
 # Moment Types
 
-A moment is a step toward an outcome.
+![Four cards: Command (red), Query (blue), React (green), Experience (orange) with characteristic icons](/images/heroes/moment-types.png){.page-hero}
+
+A moment is a slice of an outcome.
 
 NDD has four moment types:
 

@@ -10,6 +10,8 @@ next:
 
 # For Practitioners
 
+![Browser with narrative document and code-bracket card alongside a SPEC card](/images/heroes/for-practitioners.png){.page-hero}
+
 NDD is what happens when BDD, DDD, EventStorming, and story mapping are rebuilt around AI agents instead of human handoffs.
 
 Those methods each solved part of the problem:
@@ -56,7 +58,7 @@ It composes them.
 | DDD | Domain language and boundaries | Domain as the top-level capability model |
 | EventStorming | Commands, events, flow | Data completeness and system behavior |
 | CQRS and Event Sourcing | Commands, events, state | Specification-level data tracing |
-| Story Mapping | Journey structure | Goals, outcomes, and steps |
+| Story Mapping | Journey structure | Goals, outcomes, and slices |
 
 The difference is not the ingredients. The difference is the unification.
 
@@ -115,6 +117,8 @@ Then the edit is rejected
 And the entry remains Submitted
 ```
 
+In the typed DSL, the same example sits inside a moment's specs block. See the [DSL reference](/reference/dsl) for the full form.
+
 This lets behavior become inspectable, testable, and useful to agents.
 
 ## Component-level specifications
@@ -133,6 +137,8 @@ describe TimesheetForm
   it should disable submit while validation is pending
   it should show inline feedback for missing fields
 ```
+
+Both forms render from the same DSL. See the [DSL reference](/reference/dsl).
 
 Component specs sit inside the same moment as the business rules. The agent gets both layers in one place.
 

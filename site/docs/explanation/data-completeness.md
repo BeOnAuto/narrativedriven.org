@@ -7,6 +7,8 @@ next:
 
 # Data Completeness
 
+![Command to event to state to screen as an unbroken chain](/images/heroes/data-completeness.png){.page-hero}
+
 Data completeness is one of the ideas that sets NDD apart from looser specification approaches. The rule is simple: every piece of data visible in your system must trace back, through events, to the commands that caused it. Nothing appears from nowhere.
 
 ## The Principle

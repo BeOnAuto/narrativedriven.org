@@ -10,6 +10,8 @@ next:
 
 # How NDD Works
 
+![Prompt to narrative to coding agent to running app](/images/heroes/how-it-works.png){.page-hero}
+
 NDD turns a rough app idea into a buildable narrative, then uses that narrative to guide implementation.
 
 The path is simple:
@@ -66,11 +68,11 @@ These become scenes.
 
 Outcomes matter because they create clean build boundaries.
 
-## 4. Break outcomes into steps
+## 4. Break outcomes into slices
 
-Each outcome breaks into steps.
+Each outcome breaks into slices.
 
-For "Tickets reserved," steps might be:
+For "Tickets reserved," slices might be:
 
 - Browse published shows [Query]
 - View show details [Query]
@@ -95,6 +97,8 @@ Then the booking is rejected
 And no tickets are reserved
 ```
 
+In the typed DSL the same example lives inside a moment's specs block. See the [DSL reference](/reference/dsl).
+
 This is where the narrative stops being a story and starts becoming executable specification.
 
 ## 6. Add component specs
@@ -112,6 +116,8 @@ describe AvailableShows query
   it should exclude shows that have started
   it should order by show date ascending
 ```
+
+Both forms render from the same DSL. See the [DSL reference](/reference/dsl).
 
 Both kinds of spec live inside moments.
 
@@ -135,7 +141,7 @@ These cross-references are the cohesion that makes the narrative coherent. (See 
 
 Screens make the narrative visible.
 
-A moment can include desktop and mobile wireframes so humans can see how the step feels.
+A moment can include desktop and mobile wireframes so humans can see how the slice feels.
 
 But the screen is not the whole spec. Behind the screen are the rules, examples, component specs, requests, responses, state, and system behavior.
 
@@ -143,7 +149,7 @@ But the screen is not the whole spec. Behind the screen are the rules, examples,
 
 NDD does not force every user into full manual control.
 
-Start with goals, outcomes, and steps.
+Start with goals, outcomes, and slices.
 
 Drill into wireframes, component specs, business rules, commands, queries, events, state, integrations, auth, and data syncs only when the app demands the precision.
 

@@ -209,6 +209,7 @@ export default defineConfig({
 						{ text: "Overview", link: "/reference/" },
 						{ text: "Moment Types", link: "/reference/moment-types" },
 						{ text: "Glossary", link: "/reference/glossary" },
+						{ text: "DSL Reference", link: "/reference/dsl" },
 					],
 				},
 			],

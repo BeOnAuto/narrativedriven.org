@@ -1310,6 +1310,42 @@ body {
 .dark img[src*="/images/what-is-ndd/hierarchy-diagram.png"] { content: url("/images/what-is-ndd/hierarchy-diagram-dark.png"); }
 .dark img[src*="/images/what-is-ndd/moment-expanded.png"] { content: url("/images/what-is-ndd/moment-expanded-dark.png"); }
 
+/* Swap doc page hero illustrations to dark variants */
+.dark img[src*="/images/heroes/how-it-works.png"] { content: url("/images/heroes/how-it-works-dark.png"); }
+.dark img[src*="/images/heroes/what-makes-a-narrative-buildable.png"] { content: url("/images/heroes/what-makes-a-narrative-buildable-dark.png"); }
+.dark img[src*="/images/heroes/data-completeness.png"] { content: url("/images/heroes/data-completeness-dark.png"); }
+.dark img[src*="/images/heroes/for-practitioners.png"] { content: url("/images/heroes/for-practitioners-dark.png"); }
+.dark img[src*="/images/heroes/community.png"] { content: url("/images/heroes/community-dark.png"); }
+.dark img[src*="/images/heroes/explanation-index.png"] { content: url("/images/heroes/explanation-index-dark.png"); }
+.dark img[src*="/images/heroes/cohesion.png"] { content: url("/images/heroes/cohesion-dark.png"); }
+.dark img[src*="/images/heroes/one-model-three-views.png"] { content: url("/images/heroes/one-model-three-views-dark.png"); }
+.dark img[src*="/images/heroes/origin-story.png"] { content: url("/images/heroes/origin-story-dark.png"); }
+.dark img[src*="/images/heroes/progressive-control.png"] { content: url("/images/heroes/progressive-control-dark.png"); }
+.dark img[src*="/images/heroes/progressive-disclosure.png"] { content: url("/images/heroes/progressive-disclosure-dark.png"); }
+.dark img[src*="/images/heroes/spec-dialect.png"] { content: url("/images/heroes/spec-dialect-dark.png"); }
+.dark img[src*="/images/heroes/standing-on-shoulders.png"] { content: url("/images/heroes/standing-on-shoulders-dark.png"); }
+.dark img[src*="/images/heroes/guides-index.png"] { content: url("/images/heroes/guides-index-dark.png"); }
+.dark img[src*="/images/heroes/build-concert-platform.png"] { content: url("/images/heroes/build-concert-platform-dark.png"); }
+.dark img[src*="/images/heroes/collaborative-sessions.png"] { content: url("/images/heroes/collaborative-sessions-dark.png"); }
+.dark img[src*="/images/heroes/first-narrative.png"] { content: url("/images/heroes/first-narrative-dark.png"); }
+.dark img[src*="/images/heroes/narratives-to-code.png"] { content: url("/images/heroes/narratives-to-code-dark.png"); }
+.dark img[src*="/images/heroes/prompting-ai.png"] { content: url("/images/heroes/prompting-ai-dark.png"); }
+.dark img[src*="/images/heroes/review-a-narrative.png"] { content: url("/images/heroes/review-a-narrative-dark.png"); }
+.dark img[src*="/images/heroes/structuring-narratives.png"] { content: url("/images/heroes/structuring-narratives-dark.png"); }
+.dark img[src*="/images/heroes/reference-index.png"] { content: url("/images/heroes/reference-index-dark.png"); }
+.dark img[src*="/images/heroes/glossary.png"] { content: url("/images/heroes/glossary-dark.png"); }
+.dark img[src*="/images/heroes/moment-types.png"] { content: url("/images/heroes/moment-types-dark.png"); }
+.dark img[src*="/images/heroes/what-is-ndd.png"] { content: url("/images/heroes/what-is-ndd-dark.png"); }
+
+/* Inline section illustrations on /what-is-ndd — smaller so they belong inside their section */
+.what-is-ndd-illustration {
+  display: block;
+  max-width: 520px;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+}
+
 /* Light mode: transparent bg so wave shows through */
 :root:not(.dark) .VPHero { background: transparent !important; }
 :root:not(.dark) .VPHome .VPContent { background: transparent !important; }

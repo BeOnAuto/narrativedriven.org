@@ -9,6 +9,8 @@ This document defines how to interpret and generate the four structural levels u
 
 It is intended for LLM consumption.
 
+For the typed TypeScript DSL form of this model, see https://www.narrativedriven.org/reference/dsl. The DSL is one view of the structure defined below; this document focuses on the structural rules that hold across views.
+
 ---
 
 ## Canonical Definitions

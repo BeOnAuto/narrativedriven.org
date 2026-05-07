@@ -10,7 +10,7 @@ NDD organises every system into four levels:
 Domain (business capability)
 └── Narrative (goal thread)
     └── Scene (single outcome)
-        └── Moment (single step toward that outcome)
+        └── Moment (single slice of that outcome)
 ```
 
 Reason **top-down**: identify the domain first, then the narratives, then the scenes, then the moments. Don't start from small actions and group upward.
@@ -23,7 +23,9 @@ Reason **top-down**: identify the domain first, then the narratives, then the sc
 
 **Scene.** A self-contained outcome achieved through one or more moments. Outcome-centred. Examples: "Show published," "Tickets reserved," "Fan added to waitlist."
 
-**Moment.** A single interaction or system step that moves a scene toward its outcome. The atomic unit. Four types below.
+**Moment.** A single interaction or system slice that moves a scene toward its outcome. The atomic unit. Four types below.
+
+For the typed form of these constructs, see the [DSL reference](https://www.narrativedriven.org/reference/dsl).
 
 ## Moment Types
 
@@ -64,7 +66,7 @@ Different levels own different scopes of outcome; don't conflate them.
 | Domain | Family of related outcomes within one business capability |
 | Narrative | Broader goal achieved through multiple scene outcomes |
 | Scene | A single, self-contained outcome |
-| Moment | A single step toward that outcome |
+| Moment | A single slice of that outcome |
 
 ## Scene-Worthiness Rubric
 
@@ -104,7 +106,7 @@ When modelling, verify data completeness at every query moment by asking:
 1. **Identify the domain.** what business capability does this describe? Name it concisely (e.g. "Concert Booking"). Capture the actors and entities at the domain level.
 2. **Identify narratives.** distinct goal threads within the domain. Each narrative groups related outcomes that fulfil one broader goal.
 3. **Identify scenes.** for each narrative, list the outcomes that fulfil its goal. One outcome = one scene.
-4. **Identify moments.** for each scene, list the steps that move it to its outcome. Each moment has a type and specs.
+4. **Identify moments.** for each scene, list the slices that move it to its outcome. Each moment has a type and specs.
 5. **Identify transitions.** where does a moment lead into the start of another scene? Cross-scene and cross-narrative transitions are fine.
 6. **Check data completeness.** trace every query's state back through events to commands across all narratives.
 7. **Keep incidental detail in moments.** validation rules and edge cases that don't change the actor's trajectory stay as business specs, not new scenes.
@@ -134,7 +136,7 @@ Goal: [one-sentence statement]. Actors: [list]. Entities: [list].
 - **Domain**: concise business capability. Examples: `Billing`, `Scheduling`, `Concert Booking`.
 - **Narrative**: broader goal phrasing. Examples: `Customer starts a subscription`, `Submitter records daily team hours`.
 - **Scene**: single-outcome phrasing. Examples: `Subscription created`, `Timesheet submitted`, `Tickets reserved`.
-- **Moment**: action-step phrasing. Examples: `User selects a plan`, `Submitter clicks submit`, `System sets entry status to validated`.
+- **Moment**: action-slice phrasing. Examples: `User selects a plan`, `Submitter clicks submit`, `System sets entry status to validated`.
 
 ## Anti-Patterns
 

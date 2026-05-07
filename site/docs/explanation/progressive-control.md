@@ -10,6 +10,8 @@ next:
 
 # Progressive Control
 
+![Layered cards from goal to outcomes to specs, revealing depth](/images/heroes/progressive-control.png){.page-hero}
+
 NDD starts simple and reveals control as the app gets serious.
 
 That is the point.
@@ -50,7 +52,7 @@ A moment might show:
 - the user action
 - the system response
 - the visible state
-- the next step
+- the next slice
 
 This is where the app becomes concrete.
 

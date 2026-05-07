@@ -10,6 +10,8 @@ next:
 
 # NDD as a Spec Dialect
 
+![SPEC document card with checklists, code-bracket, and Given/When/Then sections](/images/heroes/spec-dialect.png){.page-hero}
+
 Narrative-Driven Development is a **spec dialect**: a structured, schema-backed specification language purpose-built for line-of-business web applications.
 
 ## What Makes a Spec Dialect?
@@ -20,7 +22,7 @@ A spec dialect has three properties (as defined by [specdriven.com](https://spec
 2. **Machine-parseable syntax** that tooling can process
 3. **A direct relationship to executable output**
 
-NDD has all three. Its model is a Zod schema that tools validate and transform. Its business specs compile into verifiable tests. The [Auto](https://on.auto) pipeline transforms narratives into production-ready code.
+NDD has all three. Its model is a Zod schema that tools validate and transform. Its business specs compile into verifiable tests. See the [DSL reference](/reference/dsl) for the typed form. The [Auto](https://on.auto) pipeline transforms narratives into production-ready code.
 
 ## What Makes NDD the First Full Dialect?
 

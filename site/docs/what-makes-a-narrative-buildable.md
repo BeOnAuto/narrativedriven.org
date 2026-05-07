@@ -10,6 +10,8 @@ next:
 
 # What Makes a Narrative Buildable?
 
+![Vague prompt versus a structured buildable narrative with actors, outcomes, slices, rules, examples](/images/heroes/what-makes-a-narrative-buildable.png){.page-hero}
+
 A narrative is buildable when it gives a coding agent enough explicit structure to build from without guessing the important parts.
 
 A vague prompt says:
@@ -21,7 +23,7 @@ A buildable narrative says:
 - who uses it
 - what they are trying to achieve
 - what outcomes matter
-- what steps happen
+- what slices happen
 - what rules apply at the business level
 - what examples prove the rules
 - what individual components do and do not do
@@ -63,11 +65,11 @@ An outcome is something that becomes true.
 
 This matters because coding agents need boundaries. A vague feature can sprawl. An outcome can be reviewed, implemented, and verified.
 
-## It shows the steps
+## It shows the slices
 
-Each outcome is achieved through steps.
+Each outcome is achieved through slices.
 
-In NDD, these steps are called moments.
+In NDD, these slices are called moments.
 
 A moment might be:
 
@@ -151,7 +153,7 @@ Scenes connect to other scenes. A booking cancellation in one scene produces an 
 
 Data flows the same way. A command in one moment produces state. A query in another moment reads it. A screen in a third moment displays it. Every visible field traces back through this chain.
 
-Story mapping gives you the tree of journeys, scenes, and steps. NDD adds the graph: the cross-references between moments, the events that travel across scenes, the data that flows through the structure.
+Story mapping gives you the tree of journeys, scenes, and slices. NDD adds the graph: the cross-references between moments, the events that travel across scenes, the data that flows through the structure.
 
 This is where vibe-coded apps fall apart. They look right scene by scene. The connections get invented at code-time, not specified upfront. By the time the inconsistencies surface, the app is brittle.
 
@@ -169,7 +171,7 @@ The structure is:
 Narrative → Scene → Moment → Rule → Example → Data → Connection
 ```
 
-Screens help humans review the steps. Specs help agents build them.
+Screens help humans review the slices. Specs help agents build them.
 
 Both are views into the same narrative.
 
@@ -235,7 +237,7 @@ A narrative is buildable when you can answer these questions:
 
 1. What is the goal?
 2. What outcomes make the goal true?
-3. What steps achieve each outcome?
+3. What slices achieve each outcome?
 4. What rules apply?
 5. What examples prove the rules?
 6. What do the individual components do and not do?

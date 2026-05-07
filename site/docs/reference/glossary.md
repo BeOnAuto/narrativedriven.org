@@ -4,11 +4,13 @@ title: Glossary
 
 # Glossary
 
+![A glossary card with five entry rows, each with a coloured marker and a term/definition stroke](/images/heroes/glossary.png){.page-hero}
+
 ## Buildable narrative
 
 A structured app narrative that a coding agent can build from.
 
-It contains goals, outcomes, steps, business rules, examples, component specs, data, and cross-references between moments.
+It contains goals, outcomes, slices, business rules, examples, component specs, data, and cross-references between moments.
 
 ## Domain
 
@@ -28,7 +30,7 @@ A self-contained outcome achieved through one or more moments.
 
 ## Moment
 
-A single step toward a scene outcome.
+A single slice of a scene outcome.
 
 Moment types are Command, Query, React, and Experience.
 

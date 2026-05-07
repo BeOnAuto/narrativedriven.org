@@ -4,6 +4,8 @@ title: Explanation
 
 # Explanation
 
+![Hexagon hub with dashed connectors radiating to six concept cards](/images/heroes/explanation-index.png){.page-hero}
+
 Understand the ideas and principles behind Narrative-Driven Development. These pages explain the *why*, not the *how*. NDD organises every system into four levels — Domain → Narrative → Scene → Moment — and the explanations below unpack the reasoning behind that structure.
 
 **[Data Completeness](/explanation/data-completeness)**

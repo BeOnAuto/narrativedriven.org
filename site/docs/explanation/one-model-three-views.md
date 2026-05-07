@@ -10,6 +10,8 @@ next:
 
 # One Narrative, Multiple Views
 
+![One narrative model rendered as canvas, document, and code views](/images/heroes/one-model-three-views.png){.page-hero}
+
 NDD gives different people different ways to inspect the same underlying narrative.
 
 The visual view, document view, and code view should not become separate artifacts.
@@ -22,7 +24,7 @@ At the center is the buildable narrative:
 
 - goals
 - outcomes
-- steps
+- slices
 - rules
 - examples
 - data
@@ -46,7 +48,7 @@ It can show:
 - moments
 - wireframes
 - desktop and mobile views
-- relationships between steps
+- relationships between slices
 
 This is useful when the question is:
 
@@ -81,6 +83,119 @@ This is where non-technical review happens. A product manager can follow the mom
 The code view lets practitioners work directly with the structured specification.
 
 A Monaco editor with the TypeScript DSL. Full IntelliSense, type safety, and enough expressiveness for complex domain logic. TypeScript is one interface. The model is JSON underneath, so other language interfaces are possible.
+
+```typescript
+import {
+  narrative,
+  scene,
+  command,
+  query,
+  data,
+  source,
+  sink,
+  gql,
+  describe,
+  it,
+  specs,
+  rule,
+  example,
+  defineCommand,
+  defineEvent,
+  defineState,
+} from "@on.auto/narrative";
+import { ProductCatalog } from "./integrations";
+
+const PlaceOrder = defineCommand<{ orderId: string; itemId: string; quantity: number }>("PlaceOrder");
+const OrderPlaced = defineEvent<{ orderId: string; itemId: string; quantity: number; placedAt: Date }>("OrderPlaced");
+const Inventory = defineState<{ itemId: string; available: number }>("Inventory");
+const Orders = defineState<{ orderId: string; itemId: string; quantity: number }>("Orders");
+
+narrative("Placing Orders", () => {
+  scene("Place an order", () => {
+    command("places an order")
+      .client(() => {
+        describe("Order form", () => {
+          it("should let the user pick an item from the catalog");
+          it("should let the user enter a quantity");
+          it("should disable submit while the request is in flight");
+        });
+      })
+      .request(gql`
+        mutation PlaceOrder($input: PlaceOrderInput!) {
+          placeOrder(input: $input) {
+            success
+          }
+        }
+      `)
+      .server(() => {
+        data([
+          source().state("Inventory").fromIntegration(ProductCatalog),
+          sink().event("OrderPlaced").toStream("order-${orderId}"),
+        ]);
+        specs("Orders are placed against live inventory", () => {
+          rule("an order is accepted when stock is available", () => {
+            example("customer places order for in-stock item")
+              .given(Inventory, "the item has stock", {
+                itemId: "item-1",
+                available: 10,
+              })
+              .when(PlaceOrder, "the customer submits the order", {
+                orderId: "order-001",
+                itemId: "item-1",
+                quantity: 2,
+              })
+              .then(OrderPlaced, "the order is placed", {
+                orderId: "order-001",
+                itemId: "item-1",
+                quantity: 2,
+                placedAt: new Date("2026-04-01T10:00:00Z"),
+              });
+          });
+        });
+      });
+
+    query("views their order")
+      .client(() => {
+        describe("Order detail", () => {
+          it("should show the order id, item, and quantity");
+          it("should show a confirmation timestamp");
+        });
+      })
+      .request(gql`
+        query Order($orderId: ID!) {
+          order(orderId: $orderId) {
+            orderId
+            itemId
+            quantity
+          }
+        }
+      `)
+      .server(() => {
+        data([
+          source().state("Orders").fromProjection("OrdersProjection", "orderId"),
+        ]);
+        specs("Order detail reflects the latest event", () => {
+          rule("the projection updates when an OrderPlaced event arrives", () => {
+            example("order is visible after placement")
+              .when(OrderPlaced, "an order has just been placed", {
+                orderId: "order-001",
+                itemId: "item-1",
+                quantity: 2,
+                placedAt: new Date("2026-04-01T10:00:00Z"),
+              })
+              .then(Orders, "the order is listed", {
+                orderId: "order-001",
+                itemId: "item-1",
+                quantity: 2,
+              });
+          });
+        });
+      });
+  });
+});
+```
+
+Full breakdown in the [DSL reference](/reference/dsl).
 
 It can show:
 

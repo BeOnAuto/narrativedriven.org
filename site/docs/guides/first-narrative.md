@@ -7,6 +7,8 @@ next:
 
 # Your First Narrative in 10 Minutes
 
+![Speech bubble with a lightbulb above it, arrow to a small narrative card with a green checkmark](/images/heroes/first-narrative.png){.page-hero}
+
 In 10 minutes, you'll create a single scene with a few moments and see how NDD captures a complete, verifiable outcome. No tools required for the concepts. To build it for real, you'll use the [Auto platform](https://on.auto).
 
 ## Start with a Domain

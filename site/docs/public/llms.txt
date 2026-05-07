@@ -16,6 +16,7 @@ NDD is a spec dialect by [Auto](https://on.auto), part of the [spec-driven devel
 - [What is NDD?](https://www.narrativedriven.org/what-is-ndd): The four-level hierarchy explained, with examples and outcome-scope guidance.
 - [Glossary](https://www.narrativedriven.org/reference/glossary): Every NDD term defined: Domain, Narrative, Scene, Moment, Actors, Entities, moment types, specifications, transitions, principles.
 - [Moment Types](https://www.narrativedriven.org/reference/moment-types): The four moment types (command, query, react, experience) with full spec patterns and worked examples.
+- [DSL Reference](https://www.narrativedriven.org/reference/dsl): The TypeScript DSL with a complete worked example and a per-construct breakdown.
 - [Structuring Domains, Narratives, and Scenes](https://www.narrativedriven.org/guides/structuring-narratives): The outcome-based scene-worthiness rubric and how to decide what's a scene vs incidental detail.
 
 ## Tutorials

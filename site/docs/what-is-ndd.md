@@ -7,9 +7,11 @@ next:
 
 # What Is Narrative-Driven Development?
 
+![Prompt becomes a four-level NDD model (Domain, Narrative, Scene, Moment) becomes a built app](/images/heroes/what-is-ndd.png){.page-hero}
+
 Narrative-Driven Development turns an app idea into a buildable narrative.
 
-Instead of asking an AI to guess its way from prompt to code, NDD pulls the design into the open first: who uses the app, what they are trying to achieve, what outcomes matter, what steps happen, what rules apply, and what data the app depends on.
+Instead of asking an AI to guess its way from prompt to code, NDD pulls the design into the open first: who uses the app, what they are trying to achieve, what outcomes matter, what slices happen, what rules apply, and what data the app depends on.
 
 Under the hood, that narrative is a structured model. To the builder, it is the app story the coding agent can follow.
 
@@ -43,9 +45,7 @@ NDD organises every system into four levels. Each one names a different scope of
 | **Domain** | The capability area | Concert Booking | What world does this app live in? |
 | **Narrative** | A goal inside the domain | A fan gets tickets | What is someone trying to achieve? |
 | **Scene** | An outcome (something becomes true) | Tickets reserved | What outcome are we trying to make true? |
-| **Moment** | A step toward the outcome | Reserve tickets [Command] | What happens at this step? |
-
-![Domain, Narrative, Scene, Moment hierarchy with cross-references](/images/what-is-ndd/hierarchy-diagram.png){.what-is-ndd-illustration}
+| **Moment** | A slice of the outcome | Reserve tickets [Command] | What happens in this slice? |
 
 The hierarchy is the visible structure. The cross-references between moments (events one scene produces and another consumes, data flowing from commands through state to screens) are the cohesion underneath. Both matter.
 

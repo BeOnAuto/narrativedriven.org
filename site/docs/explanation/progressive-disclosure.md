@@ -10,6 +10,8 @@ next:
 
 # Progressive Disclosure for Specs
 
+![Narrative card with progressively expanded detail panels](/images/heroes/progressive-disclosure.png){.page-hero}
+
 The hardest problem in working with AI on real software isn't writing prompts. It's deciding what context the model gets to see at each step. Too little, and the model invents details. Too much, and the model loses focus, costs more, and produces worse output. The pattern that fixes this has a name in the user-experience literature, where it's been settled since 1995, and a name in the context-engineering literature, where it crystallised around Anthropic's Agent Skills work in late 2025. Both names point to the same idea: progressive disclosure.
 
 Show the headline first. Reveal the body when it matters. Hand over the appendix only when the task demands it.
@@ -31,7 +33,7 @@ Each level of an NDD model owns a different slice of context, and each level can
 | **Domain** | Business capability, actors, entities, ubiquitous language | Always. This is the world the story takes place in. |
 | **Narrative** | A goal thread within the domain | When working on anything inside that goal. |
 | **Scene** | A single outcome and the moments that achieve it | When implementing or reviewing that outcome. |
-| **Moment** | A single step with its type and specs | When working on that specific step. |
+| **Moment** | A single slice with its type and specs | When working on that specific slice. |
 | **Business Specs (Given/When/Then)** | Concrete examples that verify a moment's behaviour | When writing the test or running the verifier. |
 
 A coding agent working on the "Tickets reserved" scene of a "Getting Tickets" narrative doesn't need every other narrative in the domain. It needs that scene, the moments inside it, and the data-completeness chain those moments touch. NDD's structure makes that slice trivially addressable. Prose can't.

@@ -4,6 +4,8 @@ title: Structuring Domains, Narratives, and Scenes
 
 # Structuring Domains, Narratives, and Scenes
 
+![Four NDD glyph cards in a row: Domain (green polygon), Narrative (blue zigzag), Scene (orange S-curve), Moment (purple frame)](/images/heroes/structuring-narratives.png){.page-hero}
+
 You know what domains, narratives, scenes, and moments are. Now the hard part: deciding how to structure them. When does an outcome deserve its own scene? When is a goal coherent enough to be its own narrative? When is a detail just incidental, something that belongs inside a moment's business specs rather than as a separate scene?
 
 NDD is outcome-centred at every level. Reasoning top-down keeps you out of trouble.

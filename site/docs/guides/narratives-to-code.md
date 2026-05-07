@@ -4,7 +4,44 @@ title: From Narratives to Running Code
 
 # From Narratives to Running Code
 
+![Narrative card to coding agent to code-bracket card to phone wireframe, connected by arrows](/images/heroes/narratives-to-code.png){.page-hero}
+
 NDD doesn't just document your software. On the Auto platform, the four-level model (Domain → Narrative → Scene → Moment) generates it.
+
+## What Goes In
+
+Every step of the pipeline reads from one input: a narrative model written in the typed DSL. Here is the shape of one moment. The full breakdown lives in the [DSL reference](/reference/dsl).
+
+```typescript
+import {
+  narrative, scene, command, gql, describe, it, specs, rule, example,
+  defineCommand, defineEvent,
+} from "@on.auto/narrative";
+
+const PlaceOrder = defineCommand<{ orderId: string; itemId: string; quantity: number }>("PlaceOrder");
+const OrderPlaced = defineEvent<{ orderId: string; itemId: string; quantity: number }>("OrderPlaced");
+
+narrative("Placing Orders", () => {
+  scene("Place an order", () => {
+    command("places an order")
+      .client(() => {
+        describe("Order form", () => {
+          it("should disable submit while the request is in flight");
+        });
+      })
+      .request(gql`mutation PlaceOrder($input: PlaceOrderInput!) { placeOrder(input: $input) { success } }`)
+      .server(() => {
+        specs("Orders are placed against live inventory", () => {
+          rule("an order is accepted when stock is available", () => {
+            example("in-stock order is placed")
+              .when(PlaceOrder, "submitted", { orderId: "o1", itemId: "i1", quantity: 2 })
+              .then(OrderPlaced, "recorded", { orderId: "o1", itemId: "i1", quantity: 2 });
+          });
+        });
+      });
+  });
+});
+```
 
 ## The Pipeline
 

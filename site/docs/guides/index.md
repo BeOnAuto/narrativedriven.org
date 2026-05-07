@@ -4,6 +4,8 @@ title: Guides
 
 # Guides
 
+![Five staggered numbered cards: Auto, Review, Design, Spec, System, connected by a dashed path](/images/heroes/guides-index.png){.page-hero}
+
 NDD is designed to start simple and reveal control as you need it.
 
 Use these guides in order if you are new.
@@ -19,7 +21,7 @@ Read:
 
 Goal:
 
-> Understand how a rough app idea becomes goals, outcomes, steps, rules, and data.
+> Understand how a rough app idea becomes goals, outcomes, slices, rules, and data.
 
 ## 2. Review mode
 
@@ -32,7 +34,7 @@ Read:
 
 Goal:
 
-> Catch missing outcomes, unclear steps, vague rules, and broken flows before code.
+> Catch missing outcomes, unclear slices, vague rules, and broken flows before code.
 
 ## 3. Design mode
 
@@ -45,7 +47,7 @@ Read:
 
 Goal:
 
-> Understand how goals become outcomes and outcomes become steps.
+> Understand how goals become outcomes and outcomes become slices.
 
 ## 4. Spec mode
 

@@ -10,6 +10,8 @@ next:
 
 # Cohesion
 
+![Four scene cards connected by criss-crossing arrows showing event and data references](/images/heroes/cohesion.png){.page-hero}
+
 A buildable narrative is not a tree. It is a graph.
 
 The hierarchy (Domain → Narrative → Scene → Moment) gives the structure. The cohesion underneath gives the meaning.
@@ -29,7 +31,7 @@ Concert Booking
     └── Show cancelled
 ```
 
-Each scene contains moments. Each moment captures a step. The hierarchy is where structure lives.
+Each scene contains moments. Each moment captures a slice. The hierarchy is where structure lives.
 
 But the hierarchy alone is not enough.
 
@@ -101,7 +103,7 @@ This is what catches broken flows during review, before the code exists.
 
 ## Story mapping vs NDD
 
-User story mapping gives you the tree of journeys, scenes, and steps.
+User story mapping gives you the tree of journeys, scenes, and slices.
 
 NDD adds the graph: the cross-references between moments, the events that travel across scenes, the data that flows through the structure.
 

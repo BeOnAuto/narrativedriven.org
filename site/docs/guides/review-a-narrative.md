@@ -4,6 +4,8 @@ title: Review a Narrative
 
 # Review a Narrative
 
+![Narrative card with magnifying glass, green checkmarks, a red X, and a red question mark beside specific lines](/images/heroes/review-a-narrative.png){.page-hero}
+
 A buildable narrative is only valuable if humans can review it before the coding agent builds.
 
 Use this checklist.
@@ -41,13 +43,13 @@ Examples:
 - Entry validated
 - Period closed
 
-## 3. Review the steps
+## 3. Review the slices
 
 Ask:
 
 - Does the flow make sense?
 - Is anything skipped?
-- Are user and system steps separated?
+- Are user and system slices separated?
 - Are automated reactions explicit?
 
 ## 4. Review the rules

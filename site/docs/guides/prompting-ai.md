@@ -4,6 +4,8 @@ title: Prompting AI for NDD
 
 # Prompting AI for NDD
 
+![Speech bubble holding a structured mini-narrative with goal label and dot section markers](/images/heroes/prompting-ai.png){.page-hero}
+
 AI is a collaborator in NDD. You can use it to generate an initial model, expand a narrative, or fill in business specs. The quality of what you get back depends on how you prompt it.
 
 ## Hand the AI the canonical structure

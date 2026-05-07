@@ -7,6 +7,8 @@ prev:
 
 # The Origin Story
 
+![Lineage timeline from BDD to DDD to EventStorming to NDD](/images/heroes/origin-story.png){.page-hero}
+
 NDD did not start with AI.
 
 It started with consulting work that would not stay consistent across artifacts.
@@ -33,7 +35,7 @@ The methods themselves were not wrong. BDD captured behavior. DDD captured langu
 
 The shift happened in the workshop room.
 
-When teams modeled software as a sequence of goals, outcomes, and steps, with rules and examples attached, gaps surfaced earlier. Product, design, QA, and engineering could reason about the same behavior without translating across separate documents. The thread held.
+When teams modeled software as a sequence of goals, outcomes, and slices, with rules and examples attached, gaps surfaced earlier. Product, design, QA, and engineering could reason about the same behavior without translating across separate documents. The thread held.
 
 By 2016, that approach had a name: spec-driven development. The idea was that the specification was the medium, not a stop along the way. The artifact teams built was the thing the system was meant to satisfy.
 

@@ -4,6 +4,8 @@ title: Community
 
 # Community
 
+![Speech bubbles converging on a central narrative card](/images/heroes/community.png){.page-hero}
+
 NDD is usable today and still evolving.
 
 The core method is working:

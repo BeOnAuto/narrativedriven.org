@@ -4,6 +4,8 @@ title: Running a Collaborative NDD Session
 
 # Running a Collaborative NDD Session
 
+![Five speech bubbles around a central narrative card, two bubbles holding a code-bracket and a gear](/images/heroes/collaborative-sessions.png){.page-hero}
+
 NDD sessions aren't the whiteboard workshops of the past. They're collaborative modelling sessions where humans and AI work together on a shared model. Here's how to run one effectively.
 
 *This guide is being written. In the meantime, here's the essential structure:*
