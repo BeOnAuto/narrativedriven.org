@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.idea/
+**/.vitepress/dist/
+**/.vitepress/cache/
+.turbo/
+.DS_Store
+*.log
+.claude-auto/
+
+# Ketchup plans
+ketchup-plan.md
+.ketchup/
+.qa-screenshots

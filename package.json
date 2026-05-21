@@ -1,0 +1,9 @@
+{
+  "name": "narrativedriven.org",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
