@@ -272,7 +272,7 @@ export default defineConfig({
 
 		editLink: {
 			pattern:
-				"https://github.com/BeOnAuto/narrativedriven.org/edit/main/docs/:path",
+				"https://github.com/BeOnAuto/narrativedriven.org/edit/main/site/docs/:path",
 			text: "See an error? Edit this page on GitHub",
 		},
 	},

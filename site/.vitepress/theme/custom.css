@@ -2173,10 +2173,6 @@ body {
   color: var(--vp-c-brand-1);
 }
 
-.ndd-cta-link:hover {
-  text-decoration: underline;
-}
-
 .ndd-home-section--lineage .sectionBody:last-child {
   margin-bottom: 0;
 }
@@ -2524,7 +2520,7 @@ body {
   margin-top: 1.5rem;
 }
 
-.autoCtaButton {
+.vp-doc a.autoCtaButton {
   display: inline-block;
   font-family: 'Barlow', sans-serif;
   font-weight: 500;
@@ -2538,11 +2534,7 @@ body {
   transition: background-color var(--ndd-duration) var(--ndd-ease);
 }
 
-.autoCtaButton:hover {
+.vp-doc a.autoCtaButton:hover {
   background: var(--ndd-brand-dark);
-  color: var(--ndd-white);
-}
-
-.dark .autoCtaButton {
   color: var(--ndd-white);
 }
