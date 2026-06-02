@@ -8,6 +8,8 @@ import LottieLogo from './LottieLogo.vue'
 import CopyMarkdownButton from './CopyMarkdownButton.vue'
 import NDDTryPrompt from './NDDTryPrompt.vue'
 import CentralVisualPlaceholder from './CentralVisualPlaceholder.vue'
+import EmailCapture from './EmailCapture.vue'
+import EmailModal from './EmailModal.vue'
 import './custom.css'
 
 function initViewTabs() {
@@ -98,6 +100,7 @@ export default {
       'home-hero-before': () => h(WaveBackground),
       'nav-bar-title-after': () => h(LottieLogo),
       'doc-before': () => h(CopyMarkdownButton),
+      'layout-bottom': () => [h(EmailCapture), h(EmailModal)],
     })
   },
   enhanceApp({ app, router }) {
@@ -121,6 +124,14 @@ export default {
       }
 
       installOutboundTracking()
+
+      document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement | null
+        const link = target?.closest?.('a[href$="#subscribe"]') as HTMLAnchorElement | null
+        if (!link) return
+        event.preventDefault()
+        window.dispatchEvent(new CustomEvent('open-subscribe-modal'))
+      })
     }
   },
   setup() {
