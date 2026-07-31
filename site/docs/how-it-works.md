@@ -1,11 +1,11 @@
 ---
 title: How it Works
 prev:
+  text: Anatomy of a Product Model
+  link: /explanation/anatomy-of-a-product-model
+next:
   text: What Makes a Narrative Buildable?
   link: /what-makes-a-narrative-buildable
-next:
-  text: For Practitioners
-  link: /for-practitioners
 ---
 
 # How NDD Works
@@ -14,20 +14,20 @@ next:
 
 NDD changes the order of AI-assisted development.
 
-Instead of going straight from prompt to code, you put a reviewable product narrative in the middle.
+Instead of going straight from prompt to code, you put a reviewable product model in the middle.
 
 ```text
 Prompt
 ↓
-Narrative
+Draft product model
 ↓
 Human review
 ↓
 Implementation
 ↓
-Running app
+Runtime feedback
 ↓
-Narrative update
+Model update
 ```
 
 ## 1. Start with product intent
@@ -40,11 +40,11 @@ and fans reserve tickets. If a show sells out, fans can
 join a waitlist. If someone cancels, the next fan is promoted.
 ```
 
-The prompt is the seed. It is not the source of truth.
+The prompt starts the work. It is not the source of truth.
 
-## 2. Turn the prompt into a narrative
+## 2. Draft the product model
 
-The narrative names the product structure:
+The draft model names the product structure:
 
 - the domain
 - the goals inside the domain
@@ -55,7 +55,9 @@ The narrative names the product structure:
 
 For the concert booking app, one goal is `A fan gets tickets`. That goal can lead to different outcomes: `Tickets reserved` or `Fan added to waitlist`.
 
-## 3. Review the narrative before build
+The narrative is the readable surface of this model.
+
+## 3. Review the model before build
 
 This is the important shift.
 
@@ -67,7 +69,7 @@ The team reviews intent before implementation. They can ask:
 - Do the rules match the product?
 - Does important screen content have an explained source?
 
-Fixing these questions in the narrative is cheaper than discovering them in generated code.
+Fixing these questions in the model is cheaper than discovering them in generated code.
 
 ## 4. Build from the right slice
 
@@ -94,14 +96,12 @@ What the product shows:
 
 That slice is specific enough to review and small enough to keep focused.
 
-## 5. Keep the narrative alive
+Code follows the reviewed model. If the model is vague, the implementation will fill gaps with guesses.
 
-The narrative does not disappear after the first build.
+## 5. Feed runtime pain back into the model
 
-When the app changes, update the narrative first. If cancellations should promote waitlisted fans, add the rule, example, and react moment to the narrative. Then implementation follows the new intent instead of trying to infer it from a correction in chat.
+The model does not disappear after the first build.
 
-## How Auto fits
+When the app changes, update the model first. If cancellations should promote waitlisted fans, add the rule, example, and react moment to the model. Then implementation follows the new intent instead of trying to infer it from a correction in chat.
 
-You can practice NDD by hand. Auto applies the method as a product: it helps turn your prompt into a draft narrative, gives you visual and document review surfaces, and supports AI-assisted implementation inside the product workflow.
-
-[Practice NDD in Auto ->](https://on.auto)
+Runtime pain becomes durable structure when the model changes first.

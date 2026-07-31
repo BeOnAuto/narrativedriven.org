@@ -8,7 +8,7 @@ title: NDD in Auto
 
 Narrative-Driven Development is the open method language.
 
-Auto is the productized workflow.
+Auto productizes the workflow.
 
 That distinction matters. The NDD taxonomy helps teams describe intent in a durable way. Auto adds review surfaces and AI-assisted build support behind the product.
 
@@ -22,7 +22,7 @@ If a show sells out, fans can join a waitlist.
 If someone cancels, the next fan is promoted.
 ```
 
-Using NDD vocabulary, that becomes a product story with:
+Using NDD vocabulary, that becomes a reviewable narrative with:
 
 - a domain
 - narratives
@@ -57,9 +57,9 @@ It turns the reviewed narrative into a product workflow.
 That is the product boundary:
 
 - NDD vocabulary is the method.
-- Auto is the product workflow.
-- The user reviews the product story.
-- Auto handles the deeper translation needed for implementation.
+- Auto productizes the workflow.
+- The user reviews the narrative.
+- Auto supports the deeper translation needed for AI-assisted implementation.
 
 ## Why this matters
 
@@ -67,6 +67,6 @@ Plain prompts are too easy to lose.
 
 NDD gives the team a shared language for intent. Auto gives the team a product surface that makes the language practical at scale.
 
-For the productized workflow with visual review, document review, build support, and collaboration features: **[Open Auto ->](https://on.auto)**
+For the productized workflow with visual review, document review, build support, and collaboration features: **[Try Auto early ->](https://on.auto)**
 
 To practice the method without Auto, start with one behavior slice: **[Use NDD without Auto ->](/using-ndd-without-auto.html)**

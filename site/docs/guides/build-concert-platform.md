@@ -3,6 +3,9 @@ title: "Build the Concert Booking Platform"
 prev:
   text: Your First Narrative in 10 Minutes
   link: /guides/first-narrative
+next:
+  text: Model the Lens Rental Marketplace
+  link: /guides/lens-rental-marketplace
 ---
 
 # Build the Concert Booking Platform

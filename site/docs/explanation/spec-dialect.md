@@ -1,11 +1,11 @@
 ---
 title: NDD as a Spec Dialect
 prev:
+  text: Progressive Control
+  link: /explanation/progressive-control
+next:
   text: Standing on Shoulders
   link: /explanation/standing-on-shoulders
-next:
-  text: The Origin Story
-  link: /explanation/origin-story
 ---
 
 # NDD as a Spec Dialect

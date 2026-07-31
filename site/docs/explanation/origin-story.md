@@ -1,8 +1,8 @@
 ---
 title: Origin Story
 prev:
-  text: NDD as a Spec Dialect
-  link: /explanation/spec-dialect
+  text: Standing on Shoulders
+  link: /explanation/standing-on-shoulders
 ---
 
 # The Origin Story

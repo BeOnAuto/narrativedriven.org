@@ -4,8 +4,8 @@ prev:
   text: Cohesion
   link: /explanation/cohesion
 next:
-  text: Progressive Disclosure for Specs
-  link: /explanation/progressive-disclosure
+  text: Progressive Control
+  link: /explanation/progressive-control
 ---
 
 # Narrative Review Views
@@ -66,14 +66,6 @@ This is useful when the question is:
 > Is the behavior right?
 
 This is where non-technical review happens. A product manager can follow the moments, check the rules, and inspect examples without reading implementation details.
-
-## Code production
-
-When used with Auto, the reviewed NDD model is used to produce code.
-
-The team still reviews the narrative first: goals, outcomes, moments, rules, examples, and interaction expectations. Auto then uses that reviewed product model inside its workflow to support AI-assisted implementation.
-
-That is why the illustration includes code. Code is an output of the product workflow, not something a reviewer needs to read to understand the narrative.
 
 ## Why this matters
 

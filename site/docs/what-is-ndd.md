@@ -2,15 +2,17 @@
 title: "What is Narrative-Driven Development?"
 description: "A 5-minute overview of NDD: the problem it solves, the taxonomy, and how to start using it."
 next:
-  text: "Build the Concert Booking Platform"
-  link: /guides/build-concert-platform
+  text: "Anatomy of a Product Model"
+  link: /explanation/anatomy-of-a-product-model
 ---
 
 # What is Narrative-Driven Development?
 
 Narrative-Driven Development is a product modeling method for AI-built software.
 
-It turns product intent into a durable narrative that humans can review before build.
+It creates a durable product model.
+
+The narrative is the human-readable surface of that model: domains, goals, outcomes, moments, rules, examples, and reviewable product facts held together before code exists.
 
 ## The problem
 
@@ -24,18 +26,19 @@ As you iterate, important decisions get scattered:
 - where screen content comes from
 - which rule should survive the next change
 
-The implementation can still move forward, but the source of product truth becomes unclear.
+The implementation can still move forward, but the source of product truth becomes unclear. NDD turns product pain into durable product structure.
 
 ## The method
 
-NDD gives teams a taxonomy for preserving intent:
+NDD gives teams a taxonomy for preserving intent in a product model:
 
+- the domain being modeled
 - the goals users are trying to achieve
 - the outcomes that become true
 - the moments where behavior happens
 - the rules the product must preserve
 - the examples that prove those rules
-- the information reviewers should agree on
+- the product facts and visible information reviewers should agree on
 
 ## The hierarchy
 
@@ -53,7 +56,7 @@ Example: "Follow-up remains visible while deal stages change."
 **MOMENT - the interaction, rule, or behavior that makes the outcome happen.**
 Example: "Rep advances deal stage."
 
-Each moment can carry rules, examples, should statements, and links to related outcomes. It can also explain important screen content.
+Each moment can carry rules, examples, should statements, links to related outcomes, and the product facts that matter to reviewers. It can also explain important screen content.
 
 <figure class="ndd-hierarchy-figure" aria-label="NDD hierarchy tree">
   <ol class="ndd-hierarchy-tree">
@@ -96,10 +99,24 @@ Then the deal stage is "Proposal"
 And the follow-up reminder remains active
 ```
 
-That is the shift: the team is not relying on chat memory. It is reviewing a named rule and concrete example.
+That is the shift: the team is not relying on chat memory. It is reviewing a named rule and concrete example inside a durable product model.
+
+## What the model contains
+
+A useful NDD model contains enough product decisions for a human or agent to build without inventing the important parts:
+
+- actors and terms the product uses
+- goals and outcomes
+- behavior slices with moment types
+- rules and examples
+- important facts the product must capture
+- views that let different readers inspect the same model
+
+The narrative makes that model readable. It is not a transcript of a conversation. It is the reviewed structure the next change should inherit.
 
 ## Where to start
 
-1. Read the canonical example: [Build the Concert Booking Platform ->](/guides/build-concert-platform)
-2. Try one slice with your existing tools: [Use NDD with existing tools ->](/using-ndd-without-auto.html)
-3. Learn what makes a narrative buildable: [What Makes a Narrative Buildable? ->](/what-makes-a-narrative-buildable)
+1. See the shape: [Anatomy of a Product Model ->](/explanation/anatomy-of-a-product-model)
+2. Read the beginner example: [Build the Concert Booking Platform ->](/guides/build-concert-platform)
+3. Inspect the serious example: [Model the Lens Rental Marketplace ->](/guides/lens-rental-marketplace)
+4. Try one slice with your existing tools: [Use NDD with existing tools ->](/using-ndd-without-auto.html)

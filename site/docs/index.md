@@ -1,11 +1,11 @@
 ---
 layout: home
 title: "Narrative-Driven Development — Preserve product intent for AI-built software"
-description: "NDD turns product intent into a durable product story humans can review before build. Open taxonomy, productized in Auto."
+description: "NDD turns product intent into a durable product model humans can review and agents can build from."
 hero:
   name: Narrative-Driven Development
-  text: "<span class=\"heroTitleMain\">Specify software as narratives.</span><span class=\"heroTitleBridge\" aria-hidden=\"true\"></span><span class=\"heroTitleSecondary\">A durable product story for humans to review before build.</span>"
-  tagline: "Chat is where ideas start. NDD is where intent survives: goals, outcomes, behavior, rules, and examples held together in one shared language."
+  text: "<span class=\"heroTitleMain\">Specify software as narratives.</span><span class=\"heroTitleBridge\" aria-hidden=\"true\"></span><span class=\"heroTitleSecondary\">A durable product model humans can review and agents can build from.</span>"
+  tagline: "The narrative is the readable surface: domains, goals, outcomes, moments, rules, and examples held together in one shared language."
   actions:
     - theme: brand
       text: See the problem
@@ -15,15 +15,13 @@ hero:
       link: /using-ndd-without-auto.html
 ---
 
-<CentralVisualPlaceholder />
-
-<section class="ndd-home-section ndd-home-section--model">
+<section id="chat-loses-intent" class="ndd-home-section ndd-home-section--model">
 
 <p class="sectionEyebrow">The missing review surface</p>
 
-<h2 class="sectionTitle">NDD keeps intent in a product story, not a chat history.</h2>
+<h2 class="sectionTitle">NDD keeps intent in a product model, not a chat history.</h2>
 
-<p class="sectionBody">The narrative is the durable review surface between prompt and code. People review it before implementation. When the product changes, the narrative changes first.</p>
+<p class="sectionBody">The narrative is the human-readable surface between prompt and code. People review it before implementation. When the product changes, the product model changes first.</p>
 
 <div class="intentExample" aria-label="Chat correction converted into durable model rule">
   <article>
@@ -32,43 +30,11 @@ hero:
   </article>
   <span aria-hidden="true">→</span>
   <article>
-    <p class="intentExample__label">Preserved in the narrative</p>
+    <p class="intentExample__label">Preserved in the model</p>
     <p><strong>Rule:</strong> Stage changes must not remove active follow-up reminders.</p>
     <p><strong>Example:</strong> Discovery → Proposal keeps tomorrow's reminder visible.</p>
   </article>
 </div>
-
-</section>
-
-<section class="ndd-home-section ndd-home-section--example">
-
-<p class="sectionEyebrow">Proof by example</p>
-
-<h2 class="sectionTitle">See a real product modeled end to end.</h2>
-
-<p class="sectionBody">The Concert Booking example follows promoters publishing shows, fans reserving tickets or joining waitlists, and the system preserving capacity and booking state across scenes.</p>
-
-<div class="ndd-example-preview" aria-label="Canonical example preview">
-  <article class="ndd-example-card ndd-example-card--moment">
-    <header class="ndd-example-card__kicker">Moment · Command</header>
-    <h3 class="ndd-example-card__title">Book Tickets</h3>
-    <p class="ndd-example-card__body">The fan attempts to reserve seats for a published show.</p>
-  </article>
-  <article class="ndd-example-card ndd-example-card--rule">
-    <header class="ndd-example-card__kicker">Rule</header>
-    <h3 class="ndd-example-card__title">Capacity is preserved</h3>
-    <p class="ndd-example-card__body">Tickets cannot be reserved beyond remaining capacity.</p>
-  </article>
-  <article class="ndd-example-card ndd-example-card--example">
-    <header class="ndd-example-card__kicker">Example</header>
-    <h3 class="ndd-example-card__title">Sold-out branch</h3>
-    <p class="ndd-example-card__body">When capacity is exhausted, the fan enters the waitlist scene instead.</p>
-  </article>
-</div>
-
-<p class="ndd-example-cta">
-  <a href="/guides/build-concert-platform" class="ndd-cta-link">Read the canonical example →</a>
-</p>
 
 </section>
 
@@ -78,7 +44,7 @@ hero:
 
 <h2 class="sectionTitle">Domain → Narrative → Scene → Moment</h2>
 
-<p class="sectionBody">The hierarchy gives the product story a clear shape. Start broad, then drill down only where the app needs precision.</p>
+<p class="sectionBody">The hierarchy gives the product model a clear shape. Start broad, then drill down only where the app needs precision.</p>
 
 <div class="hierarchyFlow" aria-label="NDD hierarchy">
 
@@ -114,7 +80,40 @@ hero:
 
 </div>
 
-<p class="hierarchyFoot">The same vocabulary works in workshops, documents, prompts, and Auto.</p>
+<p class="hierarchyFoot">The same vocabulary works in workshops, documents, prompts, and reviews.</p>
+
+</section>
+
+<section class="ndd-home-section ndd-home-section--example">
+
+<p class="sectionEyebrow">Proof by example</p>
+
+<h2 class="sectionTitle">Study two examples.</h2>
+
+<p class="sectionBody">Start with Concert Booking to learn the hierarchy. Use Lens Rental Marketplace to inspect trust, payments, access, reversal, evidence, and disputes.</p>
+
+<div class="ndd-example-preview" aria-label="Canonical example preview">
+  <article class="ndd-example-card ndd-example-card--moment">
+    <header class="ndd-example-card__kicker">Moment · Command</header>
+    <h3 class="ndd-example-card__title">Book Tickets</h3>
+    <p class="ndd-example-card__body">The fan attempts to reserve seats for a published show.</p>
+  </article>
+  <article class="ndd-example-card ndd-example-card--rule">
+    <header class="ndd-example-card__kicker">Rule</header>
+    <h3 class="ndd-example-card__title">Capacity is preserved</h3>
+    <p class="ndd-example-card__body">Tickets cannot be reserved beyond remaining capacity.</p>
+  </article>
+  <article class="ndd-example-card ndd-example-card--example">
+    <header class="ndd-example-card__kicker">Example</header>
+    <h3 class="ndd-example-card__title">Sold-out branch</h3>
+    <p class="ndd-example-card__body">When capacity is exhausted, the fan enters the waitlist scene instead.</p>
+  </article>
+</div>
+
+<p class="ndd-example-cta">
+  <a href="/guides/build-concert-platform" class="ndd-cta-link">Beginner example: Concert Booking →</a>
+  <a href="/guides/lens-rental-marketplace" class="ndd-cta-link">Serious example: Lens Rental Marketplace →</a>
+</p>
 
 </section>
 
@@ -132,24 +131,14 @@ hero:
 
 </section>
 
-<section class="ndd-home-section ndd-home-section--lineage">
-
-<p class="sectionEyebrow">Lineage</p>
-
-<h2 class="sectionTitle">Built from practices that already made intent explicit.</h2>
-
-<p class="sectionBody">NDD brings together BDD, DDD, EventStorming, specification by example, story mapping, and component-level specs for the AI era. The difference is the language: one product story humans can review before build.</p>
-
-</section>
-
 <section class="ndd-home-section ndd-home-section--auto-cta">
 
 <div class="autoCtaBlock">
   <p class="sectionEyebrow">When the model grows</p>
-  <h2 class="sectionTitle">Practice NDD in Auto.</h2>
-  <p class="sectionBody">Auto is the product built around NDD. It creates a draft narrative from your prompt, lets you review it visually, and supports AI-assisted implementation inside the product workflow.</p>
+  <h2 class="sectionTitle">Try the early Auto workflow.</h2>
+  <p class="sectionBody">NDD is the open product modeling technique. Auto productizes the workflow with draft model support, visual review, document review, and AI-assisted implementation support.</p>
   <p class="autoCtaActions">
-    <a href="https://on.auto" class="autoCtaButton">Open Auto →</a>
+    <a href="https://on.auto" class="autoCtaButton">Try Auto early →</a>
   </p>
 </div>
 

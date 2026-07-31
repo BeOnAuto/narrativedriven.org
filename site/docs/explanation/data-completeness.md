@@ -1,5 +1,8 @@
 ---
 title: Data Completeness
+prev:
+  text: Anatomy of a Product Model
+  link: /explanation/anatomy-of-a-product-model
 next:
   text: Cohesion
   link: /explanation/cohesion

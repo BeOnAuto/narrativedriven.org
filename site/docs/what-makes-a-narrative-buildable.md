@@ -12,13 +12,13 @@ next:
 
 ![Vague prompt versus a structured buildable narrative with actors, outcomes, slices, rules, examples](/images/heroes/what-makes-a-narrative-buildable.png){.page-hero}
 
-A narrative is buildable when it makes the important product decisions explicit before implementation.
+A narrative is buildable when the product model contains enough decisions for a human or agent to build without inventing the important parts.
 
 A vague prompt says:
 
 > Build me a timesheet app.
 
-A buildable narrative says:
+A buildable model says:
 
 - who uses it
 - what they are trying to achieve
@@ -78,7 +78,7 @@ A moment might be:
 - the system responding automatically
 - the interface guiding the user from one place to another
 
-A good narrative does not just say the outcome. It shows the path.
+A good model does not just say the outcome. It shows the path.
 
 ## It captures the rules
 
@@ -94,7 +94,7 @@ Examples:
 
 If those rules stay hidden in chat, they get rediscovered late.
 
-NDD makes the rules explicit before the code is written.
+NDD makes the rules explicit in the model before the code is written.
 
 ## It proves rules with examples
 
@@ -133,23 +133,23 @@ Business rules say what behavior is required. Should statements say how parts sh
 
 ## It explains screen content
 
-A buildable narrative explains what screen content means.
+A buildable model explains what screen content means.
 
-If a screen shows a booking status, the narrative should say what product situation creates that status.
+If a screen shows a booking status, the model should say what product situation creates that status.
 
-If a dashboard shows revenue, the narrative should say what counts as revenue.
+If a dashboard shows revenue, the model should say what counts as revenue.
 
-If a list shows available shows, the narrative should say what makes a show available.
+If a list shows available shows, the model should say what makes a show available.
 
 This prevents phantom data: fields that appear in the UI but have no agreed source or meaning.
 
 ## It connects outcomes
 
-A buildable narrative is not just a list.
+A buildable model is not just a list.
 
 Scenes can lead to other scenes. A booking cancellation can create the conditions for a waitlist promotion. A sold-out booking attempt can lead the fan to a waitlist outcome instead of a ticket outcome.
 
-Those relationships matter because they show the product story across time.
+Those relationships matter because they show the product model across time.
 
 ## It makes screens reviewable without making screens the model
 
@@ -163,11 +163,11 @@ The structure is:
 Narrative -> Scene -> Moment -> Rule -> Example
 ```
 
-Screens help humans review the slices. The narrative keeps the product intent stable.
+Screens help humans review the slices. The model keeps the product intent stable.
 
 ## It gives humans something to review
 
-A buildable narrative lets humans catch problems before the code exists:
+A buildable model lets humans catch problems before the code exists:
 
 - missing outcomes
 - broken flows
@@ -184,7 +184,7 @@ The earlier those problems surface, the cheaper they are to fix.
 
 The narrative is not disposable scaffolding.
 
-When the app changes, the narrative should change with it:
+When the app changes, the product model should change with it:
 
 - new behavior becomes new moments
 - new rules get examples
@@ -194,11 +194,11 @@ When the app changes, the narrative should change with it:
 - new integrations become explicit in product language
 - new relationships between scenes become visible
 
-The narrative remains the thing humans review before implementation.
+The narrative remains the readable surface humans review before implementation.
 
 ## The test
 
-A narrative is buildable when you can answer these questions:
+A narrative is buildable when the model can answer these questions:
 
 1. What is the goal?
 2. What outcomes make the goal true?
@@ -211,4 +211,4 @@ A narrative is buildable when you can answer these questions:
 9. What should be built first?
 10. What can wait until later?
 
-Once you can answer those questions, you have a buildable narrative.
+Once you can answer those questions, you have a buildable narrative: a readable surface over product decisions that are precise enough to build from.

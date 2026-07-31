@@ -25,13 +25,16 @@ function methodSidebar() {
 			text: "The Method",
 			items: [
 				{ text: "What is NDD?", link: "/what-is-ndd" },
+				{
+					text: "Anatomy of a Product Model",
+					link: "/explanation/anatomy-of-a-product-model",
+				},
 				{ text: "Using NDD without Auto", link: "/using-ndd-without-auto.html" },
 				{
 					text: "What Makes a Narrative Buildable?",
 					link: "/what-makes-a-narrative-buildable",
 				},
 				{ text: "How it Works", link: "/how-it-works" },
-				{ text: "For Practitioners", link: "/for-practitioners" },
 			],
 		},
 		{
@@ -42,8 +45,11 @@ function methodSidebar() {
 					text: "Build the Concert Booking Platform",
 					link: "/guides/build-concert-platform",
 				},
+				{
+					text: "Model the Lens Rental Marketplace",
+					link: "/guides/lens-rental-marketplace",
+				},
 				{ text: "Reference", link: "/reference/" },
-				{ text: "Community", link: "/community" },
 			],
 		},
 	];
@@ -103,24 +109,27 @@ export default defineConfig({
 
 		nav: [
 			{ text: "What is NDD?", link: "/what-is-ndd" },
-			{ text: "How it Works", link: "/how-it-works" },
-			{ text: "Example", link: "/guides/build-concert-platform" },
-			{ text: "Use NDD without Auto", link: "/using-ndd-without-auto.html" },
+			{ text: "Product Model", link: "/explanation/anatomy-of-a-product-model" },
 			{
-				text: "More",
+				text: "Examples",
 				items: [
 					{
-						text: "Buildable Narrative",
-						link: "/what-makes-a-narrative-buildable",
+						text: "Your First Narrative",
+						link: "/guides/first-narrative",
 					},
-					{ text: "Practitioners", link: "/for-practitioners" },
-					{ text: "Guides", link: "/guides/" },
-					{ text: "Reference", link: "/reference/" },
-					{ text: "Explanation", link: "/explanation/" },
-					{ text: "Community", link: "/community" },
+					{
+						text: "Concert Booking",
+						link: "/guides/build-concert-platform",
+					},
+					{
+						text: "Lens Rental Marketplace",
+						link: "/guides/lens-rental-marketplace",
+					},
 				],
 			},
-			{ text: "Practice NDD in Auto →", link: "https://on.auto" },
+			{ text: "Use without Auto", link: "/using-ndd-without-auto.html" },
+			{ text: "Reference", link: "/reference/" },
+			{ text: "Try Auto early →", link: "https://on.auto" },
 		],
 
 		sidebar: {
@@ -142,6 +151,10 @@ export default defineConfig({
 								{
 									text: "What is NDD?",
 									link: "/what-is-ndd",
+								},
+								{
+									text: "Anatomy of a Product Model",
+									link: "/explanation/anatomy-of-a-product-model",
 								},
 								{
 									text: "What Makes a Narrative Buildable?",
@@ -174,12 +187,16 @@ export default defineConfig({
 							text: "Study the Example",
 							items: [
 								{
+									text: "Your First Narrative",
+									link: "/guides/first-narrative",
+								},
+								{
 									text: "Build the Concert Booking Platform",
 									link: "/guides/build-concert-platform",
 								},
 								{
-									text: "Your First Narrative",
-									link: "/guides/first-narrative",
+									text: "Model the Lens Rental Marketplace",
+									link: "/guides/lens-rental-marketplace",
 								},
 								{
 									text: "Structuring Domains, Narratives, and Scenes",
@@ -188,15 +205,15 @@ export default defineConfig({
 							],
 						},
 						{
-							text: "Use Auto",
+							text: "Go Deeper",
 							items: [
 								{
-									text: "NDD in Auto",
-									link: "/guides/narratives-to-code",
+									text: "Explanation",
+									link: "/explanation/",
 								},
 								{
-									text: "Collaborative Sessions",
-									link: "/guides/collaborative-sessions",
+									text: "Reference",
+									link: "/reference/",
 								},
 							],
 						},
@@ -221,6 +238,10 @@ export default defineConfig({
 					items: [
 						{ text: "Overview", link: "/explanation/" },
 						{
+							text: "Anatomy of a Product Model",
+							link: "/explanation/anatomy-of-a-product-model",
+						},
+						{
 							text: "Data Completeness",
 							link: "/explanation/data-completeness",
 						},
@@ -233,22 +254,26 @@ export default defineConfig({
 							link: "/explanation/one-model-three-views",
 						},
 						{
-							text: "Progressive Disclosure for Specs",
-							link: "/explanation/progressive-disclosure",
-						},
-						{
 							text: "Progressive Control",
 							link: "/explanation/progressive-control",
-						},
-						{
-							text: "Standing on Shoulders",
-							link: "/explanation/standing-on-shoulders",
 						},
 						{
 							text: "NDD as a Spec Dialect",
 							link: "/explanation/spec-dialect",
 						},
-						{ text: "The Origin Story", link: "/explanation/origin-story" },
+						{
+							text: "Background",
+							items: [
+								{
+									text: "Standing on Shoulders",
+									link: "/explanation/standing-on-shoulders",
+								},
+								{
+									text: "The Origin Story",
+									link: "/explanation/origin-story",
+								},
+							],
+						},
 					],
 				},
 			],
@@ -260,7 +285,7 @@ export default defineConfig({
 
 		footer: {
 			message:
-				'<a href="https://on.auto">Practice NDD in Auto.</a> A <a href="https://specdriven.com/dialects/narrative-driven">spec dialect</a>. Part of the <a href="https://specdriven.com">spec-driven</a> movement.',
+				'NDD is the open product modeling technique. <a href="https://on.auto">Auto productizes the workflow.</a> Part of the <a href="https://specdriven.com">spec-driven</a> movement.',
 			copyright: "© 2026 OnAuto, Inc. All rights reserved.",
 		},
 

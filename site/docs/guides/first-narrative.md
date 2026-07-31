@@ -9,7 +9,7 @@ next:
 
 ![Speech bubble with a lightbulb above it, arrow to a small narrative card with a green checkmark](/images/heroes/first-narrative.png){.page-hero}
 
-In 10 minutes, you'll create a single scene with a few moments and see how NDD captures a complete, reviewable outcome. No tools required for the concepts. Use [Auto](https://on.auto) when you want the productized workflow.
+In 10 minutes, you'll create a single scene with a few moments and see how NDD captures a complete, reviewable outcome. No tools required for the concepts.
 
 ## Start with a Domain
 

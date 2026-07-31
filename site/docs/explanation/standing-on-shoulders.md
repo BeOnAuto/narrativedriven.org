@@ -1,11 +1,11 @@
 ---
 title: Standing on Shoulders
 prev:
-  text: Progressive Control
-  link: /explanation/progressive-control
-next:
   text: NDD as a Spec Dialect
   link: /explanation/spec-dialect
+next:
+  text: The Origin Story
+  link: /explanation/origin-story
 ---
 
 # Standing on Shoulders

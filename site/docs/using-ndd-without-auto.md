@@ -13,7 +13,7 @@ next:
 
 You do not need Auto to use the NDD vocabulary.
 
-Start with one behavior your team keeps getting wrong. Describe it as a domain, narrative, scene, moment, rule, and example. That gives you a clearer product story than another correction buried in chat.
+Start with one behavior your team keeps getting wrong. Describe it as a domain, narrative, scene, moment, rule, and example. That gives you a clearer reviewed slice than another correction buried in chat.
 
 ## The smallest useful narrative {#quick-proof}
 
@@ -114,4 +114,4 @@ Use NDD without Auto for one slice, a focused review, or a better prompt.
 
 Use Auto when you want the productized workflow: model drafting, visual review, document review, collaboration, and AI-assisted implementation support.
 
-[Practice NDD in Auto ->](https://on.auto)
+[Try the early Auto workflow ->](https://on.auto)
