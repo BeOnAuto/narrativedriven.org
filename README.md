@@ -1,40 +1,18 @@
-<p align="center">
-  <a href="https://narrativedriven.org">
-    <img src="site/docs/public/og-light.png" alt="Narrative-Driven Development" width="600" />
-  </a>
-</p>
+# NarrativeDriven.org — archived
 
-<h3 align="center">Tell the story. Build the software.</h3>
+This repository preserves the source and history of the former NarrativeDriven.org website. The separate methodology name, vocabulary, publication, and site have been retired.
 
-<p align="center">
-  <a href="https://narrativedriven.org"><strong>narrativedriven.org</strong></a> ·
-  <a href="https://narrativedriven.org/what-is-ndd">What is NDD?</a> ·
-  <a href="https://narrativedriven.org/guides/">Guides</a> ·
-  <a href="https://narrativedriven.org/reference/">Reference</a> ·
-  <a href="https://discord.com/invite/B8BKcKMRm8">Discord</a>
-</p>
+Auto now explains the underlying product concepts directly using the language supported by the product: capabilities, goals, outcomes, behaviors, rules, examples, actors, information, interfaces, access, data, and decisions.
 
----
+- [Read the founder transition note](https://on.auto/narrative-driven-development)
+- [Understand the Auto product model](https://on.auto/product-model)
+- [See the practices behind Auto](https://on.auto/product-model/practices)
+- [See how Auto works](https://on.auto/how-it-works)
 
-[narrativedriven.org](https://narrativedriven.org) explains Narrative-Driven Development: specify software as narratives that serve as a single model for storyboard, docs, code, and tests. The site covers [what NDD is](https://narrativedriven.org/what-is-ndd), how to [write your first narrative](https://narrativedriven.org/guides/first-narrative), and the [thinking behind it](https://narrativedriven.org/explanation/).
+The source remains available for historical reference. It is no longer an active publication and this repository no longer deploys a site.
 
-This repo is the source for the site. Go read it, then come back here to help make it better.
-
-## Contribute
-
-Every page on the site has an **Edit this page on GitHub** link at the bottom.
-
-- **Fix something**: See a typo, an unclear sentence, a broken link? Open a PR.
-- **Disagree with something?** Open an issue or bring it to [Discord](https://discord.com/invite/B8BKcKMRm8).
-- **Join the conversation**: [Discord](https://discord.com/invite/B8BKcKMRm8) is where the community gathers.
-
-## Run locally
-
-```bash
-pnpm install
-pnpm --filter @onauto/narrativedriven-site dev
-```
+See [DECOMMISSION.md](./DECOMMISSION.md) for the redirect, verification, and rollback procedure.
 
 ## License
 
-This repo contains multiple licenses — see [LICENSE](./LICENSE) for details. An initiative by [Auto](https://on.auto).
+This repository contains multiple licenses. See [LICENSE](./LICENSE) for details.
