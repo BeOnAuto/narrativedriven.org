@@ -11,7 +11,7 @@ Auto now explains the underlying product concepts directly using the language su
 
 The source remains available for historical reference. It is no longer an active publication and this repository no longer deploys a site.
 
-See [DECOMMISSION.md](./DECOMMISSION.md) for the redirect, verification, and rollback procedure.
+The old domain redirect is maintained as code and deployed through GitHub Actions. See [DECOMMISSION.md](./DECOMMISSION.md) for the redirect, verification, and rollback procedure.
 
 ## License
 

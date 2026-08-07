@@ -1,0 +1,65 @@
+name: Deploy NarrativeDriven.org redirect
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/deploy-redirect.yml
+      - cloudflare/**
+      - scripts/deploy-redirect.mjs
+      - scripts/deploy-redirect.test.mjs
+      - scripts/verify-redirect.mjs
+      - package.json
+      - DECOMMISSION.md
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/deploy-redirect.yml
+      - cloudflare/**
+      - scripts/deploy-redirect.mjs
+      - scripts/deploy-redirect.test.mjs
+      - scripts/verify-redirect.mjs
+      - package.json
+      - DECOMMISSION.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: narrativedriven-org-redirect
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test redirect deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm run test:redirect
+
+  deploy:
+    name: Deploy and verify redirect
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Verify the Auto transition page
+        run: curl --fail --silent --show-error --head https://on.auto/narrative-driven-development
+      - name: Apply the Cloudflare redirect rule
+        run: npm run deploy:redirect
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+      - name: Verify the live redirect
+        run: npm run verify:redirect

@@ -3,6 +3,11 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "deploy:redirect": "node scripts/deploy-redirect.mjs",
+    "test:redirect": "node --test scripts/deploy-redirect.test.mjs",
+    "verify:redirect": "node scripts/verify-redirect.mjs"
+  },
   "engines": {
     "node": ">=20.0.0"
   }
