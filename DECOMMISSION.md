@@ -14,7 +14,9 @@ There is deliberately no intermediate page on the old origin. Leaving one there 
 
 ## Cloudflare rule
 
-Create one zone-level Single Redirect in the `http_request_dynamic_redirect` phase for the `narrativedriven.org` zone:
+The redirect is declared in [`cloudflare/redirect-rule.json`](./cloudflare/redirect-rule.json) and deployed by [`.github/workflows/deploy-redirect.yml`](./.github/workflows/deploy-redirect.yml) whenever redirect infrastructure changes land on `main`.
+
+The deployment script manages one zone-level Single Redirect in the `http_request_dynamic_redirect` phase for the `narrativedriven.org` zone:
 
 ```json
 {
@@ -41,7 +43,7 @@ The expression is intentionally `true`: the user-facing migration decision is th
 1. Deploy the new Auto pages.
 2. Verify `https://on.auto/narrative-driven-development` returns `200` and its canonical points to itself.
 3. Verify the apex and `www` DNS records for the old domain are proxied through Cloudflare.
-4. Add the redirect rule without replacing any existing rules in the phase ruleset.
+4. Merge the redirect infrastructure change to `main`; GitHub Actions adds or updates only the rule with the configured `ref`.
 5. Verify representative old URLs return a single `301` hop to the transition page.
 6. Verify query strings are intentionally discarded.
 7. Submit the new Auto sitemap and monitor both domain properties in Google Search Console.
@@ -73,6 +75,11 @@ If the destination is unavailable or the redirect causes an unexpected conflict:
 2. Do not delete the Cloudflare zone or change nameservers.
 3. Restore the previous GitHub Pages workflow from Git history only if the old origin must temporarily serve traffic.
 4. Correct and redeploy the Auto destination, verify it, then re-enable the edge rule.
+
+The production workflow requires:
+
+- Production environment variable `CLOUDFLARE_ZONE_ID` set to the `narrativedriven.org` zone ID.
+- Production environment secret `CLOUDFLARE_API_TOKEN` scoped to editing Single Redirect rules for that zone.
 
 ## Search and ownership
 

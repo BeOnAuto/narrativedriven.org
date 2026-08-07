@@ -1,0 +1,22 @@
+{
+  "zoneName": "narrativedriven.org",
+  "phase": "http_request_dynamic_redirect",
+  "rulesetName": "NarrativeDriven.org redirects",
+  "rulesetDescription": "Permanent redirects for the retired NarrativeDriven.org site",
+  "rule": {
+    "ref": "retire_narrativedriven_to_auto_2026",
+    "description": "Retire NarrativeDriven.org into the Auto transition page",
+    "expression": "true",
+    "action": "redirect",
+    "enabled": true,
+    "action_parameters": {
+      "from_value": {
+        "status_code": 301,
+        "target_url": {
+          "value": "https://on.auto/narrative-driven-development"
+        },
+        "preserve_query_string": false
+      }
+    }
+  }
+}
