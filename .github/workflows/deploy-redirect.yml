@@ -39,6 +39,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          package-manager-cache: false
       - run: npm run test:redirect
 
   deploy:
@@ -52,6 +53,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
+          package-manager-cache: false
       - name: Verify the Auto transition page
         run: curl --fail --silent --show-error --head https://on.auto/narrative-driven-development
       - name: Apply the Cloudflare redirect rule
